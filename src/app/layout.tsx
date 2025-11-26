@@ -1,20 +1,34 @@
-import Navbar from './components/common/Navbar'
-import ScrollProgress from './components/common/ScrollProgress'
-import './globals.css'
-import Footer from './components/common/Footer'
+import Navbar from './components/common/Navbar';
+import ScrollProgress from './components/common/ScrollProgress';
+import './globals.css';
+import Footer from './components/common/Footer';
 
 export const metadata = {
   title: 'Traijon Skill Development Center (TSDC)',
-  description: 'You’re more than a learner — You’re building your future.',
-  keywords: ['TSDC', 'Graphic Design Course', 'UI/UX Training', 'Digital Marketing'],
+  description:
+    'TSDC – Traijon Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.',
+  keywords: [
+    'TSDC',
+    'Traijo',
+    'Traijon Skill Development Center',
+    'Graphic Design Course',
+    'UI/UX Design Training',
+    'Digital Marketing Course',
+    'Best Design Institute Chennai',
+    'Live Project Training',
+    'Job Ready Courses'
+  ],
   authors: [{ name: 'TSDC Team', url: 'https://traijoedu.in' }],
   icons: {
     icon: '/favicon.ico',
   },
+
+  // 🔥 OPEN GRAPH (SEO + Social Media Preview)
   openGraph: {
     title: 'TSDC – Launch Your Creative Career',
-    description: 'Job-ready training in Graphic Design, UI/UX & Marketing.',
-    url: 'https://tsdc.in',
+    description:
+      'Job-ready training in Graphic Design, UI/UX & Digital Marketing with live projects and certificates.',
+    url: 'https://traijoedu.in',
     siteName: 'TSDC',
     images: [
       {
@@ -26,13 +40,23 @@ export const metadata = {
     ],
     type: 'website',
   },
+
+  // 🔥 Twitter Card
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TSDC – Kickstart Your Creative Career',
+    description:
+      'Graphic Design, UI/UX & Digital Marketing Courses with real-world live projects.',
+    images: ['/og-banner.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
+
       <head>
-        {/* 🔥 Meta Pixel MUST be raw script for Meta URL Scanner */}
+        {/* 🔥 RAW Meta Pixel (Required for URL Scanner) */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -52,10 +76,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         <noscript>
-          <img 
-            height="1" 
-            width="1" 
-            style={{ display: "none" }}
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
             src="https://www.facebook.com/tr?id=1310792007726517&ev=PageView&noscript=1"
           />
         </noscript>
