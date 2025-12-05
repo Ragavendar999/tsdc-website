@@ -19,11 +19,12 @@ export const metadata = {
     'Job Ready Courses'
   ],
   authors: [{ name: 'TSDC Team', url: 'https://traijoedu.in' }],
+
   icons: {
     icon: '/favicon.ico',
   },
 
-  // 🔥 OPEN GRAPH (SEO + Social Media Preview)
+  // 🔥 OPEN GRAPH — Social Sharing Preview
   openGraph: {
     title: 'TSDC – Launch Your Creative Career',
     description:
@@ -54,9 +55,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
-
       <head>
-        {/* 🔥 RAW Meta Pixel (Required for URL Scanner) */}
+        {/* ---------------------------------------------- */}
+        {/* 🔥 Meta Pixel (Facebook Ads) */}
+        {/* ---------------------------------------------- */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -81,8 +83,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             width="1"
             style={{ display: 'none' }}
             src="https://www.facebook.com/tr?id=1310792007726517&ev=PageView&noscript=1"
+            alt=""
           />
         </noscript>
+
+        {/* ---------------------------------------------- */}
+        {/* 🔥 Google Ads (gtag.js) */}
+        {/* ---------------------------------------------- */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"
+        ></script>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-11403134953');
+            `,
+          }}
+        />
       </head>
 
       <body className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 transition-colors duration-300">
