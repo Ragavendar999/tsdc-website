@@ -1,64 +1,78 @@
-import Navbar from './components/common/Navbar';
-import ScrollProgress from './components/common/ScrollProgress';
-import './globals.css';
-import Footer from './components/common/Footer';
+import type { Metadata } from "next";
+import Navbar from "./components/common/Navbar";
+import ScrollProgress from "./components/common/ScrollProgress";
+import "./globals.css";
+import Footer from "./components/common/Footer";
 
-export const metadata = {
-  title: 'Traijon Skill Development Center (TSDC)',
+export const metadata: Metadata = {
+  title: "Traijon Skill Development Center (TSDC)",
   description:
-    'TSDC – Traijon Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.',
+    "TSDC – Traijon Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.",
   keywords: [
-    'TSDC',
-    'Traijo',
-    'Traijon Skill Development Center',
-    'Graphic Design Course',
-    'UI/UX Design Training',
-    'Digital Marketing Course',
-    'Best Design Institute Chennai',
-    'Live Project Training',
-    'Job Ready Courses'
+    "TSDC",
+    "Traijo",
+    "Traijon Skill Development Center",
+    "Graphic Design Course",
+    "UI/UX Design Training",
+    "Digital Marketing Course",
+    "Best Design Institute Chennai",
+    "Live Project Training",
+    "Job Ready Courses",
   ],
-  authors: [{ name: 'TSDC Team', url: 'https://traijoedu.in' }],
-
   icons: {
-    icon: '/favicon.ico',
+    icon: "/favicon.ico",
   },
-
-  // 🔥 OPEN GRAPH — Social Sharing Preview
   openGraph: {
-    title: 'TSDC – Launch Your Creative Career',
+    title: "TSDC – Launch Your Creative Career",
     description:
-      'Job-ready training in Graphic Design, UI/UX & Digital Marketing with live projects and certificates.',
-    url: 'https://traijoedu.in',
-    siteName: 'TSDC',
+      "Job-ready training in Graphic Design, UI/UX & Digital Marketing with live projects and certificates.",
+    url: "https://traijoedu.in",
+    siteName: "TSDC",
     images: [
       {
-        url: '/og-banner.png',
+        url: "/og-banner.png",
         width: 1200,
         height: 630,
-        alt: 'TSDC Creative Courses',
+        alt: "TSDC Creative Courses",
       },
     ],
-    type: 'website',
+    type: "website",
   },
-
-  // 🔥 Twitter Card
   twitter: {
-    card: 'summary_large_image',
-    title: 'TSDC – Kickstart Your Creative Career',
+    card: "summary_large_image",
+    title: "TSDC – Kickstart Your Creative Career",
     description:
-      'Graphic Design, UI/UX & Digital Marketing Courses with real-world live projects.',
-    images: ['/og-banner.png'],
+      "Graphic Design, UI/UX & Digital Marketing Courses with real-world live projects.",
+    images: ["/og-banner.png"],
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* ---------------------------------------------- */}
-        {/* 🔥 Meta Pixel (Facebook Ads) */}
-        {/* ---------------------------------------------- */}
+        {/* -------------------------------------------------- */}
+        {/* ✅ Google Tag Manager (HEAD) */}
+        {/* -------------------------------------------------- */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id=' + i + dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-WSX6BHQD');
+            `,
+          }}
+        />
+
+        {/* -------------------------------------------------- */}
+        {/* ✅ Meta Pixel (Facebook Ads) */}
+        {/* -------------------------------------------------- */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -81,15 +95,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <img
             height="1"
             width="1"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=1310792007726517&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
 
-        {/* ---------------------------------------------- */}
-        {/* 🔥 Google Ads (gtag.js) */}
-        {/* ---------------------------------------------- */}
+        {/* -------------------------------------------------- */}
+        {/* ✅ Google Ads Global Site Tag (gtag.js) */}
+        {/* -------------------------------------------------- */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"
@@ -108,6 +122,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 transition-colors duration-300">
+        {/* -------------------------------------------------- */}
+        {/* ✅ Google Tag Manager (BODY - noscript) */}
+        {/* -------------------------------------------------- */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WSX6BHQD"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+
         <ScrollProgress />
         <Navbar />
         <main className="pt-20">{children}</main>
