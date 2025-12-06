@@ -10,36 +10,39 @@ export async function POST(req: Request) {
     const interest = formData.get('interest') as string
     const message = formData.get('message') as string
 
-    // ✅ Setup mail transporter (Gmail or Hostinger SMTP)
+    // ✅ GMAIL SMTP (WORKS ON VERCEL)
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_USER, // example: support@tsdc.in
-        pass: process.env.EMAIL_PASS, // App password or SMTP pass
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
-    })
+    });
 
-    // ✅ Prepare email
     const mailOptions = {
-      from: `"TSDC Contact Form" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER, // Default to your email
+      from: `"TSDC Website" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
       subject: `New Enquiry from ${name}`,
       html: `
-        <h2>New Contact Form Submission</h2>
+        <h2>New Enrollment Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Mobile:</strong> ${mobile}</p>
-        <p><strong>Interested In:</strong> ${interest}</p>
-        <p><strong>Message:</strong><br>${message}</p>
+        <p><strong>Course Interested:</strong> ${interest}</p>
+        <p><strong>Message:</strong><br>${message || "No message provided"}</p>
       `,
-    }
+    };
 
-    // ✅ Send email
-    await transporter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error('Email error:', error)
-    return NextResponse.json({ success: false, message: 'Email failed', error: error.message }, { status: 500 })
+    console.error("EMAIL ERROR:", error);
+    return NextResponse.json(
+      { success: false, message: "Email failed", error: error.message },
+      { status: 500 }
+    );
   }
 }
