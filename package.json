@@ -21,7 +21,8 @@
     "nodemailer": "^7.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "resend": "^6.5.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
