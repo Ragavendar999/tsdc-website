@@ -1,43 +1,36 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(req: Request) {
   try {
-    // Create Resend instance at runtime (NOT at build time)
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error("❌ Missing RESEND_API_KEY");
-      return NextResponse.json({ error: "Missing API key" }, { status: 500 });
-    }
-
     const formData = await req.formData();
     const name = formData.get("name");
     const email = formData.get("email");
     const mobile = formData.get("mobile");
     const interest = formData.get("interest");
-    const message = formData.get("message") || "No message provided";
+    const message = formData.get("message");
 
-    // Send email
-    await resend.emails.send({
-      from: "TSDC Website <onboarding@resend.dev>",
+    const data = await resend.emails.send({
+      from: "TSDC <onboarding@resend.dev>",
       to: "n.ragavendar@gmail.com",
-      subject: `New Enquiry from ${name}`,
+      subject: `New Enrollment from ${name}`,
       html: `
-        <h2>New Enrollment Submission</h2>
+        <h2>New Student Enquiry</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Mobile:</strong> ${mobile}</p>
-        <p><strong>Course Interested:</strong> ${interest}</p>
+        <p><strong>Interested In:</strong> ${interest}</p>
         <p><strong>Message:</strong><br>${message}</p>
       `,
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data });
   } catch (error: any) {
-    console.error("❌ EMAIL ERROR:", error);
+    console.error("RESEND ERROR:", error);
     return NextResponse.json(
-      { error: error.message },
+      { success: false, error: error.message },
       { status: 500 }
     );
   }
