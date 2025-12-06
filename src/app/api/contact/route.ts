@@ -3,17 +3,18 @@ import { Resend } from "resend";
 
 export async function POST(req: Request) {
   try {
+    // IMPORTANT: Load key INSIDE POST (runtime)
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
-      console.error("❌ Missing RESEND_API_KEY in Vercel");
+      console.error("❌ Missing RESEND_API_KEY in Vercel runtime");
       return NextResponse.json(
-        { error: "Missing API key on server" },
+        { error: "API key missing on server" },
         { status: 500 }
       );
     }
 
-    // IMPORTANT: Initialize inside POST (NOT at top)
+    // Initialize resend NOW (not at file top)
     const resend = new Resend(apiKey);
 
     const formData = await req.formData();
@@ -40,9 +41,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, data });
   } catch (error: any) {
     console.error("❌ RESEND ERROR:", error.message);
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
