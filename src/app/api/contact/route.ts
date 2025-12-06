@@ -1,10 +1,21 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+
+    if (!apiKey) {
+      console.error("❌ Missing RESEND_API_KEY in Vercel");
+      return NextResponse.json(
+        { error: "Missing API key on server" },
+        { status: 500 }
+      );
+    }
+
+    // IMPORTANT: Initialize inside POST (NOT at top)
+    const resend = new Resend(apiKey);
+
     const formData = await req.formData();
     const name = formData.get("name");
     const email = formData.get("email");
@@ -28,9 +39,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, data });
   } catch (error: any) {
-    console.error("RESEND ERROR:", error);
+    console.error("❌ RESEND ERROR:", error.message);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { error: error.message },
       { status: 500 }
     );
   }
