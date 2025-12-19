@@ -5,14 +5,14 @@ import "./globals.css";
 import Footer from "./components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Traijon Skill Development Center (TSDC)",
+  title: "Traijo Skill Development Center (TSDC)",
   description:
-    "TSDC – Traijon Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.",
+    "TSDC – Traijo Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.",
   keywords: [
     "TSDC",
     "Traijo",
-    "Traijon Skill Development Center",
-    "Graphic Design Course",
+    "Traijo Skill Development Center",
+    "Graphic Design Course near me",
     "UI/UX Design Training",
     "Digital Marketing Course",
     "Best Design Institute Chennai",
@@ -104,10 +104,7 @@ export default function RootLayout({
         {/* -------------------------------------------------- */}
         {/* ✅ Google Ads Global Site Tag (gtag.js) */}
         {/* -------------------------------------------------- */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"
-        ></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"></script>
 
         <script
           dangerouslySetInnerHTML={{
@@ -121,7 +118,11 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 transition-colors duration-300">
+      {/* ⭐⭐⭐ THE FIX FOR HYDRATION MISMATCH ⭐⭐⭐ */}
+      <body
+        suppressHydrationWarning={true}
+        className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 transition-colors duration-300"
+      >
         {/* -------------------------------------------------- */}
         {/* ✅ Google Tag Manager (BODY - noscript) */}
         {/* -------------------------------------------------- */}
@@ -136,7 +137,9 @@ export default function RootLayout({
 
         <ScrollProgress />
         <Navbar />
+
         <main className="pt-20">{children}</main>
+
         <Footer />
       </body>
     </html>

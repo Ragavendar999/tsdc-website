@@ -2,16 +2,16 @@ export default function Head() {
   return (
     <>
       {/* BASIC SEO */}
-      <title>Traijon Skill Development Center (TSDC) – Best Graphic Design, UI/UX & Digital Marketing Courses</title>
+      <title>Traijo Skill Development Center (TSDC) – Best Graphic Design, UI/UX & Digital Marketing Courses</title>
 
       <meta
         name="description"
-        content="TSDC – Traijon Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing courses with live projects, certificates, internships & 100% guidance."
+        content="TSDC – Traijo Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing courses with live projects, certificates, internships & 100% guidance."
       />
 
       <meta
         name="keywords"
-        content="TSDC, Traijo, Traijon Skill Development Center, Graphic Design Course, UI UX Design Course, Digital Marketing Course, Best Design Institute Chennai, Job Ready Courses, Live Project Training"
+        content="TSDC, Traijo, Traijo Skill Development Center, Graphic Design Course, UI UX Design Course, Digital Marketing Course, Best Design Institute Chennai, Job Ready Courses, Live Project Training"
       />
 
       <meta name="author" content="TSDC Team" />
