@@ -53,7 +53,7 @@ export default function Navbar() {
       transition={{ duration: 0.35, ease: 'easeInOut' }}
       className="fixed left-0 top-0 z-[1200] w-full"
     >
-      <div className="relative overflow-hidden border-b border-[#314c9b] bg-[#4562b0] transition-all duration-300">
+      <div className="relative overflow-visible border-b border-[#314c9b] bg-[#4562b0] transition-all duration-300">
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.45)_1px,transparent_0)] [background-size:18px_18px]" />
         <div className="pointer-events-none absolute -left-10 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[#ff8743]" />
         <div className="pointer-events-none absolute right-[18%] top-0 h-8 w-28 rounded-b-full bg-white/15" />
