@@ -36,7 +36,7 @@ const courses = [
 
 export default function CoursesPage() {
   return (
-    <section className="pt-28 pb-20 px-6 bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100">
+    <section className="site-section-bg px-6 py-20 text-gray-900">
       <div className="max-w-6xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

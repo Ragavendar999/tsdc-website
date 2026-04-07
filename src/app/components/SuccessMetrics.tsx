@@ -28,7 +28,7 @@ const metrics = [
 
 export default function SuccessMetrics() {
   return (
-    <section className="relative bg-gradient-to-b from-white via-blue-50 to-purple-50 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 py-24 overflow-hidden">
+    <section className="site-section-bg relative overflow-hidden py-20">
       {/* ✨ Floating Animation Backgrounds */}
       <div className="absolute w-72 h-72 bg-blue-300/20 rounded-full blur-3xl top-0 left-0 animate-float1" />
       <div className="absolute w-72 h-72 bg-purple-300/20 rounded-full blur-3xl bottom-0 right-0 animate-float2" />

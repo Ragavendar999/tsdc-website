@@ -5,7 +5,7 @@ import { Target, Eye } from 'lucide-react'
 
 export default function MissionVisionSection() {
   return (
-    <section className="bg-white dark:bg-zinc-900 py-20 px-4">
+    <section className="site-section-bg px-4 py-16">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-extrabold text-[#2F52A0] dark:text-[#FF8652] mb-4">
           Our Mission & Vision

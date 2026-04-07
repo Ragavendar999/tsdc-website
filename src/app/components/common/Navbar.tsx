@@ -1,21 +1,23 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, Menu, Sparkles, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
 const navItems = [
   { name: 'Home', href: '/' },
   {
     name: 'Courses',
-    href: '/courses', // ✅ Clicking will navigate
+    href: '/courses',
     submenu: [
-      { name: 'Graphic Design', href: '/courses/graphic-design' },
-      { name: 'UI/UX Design', href: '/courses/uiux-design' },
-      { name: 'Digital Marketing', href: '/courses/digital-marketing' }
+      { name: 'Graphic Design', href: '/courses/graphic-design', icon: 'GD' },
+      { name: 'UI/UX Design', href: '/courses/uiux-design', icon: 'UX' },
+      { name: 'Digital Marketing', href: '/courses/digital-marketing', icon: 'DM' },
+      { name: 'Video Editing', href: '/courses/video-editing', icon: 'VE', badge: 'NEW' },
     ],
   },
   { name: 'About', href: '/about' },
@@ -24,17 +26,22 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const { openPopup } = useContactPopup()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [scrolling, setScrolling] = useState(false)
 
   useEffect(() => {
     let lastScroll = window.scrollY
+
     const onScroll = () => {
       const current = window.scrollY
+      setScrolled(current > 16)
       setScrolling(current > 70 && current > lastScroll)
       lastScroll = current
     }
+
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -42,66 +49,96 @@ export default function Navbar() {
   return (
     <motion.header
       initial={{ y: 0 }}
-      animate={{ y: scrolling ? -80 : 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 w-full z-50 bg-transparent"
+      animate={{ y: scrolling ? -96 : 0 }}
+      transition={{ duration: 0.35, ease: 'easeInOut' }}
+      className="fixed left-0 top-0 z-[1200] w-full"
     >
-      <div className="relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-gradient-to-r after:from-[#F4793E] via-[#E83E8C] to-[#4B3A97] backdrop-blur-xl bg-white/60 dark:bg-zinc-900/60 shadow-md transition-all">
-        <nav className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between py-3 md:py-4">
-          {/* Logo */}
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
-            <Link href="/">
-  <Image
-    src="/logo.png"
-    alt="TSDC Logo"
-    width={160}
-    height={60}
-    priority
-  />
-</Link>
-
+      <div className="relative overflow-hidden border-b border-[#314c9b] bg-[#4562b0] transition-all duration-300">
+        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.45)_1px,transparent_0)] [background-size:18px_18px]" />
+        <div className="pointer-events-none absolute -left-10 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[#ff8743]" />
+        <div className="pointer-events-none absolute right-[18%] top-0 h-8 w-28 rounded-b-full bg-white/15" />
+        <div className="pointer-events-none absolute right-8 top-1/2 h-11 w-11 -translate-y-1/2 rotate-12 rounded-[1rem] bg-[#ea6865]" />
+        <nav className="relative z-10 mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-3 md:px-6">
+          <motion.div whileHover={{ y: -1 }} className="hidden justify-self-start md:block">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-[#111827]"
+            >
+              <span className="h-2 w-2 rounded-full bg-[#22c55e]" />
+              admissions open
+            </Link>
           </motion.div>
 
-          {/* Desktop Nav */}
-          <ul className="hidden md:flex items-center space-x-8 font-medium text-sm">
+          <ul className="hidden items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-1.5 text-xs font-black text-[#111827] md:flex">
+            <li>
+              <Link
+                href="/"
+                aria-label="TSDC home"
+                className="mr-1 flex h-9 w-16 items-center justify-center rounded-full bg-white px-2"
+              >
+                <Image src="/logo.png" alt="TSDC Logo" width={52} height={22} priority />
+              </Link>
+            </li>
             {navItems.map((item) =>
               item.submenu ? (
                 <li
                   key={item.name}
-                  className="relative group"
+                  className="relative"
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-1 transition ${
+                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-all duration-200 ${
                       pathname.startsWith(item.href)
-                        ? 'text-[#E83E8C] font-semibold'
-                        : 'text-gray-700 dark:text-gray-300'
-                    } hover:text-[#E83E8C]`}
+                        ? 'bg-[#4562b0] text-white'
+                        : 'text-[#111827] hover:bg-[#eef4ff] hover:text-[#4562b0]'
+                    }`}
                   >
                     {item.name}
-                    <ChevronDown size={16} />
+                    <motion.span animate={{ rotate: dropdownOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                      <ChevronDown size={14} />
+                    </motion.span>
                   </Link>
+
                   <AnimatePresence>
                     {dropdownOpen && (
-                      <motion.ul
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full left-0 mt-2 bg-white dark:bg-zinc-900 border dark:border-gray-800 rounded-xl shadow-xl p-2 w-60 z-50"
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute left-0 top-full z-50 mt-2 w-80"
                       >
-                        {item.submenu.map((sub) => (
-                          <li key={sub.href}>
-                            <Link
-                              href={sub.href}
-                              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#fef3f8] dark:hover:bg-gray-800 hover:text-[#E83E8C] rounded transition"
+                        <div className="overflow-hidden rounded-[1.35rem] border border-white/20 bg-[#4562b0] p-2">
+                          <div className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.22em] text-white/65">
+                            Choose your course
+                          </div>
+                          {item.submenu.map((sub, i) => (
+                            <motion.div
+                              key={sub.href}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.04 }}
                             >
-                              {sub.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </motion.ul>
+                              <Link
+                                href={sub.href}
+                                className="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-white transition-all hover:bg-white hover:text-[#4562b0]"
+                              >
+                                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-xs font-bold text-[#4562b0]">
+                                  {sub.icon}
+                                </span>
+                                <span className="flex-1 font-black">{sub.name}</span>
+                                {sub.badge && (
+                                  <span className="rounded-full bg-[#ea6865] px-2 py-0.5 text-[10px] font-bold text-white">
+                                    {sub.badge}
+                                  </span>
+                                )}
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </motion.div>
                     )}
                   </AnimatePresence>
                 </li>
@@ -109,98 +146,174 @@ export default function Navbar() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`relative group transition ${
-                      pathname === item.href ? 'text-[#E83E8C] font-semibold' : 'text-gray-700 dark:text-gray-300'
+                    className={`rounded-full px-3.5 py-2 transition-all duration-200 ${
+                      pathname === item.href
+                        ? 'bg-[#4562b0] text-white'
+                        : 'text-[#111827] hover:bg-[#eef4ff] hover:text-[#4562b0]'
                     }`}
                   >
                     {item.name}
-                    <span className="absolute left-0 -bottom-1 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-[#F4793E] via-[#E83E8C] to-[#4B3A97] transition-all duration-300"></span>
                   </Link>
                 </li>
               )
             )}
-            <li>
-              <Link
-                href="tel:+917358116929"
-                className="bg-gradient-to-r from-[#F4793E] via-[#E83E8C] to-[#4B3A97] text-white px-5 py-2 rounded-xl shadow-lg hover:scale-105 transition-transform duration-200"
-              >
-                Start Your Career
-              </Link>
-            </li>
           </ul>
 
-          {/* Mobile Toggle */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-200">
-            {isOpen ? <X size={26} /> : <Menu size={26} />}
-            <span className="font-medium">Launchpad</span>
-          </button>
+          <motion.button
+            whileTap={{ scale: 0.94 }}
+            onClick={() => setIsOpen(!isOpen)}
+            className="col-span-2 justify-self-end flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-black text-[#111827] md:hidden"
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <X size={20} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Menu size={20} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <span className="text-xs font-semibold">Menu</span>
+          </motion.button>
+
+          <motion.div whileHover={{ y: -1 }} className="hidden justify-self-end md:block">
+            <button
+              type="button"
+              onClick={() =>
+                openPopup({
+                  title: 'Start Your Career With TSDC',
+                  subtitle: 'Share your details and we will help you choose the right creative path.',
+                  interest: 'Start Your Career',
+                  source: 'navbar-right-career-pill',
+                  ctaLabel: 'Start My Career Journey',
+                })
+              }
+              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-[#111827]"
+            >
+              <Sparkles size={14} className="text-[#4562b0]" />
+              start your career
+            </button>
+          </motion.div>
         </nav>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="md:hidden bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-gray-700 shadow-lg"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="col-span-3 overflow-hidden rounded-[1.6rem] border border-black/10 bg-white md:hidden"
             >
-              <ul className="flex flex-col px-6 py-4 space-y-4 text-sm font-medium">
-                {navItems.map((item) =>
+              <div className="space-y-2 px-5 py-5">
+                {navItems.map((item, idx) =>
                   item.submenu ? (
-                    <details key={item.name}>
-                      <summary className="cursor-pointer text-gray-700 dark:text-gray-200 hover:text-[#E83E8C]">
-                        <Link href={item.href}>{item.name}</Link>
-                      </summary>
-                      <ul className="ml-4 mt-2 space-y-2">
-                        {item.submenu.map((sub) => (
-                          <li key={sub.href}>
-                            <Link
-                              href={sub.href}
-                              onClick={() => setIsOpen(false)}
-                              className="block text-gray-600 dark:text-gray-300 hover:text-[#E83E8C]"
-                            >
-                              {sub.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
+                    <div key={item.name} className="rounded-[1.5rem] bg-[#f8fbff] p-2">
+                      <motion.div
+                        initial={{ opacity: 0, x: -15 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#4562b0]"
+                      >
+                        {item.name}
+                      </motion.div>
+                      {item.submenu.map((sub, si) => (
+                        <motion.div
+                          key={sub.href}
+                          initial={{ opacity: 0, x: -15 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: (idx + si) * 0.05 }}
+                        >
+                          <Link
+                            href={sub.href}
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-black text-[#1b2940] transition-all hover:bg-white hover:text-[#4562b0]"
+                          >
+                            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-xs font-black text-[#4562b0]">
+                              {sub.icon}
+                            </span>
+                            <span className="font-medium">{sub.name}</span>
+                            {sub.badge && (
+                              <span className="ml-auto rounded-full bg-[#ea6865] px-2 py-0.5 text-[10px] font-bold text-white">
+                                {sub.badge}
+                              </span>
+                            )}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </div>
                   ) : (
-                    <li key={item.href}>
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                    >
                       <Link
                         href={item.href}
                         onClick={() => setIsOpen(false)}
-                        className={`block ${pathname === item.href ? 'text-[#E83E8C] font-semibold' : 'text-gray-700 dark:text-gray-200'}`}
+                        className={`block rounded-[1.4rem] px-4 py-3.5 text-sm font-black transition-all ${
+                          pathname === item.href
+                            ? 'bg-[#4562b0] text-white'
+                            : 'text-[#1b2940] hover:bg-[#eef4ff] hover:text-[#4562b0]'
+                        }`}
                       >
                         {item.name}
                       </Link>
-                    </li>
+                    </motion.div>
                   )
                 )}
-                <li>
-                  <Link
-                    href="/apply"
-                    onClick={() => setIsOpen(false)}
-                    className="block text-center px-4 py-2 rounded-md text-white bg-gradient-to-r from-[#F4793E] via-[#E83E8C] to-[#4B3A97]"
+
+                <div className="space-y-2 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false)
+                      openPopup({
+                        title: 'Start Your Career With TSDC',
+                        subtitle: 'Share your details and we will help you choose the right creative path.',
+                        interest: 'Start Your Career',
+                        source: 'navbar-mobile-start-career',
+                        ctaLabel: 'Start My Career Journey',
+                      })
+                    }}
+                    className="flex items-center justify-center gap-2 rounded-[1.4rem] bg-[#4562b0] py-3.5 text-sm font-black text-white"
                   >
+                    <Sparkles size={14} />
                     Start Your Career
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://wa.me/917358116929"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-md text-white bg-gradient-to-r from-[#25D366] to-[#128C7E] shadow-md"
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false)
+                      openPopup({
+                        title: 'Talk to Our Admissions Team',
+                        subtitle: 'We will get back to you quickly with course details and next steps.',
+                        interest: 'General Enquiry',
+                        source: 'navbar-mobile-chat',
+                        ctaLabel: 'Send Enquiry',
+                      })
+                    }}
+                    className="flex items-center justify-center gap-2 rounded-[1.4rem] bg-[#25D366] py-3.5 text-sm font-black text-white"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12.003 2.003A9.942 9.942 0 0 0 2.06 12c0 1.75.455 3.398 1.253 4.84L2 22l5.281-1.304a9.92 9.92 0 0 0 4.722 1.207h.001A9.944 9.944 0 0 0 22 12.001c0-5.522-4.477-9.998-9.997-9.998zm5.613 14.314c-.236.663-1.368 1.287-1.882 1.368-.48.075-1.063.106-1.713-.109-.393-.124-.895-.29-1.539-.57-2.715-1.173-4.49-3.897-4.627-4.08-.135-.181-1.104-1.47-1.104-2.805 0-1.336.701-1.996.949-2.268.248-.271.547-.34.729-.34.182 0 .365.002.524.01.168.007.392-.063.61.465.236.557.803 1.921.875 2.06.072.139.12.304.024.488-.096.183-.144.296-.284.456-.14.16-.296.357-.42.48-.14.138-.285.29-.123.569.163.28.727 1.202 1.56 1.948 1.073.982 1.979 1.29 2.265 1.432.287.142.454.118.623-.07.17-.188.719-.833.911-1.118.192-.285.384-.236.65-.142.267.094 1.683.795 1.97.939.288.144.48.213.548.33.068.116.068.664-.168 1.326z" />
-                    </svg>
                     Chat on WhatsApp
-                  </Link>
-                </li>
-              </ul>
+                  </button>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

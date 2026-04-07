@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://traijoedu.in/sitemap.xml
+
+# Block unnecessary paths
+Disallow: /api/
+Disallow: /_next/

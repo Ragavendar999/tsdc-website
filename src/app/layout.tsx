@@ -3,47 +3,89 @@ import Navbar from "./components/common/Navbar";
 import ScrollProgress from "./components/common/ScrollProgress";
 import "./globals.css";
 import Footer from "./components/common/Footer";
+import { ContactPopupProvider } from "./components/common/ContactPopupProvider";
 
 export const metadata: Metadata = {
-  title: "Traijo Skill Development Center (TSDC)",
+  title: {
+    default: "Best Design Institute in Chennai | TSDC Graphic Design, UI UX, Digital Marketing & Video Editing",
+    template: "%s | Best Design Institute in Chennai - TSDC",
+  },
   description:
-    "TSDC – Traijo Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing training with certificates, internships & real-world projects.",
+    "Join TSDC, a job-focused creative institute in Chennai for Graphic Design, UI UX Design, Digital Marketing and Video Editing courses. Build a portfolio, work on live projects, learn from mentors, and become career-ready faster.",
   keywords: [
+    "Best Design Institute in Chennai",
+    "Best Graphic Design Institute in Chennai",
+    "Best UI UX Institute in Chennai",
+    "Best Digital Marketing Institute in Chennai",
+    "Best Video Editing Institute in Chennai",
+    "Creative Education Institute Chennai",
     "TSDC",
-    "Traijo",
     "Traijo Skill Development Center",
-    "Graphic Design Course near me",
-    "UI/UX Design Training",
-    "Digital Marketing Course",
-    "Best Design Institute Chennai",
-    "Live Project Training",
-    "Job Ready Courses",
+    "Graphic Design Course Chennai",
+    "Graphic Design Training Chennai",
+    "Graphic Design Classes Chennai",
+    "UI UX Design Course Chennai",
+    "UI UX Design Training Chennai",
+    "UI UX Course with Placement Chennai",
+    "Digital Marketing Course Chennai",
+    "Digital Marketing Training Chennai",
+    "SEO and Google Ads Course Chennai",
+    "Video Editing Course Chennai",
+    "Video Editing Training Chennai",
+    "Design Courses Chennai",
+    "Creative Courses Chennai",
+    "Adobe Photoshop Course Chennai",
+    "Figma Course Chennai",
+    "After Effects Course Chennai",
+    "Premiere Pro Course Chennai",
+    "DaVinci Resolve Training Chennai",
+    "Job Ready Design Courses",
+    "Live Project Design Training",
+    "Internship Graphic Design Chennai",
+    "Placement Focused Creative Courses Chennai",
   ],
+  metadataBase: new URL("https://traijoedu.in"),
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/favicon.ico",
+    apple: "/tsdc-fav-icon.jpg",
   },
   openGraph: {
-    title: "TSDC – Launch Your Creative Career",
+    title: "Best Design Institute in Chennai | TSDC Creative Courses",
     description:
-      "Job-ready training in Graphic Design, UI/UX & Digital Marketing with live projects and certificates.",
+      "Explore Graphic Design, UI UX Design, Digital Marketing and Video Editing courses in Chennai with live projects, internships, mentorship and strong placement support.",
     url: "https://traijoedu.in",
-    siteName: "TSDC",
+    siteName: "TSDC - Traijo Skill Development Center",
     images: [
       {
         url: "/og-banner.png",
         width: 1200,
         height: 630,
-        alt: "TSDC Creative Courses",
+        alt: "TSDC Creative Courses Chennai",
       },
     ],
     type: "website",
+    locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TSDC – Kickstart Your Creative Career",
+    title: "Best Design, Marketing & Video Editing Courses in Chennai | TSDC",
     description:
-      "Graphic Design, UI/UX & Digital Marketing Courses with real-world live projects.",
+      "Join Chennai's job-focused creative courses with portfolio building, live projects, internship exposure and career guidance at TSDC.",
     images: ["/og-banner.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -55,9 +97,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* -------------------------------------------------- */}
-        {/* ✅ Google Tag Manager (HEAD) */}
-        {/* -------------------------------------------------- */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -70,9 +109,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* -------------------------------------------------- */}
-        {/* ✅ Meta Pixel (Facebook Ads) */}
-        {/* -------------------------------------------------- */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -101,9 +137,6 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* -------------------------------------------------- */}
-        {/* ✅ Google Ads Global Site Tag (gtag.js) */}
-        {/* -------------------------------------------------- */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"></script>
 
         <script
@@ -118,14 +151,10 @@ export default function RootLayout({
         />
       </head>
 
-      {/* ⭐⭐⭐ THE FIX FOR HYDRATION MISMATCH ⭐⭐⭐ */}
       <body
         suppressHydrationWarning={true}
-        className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 transition-colors duration-300"
+        className="bg-transparent text-gray-900 transition-colors duration-300"
       >
-        {/* -------------------------------------------------- */}
-        {/* ✅ Google Tag Manager (BODY - noscript) */}
-        {/* -------------------------------------------------- */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-WSX6BHQD"
@@ -135,12 +164,12 @@ export default function RootLayout({
           ></iframe>
         </noscript>
 
-        <ScrollProgress />
-        <Navbar />
-
-        <main className="pt-20">{children}</main>
-
-        <Footer />
+        <ContactPopupProvider>
+          <ScrollProgress />
+          <Navbar />
+          <main className="pt-20">{children}</main>
+          <Footer />
+        </ContactPopupProvider>
       </body>
     </html>
   );

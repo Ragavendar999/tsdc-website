@@ -1,190 +1,192 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import {
-  Paintbrush,
-  MonitorSmartphone,
-  Megaphone,
+  ArrowUpRight,
   CalendarClock,
   FileCheck2,
-  X
+  Megaphone,
+  MonitorSmartphone,
+  Paintbrush,
+  Video,
 } from 'lucide-react'
-
-const iconAnimations = [
-  { rotate: [0, 10, -10, 0] },
-  { scale: [1, 1.2, 1] },
-  { y: [0, -5, 0] }
-]
+import Link from 'next/link'
+import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
 const courses = [
   {
     title: 'Graphic Design',
-    role: 'The Dreamer',
-    icon: <Paintbrush className="w-10 h-10 text-[#E83E8C]" />,
+    role: 'Brand and visual design path',
+    tagline: 'Learn Photoshop, Illustrator, and real-world design thinking.',
+    icon: <Paintbrush className="h-6 w-6" />,
     duration: '12 Weeks',
-    certificate: 'Included',
-    skills: ['Design Principles', 'Color Theory', 'Typography', 'Figma', 'Branding'],
-    careerPath: ['Graphic Designer', 'Brand Designer', 'Freelancer'],
-    bonus: 'Internship + Live Projects',
-    color: 'from-[#fff5f8] to-[#ffeef1]',
-    iconEffect: iconAnimations[0],
+    skills: ['Branding', 'Typography', 'Social creatives'],
+    careerPath: 'Graphic Designer | Brand Designer | Freelancer',
+    bonus: 'Live brand projects + portfolio support',
+    accent: '#fa8a43',
     link: '/courses/graphic-design',
+    bg: '#fff4eb',
   },
   {
     title: 'UI/UX Design',
-    role: 'The Architect',
-    icon: <MonitorSmartphone className="w-10 h-10 text-[#4B3A97]" />,
+    role: 'Product and interface design path',
+    tagline: 'Build app and web experiences with Figma and UX thinking.',
+    icon: <MonitorSmartphone className="h-6 w-6" />,
     duration: '10 Weeks',
-    certificate: 'Included',
-    skills: ['User Research', 'Wireframes', 'Prototypes', 'Design Systems', 'UX Audits'],
-    careerPath: ['UI Designer', 'Product Designer', 'Freelancer'],
-    bonus: 'Internship + Live Projects',
-    color: 'from-[#f7f4ff] to-[#ede9fe]',
-    iconEffect: iconAnimations[1],
+    skills: ['Figma', 'UX Research', 'Design Systems'],
+    careerPath: 'UI Designer | Product Designer | Freelancer',
+    bonus: 'Portfolio case studies + product projects',
+    accent: '#4562b0',
     link: '/courses/uiux-design',
+    bg: '#eef4ff',
   },
   {
     title: 'Digital Marketing',
-    role: 'The Wizard',
-    icon: <Megaphone className="w-10 h-10 text-[#F4793E]" />,
+    role: 'Performance and growth path',
+    tagline: 'Master SEO, paid ads, analytics, and campaign strategy.',
+    icon: <Megaphone className="h-6 w-6" />,
     duration: '8 Weeks',
-    certificate: 'Included',
-    skills: ['SEO', 'Content Creation', 'Paid Ads', 'Analytics', 'Strategy'],
-    careerPath: ['Digital Marketer', 'Content Strategist', 'Agency Owner'],
-    bonus: 'Internship + Live Projects',
-    color: 'from-[#fff9f2] to-[#fff4e9]',
-    iconEffect: iconAnimations[2],
+    skills: ['Google Ads', 'Meta Ads', 'SEO'],
+    careerPath: 'Digital Marketer | Growth Executive | Strategist',
+    bonus: 'Live campaigns + practical growth training',
+    accent: '#ea6865',
     link: '/courses/digital-marketing',
-  }
+    bg: '#fff1f0',
+  },
+  {
+    title: 'Video Editing',
+    role: 'Editing and motion path',
+    tagline: 'Create reels, ads, and polished video content with pro tools.',
+    icon: <Video className="h-6 w-6" />,
+    duration: '12 Weeks',
+    skills: ['Premiere Pro', 'After Effects', 'DaVinci'],
+    careerPath: 'Video Editor | Content Creator | Motion Designer',
+    bonus: 'Showreel building + commercial edits',
+    accent: '#4a4a99',
+    link: '/courses/video-editing',
+    bg: '#f2f0ff',
+  },
 ]
 
 export default function CoursesSection() {
-  const [popupCourse, setPopupCourse] = useState<string | null>(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  const handlePopupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
-
-    const form = e.currentTarget
-    const formData = new FormData(form)
-
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      body: formData,
-    })
-
-    setLoading(false)
-
-    if (res.ok) {
-      setSubmitted(true)
-      form.reset()
-      setTimeout(() => {
-        setSubmitted(false)
-        setPopupCourse(null)
-      }, 4000)
-    } else {
-      alert('Failed to send message. Please try again later.')
-    }
-  }
+  const { openPopup } = useContactPopup()
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-white via-[#fff9f9] to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900">
-      <div className="text-center mb-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+    <section className="site-section-bg relative overflow-hidden px-6 py-24">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-12 top-24 h-20 w-20 rounded-full bg-[#fff1d8]" />
+        <div className="absolute bottom-20 right-12 h-24 w-24 rounded-[2rem] bg-[#e9f1ff]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl font-bold text-gray-900 dark:text-white"
+          viewport={{ once: true }}
+          className="mb-16 text-center"
         >
-          Choose Your Superpower
-        </motion.h2>
-        <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Explore immersive courses that shape your creativity and career path with hands-on learning.
-        </p>
-      </div>
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#dbe4f5] bg-white px-4 py-2 text-sm font-black text-[#4562b0] shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#fa8a43] animate-pulse-soft" />
+            High-demand creative career courses
+          </span>
+          <h2 className="text-4xl font-black tracking-[-0.04em] text-[#081225] md:text-6xl">
+            Choose the course that turns
+            <span className="block text-[#4562b0]">interest into income.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[#475467]">
+            Every program is designed to feel premium, practical, and clearly connected to real creative work in Chennai. Students learn fast, build visible output, and leave with stronger career direction.
+          </p>
+        </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {courses.map((course, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.2 }}
-            className={`rounded-3xl shadow border border-gray-200 dark:border-zinc-700 p-6 bg-gradient-to-br ${course.color} text-center hover:shadow-lg transition`}
-          >
-            <motion.div animate={course.iconEffect} transition={{ duration: 3, repeat: Infinity }} className="flex justify-center mb-4">
-              {course.icon}
+        <div className="grid gap-6 md:grid-cols-2">
+          {courses.map((course, idx) => (
+            <motion.div
+              key={course.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ delay: idx * 0.08, duration: 0.6 }}
+            >
+              <motion.div
+                whileHover={{ y: -8 }}
+                className="group h-full overflow-hidden rounded-[2.1rem] border border-[#dbe4f5] bg-white shadow-[0_22px_55px_rgba(17,24,39,0.06)]"
+              >
+                <div className="p-6" style={{ backgroundColor: course.bg }}>
+                  <div className="mb-5 flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg"
+                        style={{ backgroundColor: course.accent }}
+                      >
+                        {course.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-black text-[#081225]">{course.title}</h3>
+                        <p className="text-sm font-bold" style={{ color: course.accent }}>{course.role}</p>
+                      </div>
+                    </div>
+                    <div className="rounded-full bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085]">
+                      <CalendarClock size={12} className="mr-1 inline" />
+                      {course.duration}
+                    </div>
+                  </div>
+
+                  <p className="text-base font-bold leading-7 text-[#1b2940]">{course.tagline}</p>
+                </div>
+
+                <div className="p-6">
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {course.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-full border border-[#dbe4f5] bg-[#f8fbff] px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#445066]"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mb-4 flex items-start gap-2 text-sm leading-7 text-[#475467]">
+                    <FileCheck2 size={15} className="mt-1 text-[#4562b0]" />
+                    <span>{course.careerPath}</span>
+                  </div>
+
+                  <p className="mb-6 text-sm font-bold leading-7" style={{ color: course.accent }}>
+                    {course.bonus}
+                  </p>
+
+                  <div className="flex gap-3">
+                    <motion.button
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() =>
+                        openPopup({
+                          title: `Enquire About ${course.title}`,
+                          subtitle: 'Share your details and our team will guide you on fees, batches, and the right next step.',
+                          interest: course.title,
+                          source: `homepage-course-card-${course.title.toLowerCase().replace(/\s+/g, '-')}`,
+                          ctaLabel: 'Get Course Guidance',
+                        })
+                      }
+                      className="flex-1 rounded-[1rem] py-3 text-sm font-black text-white shadow-md transition-all"
+                      style={{ backgroundColor: course.accent }}
+                    >
+                      Enquire Now
+                    </motion.button>
+                    <Link
+                      href={course.link}
+                      className="group/link inline-flex items-center gap-1 rounded-[1rem] border border-[#dbe4f5] px-4 py-3 text-sm font-black text-[#1b2940] transition-all hover:border-[#4562b0] hover:text-[#4562b0]"
+                    >
+                      Details
+                      <ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{course.title}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-medium mb-4">{course.role}</p>
-
-            <div className="flex justify-center gap-6 text-xs font-medium text-gray-700 dark:text-gray-300 mb-3">
-              <span className="flex items-center gap-1">
-                <CalendarClock size={14} /> Duration: {course.duration}
-              </span>
-              <span className="flex items-center gap-1">
-                <FileCheck2 size={14} /> Certificate: {course.certificate}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-2 mb-4">
-              {course.skills.map((skill, i) => (
-                <span key={i} className="px-3 py-1 rounded-full border border-[#E83E8C] text-xs text-[#E83E8C] font-medium hover:bg-[#fdf2f8] dark:hover:bg-[#2a1d2e] transition">
-                  {skill}
-                </span>
-              ))}
-            </div>
-
-            <p className="text-sm text-gray-800 dark:text-gray-200 mb-2">
-              <strong>🎓 Career Path:</strong> {course.careerPath.join(', ')}
-            </p>
-
-            <p className="text-sm text-green-600 font-medium mb-4">🎁 {course.bonus}</p>
-
-            <div className="flex justify-center gap-3">
-              <button
-                onClick={() => setPopupCourse(course.title)}
-                className="bg-gradient-to-r from-[#F4793E] via-[#E83E8C] to-[#4B3A97] hover:brightness-110 text-white text-sm px-4 py-2 rounded-full font-medium transition"
-              >
-                Enroll Now
-              </button>
-              <Link
-                href={course.link}
-                className="text-[#4B3A97] dark:text-white text-sm px-4 py-2 rounded-full border border-[#4B3A97] font-medium hover:bg-[#f3f0ff] dark:hover:bg-[#32214d] transition"
-              >
-                View Curriculum
-              </Link>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {popupCourse && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
-          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white dark:bg-zinc-900 max-w-xl w-full p-8 rounded-2xl shadow-2xl relative">
-            <button onClick={() => setPopupCourse(null)} className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition">
-              <X size={20} />
-            </button>
-            <h3 className="text-2xl font-bold mb-4 text-[#4B3A97] dark:text-white">
-              Enroll in {popupCourse}
-            </h3>
-            <form onSubmit={handlePopupSubmit} className="space-y-4">
-              <input type="text" name="name" placeholder="Full Name" required className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-[#4B3A97] outline-none" />
-              <input type="email" name="email" placeholder="Email" required className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-[#4B3A97] outline-none" />
-              <input type="tel" name="mobile" placeholder="Mobile Number" required pattern="[0-9]{10}" className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-2 focus:ring-[#4B3A97] outline-none" />
-              <input type="hidden" name="interest" value={popupCourse} />
-              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-[#4B3A97] via-[#E83E8C] to-[#F4793E] text-white rounded-xl font-semibold transition hover:brightness-110">
-                {loading ? 'Submitting...' : 'Submit'}
-              </button>
-              {submitted && <p className="text-green-600 text-sm mt-2">✅ Thank you! Your details have been submitted.</p>}
-            </form>
-          </motion.div>
+          ))}
         </div>
-      )}
+      </div>
     </section>
   )
 }

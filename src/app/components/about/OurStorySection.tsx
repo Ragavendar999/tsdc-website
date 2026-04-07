@@ -2,10 +2,13 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
 export default function OurStorySection() {
+  const { openPopup } = useContactPopup()
+
   return (
-    <section className="relative bg-gradient-to-br from-white via-[#FFF5F2] to-[#FFFAF5] dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 pt-6 pb-16 overflow-hidden">
+    <section className="site-section-bg relative overflow-hidden px-4 pb-14 pt-8">
 
       {/* Floating Gradient Blobs */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-[#F6416C] rounded-full blur-[120px] opacity-30 -z-10" />
@@ -21,7 +24,7 @@ export default function OurStorySection() {
         </p>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 lg:flex lg:items-center lg:gap-16 relative z-10">
+      <div className="container relative z-10 mx-auto px-4 md:px-6 lg:flex lg:items-center lg:gap-16">
 
         {/* Left: Image */}
         <motion.div
@@ -65,14 +68,21 @@ export default function OurStorySection() {
           </p>
 
           <div className="mt-6">
-            <a
-              href="https://wa.me/917358116929?text=Hi%20TSDC!%20I'm%20interested%20in%20joining%20your%20courses.%20Can%20you%20share%20more%20details?"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() =>
+                openPopup({
+                  title: 'Start Your Journey With TSDC',
+                  subtitle: 'Tell us what you want to become and our team will guide your next step.',
+                  interest: 'General Enquiry',
+                  source: 'about-our-story',
+                  ctaLabel: 'Start My Journey',
+                })
+              }
               className="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-[#2F52A0] via-[#FF8652] to-[#F6416C] text-white text-lg font-semibold shadow-md hover:scale-105 transition-transform duration-300"
             >
               Start Your Journey
-            </a>
+            </button>
 
           </div>
         </motion.div>
