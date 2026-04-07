@@ -38,7 +38,7 @@ const steps = [
 
 export default function JourneyTimeline() {
   return (
-    <section className="site-section-bg relative overflow-hidden py-24">
+    <section className="site-section-bg section-alt-warm section-divider relative overflow-hidden py-20">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-16 top-16 h-24 w-24 rounded-full bg-[#fff2da]" />
         <div className="absolute bottom-16 right-14 h-24 w-24 rounded-[1.5rem] bg-[#edf3ff]" />

@@ -17,6 +17,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
+import MasterclassSection from '@/app/components/masterclass/MasterclassSection'
 
 const courses = [
   {
@@ -329,6 +330,12 @@ export default function CoursesPage() {
             )
           })}
         </div>
+
+        <MasterclassSection
+          compact
+          title="Masterclasses for quick creative upgrades."
+          subtitle="Join focused TSDC sessions when you want a fast, practical skill boost before choosing a full program."
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 28 }}

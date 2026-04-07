@@ -81,20 +81,20 @@ export default function HeroSection() {
         <div className="animate-float-orb absolute bottom-20 right-[14%] h-24 w-24 rounded-[1.75rem] bg-[#eef2ff]" />
       </div>
 
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-7 px-5 py-5 sm:px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-8 lg:py-6">
+      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-7 px-4 py-6 sm:px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-8 lg:py-6">
         <motion.div
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="space-y-4 md:space-y-5"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#d7e1f3] bg-[#f7faff] px-4 py-2 text-xs font-bold text-[#4562b0] shadow-sm md:text-sm">
+          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[#d7e1f3] bg-[#f7faff] px-3.5 py-2 text-xs font-bold text-[#4562b0] shadow-sm sm:px-4 md:text-sm">
             <Sparkles size={14} className="text-[#fa8a43]" />
-            Job-focused creative institute in Chennai
+            <span className="leading-snug">Job-focused creative institute in Chennai</span>
           </div>
 
           <div className="space-y-3">
-            <h1 className="headline-balance max-w-[10.5ch] text-[2.9rem] font-black leading-[0.9] tracking-[-0.06em] text-[#081225] sm:text-[3.35rem] md:text-[4rem] lg:text-[4.55rem] xl:text-[4.85rem]">
+            <h1 className="headline-balance max-w-[10.5ch] text-[2.55rem] font-black leading-[0.92] tracking-[-0.06em] text-[#081225] min-[380px]:text-[2.9rem] sm:text-[3.35rem] md:text-[4rem] lg:text-[4.55rem] xl:text-[4.85rem]">
               Learn creative
               <span className="block text-[#4562b0]">skills that get</span>
               <span className="block text-[#ea6865]">you hired.</span>
@@ -105,13 +105,13 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
+          <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center">
+            <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
               <Link
                 href="/courses"
                 ref={buttonRef}
                 onClick={handleConfetti}
-                className="inline-flex items-center gap-2 rounded-full bg-[#4562b0] px-6 py-3.5 text-sm font-black text-white shadow-[0_22px_45px_rgba(69,98,176,0.28)] transition-all hover:bg-[#3c56a5] sm:px-7 md:text-base"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#4562b0] px-5 py-3.5 text-center text-sm font-black text-white shadow-[0_22px_45px_rgba(69,98,176,0.28)] transition-all hover:bg-[#3c56a5] sm:w-auto sm:px-7 md:text-base"
               >
                 Explore Career Courses
                 <ArrowRight size={18} />
@@ -131,7 +131,7 @@ export default function HeroSection() {
                   ctaLabel: 'Book My Free Counselling',
                 })
               }
-              className="inline-flex items-center gap-2 rounded-full border-2 border-[#d7e1f3] bg-[#fff8f2] px-6 py-3.5 text-sm font-black text-[#fa8a43] shadow-sm transition-all hover:border-[#fa8a43]/30 sm:px-7 md:text-base"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#d7e1f3] bg-[#fff8f2] px-5 py-3.5 text-center text-sm font-black text-[#fa8a43] shadow-sm transition-all hover:border-[#fa8a43]/30 sm:w-auto sm:px-7 md:text-base"
             >
               Start Your Career Journey
             </motion.button>

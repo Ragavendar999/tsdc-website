@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Navbar from "./components/common/Navbar";
-import ScrollProgress from "./components/common/ScrollProgress";
 import "./globals.css";
-import Footer from "./components/common/Footer";
 import { ContactPopupProvider } from "./components/common/ContactPopupProvider";
+import SiteChrome from "./components/common/SiteChrome";
 
 export const metadata: Metadata = {
   title: {
@@ -165,10 +163,7 @@ export default function RootLayout({
         </noscript>
 
         <ContactPopupProvider>
-          <ScrollProgress />
-          <Navbar />
-          <main className="pt-20">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </ContactPopupProvider>
       </body>
     </html>

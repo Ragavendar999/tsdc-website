@@ -56,7 +56,7 @@ export default function Navbar() {
         <div className="pointer-events-none absolute -left-10 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[#ff8743]" />
         <div className="pointer-events-none absolute right-[18%] top-0 h-8 w-28 rounded-b-full bg-white/15" />
         <div className="pointer-events-none absolute right-8 top-1/2 h-11 w-11 -translate-y-1/2 rotate-12 rounded-[1rem] bg-[#ea6865]" />
-        <nav className="relative z-10 mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-3 md:px-6">
+        <nav className="relative z-10 mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 md:grid-cols-[1fr_auto_1fr] md:gap-4 md:px-6">
           <motion.div whileHover={{ y: -1 }} className="hidden justify-self-start md:block">
             <Link
               href="/contact"
@@ -64,6 +64,17 @@ export default function Navbar() {
             >
               <span className="h-2 w-2 rounded-full bg-[#22c55e]" />
               admissions open
+            </Link>
+          </motion.div>
+
+          <motion.div whileHover={{ y: -1 }} className="justify-self-start md:hidden">
+            <Link
+              href="/"
+              aria-label="TSDC home"
+              onClick={() => setIsOpen(false)}
+              className="flex h-11 w-[5.75rem] items-center justify-center rounded-full border border-black/10 bg-white px-3 shadow-sm"
+            >
+              <Image src="/logo.png" alt="TSDC Logo" width={64} height={27} priority />
             </Link>
           </motion.div>
 
@@ -160,7 +171,9 @@ export default function Navbar() {
           <motion.button
             whileTap={{ scale: 0.94 }}
             onClick={() => setIsOpen(!isOpen)}
-            className="col-span-2 justify-self-end flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-black text-[#111827] md:hidden"
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
+            className="col-start-3 flex items-center gap-2 justify-self-end rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-black text-[#111827] shadow-sm md:hidden"
           >
             <AnimatePresence mode="wait">
               {isOpen ? (
@@ -215,7 +228,8 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="col-span-3 overflow-hidden rounded-[1.6rem] border border-black/10 bg-white md:hidden"
+              id="mobile-navigation"
+              className="mx-4 mb-3 overflow-hidden rounded-[1.6rem] border border-black/10 bg-white shadow-[0_22px_55px_rgba(8,18,37,0.16)] md:hidden"
             >
               <div className="space-y-2 px-5 py-5">
                 {navItems.map((item, idx) =>
@@ -289,7 +303,7 @@ export default function Navbar() {
                         ctaLabel: 'Start My Career Journey',
                       })
                     }}
-                    className="flex items-center justify-center gap-2 rounded-[1.4rem] bg-[#4562b0] py-3.5 text-sm font-black text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-[1.4rem] bg-[#4562b0] py-3.5 text-sm font-black text-white"
                   >
                     <Sparkles size={14} />
                     Start Your Career
@@ -306,7 +320,7 @@ export default function Navbar() {
                         ctaLabel: 'Send Enquiry',
                       })
                     }}
-                    className="flex items-center justify-center gap-2 rounded-[1.4rem] bg-[#25D366] py-3.5 text-sm font-black text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-[1.4rem] bg-[#25D366] py-3.5 text-sm font-black text-white"
                   >
                     Chat on WhatsApp
                   </button>

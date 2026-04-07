@@ -3,6 +3,7 @@ import Hero from './components/homepage/Hero'
 import CoursesSection from './components/homepage/CoursesSection'
 import WhyTSDC from './components/homepage/WhyTSDC'
 import JourneyTimeline from './components/homepage/JourneyTimeline'
+import MasterclassSection from './components/masterclass/MasterclassSection'
 
 export const metadata: Metadata = {
   title: 'Best Creative Courses in Chennai for Graphic Design, UI UX, Marketing and Video Editing',
@@ -15,6 +16,7 @@ export default function HomePage() {
     <div className="-mt-20">
       <Hero />
       <WhyTSDC />
+      <MasterclassSection />
       <JourneyTimeline />
       <CoursesSection />
     </div>

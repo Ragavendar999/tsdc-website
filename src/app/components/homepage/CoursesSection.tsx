@@ -72,7 +72,7 @@ export default function CoursesSection() {
   const { openPopup } = useContactPopup()
 
   return (
-    <section className="site-section-bg relative overflow-hidden px-6 py-24">
+    <section className="site-section-bg section-alt-blue section-divider relative overflow-hidden px-4 py-20 sm:px-6">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-12 top-24 h-20 w-20 rounded-full bg-[#fff1d8]" />
         <div className="absolute bottom-20 right-12 h-24 w-24 rounded-[2rem] bg-[#e9f1ff]" />
@@ -89,11 +89,11 @@ export default function CoursesSection() {
             <span className="h-1.5 w-1.5 rounded-full bg-[#fa8a43] animate-pulse-soft" />
             High-demand creative career courses
           </span>
-          <h2 className="text-4xl font-black tracking-[-0.04em] text-[#081225] md:text-6xl">
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#081225] sm:text-4xl md:text-6xl">
             Choose the course that turns
             <span className="block text-[#4562b0]">interest into income.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[#475467]">
+          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-[#475467] sm:text-lg sm:leading-8">
             Every program is designed to feel premium, practical, and clearly connected to real creative work in Chennai. Students learn fast, build visible output, and leave with stronger career direction.
           </p>
         </motion.div>
@@ -111,8 +111,8 @@ export default function CoursesSection() {
                 whileHover={{ y: -8 }}
                 className="group h-full overflow-hidden rounded-[2.1rem] border border-[#dbe4f5] bg-white shadow-[0_22px_55px_rgba(17,24,39,0.06)]"
               >
-                <div className="p-6" style={{ backgroundColor: course.bg }}>
-                  <div className="mb-5 flex items-start justify-between gap-4">
+                <div className="p-5 sm:p-6" style={{ backgroundColor: course.bg }}>
+                  <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex items-center gap-3">
                       <div
                         className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg"
@@ -121,11 +121,11 @@ export default function CoursesSection() {
                         {course.icon}
                       </div>
                       <div>
-                        <h3 className="text-2xl font-black text-[#081225]">{course.title}</h3>
+                        <h3 className="text-xl font-black text-[#081225] sm:text-2xl">{course.title}</h3>
                         <p className="text-sm font-bold" style={{ color: course.accent }}>{course.role}</p>
                       </div>
                     </div>
-                    <div className="rounded-full bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085]">
+                    <div className="w-max rounded-full bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085]">
                       <CalendarClock size={12} className="mr-1 inline" />
                       {course.duration}
                     </div>
@@ -134,7 +134,7 @@ export default function CoursesSection() {
                   <p className="text-base font-bold leading-7 text-[#1b2940]">{course.tagline}</p>
                 </div>
 
-                <div className="p-6">
+                <div className="p-5 sm:p-6">
                   <div className="mb-4 flex flex-wrap gap-2">
                     {course.skills.map((skill) => (
                       <span
@@ -155,7 +155,7 @@ export default function CoursesSection() {
                     {course.bonus}
                   </p>
 
-                  <div className="flex gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
@@ -175,7 +175,7 @@ export default function CoursesSection() {
                     </motion.button>
                     <Link
                       href={course.link}
-                      className="group/link inline-flex items-center gap-1 rounded-[1rem] border border-[#dbe4f5] px-4 py-3 text-sm font-black text-[#1b2940] transition-all hover:border-[#4562b0] hover:text-[#4562b0]"
+                      className="group/link inline-flex items-center justify-center gap-1 rounded-[1rem] border border-[#dbe4f5] px-4 py-3 text-sm font-black text-[#1b2940] transition-all hover:border-[#4562b0] hover:text-[#4562b0]"
                     >
                       Details
                       <ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
