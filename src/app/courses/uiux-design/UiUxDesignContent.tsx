@@ -16,8 +16,8 @@ const uiuxDesignCourse: CourseLandingData = {
   duration: '10 Weeks',
   mode: 'Offline / Hybrid',
   seats: '15 seats',
-  syllabusUrl: '/syllabus/UI,UX%20syllabus.pdf',
-  syllabusFileName: 'UI,UX syllabus.pdf',
+  syllabusUrl: '/syllabus/UIUX%20syllabus.pdf',
+  syllabusFileName: 'UIUX syllabus.pdf',
   popupInterest: 'UI/UX Design',
   heroPoints: ['Figma projects', 'UX case studies', 'Portfolio support'],
   outcomes: [
