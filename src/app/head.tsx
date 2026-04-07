@@ -2,16 +2,16 @@ export default function Head() {
   return (
     <>
       {/* BASIC SEO */}
-      <title>Traijo Skill Development Center (TSDC) – Best Graphic Design, UI/UX & Digital Marketing Courses</title>
+      <title>Best Creative Education Institute in Chennai | TSDC Graphic Design, UI/UX, Digital Marketing, Video Editing & Motion Graphics</title>
 
       <meta
         name="description"
-        content="TSDC – Traijo Skill Development Center offers job-ready Graphic Design, UI/UX, and Digital Marketing courses with live projects, certificates, internships & 100% guidance."
+        content="TSDC - Traijo Skill Development Center offers job-ready Graphic Design, UI/UX Design, Digital Marketing, Video Editing and Motion Graphics courses in Chennai with live projects, certificates, internships and career guidance."
       />
 
       <meta
         name="keywords"
-        content="TSDC, Traijo, Traijo Skill Development Center, Graphic Design Course, UI UX Design Course, Digital Marketing Course, Best Design Institute Chennai, Job Ready Courses, Live Project Training"
+        content="Creative Education Institute in Chennai, Best Creative Education Institute in Chennai, Best Graphic Design Course in Chennai, Best Graphic Design Institute in Chennai, Best UI UX Design Course in Chennai, Best UI UX Design Institute in Chennai, Best Digital Marketing Course in Chennai, Best Digital Marketing Institute in Chennai, Best Video Editing Course in Chennai, Best Video Editing Institute in Chennai, Best Motion Graphics Course in Chennai, Motion Graphics Course Chennai, TSDC, Traijo Skill Development Center"
       />
 
       <meta name="author" content="TSDC Team" />
@@ -26,10 +26,10 @@ export default function Head() {
       <link rel="canonical" href="https://traijoedu.in" />
 
       {/* OPEN GRAPH */}
-      <meta property="og:title" content="TSDC – Launch Your Creative Career" />
+      <meta property="og:title" content="TSDC - Best Creative Education Institute in Chennai" />
       <meta
         property="og:description"
-        content="Job-ready training in Graphic Design, UI/UX & Digital Marketing with live projects and certificates."
+        content="Job-ready Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics courses in Chennai with live projects and certificates."
       />
       <meta property="og:url" content="https://traijoedu.in" />
       <meta property="og:site_name" content="TSDC" />
@@ -38,10 +38,10 @@ export default function Head() {
 
       {/* TWITTER CARD */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="TSDC – Kickstart Your Creative Career" />
+      <meta name="twitter:title" content="TSDC - Best Creative Education Institute in Chennai" />
       <meta
         name="twitter:description"
-        content="Graphic Design, UI/UX & Digital Marketing Courses with real-world projects."
+        content="Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics courses with real-world projects."
       />
       <meta name="twitter:image" content="/og-banner.png" />
 
@@ -58,7 +58,7 @@ export default function Head() {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
 
-            fbq('init', '1310792007726517');
+            fbq('init', '1202164335139349');
             fbq('track', 'PageView');
           `,
         }}
@@ -69,7 +69,8 @@ export default function Head() {
           height="1"
           width="1"
           style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1310792007726517&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=1202164335139349&ev=PageView&noscript=1"
+          alt=""
         />
       </noscript>
     </>

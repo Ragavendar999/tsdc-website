@@ -6,17 +6,36 @@ import SiteChrome from "./components/common/SiteChrome";
 
 export const metadata: Metadata = {
   title: {
-    default: "Best Design Institute in Chennai | TSDC Graphic Design, UI UX, Digital Marketing & Video Editing",
-    template: "%s | Best Design Institute in Chennai - TSDC",
+    default: "Best Creative Education Institute in Chennai | TSDC Graphic Design, UI UX, Digital Marketing, Video Editing & Motion Graphics",
+    template: "%s | Best Creative Education Institute in Chennai - TSDC",
   },
   description:
-    "Join TSDC, a job-focused creative institute in Chennai for Graphic Design, UI UX Design, Digital Marketing and Video Editing courses. Build a portfolio, work on live projects, learn from mentors, and become career-ready faster.",
+    "Join TSDC, a job-focused creative education institute in Chennai for Graphic Design, UI UX Design, Digital Marketing, Video Editing and Motion Graphics courses. Build a portfolio, work on live projects, learn from mentors, and become career-ready faster.",
   keywords: [
+    "Creative Education Institute in Chennai",
+    "Best Creative Education Institute in Chennai",
     "Best Design Institute in Chennai",
+    "Best Design Course in Chennai",
     "Best Graphic Design Institute in Chennai",
+    "Best Graphic Design Course in Chennai",
+    "Best Graphic Design Course",
+    "Best Graphic Design Institute",
     "Best UI UX Institute in Chennai",
+    "Best UI UX Design Institute in Chennai",
+    "Best UI UX Design Course in Chennai",
+    "Best UI/UX Design Course",
+    "Best UI/UX Design Institute",
     "Best Digital Marketing Institute in Chennai",
+    "Best Digital Marketing Course in Chennai",
+    "Best Digital Marketing Course",
+    "Best Digital Marketing Institute",
     "Best Video Editing Institute in Chennai",
+    "Best Video Editing Course in Chennai",
+    "Best Video Editing Course",
+    "Best Video Editing Institute",
+    "Best Motion Graphics Course in Chennai",
+    "Motion Graphics Institute in Chennai",
+    "Motion Graphics Course Chennai",
     "Creative Education Institute Chennai",
     "TSDC",
     "Traijo Skill Development Center",
@@ -33,15 +52,25 @@ export const metadata: Metadata = {
     "Video Editing Training Chennai",
     "Design Courses Chennai",
     "Creative Courses Chennai",
+    "Creative Institute in Chennai",
+    "Creative Skills Institute Chennai",
+    "Creative Career Courses Chennai",
     "Adobe Photoshop Course Chennai",
     "Figma Course Chennai",
     "After Effects Course Chennai",
     "Premiere Pro Course Chennai",
     "DaVinci Resolve Training Chennai",
+    "Motion Graphics Training Chennai",
     "Job Ready Design Courses",
     "Live Project Design Training",
     "Internship Graphic Design Chennai",
     "Placement Focused Creative Courses Chennai",
+    "Graphic Design Course Perumbakkam",
+    "UI UX Design Course Perumbakkam",
+    "Digital Marketing Course Perumbakkam",
+    "Video Editing Course Perumbakkam",
+    "Design Institute Near OMR Chennai",
+    "Design Institute Near Sholinganallur",
   ],
   metadataBase: new URL("https://traijoedu.in"),
   alternates: {
@@ -52,9 +81,9 @@ export const metadata: Metadata = {
     apple: "/tsdc-fav-icon.jpg",
   },
   openGraph: {
-    title: "Best Design Institute in Chennai | TSDC Creative Courses",
+    title: "Best Creative Education Institute in Chennai | TSDC Creative Courses",
     description:
-      "Explore Graphic Design, UI UX Design, Digital Marketing and Video Editing courses in Chennai with live projects, internships, mentorship and strong placement support.",
+      "Explore Graphic Design, UI UX Design, Digital Marketing, Video Editing and Motion Graphics courses in Chennai with live projects, internships, mentorship and strong placement support.",
     url: "https://traijoedu.in",
     siteName: "TSDC - Traijo Skill Development Center",
     images: [
@@ -70,9 +99,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Design, Marketing & Video Editing Courses in Chennai | TSDC",
+    title: "Best Creative Education Institute in Chennai | TSDC",
     description:
-      "Join Chennai's job-focused creative courses with portfolio building, live projects, internship exposure and career guidance at TSDC.",
+      "Join Chennai's job-focused Graphic Design, UI UX, Digital Marketing, Video Editing and Motion Graphics courses at TSDC.",
     images: ["/og-banner.png"],
   },
   robots: {
@@ -121,7 +150,7 @@ export default function RootLayout({
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
 
-              fbq('init', '1310792007726517');
+              fbq('init', '1202164335139349');
               fbq('track', 'PageView');
             `,
           }}
@@ -132,7 +161,7 @@ export default function RootLayout({
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1310792007726517&ev=PageView&noscript=1"
+            src="https://www.facebook.com/tr?id=1202164335139349&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>

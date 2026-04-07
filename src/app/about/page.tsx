@@ -2,11 +2,22 @@ import type { Metadata } from 'next'
 import AboutStoryPage from '../components/about/AboutStoryPage'
 
 export const metadata: Metadata = {
-  title: 'TSDC Chennai | Graphic Design, UI UX & Digital Marketing Courses',
+  title: 'Creative Education Institute in Chennai | About TSDC Creative Courses',
   description:
-    "TSDC is Chennai's practical creative skills institute in Perumbakkam. Learn Graphic Design, UI/UX, Digital Marketing and Video Editing with real projects, active industry mentors and career support.",
+    "TSDC is a practical creative education institute in Chennai. Learn Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics with real projects, active industry mentors and career support.",
   keywords: [
     'TSDC Traijo Skill Development Center',
+    'Creative Education Institute in Chennai',
+    'Best Creative Education Institute in Chennai',
+    'Best Graphic Design Institute in Chennai',
+    'Best Graphic Design Course in Chennai',
+    'Best UI UX Design Institute in Chennai',
+    'Best UI UX Design Course in Chennai',
+    'Best Digital Marketing Institute in Chennai',
+    'Best Digital Marketing Course in Chennai',
+    'Best Video Editing Institute in Chennai',
+    'Best Video Editing Course in Chennai',
+    'Best Motion Graphics Course in Chennai',
     'graphic design course in Chennai',
     'UI UX design course Chennai',
     'digital marketing course Perumbakkam',
@@ -21,14 +32,15 @@ export const metadata: Metadata = {
     'graphic design course for beginners Chennai',
     'digital marketing training south Chennai',
     'design institute near OMR Chennai',
+    'motion graphics course Chennai',
   ],
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'TSDC Chennai | Practical Creative Skills Institute in Perumbakkam',
+    title: 'TSDC Chennai | Creative Education Institute in Perumbakkam',
     description:
-      'Read the story behind TSDC, a Chennai creative institute built for practical Graphic Design, UI/UX, Digital Marketing and Video Editing training.',
+      'Read the story behind TSDC, a Chennai creative education institute built for practical Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics training.',
     url: 'https://traijoedu.in/about',
     siteName: 'TSDC - Traijo Skill Development Center',
     images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'About TSDC Chennai Creative Courses' }],
@@ -37,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About TSDC Chennai | Creative Courses in Perumbakkam',
+    title: 'About TSDC Chennai | Creative Education Institute in Perumbakkam',
     description:
-      'A practical creative skills institute in Chennai for Graphic Design, UI/UX, Digital Marketing and Video Editing.',
+      'A practical creative education institute in Chennai for Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics.',
     images: ['/og-banner.png'],
   },
 }
@@ -66,33 +78,33 @@ const organizationSchema = {
       },
       areaServed: ['Perumbakkam', 'Sholinganallur', 'Medavakkam', 'Tambaram', 'Velachery', 'OMR', 'Chennai'],
       description:
-        'TSDC is a practical creative skills institute in Perumbakkam, Chennai for Graphic Design, UI/UX Design, Digital Marketing and Video Editing courses.',
+        'TSDC is a practical creative education institute in Perumbakkam, Chennai for Graphic Design, UI/UX Design, Digital Marketing, Video Editing and Motion Graphics courses.',
     },
     {
       '@type': 'Course',
       name: 'Graphic Design Mastery Program',
-      description: 'Practical graphic design course in Chennai with branding, posters, packaging, social media creatives and portfolio projects.',
+      description: 'Best Graphic Design Course in Chennai with branding, posters, packaging, logo design, social media creatives and portfolio projects.',
       provider: { '@id': 'https://traijoedu.in/#organization' },
       url: 'https://traijoedu.in/courses/graphic-design',
     },
     {
       '@type': 'Course',
       name: 'UI/UX Design Mastery Program',
-      description: 'Practical UI UX design course in Chennai with Figma, user journeys, wireframes, case studies and portfolio building.',
+      description: 'Best UI UX Design Course in Chennai with Figma, user journeys, wireframes, product design, case studies and portfolio building.',
       provider: { '@id': 'https://traijoedu.in/#organization' },
       url: 'https://traijoedu.in/courses/uiux-design',
     },
     {
       '@type': 'Course',
       name: 'Digital Marketing Program',
-      description: 'Digital marketing course in Perumbakkam and south Chennai covering SEO, Meta Ads, Google Ads, analytics and growth campaigns.',
+      description: 'Best Digital Marketing Course in Chennai covering SEO, Meta Ads, Google Ads, analytics, content strategy and growth campaigns.',
       provider: { '@id': 'https://traijoedu.in/#organization' },
       url: 'https://traijoedu.in/courses/digital-marketing',
     },
     {
       '@type': 'Course',
       name: 'Video Editing Mastery Program',
-      description: 'Video editing course in Chennai covering Premiere Pro, reels, ads, YouTube content and portfolio-ready editing projects.',
+      description: 'Best Video Editing and Motion Graphics Course in Chennai covering Premiere Pro, After Effects, reels, ads, YouTube content and portfolio-ready editing projects.',
       provider: { '@id': 'https://traijoedu.in/#organization' },
       url: 'https://traijoedu.in/courses/video-editing',
     },

@@ -2,13 +2,21 @@ import type { Metadata } from 'next'
 import VideoEditingContent from './VideoEditingContent'
 
 export const metadata: Metadata = {
-  title: 'Video Editing Course in Chennai | Premiere Pro, After Effects & DaVinci Resolve Training',
+  title: 'Best Video Editing & Motion Graphics Course in Chennai | Premiere Pro & After Effects - TSDC',
   description:
-    'Enroll in TSDC\'s Video Editing Course in Chennai — master Adobe Premiere Pro, After Effects & DaVinci Resolve with cinematic color grading, motion graphics & real commercial projects. Best video editing institute in Chennai.',
+    "Enroll in TSDC's Video Editing and Motion Graphics Course in Chennai. Learn Premiere Pro, After Effects, DaVinci Resolve, reel editing, color grading and real commercial projects.",
   keywords: [
+    'Best Video Editing Course in Chennai',
+    'Best Video Editing Institute in Chennai',
+    'Best Video Editing Course',
+    'Best Video Editing Institute',
+    'Best Motion Graphics Course in Chennai',
+    'Motion Graphics Institute in Chennai',
     'Video Editing Course Chennai',
     'Video Editing Training Chennai',
     'Video Editing Institute Chennai',
+    'Video Editing Course Perumbakkam',
+    'Video Editing Course Near OMR Chennai',
     'Adobe Premiere Pro Course Chennai',
     'After Effects Course Chennai',
     'DaVinci Resolve Course Chennai',
@@ -17,7 +25,6 @@ export const metadata: Metadata = {
     'Reel Editing Course Chennai',
     'YouTube Video Editing Course Chennai',
     'Video Production Course Chennai',
-    'Best Video Editing Course Chennai',
     'Cinematic Video Editing Chennai',
     'Film Editing Course Chennai',
     'TSDC Video Editing',
@@ -27,16 +34,16 @@ export const metadata: Metadata = {
     canonical: '/courses/video-editing',
   },
   openGraph: {
-    title: 'Video Editing Course in Chennai | TSDC Creative Education Institute',
+    title: 'Best Video Editing & Motion Graphics Course in Chennai | TSDC Creative Education Institute',
     description:
-      'Master Premiere Pro, After Effects & DaVinci Resolve with real commercial projects. Best video editing course in Chennai at TSDC.',
+      'Master Premiere Pro, After Effects, DaVinci Resolve and motion graphics with real commercial projects at TSDC Chennai.',
     url: 'https://traijoedu.in/courses/video-editing',
-    images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'Video Editing Course Chennai – TSDC' }],
+    images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'Best Video Editing and Motion Graphics Course Chennai - TSDC' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Video Editing Course Chennai | TSDC',
-    description: 'Learn Premiere Pro, After Effects & DaVinci Resolve with cinematic color grading & real projects. Best video editing course in Chennai.',
+    title: 'Best Video Editing & Motion Graphics Course Chennai | TSDC',
+    description: 'Learn Premiere Pro, After Effects, DaVinci Resolve, reel editing and motion graphics at TSDC Chennai.',
     images: ['/og-banner.png'],
   },
 }
