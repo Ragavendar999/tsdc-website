@@ -16,8 +16,8 @@ const graphicDesignCourse: CourseLandingData = {
   duration: '12 Weeks',
   mode: 'Offline / Hybrid',
   seats: 'Limited seats',
-  syllabusUrl: '/syllabus/graphic-design-syllabus.pdf',
-  syllabusFileName: 'graphic-design-syllabus.pdf',
+  syllabusUrl: '/syllabus/GD%20syllabus.pdf',
+  syllabusFileName: 'GD syllabus.pdf',
   popupInterest: 'Graphic Design',
   heroPoints: ['Beginner-friendly', '5+ brand projects', 'Portfolio review'],
   outcomes: [

@@ -29,7 +29,6 @@ export default function Navbar() {
   const { openPopup } = useContactPopup()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [scrolling, setScrolling] = useState(false)
 
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function Navbar() {
 
     const onScroll = () => {
       const current = window.scrollY
-      setScrolled(current > 16)
       setScrolling(current > 70 && current > lastScroll)
       lastScroll = current
     }

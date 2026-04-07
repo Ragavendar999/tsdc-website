@@ -16,8 +16,8 @@ const videoEditingCourse: CourseLandingData = {
   duration: '12 Weeks',
   mode: 'Offline / Hybrid',
   seats: 'Limited seats',
-  syllabusUrl: '/syllabus/video-editing-syllabus.pdf',
-  syllabusFileName: 'video-editing-syllabus.pdf',
+  syllabusUrl: '/syllabus/VE%20Syllabus.pdf',
+  syllabusFileName: 'VE Syllabus.pdf',
   popupInterest: 'Video Editing',
   heroPoints: ['3 pro tools', 'Commercial edits', 'Showreel support'],
   outcomes: [

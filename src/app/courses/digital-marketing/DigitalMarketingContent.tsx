@@ -16,8 +16,8 @@ const digitalMarketingCourse: CourseLandingData = {
   duration: '8 Weeks',
   mode: 'Offline / Hybrid',
   seats: 'Small batch',
-  syllabusUrl: '/syllabus/digital-marketing-syllabus.pdf',
-  syllabusFileName: 'digital-marketing-syllabus.pdf',
+  syllabusUrl: '/syllabus/DM%20Syllabus.pdf',
+  syllabusFileName: 'DM Syllabus.pdf',
   popupInterest: 'Digital Marketing',
   heroPoints: ['SEO + ads', 'Live campaigns', 'Growth reporting'],
   outcomes: [
