@@ -96,16 +96,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <Script
-          id="google-tag-manager"
-          strategy="beforeInteractive"
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"></script>
+
+        <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id=' + i + dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-PXHJZ55T');
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-11403134953');
             `,
           }}
         />
@@ -137,25 +136,13 @@ export default function RootLayout({
             alt=""
           />
         </noscript>
-
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"></script>
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-11403134953');
-            `,
-          }}
-        />
       </head>
 
       <body
         suppressHydrationWarning={true}
         className="bg-transparent text-gray-900 transition-colors duration-300"
       >
+        {/* GTM noscript fallback */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PXHJZ55T"
@@ -164,6 +151,21 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
+
+        {/* GTM inline script — afterInteractive ensures it fires on every route */}
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id=' + i + dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-PXHJZ55T');
+            `,
+          }}
+        />
 
         <ContactPopupProvider>
           <SiteChrome>{children}</SiteChrome>
