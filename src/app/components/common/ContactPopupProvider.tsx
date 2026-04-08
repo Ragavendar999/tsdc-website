@@ -12,6 +12,12 @@ import {
 } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+  }
+}
+
 type ContactPopupOptions = {
   title?: string
   subtitle?: string
@@ -120,6 +126,10 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
     setLoading(false)
 
     if (response.ok) {
+      window.gtag?.('event', 'conversion', {
+        send_to: 'AW-11403134953/GA8iCOS_g5gcEOmPuL0q',
+      })
+
       setSubmitted(true)
       form.reset()
 
