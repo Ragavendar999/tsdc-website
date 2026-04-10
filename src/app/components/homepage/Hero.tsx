@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Award,
   Briefcase,
+  CheckCircle2,
   Megaphone,
   MonitorSmartphone,
   Paintbrush,
@@ -73,35 +74,31 @@ export default function HeroSection() {
 
   return (
     <section className="site-section-bg relative overflow-hidden pt-20">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="brand-dot-grid absolute inset-0 opacity-25" />
-        <div className="animate-float-orb absolute left-[4%] top-24 h-36 w-36 rounded-[2.8rem] bg-[#edf3ff]" />
-        <div className="animate-float-orb absolute right-[7%] top-24 h-28 w-28 rounded-full bg-[#fff2d6]" />
-        <div className="animate-float-orb absolute bottom-28 left-[10%] h-20 w-20 rounded-full bg-[#ffe6e1]" />
-        <div className="animate-float-orb absolute bottom-20 right-[14%] h-24 w-24 rounded-[1.75rem] bg-[#eef2ff]" />
-      </div>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="brand-dot-grid absolute inset-0 opacity-15" />
+          <div className="animate-float-orb absolute right-[5%] top-16 h-20 w-20 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] opacity-70 shadow-[5px_5px_0_#10163a]" />
+        </div>
 
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-7 px-4 py-6 sm:px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-8 lg:py-6">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-7 px-4 py-6 sm:px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-8 lg:py-6">
         <motion.div
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="space-y-4 md:space-y-5"
         >
-          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[#d7e1f3] bg-[#f7faff] px-3.5 py-2 text-xs font-bold text-[#4562b0] shadow-sm sm:px-4 md:text-sm">
-            <Sparkles size={14} className="text-[#fa8a43]" />
-            <span className="leading-snug">Job-focused creative institute in Chennai</span>
+          <div className="retro-pill max-w-full px-3.5 py-2 text-xs font-bold text-[#10163a] sm:px-4 md:text-sm">
+            <Sparkles size={14} className="text-[#ff9736]" />
+            <span className="leading-snug">Best Creative Institute in Chennai</span>
           </div>
 
           <div className="space-y-3">
-            <h1 className="headline-balance max-w-[10.5ch] text-[2.55rem] font-black leading-[0.92] tracking-[-0.06em] text-[#081225] min-[380px]:text-[2.9rem] sm:text-[3.35rem] md:text-[4rem] lg:text-[4.55rem] xl:text-[4.85rem]">
-              Learn creative
-              <span className="block text-[#4562b0]">skills that get</span>
-              <span className="block text-[#ea6865]">you hired.</span>
+            <h1 className="headline-balance max-w-[11ch] text-[2.55rem] font-black leading-[0.92] tracking-[-0.06em] text-[#0f1634] min-[380px]:text-[2.9rem] sm:text-[3.35rem] md:text-[4rem] lg:text-[4.55rem] xl:text-[4.85rem]">
+              Learn creative skills that
+              <span className="block text-[#db4b87]">get you hired.</span>
             </h1>
 
-            <p className="max-w-2xl text-[0.98rem] leading-7 text-[#344054] md:text-[1rem] lg:text-[1.03rem]">
-              TSDC helps students in Chennai become <strong>Graphic Designers, UI/UX Designers, Digital Marketers, and Video Editors</strong> with live projects, portfolio building, mentor feedback, internship-style exposure, and career guidance that feels real.
+            <p className="max-w-xl text-[0.98rem] leading-7 text-[#344054] md:text-[1rem]">
+              TSDC is Chennai's hands-on creative career institute. Real projects, portfolio building, and mentor feedback — designed to get you job-ready fast.
             </p>
           </div>
 
@@ -111,9 +108,9 @@ export default function HeroSection() {
                 href="/courses"
                 ref={buttonRef}
                 onClick={handleConfetti}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#4562b0] px-5 py-3.5 text-center text-sm font-black text-white shadow-[0_22px_45px_rgba(69,98,176,0.28)] transition-all hover:bg-[#3c56a5] sm:w-auto sm:px-7 md:text-base"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-3.5 text-center text-sm font-black text-white shadow-[6px_6px_0_#10163a] transition-all hover:-translate-y-1 sm:w-auto sm:px-7 md:text-base"
               >
-                Explore Career Courses
+                Explore Courses
                 <ArrowRight size={18} />
               </Link>
             </motion.div>
@@ -124,41 +121,42 @@ export default function HeroSection() {
               type="button"
               onClick={() =>
                 openPopup({
-                  title: 'Book Free Career Counselling',
-                  subtitle: 'Tell us your interest and our team will guide you toward the best creative course for your goal.',
-                  interest: 'Free Counselling',
-                  source: 'homepage-hero-primary',
-                  ctaLabel: 'Book My Free Counselling',
+                  title: 'Book Free Counselling',
+                  subtitle: 'Share your details and our admissions team will guide you to the right creative course, batch, and next step.',
+                  interest: 'Creative Courses Counselling',
+                  source: 'hero-free-counselling',
+                  ctaLabel: 'Get Free Counselling',
                 })
               }
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#d7e1f3] bg-[#fff8f2] px-5 py-3.5 text-center text-sm font-black text-[#fa8a43] shadow-sm transition-all hover:border-[#fa8a43]/30 sm:w-auto sm:px-7 md:text-base"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-5 py-3.5 text-center text-sm font-black text-[#10163a] shadow-[6px_6px_0_#10163a] transition-all hover:-translate-y-1 sm:w-auto sm:px-7 md:text-base"
             >
-              Start Your Career Journey
+              Free Counselling
             </motion.button>
           </div>
 
-          <div className="flex flex-wrap gap-2.5">
-            {['Live client-style projects', 'Portfolio-first learning', '1:1 mentor feedback', 'Placement support'].map((item, index) => (
+          <div className="flex flex-wrap gap-2">
+            {['Live client projects', 'Portfolio-first', '1:1 mentorship', 'Placement support'].map((item, index) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + index * 0.08 }}
-                className="rounded-full border border-[#dce4f4] bg-white px-3 py-1.5 text-xs font-semibold text-[#1b2940] shadow-sm md:text-sm"
+                className="flex items-center gap-1.5 rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1.5 text-xs font-bold text-[#1b2940] shadow-[3px_3px_0_#10163a]"
               >
+                <CheckCircle2 size={12} className="shrink-0 text-[#3244b5]" />
                 {item}
               </motion.div>
             ))}
           </div>
 
-          <div className="hidden max-w-2xl grid-cols-2 gap-2.5 sm:grid sm:grid-cols-4">
+          <div className="grid max-w-2xl grid-cols-2 gap-2.5 sm:grid-cols-4">
             {impactStats.map((stat) => (
               <motion.div
                 key={stat.label}
                 whileHover={{ y: -4 }}
-                className="rounded-[1.25rem] border border-[#dbe4f5] bg-white px-3 py-3 text-center shadow-[0_18px_36px_rgba(15,23,42,0.05)]"
+                className="rounded-[1.25rem] border-[3px] border-[#10163a] bg-white px-3 py-3 text-center shadow-[5px_5px_0_#10163a]"
               >
-                <div className="mb-1 flex justify-center text-[#4562b0]">{stat.icon}</div>
+                <div className="mb-1 flex justify-center text-[#3244b5]">{stat.icon}</div>
                 <div className="text-lg font-black text-[#081225]">{stat.value}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#5b6475]">{stat.label}</div>
               </motion.div>
@@ -173,17 +171,15 @@ export default function HeroSection() {
           className="hidden md:block"
         >
           <div className="relative">
-            <div className="animate-tilt-card absolute -left-4 top-10 h-28 w-28 rounded-[2rem] bg-[#4562b0]/10" />
-            <div className="animate-float-orb absolute -right-5 bottom-8 h-24 w-24 rounded-full bg-[#fa8a43]/18" />
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-[#dbe4f4] bg-white p-4 shadow-[0_32px_80px_rgba(15,23,42,0.1)]">
-              <div className="mb-3 rounded-[1.45rem] bg-[#0d1d3c] p-5 text-white">
-                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ffd54f]">Chennai Creative Career Hub</p>
+            <div className="relative overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[9px_9px_0_#10163a]">
+              <div className="mb-3 rounded-[1.45rem] border-[3px] border-[#10163a] bg-[#fffaf1] p-5 text-[#0f1634]">
+                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#3244b5]">Chennai Creative Career Hub</p>
                 <h3 className="mt-2 text-2xl font-black leading-tight lg:text-[1.65rem]">
                   Build a portfolio that looks
-                  <span className="block text-[#9fc0ff]">worth hiring.</span>
+                  <span className="block text-[#db4b87]">worth hiring.</span>
                 </h3>
-                <p className="mt-2 max-w-md text-sm leading-6 text-white/82">
+                <p className="mt-2 max-w-md text-sm leading-6 text-[#4d556f]">
                   Learn with structured projects, internship-style feedback, and practical briefs designed to make your work stand out to employers and clients.
                 </p>
               </div>
@@ -196,7 +192,7 @@ export default function HeroSection() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.25 + index * 0.08 }}
                     whileHover={{ x: 6 }}
-                    className="rounded-[1.3rem] border border-[#dce4f4] bg-[#f8fbff] p-3.5 shadow-sm"
+                    className="rounded-[1.3rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-3.5 shadow-[4px_4px_0_#10163a]"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -204,7 +200,7 @@ export default function HeroSection() {
                         <p className="mt-1 text-sm leading-5 text-[#475467]">{track.line}</p>
                       </div>
                       <div
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg"
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border-[3px] border-[#10163a] text-white shadow-[3px_3px_0_#10163a]"
                         style={{ backgroundColor: track.accent }}
                       >
                         {track.icon}
@@ -220,7 +216,7 @@ export default function HeroSection() {
                   { value: '1:1', label: 'Mentor feedback', color: '#fa8a43' },
                   { value: 'Fast', label: 'Job momentum', color: '#ea6865' },
                 ].map((item) => (
-                  <div key={item.label} className="rounded-[1.1rem] border border-[#dce4f4] bg-white px-2.5 py-2.5 text-center">
+                  <div key={item.label} className="rounded-[1.1rem] border-[3px] border-[#10163a] bg-white px-2.5 py-2.5 text-center shadow-[4px_4px_0_#10163a]">
                     <div className="text-lg font-black" style={{ color: item.color }}>{item.value}</div>
                     <div className="mt-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#6b7280]">{item.label}</div>
                   </div>
@@ -229,7 +225,7 @@ export default function HeroSection() {
             </div>
           </div>
         </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
   )
 }

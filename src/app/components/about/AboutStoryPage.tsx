@@ -27,28 +27,28 @@ const courses = [
     href: '/courses/graphic-design',
     copy: 'Branding, posters, packaging, social creatives, portfolio systems.',
     icon: Palette,
-    color: '#fa8a43',
+    color: '#ff9736',
   },
   {
     title: 'UI/UX Design',
     href: '/courses/uiux-design',
     copy: 'Figma, product thinking, case studies, wireframes, user journeys.',
     icon: BookOpen,
-    color: '#4562b0',
+    color: '#3244b5',
   },
   {
     title: 'Digital Marketing',
     href: '/courses/digital-marketing',
     copy: 'SEO, Meta Ads, Google Ads, content strategy, analytics and growth.',
     icon: Megaphone,
-    color: '#ea6865',
+    color: '#ef6b63',
   },
   {
     title: 'Video Editing',
     href: '/courses/video-editing',
     copy: 'Premiere Pro, reels, ads, motion cuts, YouTube and brand content.',
     icon: PlaySquare,
-    color: '#4a4a99',
+    color: '#4b4bb9',
   },
 ]
 
@@ -140,36 +140,35 @@ export default function AboutStoryPage() {
   return (
     <div className="overflow-hidden text-[#081225]">
       <section className="relative px-4 pb-12 pt-10 md:pb-16 md:pt-14">
-        <div className="pointer-events-none absolute left-0 top-10 h-36 w-36 rounded-[2.5rem] bg-[#4562b0]/12" />
-        <div className="pointer-events-none absolute right-8 top-20 h-28 w-28 rounded-full bg-[#fa8a43]/20" />
-        <div className="pointer-events-none absolute bottom-10 right-[18%] h-24 w-24 rotate-12 rounded-[2rem] bg-[#ea6865]/12" />
+        <div className="pointer-events-none absolute left-8 top-10 h-24 w-24 rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#ff9736] shadow-[6px_6px_0_#10163a]" />
+        <div className="pointer-events-none absolute right-10 top-20 h-24 w-24 rounded-full border-[3px] border-[#10163a] bg-[#db4b87] shadow-[6px_6px_0_#10163a]" />
 
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
             className="relative z-10"
           >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#4562b0]/25 bg-white px-4 py-2 text-sm font-black text-[#4562b0]">
-              <Sparkles size={16} className="text-[#fa8a43]" />
+            <div className="retro-pill mb-5 px-4 py-2 text-sm font-black text-[#10163a]">
+              <Sparkles size={16} className="text-[#ff9736]" />
               TSDC - Traijo Skill Development Center, Chennai
             </div>
 
-            <h1 className="max-w-5xl text-4xl font-black leading-[0.98] tracking-tight text-[#081225] md:text-6xl lg:text-7xl">
-              We didn't build a design school.{' '}
-              <span className="text-[#4562b0]">We built the thing we wish existed.</span>
+            <h1 className="max-w-5xl text-4xl font-black leading-[0.92] tracking-[-0.06em] text-[#081225] md:text-6xl lg:text-7xl">
+              We did not build a
+              <span className="block text-[#3244b5]">normal institute site.</span>
+              <span className="block text-[#db4b87]">We built a trust machine.</span>
             </h1>
 
-            <p className="mt-6 max-w-3xl text-lg font-semibold leading-8 text-[#344054] md:text-xl">
-              TSDC was born from frustration and built with purpose: practical creative courses in Chennai
-              where students learn, build, show, and move toward real career outcomes.
+            <p className="mt-6 max-w-3xl text-lg font-semibold leading-8 text-[#445066] md:text-xl">
+              TSDC was born from frustration and built with purpose: practical creative courses in Chennai where students learn, build, show, and move toward real career outcomes.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/courses"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4562b0] px-7 py-4 text-base font-black text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
               >
                 Explore Our Courses
                 <ArrowRight size={18} />
@@ -177,7 +176,7 @@ export default function AboutStoryPage() {
               <button
                 type="button"
                 onClick={() => openCounsellor('about-hero-counsellor')}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#fa8a43] bg-white px-7 py-4 text-base font-black text-[#fa8a43]"
+                className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-7 py-4 text-base font-black text-[#10163a] shadow-[5px_5px_0_#10163a]"
               >
                 Talk to a Counsellor
               </button>
@@ -190,8 +189,8 @@ export default function AboutStoryPage() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="relative"
           >
-            <div className="relative overflow-hidden rounded-[2.4rem] border border-[#d9e4f5] bg-white p-4">
-              <div className="absolute left-6 top-6 z-10 rounded-full bg-[#fa8a43] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white">
+            <div className="relative overflow-hidden rounded-[2.6rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[9px_9px_0_#10163a]">
+              <div className="absolute left-6 top-6 z-10 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#10163a] shadow-[4px_4px_0_#10163a]">
                 Born in Perumbakkam
               </div>
               <Image
@@ -199,12 +198,16 @@ export default function AboutStoryPage() {
                 alt="TSDC practical creative classroom in Chennai"
                 width={700}
                 height={520}
-                className="h-[360px] w-full rounded-[1.8rem] object-cover"
+                className="h-[360px] w-full rounded-[1.8rem] border-[3px] border-[#10163a] object-cover"
                 priority
               />
               <div className="mt-4 grid grid-cols-3 gap-3">
-                {['Real projects', 'Portfolio first', 'Career support'].map((item) => (
-                  <div key={item} className="rounded-3xl bg-[#f4f7ff] p-4 text-center text-sm font-black text-[#4562b0]">
+                {['Real projects', 'Portfolio first', 'Career support'].map((item, index) => (
+                  <div
+                    key={item}
+                    className="rounded-[1.2rem] border-[3px] border-[#10163a] p-4 text-center text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]"
+                    style={{ backgroundColor: index === 0 ? '#fff0dd' : index === 1 ? '#eef1ff' : '#fff1f6' }}
+                  >
                     {item}
                   </div>
                 ))}
@@ -222,17 +225,17 @@ export default function AboutStoryPage() {
               <Link
                 key={course.title}
                 href={course.href}
-                className="group rounded-[2rem] border border-[#d9e4f5] bg-white p-6 transition-transform duration-300 hover:-translate-y-1"
+                className="group rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[6px_6px_0_#10163a] transition-transform duration-300 hover:-translate-y-1"
               >
                 <div
-                  className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl text-white"
+                  className="mb-6 flex h-14 w-14 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
                   style={{ backgroundColor: course.color }}
                 >
                   <Icon size={24} />
                 </div>
                 <h2 className="text-xl font-black text-[#081225]">{course.title}</h2>
-                <p className="mt-3 text-sm font-semibold leading-6 text-[#344054]">{course.copy}</p>
-                <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#4562b0]">
+                <p className="mt-3 text-sm font-semibold leading-6 text-[#445066]">{course.copy}</p>
+                <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#3244b5]">
                   View course
                   <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
                 </span>
@@ -251,13 +254,13 @@ export default function AboutStoryPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="grid gap-6 rounded-[2.4rem] border border-[#d9e4f5] bg-white p-6 md:grid-cols-[0.42fr_0.58fr] md:p-9"
+              className="grid gap-6 rounded-[2.4rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a] md:grid-cols-[0.42fr_0.58fr] md:p-9"
             >
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-[#fa8a43]">{block.kicker}</p>
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-[#ff9736]">{block.kicker}</p>
                 <h2 className="mt-4 text-3xl font-black leading-tight text-[#081225] md:text-5xl">{block.heading}</h2>
               </div>
-              <div className="space-y-4 text-base font-medium leading-8 text-[#344054] md:text-lg">
+              <div className="space-y-4 text-base font-medium leading-8 text-[#445066] md:text-lg">
                 {block.body.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -269,14 +272,13 @@ export default function AboutStoryPage() {
 
       <section className="px-4 py-10 md:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="rounded-[2.5rem] bg-[#4562b0] p-7 text-white md:p-10">
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#4562b0]">
+          <div className="rounded-[2.6rem] border-[3px] border-[#10163a] bg-[#3244b5] p-7 text-white shadow-[8px_8px_0_#10163a] md:p-10">
+            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] bg-white text-[#3244b5] shadow-[4px_4px_0_#10163a]">
               <Target size={26} />
             </div>
             <h2 className="text-3xl font-black leading-tight md:text-5xl">The TSDC method: learn it, use it, show it.</h2>
             <p className="mt-5 text-lg font-semibold leading-8 text-white/85">
-              Most courses give you knowledge. We give you output. That is why our Graphic Design, UI/UX Design,
-              Digital Marketing, and Video Editing courses are built around practical work.
+              Most courses give you knowledge. We give you output. That is why our Graphic Design, UI/UX Design, Digital Marketing, and Video Editing courses are built around practical work.
             </p>
           </div>
 
@@ -288,9 +290,9 @@ export default function AboutStoryPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: index * 0.06 }}
-                className="flex items-start gap-4 rounded-[1.8rem] border border-[#d9e4f5] bg-white p-6"
+                className="flex items-start gap-4 rounded-[1.8rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[6px_6px_0_#10163a]"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fff4eb] text-[#fa8a43]">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff4eb] text-[#fa8a43] shadow-[3px_3px_0_#10163a]">
                   <CheckCircle2 size={22} />
                 </span>
                 <p className="text-lg font-bold leading-7 text-[#1b2940]">{point}</p>
@@ -301,26 +303,31 @@ export default function AboutStoryPage() {
       </section>
 
       <section className="px-4 py-10 md:py-14">
-        <div className="mx-auto max-w-7xl rounded-[2.8rem] border border-[#d9e4f5] bg-white p-6 md:p-10">
+        <div className="mx-auto max-w-7xl rounded-[2.8rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[9px_9px_0_#10163a] md:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#fff4eb] px-4 py-2 text-sm font-black text-[#fa8a43]">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#fff4eb] px-4 py-2 text-sm font-black text-[#fa8a43] shadow-[4px_4px_0_#10163a]">
                 <MapPin size={16} />
                 Why South Chennai Needed This
               </div>
               <h2 className="text-3xl font-black leading-tight md:text-5xl">Chennai is the real classroom.</h2>
-              <p className="mt-5 text-lg font-semibold leading-8 text-[#344054]">
-                We are from here. TSDC was placed in Perumbakkam deliberately, for students who live near
-                Sholinganallur, Medavakkam, Tambaram, Velachery, and OMR and do not want a draining commute to learn a creative skill.
+              <p className="mt-5 text-lg font-semibold leading-8 text-[#445066]">
+                We are from here. TSDC was placed in Perumbakkam deliberately, for students who live near Sholinganallur, Medavakkam, Tambaram, Velachery, and OMR and do not want a draining commute to learn a creative skill.
               </p>
-              <p className="mt-4 text-lg font-semibold leading-8 text-[#344054]">
-                We teach what local agencies, startups, e-commerce brands, and product companies actually look for:
-                portfolio clarity, campaign thinking, useful UI/UX case studies, and confident execution.
+              <p className="mt-4 text-lg font-semibold leading-8 text-[#445066]">
+                We teach what local agencies, startups, e-commerce brands, and product companies actually look for: portfolio clarity, campaign thinking, useful UI/UX case studies, and confident execution.
               </p>
             </div>
             <div className="grid content-start gap-3 sm:grid-cols-2">
-              {localAreas.map((area) => (
-                <div key={area} className="rounded-[1.5rem] bg-[#f4f7ff] p-5 text-lg font-black text-[#4562b0]">
+              {localAreas.map((area, index) => (
+                <div
+                  key={area}
+                  className="rounded-[1.5rem] border-[3px] border-[#10163a] p-5 text-lg font-black shadow-[4px_4px_0_#10163a]"
+                  style={{
+                    backgroundColor: index % 3 === 0 ? '#eef1ff' : index % 3 === 1 ? '#fff1dd' : '#fff1f6',
+                    color: '#10163a',
+                  }}
+                >
                   {area}
                 </div>
               ))}
@@ -331,33 +338,35 @@ export default function AboutStoryPage() {
 
       <section className="px-4 py-10 md:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
-          <div className="rounded-[2.4rem] bg-[#fa8a43] p-8 text-white">
+          <div className="rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#ff9736] p-8 text-white shadow-[8px_8px_0_#10163a]">
             <BriefcaseBusiness size={34} />
             <h2 className="mt-6 text-3xl font-black leading-tight">What happens after you graduate?</h2>
-            <p className="mt-5 text-base font-semibold leading-7 text-white/90">
-              Students go on to join agencies, product companies on OMR, freelance projects, and in some cases,
-              their own studios. We do not let certificates do the talking. We let portfolios speak.
+            <p className="mt-5 text-base font-semibold leading-7 text-white/92">
+              Students go on to join agencies, product companies on OMR, freelance projects, and in some cases, their own studios. We do not let certificates do the talking. We let portfolios speak.
             </p>
           </div>
-          <div className="rounded-[2.4rem] bg-white p-8 lg:col-span-2">
+          <div className="rounded-[2.4rem] border-[3px] border-[#10163a] bg-white p-8 shadow-[8px_8px_0_#10163a] lg:col-span-2">
             <div className="grid gap-5 sm:grid-cols-3">
               {[
                 ['Portfolio reviews', 'A mentor reviews the work students will actually show.'],
                 ['Placement support', 'We help connect students with agencies, studios, and companies.'],
                 ['Freelance readiness', 'Students learn how to present work, price effort, and communicate value.'],
-              ].map(([title, copy]) => (
-                <div key={title} className="rounded-[1.8rem] border border-[#d9e4f5] bg-[#fffaf4] p-6">
+              ].map(([title, copy], index) => (
+                <div
+                  key={title}
+                  className="rounded-[1.8rem] border-[3px] border-[#10163a] p-6 shadow-[4px_4px_0_#10163a]"
+                  style={{ backgroundColor: index === 0 ? '#fffaf4' : index === 1 ? '#eef1ff' : '#fff1f6' }}
+                >
                   <h3 className="text-xl font-black text-[#081225]">{title}</h3>
-                  <p className="mt-3 text-sm font-semibold leading-6 text-[#344054]">{copy}</p>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-[#445066]">{copy}</p>
                 </div>
               ))}
             </div>
-            <div id="team" className="mt-6 rounded-[1.8rem] bg-[#081225] p-6 text-white">
+            <div id="team" className="mt-6 rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#171d4d] p-6 text-white shadow-[6px_6px_0_#10163a]">
               <Users size={28} className="text-[#fa8a43]" />
               <h2 className="mt-4 text-2xl font-black">We're not a franchise. We're a team.</h2>
               <p className="mt-3 text-base font-semibold leading-7 text-white/78">
-                TSDC is led by designers, marketers, and educators who still have skin in the game professionally.
-                We are a real team, in a real space, invested in every student who walks through our door.
+                TSDC is led by designers, marketers, and educators who still have skin in the game professionally. We are a real team, in a real space, invested in every student who walks through our door.
               </p>
             </div>
           </div>
@@ -366,33 +375,32 @@ export default function AboutStoryPage() {
 
       <section className="px-4 py-10 md:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1fr_0.9fr]">
-          <div className="rounded-[2.8rem] bg-[#081225] p-8 text-white md:p-10">
+          <div className="rounded-[2.8rem] border-[3px] border-[#10163a] bg-[#171d4d] p-8 text-white shadow-[9px_9px_0_#10163a] md:p-10">
             <Rocket size={36} className="text-[#fa8a43]" />
             <h2 className="mt-6 text-3xl font-black leading-tight md:text-5xl">Where we're going.</h2>
             <p className="mt-5 text-lg font-semibold leading-8 text-white/80">
-              We started with one goal: make creative education in Chennai actually worth paying for. Now we are
-              building toward something bigger, one honest batch at a time.
+              We started with one goal: make creative education in Chennai actually worth paying for. Now we are building toward something bigger, one honest batch at a time.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {visionItems.map((item) => (
-                <div key={item} className="rounded-[1.6rem] bg-white/10 p-5 text-sm font-bold leading-6 text-white/88">
+                <div key={item} className="rounded-[1.6rem] border-[3px] border-[#10163a] bg-white p-5 text-sm font-bold leading-6 text-[#10163a] shadow-[4px_4px_0_#10163a]">
                   {item}
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-[2.8rem] border border-[#d9e4f5] bg-white p-8 md:p-10">
-            <Quote size={36} className="text-[#ea6865]" />
+          <div className="rounded-[2.8rem] border-[3px] border-[#10163a] bg-white p-8 shadow-[9px_9px_0_#10163a] md:p-10">
+            <Quote size={36} className="text-[#db4b87]" />
             <p className="mt-5 text-2xl font-black leading-tight text-[#081225]">
               If you're tired of watching tutorials and still feeling stuck, come talk to us.
             </p>
-            <p className="mt-5 text-lg font-semibold leading-8 text-[#344054]">
+            <p className="mt-5 text-lg font-semibold leading-8 text-[#445066]">
               TSDC is not just a course. It is the start of your creative career in Chennai.
             </p>
             <div className="mt-8 flex flex-col gap-3">
               <Link
                 href="/courses"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4562b0] px-7 py-4 text-base font-black text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
               >
                 Explore Our Courses
                 <ArrowRight size={18} />
@@ -400,7 +408,7 @@ export default function AboutStoryPage() {
               <button
                 type="button"
                 onClick={() => openCounsellor('about-closing-counsellor')}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#fa8a43] px-7 py-4 text-base font-black text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
               >
                 Talk to a Counsellor
               </button>
@@ -412,7 +420,7 @@ export default function AboutStoryPage() {
       <section className="px-4 py-10 md:py-14">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-[#4562b0]">
+            <div className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-sm font-black text-[#3244b5] shadow-[4px_4px_0_#10163a]">
               <GraduationCap size={16} />
               About TSDC FAQ
             </div>
@@ -420,9 +428,9 @@ export default function AboutStoryPage() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {faqItems.map((item) => (
-              <div key={item.question} className="rounded-[2rem] border border-[#d9e4f5] bg-white p-6">
+              <div key={item.question} className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[6px_6px_0_#10163a]">
                 <h3 className="text-xl font-black text-[#081225]">{item.question}</h3>
-                <p className="mt-3 text-base font-semibold leading-7 text-[#344054]">{item.answer}</p>
+                <p className="mt-3 text-base font-semibold leading-7 text-[#445066]">{item.answer}</p>
               </div>
             ))}
           </div>

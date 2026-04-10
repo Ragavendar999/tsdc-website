@@ -30,9 +30,9 @@ const courses = [
     duration: '12 Weeks',
     projects: '5+ brand projects',
     outcome: 'Portfolio-ready designer',
-    accent: '#fa8a43',
-    deep: '#4562b0',
-    soft: '#fff4eb',
+    accent: '#ff9736',
+    deep: '#3244b5',
+    soft: '#fff1dd',
     icon: Palette,
     tools: ['Photoshop', 'Illustrator', 'InDesign'],
   },
@@ -46,9 +46,9 @@ const courses = [
     duration: '10 Weeks',
     projects: '4 product case studies',
     outcome: 'UX portfolio builder',
-    accent: '#4562b0',
-    deep: '#081225',
-    soft: '#eef4ff',
+    accent: '#3244b5',
+    deep: '#171d4d',
+    soft: '#eaf0ff',
     icon: BookOpenCheck,
     tools: ['Figma', 'UX Research', 'Prototypes'],
   },
@@ -62,9 +62,9 @@ const courses = [
     duration: '8 Weeks',
     projects: '2 campaign projects',
     outcome: 'Growth-ready marketer',
-    accent: '#ea6865',
-    deep: '#4562b0',
-    soft: '#fff4f3',
+    accent: '#ef6b63',
+    deep: '#3244b5',
+    soft: '#fff0ed',
     icon: Megaphone,
     tools: ['SEO', 'Meta Ads', 'Google Ads'],
   },
@@ -78,9 +78,9 @@ const courses = [
     duration: '12 Weeks',
     projects: '5+ commercial edits',
     outcome: 'Showreel-ready editor',
-    accent: '#4a4a99',
-    deep: '#081225',
-    soft: '#f1f0ff',
+    accent: '#4b4bb9',
+    deep: '#171d4d',
+    soft: '#efedff',
     icon: PlaySquare,
     tools: ['Premiere Pro', 'After Effects', 'DaVinci'],
     badge: 'NEW',
@@ -89,19 +89,22 @@ const courses = [
 
 const proofPoints = [
   {
-    title: 'Pick the right path',
-    text: 'Every course is designed around one clear career direction, so students do not waste time guessing what to learn next.',
+    title: 'Lead with clarity',
+    text: 'Each course tells visitors exactly what they will become, what they will build, and how fast they can start moving toward work.',
     icon: Sparkles,
+    accent: '#ff9736',
   },
   {
-    title: 'Build real output',
-    text: 'Students work on portfolio pieces, brand-style projects, campaign tasks, product screens, or showreel edits instead of only watching lessons.',
+    title: 'Show proof fast',
+    text: 'Projects, portfolio pieces, live briefs, and tool stacks are visible early so the page works like a conversion page instead of a brochure.',
     icon: BriefcaseBusiness,
+    accent: '#3244b5',
   },
   {
-    title: 'Get guided by mentors',
-    text: 'The training flow includes feedback, corrections, counselling, and practical next steps for job or freelance goals.',
+    title: 'Convert intent to enquiry',
+    text: 'Every section keeps the same goal: reduce confusion, build trust, and move the visitor toward a call, form, or counselling step.',
     icon: Users,
+    accent: '#db4b87',
   },
 ]
 
@@ -119,68 +122,74 @@ export default function CoursesPage() {
 
   return (
     <section className="site-section-bg relative overflow-hidden px-4 py-10 text-[#081225] md:px-8">
-      <div className="pointer-events-none absolute left-0 top-20 h-40 w-40 rounded-[2.5rem] bg-[#4562b0]/10" />
-      <div className="pointer-events-none absolute right-10 top-32 h-28 w-28 rounded-full bg-[#fa8a43]/20" />
-      <div className="pointer-events-none absolute bottom-40 left-[18%] h-24 w-24 rotate-12 rounded-[2rem] bg-[#ea6865]/12" />
+      {/* Comic halftone background */}
+      <div className="comic-dots pointer-events-none absolute inset-0 z-0" />
 
-      <div className="mx-auto max-w-7xl">
+      {/* Comic burst stickers */}
+      <div className="comic-burst pointer-events-none absolute -left-5 top-10 z-0 h-28 w-28 bg-[#ff9736] opacity-80" />
+      <div className="comic-burst pointer-events-none absolute -right-5 top-28 z-0 h-24 w-24 bg-[#db4b87] opacity-75" />
+      <div className="comic-burst pointer-events-none absolute bottom-28 left-[4%] z-0 hidden h-20 w-20 bg-[#3244b5] opacity-65 xl:block" />
+      <div className="comic-burst pointer-events-none absolute bottom-40 right-[5%] z-0 hidden h-16 w-16 bg-[#ffcb53] opacity-80 lg:block" />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
-          className="relative overflow-hidden rounded-[2.8rem] bg-white p-5 md:p-8"
+          className="relative overflow-hidden rounded-[3rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-5 shadow-[10px_10px_0_#10163a] md:p-8"
         >
-          <div className="grid items-center gap-8 rounded-[2.3rem] bg-[#4562b0] p-7 text-white md:p-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid items-center gap-8 rounded-[2.6rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-7 md:p-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/14 px-4 py-2 text-xs font-black uppercase tracking-[0.18em]">
-                <Sparkles size={14} />
+              <div className="retro-pill mb-5 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#10163a] md:text-sm">
+                <Sparkles size={14} className="text-[#ff9736]" />
                 All Courses at TSDC Chennai
               </div>
-              <h1 className="max-w-4xl text-4xl font-black leading-[0.98] tracking-[-0.05em] md:text-6xl">
-                Choose the creative course that gets your work noticed.
+              <h1 className="max-w-4xl text-4xl font-black leading-[0.92] tracking-[-0.06em] text-[#10163a] md:text-6xl lg:text-7xl">
+                Choose the creative course that
+                <span className="block text-[#3244b5]">gets your work noticed.</span>
               </h1>
-              <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-white/88 md:text-lg">
-                Explore job-focused Graphic Design, UI/UX Design, Digital Marketing, and Video Editing courses in Chennai,
-                built with projects, mentor feedback, portfolio support, and practical career guidance.
+              <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-[#445066] md:text-lg">
+                Explore job-focused Graphic Design, UI/UX Design, Digital Marketing, and Video Editing courses in Chennai, built with projects, mentor feedback, portfolio support, and practical career guidance.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <button
                   type="button"
                   onClick={() => openGuidancePopup('courses-hero-guidance')}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-black text-[#4562b0]"
+                  className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1"
                 >
                   Help Me Choose
                   <ArrowRight size={16} />
                 </button>
                 <Link
                   href="#course-pathways"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-black text-white transition hover:bg-white/12"
+                  className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-7 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1"
                 >
                   View All Programs
                 </Link>
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               {courses.map((course, index) => {
                 const Icon = course.icon
+
                 return (
                   <motion.div
                     key={course.title}
-                    initial={{ opacity: 0, scale: 0.94 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.07 }}
-                    className="rounded-[1.8rem] bg-white p-5 text-[#081225]"
+                    transition={{ delay: index * 0.06 }}
+                    className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
                   >
                     <div
-                      className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-white"
+                      className="mb-5 flex h-14 w-14 items-center justify-center rounded-[1.2rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
                       style={{ backgroundColor: course.accent }}
                     >
-                      <Icon size={22} />
+                      <Icon size={24} />
                     </div>
-                    <h2 className="text-xl font-black">{course.title}</h2>
-                    <p className="mt-2 text-sm font-semibold leading-6 text-[#344054]">{course.duration}</p>
+                    <h2 className="text-2xl font-black text-[#10163a]">{course.title}</h2>
+                    <p className="mt-2 text-base font-semibold text-[#445066]">{course.duration}</p>
                   </motion.div>
                 )
               })}
@@ -191,6 +200,7 @@ export default function CoursesPage() {
         <div className="grid gap-5 py-10 md:grid-cols-3">
           {proofPoints.map((point, index) => {
             const Icon = point.icon
+
             return (
               <motion.div
                 key={point.title}
@@ -198,35 +208,39 @@ export default function CoursesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="rounded-[2rem] border border-[#d9e4f5] bg-white p-6"
+                className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[6px_6px_0_#10163a]"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#fff4eb] text-[#fa8a43]">
-                  <Icon size={22} />
+                <div
+                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
+                  style={{ backgroundColor: point.accent }}
+                >
+                  <Icon size={20} />
                 </div>
-                <h2 className="text-2xl font-black">{point.title}</h2>
-                <p className="mt-3 text-sm font-semibold leading-7 text-[#344054]">{point.text}</p>
+                <h2 className="text-2xl font-black text-[#10163a]">{point.title}</h2>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#445066]">{point.text}</p>
               </motion.div>
             )
           })}
         </div>
 
         <div id="course-pathways" className="py-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-[#4562b0]">
-            <CheckCircle2 size={16} className="text-[#fa8a43]" />
+          <div className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-sm font-black text-[#3244b5] shadow-[4px_4px_0_#10163a]">
+            <CheckCircle2 size={16} className="text-[#ff9736]" />
             Career Pathways
           </div>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black leading-tight md:text-5xl">
-            Four programs. One consistent TSDC learning system.
+            Four programs. One clear
+            <span className="block text-[#db4b87]">career-first conversion flow.</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base font-semibold leading-7 text-[#344054]">
-            Every course page now follows the same structure: clear outcomes, practical modules, tools, project focus,
-            counselling CTA, and syllabus access after enquiry submission.
+          <p className="mx-auto mt-4 max-w-2xl text-base font-semibold leading-7 text-[#445066]">
+            Every course page now has a stronger visual style, higher text contrast, clearer outcomes, and better CTA rhythm so visitors can move from curiosity to enquiry faster.
           </p>
         </div>
 
         <div className="grid gap-6 pb-12 md:grid-cols-2">
           {courses.map((course, index) => {
             const Icon = course.icon
+
             return (
               <motion.article
                 key={course.title}
@@ -234,7 +248,7 @@ export default function CoursesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: index * 0.08 }}
-                className="group overflow-hidden rounded-[2.4rem] border border-[#d9e4f5] bg-white"
+                className="group overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]"
               >
                 <div className="relative overflow-hidden p-4">
                   <Image
@@ -242,13 +256,13 @@ export default function CoursesPage() {
                     alt={`${course.title} course at TSDC Chennai`}
                     width={760}
                     height={420}
-                    className="h-64 w-full rounded-[1.8rem] object-cover transition duration-700 group-hover:scale-[1.03]"
+                    className="h-64 w-full rounded-[1.9rem] border-[3px] border-[#10163a] object-cover transition duration-700 group-hover:scale-[1.03]"
                   />
-                  <div className="absolute left-8 top-8 rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em]" style={{ color: course.accent }}>
+                  <div className="absolute left-8 top-8 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-[4px_4px_0_#10163a]" style={{ color: course.accent }}>
                     {course.eyebrow}
                   </div>
                   {course.badge && (
-                    <div className="absolute right-8 top-8 rounded-full bg-[#fa8a43] px-3 py-1.5 text-xs font-black text-white">
+                    <div className="absolute right-8 top-8 rounded-full border-[3px] border-[#10163a] bg-[#fa8a43] px-3 py-1.5 text-xs font-black text-white shadow-[4px_4px_0_#10163a]">
                       {course.badge}
                     </div>
                   )}
@@ -257,20 +271,20 @@ export default function CoursesPage() {
                 <div className="p-6 md:p-7">
                   <div className="flex items-start gap-4">
                     <div
-                      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-white"
+                      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[1.2rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
                       style={{ backgroundColor: course.accent }}
                     >
                       <Icon size={24} />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-black tracking-[-0.04em]">{course.title}</h2>
+                      <h2 className="text-3xl font-black tracking-[-0.04em] text-[#10163a]">{course.title}</h2>
                       <p className="mt-2 text-base font-black" style={{ color: course.accent }}>
                         {course.tagline}
                       </p>
                     </div>
                   </div>
 
-                  <p className="mt-5 text-sm font-semibold leading-7 text-[#344054]">{course.desc}</p>
+                  <p className="mt-5 text-sm font-semibold leading-7 text-[#445066]">{course.desc}</p>
 
                   <div className="mt-5 grid gap-3 sm:grid-cols-3">
                     {[
@@ -280,7 +294,7 @@ export default function CoursesPage() {
                     ].map(([MetaIcon, label]) => {
                       const TypedIcon = MetaIcon as typeof Clock
                       return (
-                        <div key={label as string} className="rounded-[1.4rem] p-4" style={{ backgroundColor: course.soft }}>
+                        <div key={label as string} className="rounded-[1.4rem] border-[3px] border-[#10163a] p-4 shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft }}>
                           <TypedIcon size={17} style={{ color: course.deep }} />
                           <p className="mt-2 text-xs font-black leading-5 text-[#1b2940]">{label as string}</p>
                         </div>
@@ -292,7 +306,7 @@ export default function CoursesPage() {
                     {course.tools.map((tool) => (
                       <span
                         key={tool}
-                        className="rounded-full border border-[#d9e4f5] bg-[#f8fbff] px-3 py-1.5 text-xs font-black text-[#344054]"
+                        className="rounded-full border-[3px] border-[#10163a] bg-[#f8fbff] px-3 py-1.5 text-xs font-black text-[#344054] shadow-[3px_3px_0_#10163a]"
                       >
                         {tool}
                       </span>
@@ -302,7 +316,7 @@ export default function CoursesPage() {
                   <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                     <Link
                       href={course.href}
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-black text-white"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
                       style={{ backgroundColor: course.deep }}
                     >
                       View Full Details
@@ -319,8 +333,8 @@ export default function CoursesPage() {
                           ctaLabel: 'Get Guidance',
                         })
                       }
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border-2 px-6 py-3.5 text-sm font-black"
-                      style={{ borderColor: course.accent, color: course.accent }}
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-[1rem] border-[3px] px-6 py-3.5 text-sm font-black shadow-[5px_5px_0_#10163a]"
+                      style={{ borderColor: '#10163a', color: course.accent, backgroundColor: '#fffdf7' }}
                     >
                       Ask Counsellor
                     </button>
@@ -341,24 +355,24 @@ export default function CoursesPage() {
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[2.6rem] bg-[#081225] p-7 text-white md:p-10"
+          className="rounded-[2.8rem] border-[3px] border-[#10163a] bg-[#3244b5] p-7 text-white shadow-[10px_10px_0_#10163a] md:p-10"
         >
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_0.85fr]">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_0.9fr]">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-[#fa8a43]">Still deciding?</p>
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-[#ffcb53]">Still deciding?</p>
               <h2 className="mt-3 max-w-3xl text-3xl font-black leading-tight md:text-5xl">
-                Tell us your goal. We will suggest the right course path.
+                Tell us your goal.
+                <span className="block text-[#ffd9ed]">We will match you to the right path.</span>
               </h2>
-              <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/78">
-                Whether you want a job, freelance clients, a stronger portfolio, or a career switch, the admissions team
-                can help you choose without pressure.
+              <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/84">
+                Whether you want a job, freelance clients, a stronger portfolio, or a career switch, this page should move you naturally toward a conversation with the admissions team.
               </p>
             </div>
-            <div className="rounded-[2rem] bg-white p-5 text-[#081225]">
+            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 text-[#081225] shadow-[6px_6px_0_#10163a]">
               <div className="grid gap-3">
-                {['Program selection support', 'Appointment scheduling', 'Instant Rs. 2,000 coupon for immediate joiners'].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-2xl bg-[#f4f7ff] px-4 py-3 text-sm font-black text-[#4562b0]">
-                    <CheckCircle2 size={16} />
+                {['Program selection support', 'Batch and fee clarity', 'Fast counselling follow-up'].map((item) => (
+                  <div key={item} className="flex items-center gap-3 rounded-2xl border-[3px] border-[#10163a] bg-[#fff4e7] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]">
+                    <CheckCircle2 size={16} className="text-[#ff9736]" />
                     {item}
                   </div>
                 ))}
@@ -366,7 +380,7 @@ export default function CoursesPage() {
               <button
                 type="button"
                 onClick={() => openGuidancePopup('courses-page-final-cta')}
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#fa8a43] px-7 py-4 text-base font-black text-white"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
               >
                 Open Contact Form
                 <FileDown size={16} />

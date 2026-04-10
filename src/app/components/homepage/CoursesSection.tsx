@@ -72,11 +72,7 @@ export default function CoursesSection() {
   const { openPopup } = useContactPopup()
 
   return (
-    <section className="site-section-bg section-alt-blue section-divider relative overflow-hidden px-4 py-20 sm:px-6">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-12 top-24 h-20 w-20 rounded-full bg-[#fff1d8]" />
-        <div className="absolute bottom-20 right-12 h-24 w-24 rounded-[2rem] bg-[#e9f1ff]" />
-      </div>
+    <section className="site-section-bg section-alt-clean section-divider relative overflow-hidden px-4 py-20 sm:px-6">
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <motion.div
@@ -85,16 +81,16 @@ export default function CoursesSection() {
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#dbe4f5] bg-white px-4 py-2 text-sm font-black text-[#4562b0] shadow-sm">
+          <span className="retro-pill mb-4 px-4 py-2 text-sm font-black text-[#10163a]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#fa8a43] animate-pulse-soft" />
             High-demand creative career courses
           </span>
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#081225] sm:text-4xl md:text-6xl">
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#081225] sm:text-4xl md:text-[3.5rem]">
             Choose the course that turns
             <span className="block text-[#4562b0]">interest into income.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-[#475467] sm:text-lg sm:leading-8">
-            Every program is designed to feel premium, practical, and clearly connected to real creative work in Chennai. Students learn fast, build visible output, and leave with stronger career direction.
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#475467]">
+            Four in-demand creative skills. Real projects, portfolio building, and mentor guidance — designed for students in Chennai ready to make their move.
           </p>
         </motion.div>
 
@@ -109,13 +105,13 @@ export default function CoursesSection() {
             >
               <motion.div
                 whileHover={{ y: -8 }}
-                className="group h-full overflow-hidden rounded-[2.1rem] border border-[#dbe4f5] bg-white shadow-[0_22px_55px_rgba(17,24,39,0.06)]"
+              className="group h-full overflow-hidden rounded-[2.1rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]"
               >
                 <div className="p-5 sm:p-6" style={{ backgroundColor: course.bg }}>
                   <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg"
+                        className="flex h-14 w-14 items-center justify-center rounded-2xl border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
                         style={{ backgroundColor: course.accent }}
                       >
                         {course.icon}
@@ -125,7 +121,7 @@ export default function CoursesSection() {
                         <p className="text-sm font-bold" style={{ color: course.accent }}>{course.role}</p>
                       </div>
                     </div>
-                    <div className="w-max rounded-full bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085]">
+                    <div className="w-max rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085] shadow-[3px_3px_0_#10163a]">
                       <CalendarClock size={12} className="mr-1 inline" />
                       {course.duration}
                     </div>
@@ -139,7 +135,7 @@ export default function CoursesSection() {
                     {course.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full border border-[#dbe4f5] bg-[#f8fbff] px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#445066]"
+                        className="rounded-full border-[3px] border-[#10163a] bg-[#fffdf7] px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#445066] shadow-[3px_3px_0_#10163a]"
                       >
                         {skill}
                       </span>
@@ -168,14 +164,14 @@ export default function CoursesSection() {
                           ctaLabel: 'Get Course Guidance',
                         })
                       }
-                      className="flex-1 rounded-[1rem] py-3 text-sm font-black text-white shadow-md transition-all"
+                      className="flex-1 rounded-[1rem] border-[3px] border-[#10163a] py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1"
                       style={{ backgroundColor: course.accent }}
                     >
                       Enquire Now
                     </motion.button>
                     <Link
                       href={course.link}
-                      className="group/link inline-flex items-center justify-center gap-1 rounded-[1rem] border border-[#dbe4f5] px-4 py-3 text-sm font-black text-[#1b2940] transition-all hover:border-[#4562b0] hover:text-[#4562b0]"
+                      className="group/link inline-flex items-center justify-center gap-1 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-black text-[#1b2940] shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1 hover:text-[#4562b0]"
                     >
                       Details
                       <ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />

@@ -67,7 +67,7 @@ const getProgramFromInterest = (interest?: string) => {
 }
 
 const defaultOptions: Required<ContactPopupOptions> = {
-  title: 'Let’s Build Your Career',
+  title: "Let's Build Your Career",
   subtitle: 'Share your details and our team will contact you shortly with the right guidance.',
   interest: '',
   source: 'website-popup',
@@ -168,7 +168,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[5000] flex items-center justify-center bg-black/45 px-4 backdrop-blur-md"
+            className="fixed inset-0 z-[5000] flex items-center justify-center bg-black/55 px-4 backdrop-blur-md"
             onClick={closePopup}
           >
             <motion.div
@@ -177,34 +177,38 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
               exit={{ opacity: 0, y: 28, scale: 0.94 }}
               transition={{ type: 'spring', stiffness: 220, damping: 22 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[92vh] w-full max-w-4xl overflow-hidden rounded-[2rem] border border-[#d9e2f3] bg-white shadow-[0_35px_90px_rgba(15,23,42,0.18)]"
+              className="relative w-full max-w-4xl overflow-hidden rounded-[2.2rem] border-[3px] border-[#10163a] bg-white shadow-[10px_10px_0_#10163a] md:max-h-[86vh]"
             >
-              <div className="grid max-h-[92vh] overflow-y-auto md:grid-cols-[0.9fr_1.1fr]">
-                <div className="relative overflow-hidden bg-[#4562b0] p-8 text-white">
+              <div className="grid md:max-h-[86vh] md:grid-cols-[0.84fr_1.16fr] md:overflow-hidden">
+                <div className="relative overflow-hidden bg-[#3244b5] p-6 text-white md:p-6">
                   <div
                     className="pointer-events-none absolute inset-0 bg-bottom bg-no-repeat opacity-20"
                     style={{ backgroundImage: "url('/contact-students-bg.svg')", backgroundSize: '92% auto' }}
                   />
-                  <div className="absolute inset-0 bg-[#4562b0]/72" />
-                  <div className="absolute left-[-2rem] top-6 h-24 w-24 rounded-[2rem] bg-white/10" />
-                  <div className="absolute bottom-[-1.5rem] right-[-1rem] h-24 w-24 rounded-full bg-[#fa8a43]/70" />
-                  <div className="absolute right-10 top-14 h-14 w-14 rounded-full bg-[#ea6865]/80" />
+                  <div className="absolute inset-0 bg-[#3244b5]/76" />
+                  <div className="absolute left-[-1.2rem] top-6 h-20 w-20 rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#ff9736] shadow-[5px_5px_0_#10163a]" />
+                  <div className="absolute bottom-[-1rem] right-[-0.8rem] h-20 w-20 rounded-full border-[3px] border-[#10163a] bg-[#db4b87] shadow-[5px_5px_0_#10163a]" />
+                  <div className="absolute right-10 top-14 h-12 w-12 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] shadow-[4px_4px_0_#10163a]" />
 
                   <div className="relative z-10">
-                    <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/12 px-4 py-2 text-sm font-semibold">
-                      <Sparkles size={14} />
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-sm font-semibold text-[#10163a] shadow-[4px_4px_0_#10163a]">
+                      <Sparkles size={14} className="text-[#ff9736]" />
                       TSDC Admissions
                     </div>
-                    <h3 className="max-w-sm text-3xl font-black leading-tight">{options.title}</h3>
-                    <p className="mt-4 max-w-sm text-sm leading-7 text-white/88">{options.subtitle}</p>
+                    <h3 className="max-w-sm text-[1.9rem] font-black leading-[1.05] md:text-[2.2rem]">{options.title}</h3>
+                    <p className="mt-3 max-w-sm text-sm leading-6 text-white/88">{options.subtitle}</p>
 
-                    <div className="mt-8 space-y-3">
+                    <div className="mt-5 space-y-2.5">
                       {[
                         'Real guidance for the right course',
                         'Schedule a counselling appointment',
                         'Immediate joiners receive a Rs. 2,000 coupon by email',
-                      ].map((item) => (
-                        <div key={item} className="rounded-2xl bg-white/10 px-4 py-3 text-sm font-medium">
+                      ].map((item, index) => (
+                        <div
+                          key={item}
+                          className="rounded-2xl border-[3px] border-[#10163a] px-4 py-2 text-sm font-semibold shadow-[4px_4px_0_#10163a]"
+                          style={{ backgroundColor: index === 0 ? '#fff1dd' : index === 1 ? '#ffffff' : '#fff1f7', color: '#10163a' }}
+                        >
                           {item}
                         </div>
                       ))}
@@ -212,57 +216,60 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                   </div>
                 </div>
 
-                <div className="relative bg-white p-8 md:p-9">
+                <div className="relative overflow-y-auto bg-[#fff8ed] p-6 md:max-h-[86vh] md:p-6">
                   <button
                     onClick={closePopup}
-                    className="absolute right-4 top-4 rounded-xl p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
+                    className="absolute right-4 top-4 rounded-xl border-[3px] border-[#10163a] bg-white p-2 text-[#667085] shadow-[3px_3px_0_#10163a] transition hover:bg-gray-50 hover:text-gray-700"
                     aria-label="Close contact form"
                   >
                     <X size={18} />
                   </button>
 
-                  <div className="mb-6">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#4562b0]">
+                  <div className="mb-3">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#3244b5]">
                       Contact Form
                     </p>
-                    <h4 className="mt-2 text-2xl font-black text-[#0f172a]">Tell us about your goal</h4>
+                    <h4 className="mt-2 text-[1.7rem] font-black text-[#0f172a]">Tell us about your goal</h4>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Full Name"
-                      required
-                      className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm text-[#0f172a] outline-none transition focus:border-[#4562b0]"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      required
-                      className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm text-[#0f172a] outline-none transition focus:border-[#4562b0]"
-                    />
+                  <form onSubmit={handleSubmit} className="space-y-3">
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Full Name"
+                        required
+                        className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
+                      />
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        required
+                        className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
+                      />
+                    </div>
                     <input
                       type="tel"
                       name="mobile"
                       placeholder="Mobile Number"
                       required
                       pattern="[0-9]{10}"
-                      className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                      className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                     />
                     <input type="hidden" name="source" value={options.source} />
                     <input type="hidden" name="interest" value={selectedProgram || options.interest} />
 
+                    <div className="grid gap-3 md:grid-cols-2">
                     <label className="block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-[#4562b0]">
+                      <span className="mb-2 block min-h-[2.5rem] text-xs font-black uppercase leading-5 tracking-[0.14em] text-[#3244b5]">
                         Program you want to learn
                       </span>
                       <select
                         value={selectedProgram}
                         onChange={(e) => setSelectedProgram(e.target.value)}
                         required
-                        className="w-full appearance-none rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm font-semibold text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                        className="w-full appearance-none rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                       >
                         <option value="">Select a program</option>
                         {programOptions.map((program) => (
@@ -274,13 +281,13 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     </label>
 
                     <label className="block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-[#4562b0]">
+                      <span className="mb-2 block min-h-[2.5rem] text-xs font-black uppercase leading-5 tracking-[0.14em] text-[#3244b5]">
                         Your occupation
                       </span>
                       <select
                         name="occupation"
                         required
-                        className="w-full appearance-none rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm font-semibold text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                        className="w-full appearance-none rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                       >
                         <option value="">Select your occupation</option>
                         {occupationOptions.map((occupation) => (
@@ -290,9 +297,11 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                         ))}
                       </select>
                     </label>
+                    </div>
 
+                    <div className="grid gap-3 md:grid-cols-2">
                     <label className="block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-[#4562b0]">
+                      <span className="mb-2 block min-h-[2.5rem] text-xs font-black uppercase leading-5 tracking-[0.14em] text-[#3244b5]">
                         When can you join?
                       </span>
                       <select
@@ -300,7 +309,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                         value={joiningTimeline}
                         onChange={(e) => setJoiningTimeline(e.target.value)}
                         required
-                        className="w-full appearance-none rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm font-semibold text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                        className="w-full appearance-none rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                       >
                         <option value="">Select joining plan</option>
                         {joiningOptions.map((option) => (
@@ -310,45 +319,45 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                         ))}
                       </select>
                     </label>
-
-                    {joiningTimeline === 'Immediately' && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="rounded-2xl border border-[#fa8a43]/30 bg-[#fff4eb] px-4 py-3 text-sm font-bold leading-6 text-[#9a4a10]"
-                      >
-                        Instant admission bonus: submit now and get a Rs. 2,000 discount coupon in your email, valid for 24 hours.
-                      </motion.div>
-                    )}
-
-                    <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2">
                       <label className="block">
-                        <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-[#4562b0]">
+                        <span className="mb-2 block min-h-[2.5rem] text-xs font-black uppercase leading-5 tracking-[0.14em] text-[#3244b5]">
                           Appointment date
                         </span>
                         <input
                           type="date"
                           name="appointmentDate"
-                          className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm font-semibold text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                          className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                         />
                       </label>
                       <label className="block">
-                        <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-[#4562b0]">
+                        <span className="mb-2 block min-h-[2.5rem] text-xs font-black uppercase leading-5 tracking-[0.14em] text-[#3244b5]">
                           Appointment time
                         </span>
                         <input
                           type="time"
                           name="appointmentTime"
-                          className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm font-semibold text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                          className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                         />
                       </label>
                     </div>
+                    </div>
+
+                    {joiningTimeline === 'Immediately' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="rounded-2xl border-[3px] border-[#10163a] bg-[#fff4eb] px-4 py-3 text-sm font-bold leading-6 text-[#9a4a10] shadow-[4px_4px_0_#10163a]"
+                      >
+                        Instant admission bonus: submit now and get a Rs. 2,000 discount coupon in your email, valid for 24 hours.
+                      </motion.div>
+                    )}
 
                     <textarea
                       name="message"
-                      rows={4}
+                      rows={3}
                       placeholder="Tell us what you want to learn or achieve..."
-                      className="w-full rounded-2xl border border-[#dbe3f3] bg-[#f8fbff] px-4 py-3.5 text-sm text-[#0f172a] outline-none transition focus:border-[#4562b0]"
+                      className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm text-[#0f172a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#4562b0]"
                     />
 
                     <motion.button
@@ -356,7 +365,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       whileTap={{ scale: 0.98 }}
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-2xl bg-[#fa8a43] py-3.5 text-sm font-bold text-white shadow-[0_18px_35px_rgba(250,138,67,0.28)] transition hover:bg-[#f47b2f] disabled:opacity-60"
+                      className="w-full rounded-[1rem] border-[3px] border-[#10163a] bg-[#fa8a43] py-3 text-sm font-bold text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1 hover:bg-[#f47b2f] disabled:opacity-60"
                     >
                       {loading ? 'Sending...' : options.ctaLabel}
                     </motion.button>

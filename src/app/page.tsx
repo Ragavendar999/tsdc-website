@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Hero from './components/homepage/Hero'
 import CoursesSection from './components/homepage/CoursesSection'
 import WhyTSDC from './components/homepage/WhyTSDC'
-import JourneyTimeline from './components/homepage/JourneyTimeline'
 import MasterclassSection from './components/masterclass/MasterclassSection'
 
 export const metadata: Metadata = {
@@ -38,7 +37,6 @@ export default function HomePage() {
       <Hero />
       <WhyTSDC />
       <MasterclassSection />
-      <JourneyTimeline />
       <CoursesSection />
     </div>
   )

@@ -4,20 +4,46 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Menu, Sparkles, X } from 'lucide-react'
+import {
+  ArrowRight,
+  ChevronDown,
+  Megaphone,
+  MonitorSmartphone,
+  MoveRight,
+  Paintbrush,
+  Sparkles,
+  Video,
+  X,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
-const navItems = [
+type SubItem = {
+  name: string
+  href: string
+  icon: React.ElementType
+  accent: string
+  tint: string
+  desc: string
+  badge?: string
+}
+
+type NavItem = {
+  name: string
+  href: string
+  submenu?: SubItem[]
+}
+
+const navItems: NavItem[] = [
   { name: 'Home', href: '/' },
   {
     name: 'Courses',
     href: '/courses',
     submenu: [
-      { name: 'Graphic Design', href: '/courses/graphic-design', icon: 'GD' },
-      { name: 'UI/UX Design', href: '/courses/uiux-design', icon: 'UX' },
-      { name: 'Digital Marketing', href: '/courses/digital-marketing', icon: 'DM' },
-      { name: 'Video Editing', href: '/courses/video-editing', icon: 'VE', badge: 'NEW' },
+      { name: 'Graphic Design', href: '/courses/graphic-design', icon: Paintbrush, accent: '#fa8a43', tint: '#fff4eb', desc: 'Branding · Illustration · Social' },
+      { name: 'UI/UX Design', href: '/courses/uiux-design', icon: MonitorSmartphone, accent: '#4562b0', tint: '#eef4ff', desc: 'Figma · Product · Prototypes' },
+      { name: 'Digital Marketing', href: '/courses/digital-marketing', icon: Megaphone, accent: '#ea6865', tint: '#fff1f0', desc: 'SEO · Meta Ads · Analytics' },
+      { name: 'Video Editing', href: '/courses/video-editing', icon: Video, accent: '#4a4a99', tint: '#f2f0ff', desc: 'Premiere · Reels · Motion', badge: 'NEW' },
     ],
   },
   { name: 'About', href: '/about' },
@@ -29,65 +55,64 @@ export default function Navbar() {
   const { openPopup } = useContactPopup()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [scrolling, setScrolling] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
     let lastScroll = window.scrollY
 
     const onScroll = () => {
       const current = window.scrollY
-      setScrolling(current > 70 && current > lastScroll)
+      setScrolled(current > 24)
+      setHidden(current > 90 && current > lastScroll)
       lastScroll = current
     }
 
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Close mobile menu on route change
+  useEffect(() => { setIsOpen(false) }, [pathname])
+
   return (
     <motion.header
-      initial={{ y: 0 }}
-      animate={{ y: scrolling ? -96 : 0 }}
-      transition={{ duration: 0.35, ease: 'easeInOut' }}
-      className="fixed left-0 top-0 z-[1200] w-full"
+      initial={{ y: -8, opacity: 0 }}
+      animate={{ y: hidden ? -110 : 0, opacity: 1 }}
+      transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed left-0 right-0 top-0 z-[1200] px-3 pt-3 sm:px-4 sm:pt-4"
     >
-      <div className="relative overflow-visible border-b border-[#314c9b] bg-[#4562b0] transition-all duration-300">
-        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.45)_1px,transparent_0)] [background-size:18px_18px]" />
-        <div className="pointer-events-none absolute -left-10 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[#ff8743]" />
-        <div className="pointer-events-none absolute right-[18%] top-0 h-8 w-28 rounded-b-full bg-white/15" />
-        <div className="pointer-events-none absolute right-8 top-1/2 h-11 w-11 -translate-y-1/2 rotate-12 rounded-[1rem] bg-[#ea6865]" />
-        <nav className="relative z-10 mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 md:grid-cols-[1fr_auto_1fr] md:gap-4 md:px-6">
-          <motion.div whileHover={{ y: -1 }} className="hidden justify-self-start md:block">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-[#111827]"
-            >
-              <span className="h-2 w-2 rounded-full bg-[#22c55e]" />
-              admissions open
-            </Link>
-          </motion.div>
+      {/* ── Floating nav island ── */}
+      <div
+        className={`relative mx-auto max-w-7xl overflow-visible rounded-[1.7rem] border-[3px] border-[#10163a] transition-all duration-300 ${
+          scrolled
+            ? 'bg-white/95 shadow-[6px_6px_0_#10163a] backdrop-blur-xl'
+            : 'bg-[#fffdf7] shadow-[6px_6px_0_#10163a]'
+        }`}
+      >
+        {/* Subtle dot grid on nav background */}
+        <div className="pointer-events-none absolute inset-0 rounded-[1.5rem] opacity-20 [background-image:radial-gradient(circle_at_1px_1px,rgba(50,68,181,0.16)_1px,transparent_0)] [background-size:24px_24px]" />
 
-          <motion.div whileHover={{ y: -1 }} className="justify-self-start md:hidden">
-            <Link
-              href="/"
-              aria-label="TSDC home"
-              onClick={() => setIsOpen(false)}
-              className="flex h-11 w-[5.75rem] items-center justify-center rounded-full border border-black/10 bg-white px-3 shadow-sm"
-            >
-              <Image src="/logo.png" alt="TSDC Logo" width={64} height={27} priority />
-            </Link>
-          </motion.div>
+        <nav className="relative z-10 flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4">
 
-          <ul className="hidden items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-1.5 text-xs font-black text-[#111827] md:flex">
-            <li>
-              <Link
-                href="/"
-                aria-label="TSDC home"
-                className="mr-1 flex h-9 w-16 items-center justify-center rounded-full bg-white px-2"
-              >
-                <Image src="/logo.png" alt="TSDC Logo" width={52} height={22} priority />
-              </Link>
-            </li>
+          {/* ── Logo ── */}
+          <Link
+            href="/"
+            aria-label="TSDC home"
+            onClick={() => setIsOpen(false)}
+            className="shrink-0"
+          >
+            <motion.div
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center rounded-[1rem] border-[3px] border-[#10163a] bg-white px-3 py-2 shadow-[3px_3px_0_#10163a]"
+            >
+              <Image src="/logo.png" alt="TSDC" width={72} height={26} priority />
+            </motion.div>
+          </Link>
+
+          {/* ── Desktop nav links (centered) ── */}
+          <ul className="hidden items-center gap-0.5 md:flex">
             {navItems.map((item) =>
               item.submenu ? (
                 <li
@@ -98,54 +123,97 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-all duration-200 ${
+                    className={`flex items-center gap-1.5 rounded-[0.9rem] px-3.5 py-2 text-xs font-black transition-all duration-200 ${
                       pathname.startsWith(item.href)
-                        ? 'bg-[#4562b0] text-white'
-                        : 'text-[#111827] hover:bg-[#eef4ff] hover:text-[#4562b0]'
+                        ? 'bg-[#10163a] text-white'
+                        : 'text-[#10163a] hover:bg-[#10163a]/8'
                     }`}
                   >
                     {item.name}
-                    <motion.span animate={{ rotate: dropdownOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                      <ChevronDown size={14} />
+                    <motion.span
+                      animate={{ rotate: dropdownOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown size={13} />
                     </motion.span>
                   </Link>
 
+                  {/* ── Course mega dropdown ── */}
                   <AnimatePresence>
                     {dropdownOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                        initial={{ opacity: 0, y: -6, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                        transition={{ duration: 0.18 }}
-                        className="absolute left-0 top-full z-50 mt-2 w-80"
+                        exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                        transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute left-1/2 top-full z-50 mt-3 w-[28rem] -translate-x-1/2"
                       >
-                        <div className="overflow-hidden rounded-[1.35rem] border border-white/20 bg-[#4562b0] p-2">
-                          <div className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.22em] text-white/65">
-                            Choose your course
+                        <div className="overflow-hidden rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#fffdf7] shadow-[8px_8px_0_#10163a]">
+                          {/* Dropdown header */}
+                          <div className="border-b-[3px] border-[#10163a] bg-[#10163a] px-5 py-3">
+                            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/60">Choose your creative path</p>
                           </div>
-                          {item.submenu.map((sub, i) => (
-                            <motion.div
-                              key={sub.href}
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: i * 0.04 }}
+
+                          {/* Course grid */}
+                          <div className="grid grid-cols-2 gap-2 p-3">
+                            {item.submenu!.map((sub, i) => {
+                              const Icon = sub.icon
+                              return (
+                                <motion.div
+                                  key={sub.href}
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: i * 0.04 }}
+                                >
+                                  <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+                                  <Link
+                                    href={sub.href}
+                                    className="group relative flex items-start gap-3 overflow-hidden rounded-[1.2rem] border-[3px] border-[#10163a] p-3.5 shadow-[3px_3px_0_#10163a] transition-shadow hover:shadow-[5px_5px_0_#10163a]"
+                                    style={{ backgroundColor: sub.tint }}
+                                  >
+                                    {/* Shimmer */}
+                                    <motion.span
+                                      initial={{ x: '-100%' }}
+                                      whileHover={{ x: '220%' }}
+                                      transition={{ duration: 0.5 }}
+                                      className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                                    />
+                                    <motion.div
+                                      whileHover={{ rotate: [0, -10, 8, -4, 0], scale: 1.12 }}
+                                      transition={{ duration: 0.4 }}
+                                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-[3px] border-[#10163a] text-white shadow-[3px_3px_0_#10163a]"
+                                      style={{ backgroundColor: sub.accent }}
+                                    >
+                                      <Icon size={17} />
+                                    </motion.div>
+                                    <div className="min-w-0">
+                                      <div className="flex items-center gap-1.5">
+                                        <p className="text-xs font-black text-[#10163a]">{sub.name}</p>
+                                        {sub.badge && (
+                                          <span className="rounded-full border-2 border-[#10163a] bg-[#db4b87] px-1.5 py-0.5 text-[8px] font-black text-white">
+                                            {sub.badge}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className="mt-0.5 text-[10px] font-semibold text-[#667085]">{sub.desc}</p>
+                                    </div>
+                                  </Link>
+                                </motion.div>
+                                </motion.div>
+                              )
+                            })}
+                          </div>
+
+                          {/* Dropdown footer */}
+                          <div className="border-t-[3px] border-[#10163a] px-4 py-3">
+                            <Link
+                              href="/courses"
+                              className="flex items-center justify-between text-xs font-black text-[#3244b5] transition hover:text-[#10163a]"
                             >
-                              <Link
-                                href={sub.href}
-                                className="group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-white transition-all hover:bg-white hover:text-[#4562b0]"
-                              >
-                                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-xs font-bold text-[#4562b0]">
-                                  {sub.icon}
-                                </span>
-                                <span className="flex-1 font-black">{sub.name}</span>
-                                {sub.badge && (
-                                  <span className="rounded-full bg-[#ea6865] px-2 py-0.5 text-[10px] font-bold text-white">
-                                    {sub.badge}
-                                  </span>
-                                )}
-                              </Link>
-                            </motion.div>
-                          ))}
+                              View all courses
+                              <ArrowRight size={13} />
+                            </Link>
+                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -155,10 +223,10 @@ export default function Navbar() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`rounded-full px-3.5 py-2 transition-all duration-200 ${
+                    className={`block rounded-[0.9rem] px-3.5 py-2 text-xs font-black transition-all duration-200 ${
                       pathname === item.href
-                        ? 'bg-[#4562b0] text-white'
-                        : 'text-[#111827] hover:bg-[#eef4ff] hover:text-[#4562b0]'
+                        ? 'bg-[#10163a] text-white'
+                        : 'text-[#10163a] hover:bg-[#10163a]/8'
                     }`}
                   >
                     {item.name}
@@ -168,162 +236,227 @@ export default function Navbar() {
             )}
           </ul>
 
-          <motion.button
-            whileTap={{ scale: 0.94 }}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation"
-            className="col-start-3 flex items-center gap-2 justify-self-end rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-black text-[#111827] shadow-sm md:hidden"
-          >
-            <AnimatePresence mode="wait">
-              {isOpen ? (
-                <motion.span
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <X size={20} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Menu size={20} />
-                </motion.span>
-              )}
-            </AnimatePresence>
-            <span className="text-xs font-semibold">Menu</span>
-          </motion.button>
+          {/* ── Right side ── */}
+          <div className="flex items-center gap-2">
+            {/* Admissions open pill — desktop only */}
+            <Link
+              href="/contact"
+              className="hidden items-center gap-2 rounded-[0.9rem] border-[3px] border-[#10163a] bg-white px-3 py-2 text-[10px] font-black text-[#10163a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5 lg:flex"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
+              Admissions open
+            </Link>
 
-          <motion.div whileHover={{ y: -1 }} className="hidden justify-self-end md:block">
-            <button
+            {/* Primary CTA — desktop */}
+            <motion.button
               type="button"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() =>
                 openPopup({
-                  title: 'Start Your Career With TSDC',
-                  subtitle: 'Share your details and we will help you choose the right creative path.',
+                  title: 'Start Your Creative Career',
+                  subtitle: 'Tell us a bit about yourself and we will guide you to the right course, batch, and next step.',
                   interest: 'Start Your Career',
-                  source: 'navbar-right-career-pill',
-                  ctaLabel: 'Start My Career Journey',
+                  source: 'navbar-cta',
+                  ctaLabel: 'Start My Career',
                 })
               }
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-[#111827]"
+              className="hidden items-center gap-2 rounded-[0.9rem] border-[3px] border-[#10163a] bg-[#ff9736] px-4 py-2 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition md:flex"
             >
-              <Sparkles size={14} className="text-[#4562b0]" />
-              start your career
-            </button>
-          </motion.div>
+              <Sparkles size={13} />
+              Start Your Career
+            </motion.button>
+
+            {/* Mobile hamburger */}
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="flex h-10 w-10 items-center justify-center rounded-[0.9rem] border-[3px] border-[#10163a] bg-white shadow-[3px_3px_0_#10163a] md:hidden"
+            >
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.span
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.14 }}
+                  >
+                    <X size={18} className="text-[#10163a]" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="open"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.14 }}
+                  >
+                    {/* Custom hamburger bars */}
+                    <span className="flex flex-col gap-[5px]">
+                      <span className="block h-[2.5px] w-[18px] rounded-full bg-[#10163a]" />
+                      <span className="block h-[2.5px] w-[13px] rounded-full bg-[#10163a]" />
+                      <span className="block h-[2.5px] w-[18px] rounded-full bg-[#10163a]" />
+                    </span>
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
         </nav>
 
+        {/* ── Mobile drawer ── */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              id="mobile-navigation"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              id="mobile-navigation"
-              className="mx-4 mb-3 overflow-hidden rounded-[1.6rem] border border-black/10 bg-white shadow-[0_22px_55px_rgba(8,18,37,0.16)] md:hidden"
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden border-t-[3px] border-[#10163a]"
             >
-              <div className="space-y-2 px-5 py-5">
-                {navItems.map((item, idx) =>
-                  item.submenu ? (
-                    <div key={item.name} className="rounded-[1.5rem] bg-[#f8fbff] p-2">
+              <div className="bg-[#0e1330] px-4 pb-5 pt-4">
+                {/* Main nav links */}
+                <div className="mb-4 flex flex-col gap-1">
+                  {navItems
+                    .filter((item) => !item.submenu)
+                    .map((item, idx) => (
                       <motion.div
-                        initial={{ opacity: 0, x: -15 }}
+                        key={item.href}
+                        initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: idx * 0.05 }}
-                        className="px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#4562b0]"
                       >
-                        {item.name}
-                      </motion.div>
-                      {item.submenu.map((sub, si) => (
-                        <motion.div
-                          key={sub.href}
-                          initial={{ opacity: 0, x: -15 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: (idx + si) * 0.05 }}
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={`block rounded-[1rem] px-4 py-3 text-sm font-black transition-all ${
+                            pathname === item.href
+                              ? 'bg-white text-[#10163a]'
+                              : 'text-white/75 hover:bg-white/10 hover:text-white'
+                          }`}
                         >
-                          <Link
-                            href={sub.href}
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-black text-[#1b2940] transition-all hover:bg-white hover:text-[#4562b0]"
-                          >
-                            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-xs font-black text-[#4562b0]">
-                              {sub.icon}
-                            </span>
-                            <span className="font-medium">{sub.name}</span>
-                            {sub.badge && (
-                              <span className="ml-auto rounded-full bg-[#ea6865] px-2 py-0.5 text-[10px] font-bold text-white">
-                                {sub.badge}
-                              </span>
-                            )}
-                          </Link>
-                        </motion.div>
-                      ))}
-                    </div>
-                  ) : (
-                    <motion.div
-                      key={item.href}
-                      initial={{ opacity: 0, x: -15 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.05 }}
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className={`block rounded-[1.4rem] px-4 py-3.5 text-sm font-black transition-all ${
-                          pathname === item.href
-                            ? 'bg-[#4562b0] text-white'
-                            : 'text-[#1b2940] hover:bg-[#eef4ff] hover:text-[#4562b0]'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    </motion.div>
-                  )
-                )}
+                          {item.name}
+                        </Link>
+                      </motion.div>
+                    ))}
+                </div>
 
-                <div className="space-y-2 pt-3">
-                  <button
+                {/* Courses section */}
+                <div className="mb-4">
+                  <p className="mb-2.5 px-1 text-[10px] font-black uppercase tracking-[0.24em] text-white/40">Courses</p>
+                  <div className="flex flex-col gap-2">
+                    {navItems
+                      .find((item) => item.submenu)
+                      ?.submenu?.map((sub, i) => {
+                        const Icon = sub.icon
+                        return (
+                          <motion.div
+                            key={sub.href}
+                            initial={{ opacity: 0, x: -18 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.08 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                            whileHover={{ x: 4 }}
+                            whileTap={{ scale: 0.97 }}
+                          >
+                            <Link
+                              href={sub.href}
+                              onClick={() => setIsOpen(false)}
+                              className="group relative flex items-center gap-3 overflow-hidden rounded-[1.3rem] border-[2.5px] border-white/10 p-3.5 transition-colors duration-200 hover:border-white/30"
+                              style={{ backgroundColor: `${sub.accent}20` }}
+                            >
+                              {/* Shimmer on hover */}
+                              <motion.span
+                                initial={{ x: '-100%' }}
+                                whileHover={{ x: '200%' }}
+                                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                                className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                              />
+
+                              {/* Icon with bounce */}
+                              <motion.div
+                                whileHover={{ rotate: [0, -12, 10, -6, 0], scale: 1.1 }}
+                                transition={{ duration: 0.45 }}
+                                className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.85rem] border-2 border-white/25 text-white shadow-[0_2px_8px_rgba(0,0,0,0.3)]"
+                                style={{ backgroundColor: sub.accent }}
+                              >
+                                <Icon size={16} />
+                              </motion.div>
+
+                              {/* Text */}
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5">
+                                  <p className="text-sm font-black leading-tight text-white">{sub.name}</p>
+                                  {sub.badge && (
+                                    <span className="rounded-full bg-[#db4b87] px-1.5 py-0.5 text-[8px] font-black text-white">
+                                      {sub.badge}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="mt-0.5 text-[11px] font-semibold text-white/50">{sub.desc}</p>
+                              </div>
+
+                              {/* Arrow slides in on hover */}
+                              <motion.span
+                                initial={{ opacity: 0, x: -6 }}
+                                whileHover={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.18 }}
+                                className="shrink-0 text-white/60"
+                              >
+                                <MoveRight size={15} />
+                              </motion.span>
+                            </Link>
+                          </motion.div>
+                        )
+                      })}
+                  </div>
+                </div>
+
+                {/* Mobile CTAs */}
+                <div className="flex flex-col gap-2.5 pt-1">
+                  <motion.button
                     type="button"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
                     onClick={() => {
                       setIsOpen(false)
                       openPopup({
-                        title: 'Start Your Career With TSDC',
-                        subtitle: 'Share your details and we will help you choose the right creative path.',
+                        title: 'Start Your Creative Career',
+                        subtitle: 'Share your details and we will guide you to the right creative path.',
                         interest: 'Start Your Career',
                         source: 'navbar-mobile-start-career',
-                        ctaLabel: 'Start My Career Journey',
+                        ctaLabel: 'Start My Career',
                       })
                     }}
-                    className="flex w-full items-center justify-center gap-2 rounded-[1.4rem] bg-[#4562b0] py-3.5 text-sm font-black text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-[1.1rem] border-[3px] border-[#10163a] bg-[#ff9736] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_rgba(0,0,0,0.4)]"
                   >
-                    <Sparkles size={14} />
+                    <Sparkles size={15} />
                     Start Your Career
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     type="button"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.36 }}
                     onClick={() => {
                       setIsOpen(false)
                       openPopup({
-                        title: 'Talk to Our Admissions Team',
+                        title: 'Talk to Admissions',
                         subtitle: 'We will get back to you quickly with course details and next steps.',
                         interest: 'General Enquiry',
-                        source: 'navbar-mobile-chat',
+                        source: 'navbar-mobile-enquiry',
                         ctaLabel: 'Send Enquiry',
                       })
                     }}
-                    className="flex w-full items-center justify-center gap-2 rounded-[1.4rem] bg-[#25D366] py-3.5 text-sm font-black text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-[1.1rem] border-[3px] border-white/20 bg-white/10 py-3 text-sm font-black text-white"
                   >
-                    Chat on WhatsApp
-                  </button>
+                    Book Free Counselling
+                  </motion.button>
                 </div>
               </div>
             </motion.div>

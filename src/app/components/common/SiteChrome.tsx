@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
 import Footer from './Footer'
 import Navbar from './Navbar'
-import ScrollMouseHint from './ScrollMouseHint'
 import ScrollProgress from './ScrollProgress'
+import SplashScreen from './SplashScreen'
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -13,14 +13,14 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <>
+      <SplashScreen />
       {!isMasterclassRoute && (
         <>
           <ScrollProgress />
           <Navbar />
-          <ScrollMouseHint />
         </>
       )}
-      <main className={isMasterclassRoute ? '' : 'pt-20'}>{children}</main>
+      <main className={isMasterclassRoute ? '' : 'pt-[5.5rem]'}>{children}</main>
       {!isMasterclassRoute && <Footer />}
     </>
   )
