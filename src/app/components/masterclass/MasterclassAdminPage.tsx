@@ -1,13 +1,18 @@
 'use client'
 
-import { ExternalLink, Eye, Plus, Save, Sparkles, Trash2 } from 'lucide-react'
+import { ExternalLink, Eye, LogOut, Plus, Save, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { defaultMasterclasses, loadMasterclasses, persistMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
-
-const adminUsername = 'admin'
-const adminPassword = 'TSDC@2026'
+import {
+  defaultMasterclasses,
+  loadMasterclasses,
+  MASTERCLASS_EXPIRY_REMINDER_KEY,
+  persistMasterclasses,
+  shouldSendExpiryReminder,
+  type Masterclass,
+} from '@/app/lib/masterclasses'
 
 const emptyMasterclass = (): Masterclass => ({
   ...defaultMasterclasses[0],
@@ -21,9 +26,8 @@ const emptyMasterclass = (): Masterclass => ({
   hook: 'Add your masterclass hook here',
 })
 
-export default function MasterclassAdminPage() {
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [loginError, setLoginError] = useState('')
+export default function MasterclassAdminPage({ userEmail }: { userEmail: string }) {
+  const router = useRouter()
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
   const [activeId, setActiveId] = useState(defaultMasterclasses[0].id)
   const active = useMemo(
@@ -32,9 +36,45 @@ export default function MasterclassAdminPage() {
   )
 
   useEffect(() => {
-    setLoggedIn(window.localStorage.getItem('tsdc-admin-session') === 'active')
     setMasterclasses(loadMasterclasses())
   }, [])
+
+  useEffect(() => {
+    const todayKey = new Date().toISOString().slice(0, 10)
+    const rawSent = window.localStorage.getItem(MASTERCLASS_EXPIRY_REMINDER_KEY)
+    const sentMap = rawSent ? (JSON.parse(rawSent) as Record<string, string>) : {}
+
+    masterclasses.forEach((masterclass) => {
+      if (!shouldSendExpiryReminder(masterclass)) return
+
+      const reminderKey = `${masterclass.id}:${todayKey}`
+      if (sentMap[reminderKey]) return
+
+      fetch('/api/masterclass/expiry-reminder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          masterclass: {
+            id: masterclass.id,
+            title: masterclass.title,
+            slug: masterclass.slug,
+            category: masterclass.category,
+            date: masterclass.date,
+            eventDate: masterclass.eventDate,
+            status: masterclass.status,
+          },
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(`Reminder failed with status ${response.status}`)
+          sentMap[reminderKey] = 'sent'
+          window.localStorage.setItem(MASTERCLASS_EXPIRY_REMINDER_KEY, JSON.stringify(sentMap))
+        })
+        .catch((error) => {
+          console.error('[masterclass-expiry-reminder]', error)
+        })
+    })
+  }, [masterclasses])
 
   const saveMasterclasses = (items: Masterclass[]) => {
     const merged = loadMasterclasses()
@@ -57,121 +97,9 @@ export default function MasterclassAdminPage() {
     }
   }
 
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    if (formData.get('username') === adminUsername && formData.get('password') === adminPassword) {
-      window.localStorage.setItem('tsdc-admin-session', 'active')
-      setLoggedIn(true)
-      setLoginError('')
-      return
-    }
-    setLoginError('Invalid credentials. Please try again.')
-  }
-
-  /* ── LOGIN SCREEN ── */
-  if (!loggedIn) {
-    return (
-      <main className="flex min-h-screen items-stretch bg-[#0e1330]">
-        {/* Left branding panel */}
-        <div className="hidden flex-col justify-between p-10 lg:flex lg:w-[42%]">
-          <div>
-            <div className="inline-flex rounded-full border-[3px] border-white/20 bg-white px-3.5 py-2">
-              <Image src="/logo.png" alt="TSDC Logo" width={96} height={32} />
-            </div>
-          </div>
-
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-white/70">
-              <Sparkles size={12} className="text-[#ffcb53]" />
-              Masterclass control centre
-            </span>
-            <h1 className="mt-5 text-5xl font-black leading-[0.92] tracking-[-0.06em] text-white">
-              Create.
-              <span className="block text-[#ff9736]">Publish.</span>
-              <span className="block text-[#db4b87]">Fill seats.</span>
-            </h1>
-            <p className="mt-6 max-w-sm text-sm font-semibold leading-7 text-white/60">
-              Manage live masterclasses, control seat availability, update content, and publish sessions — all from one place.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { label: 'Live sessions', value: masterclasses.filter((m) => m.status === 'live').length.toString() },
-              { label: 'Draft sessions', value: masterclasses.filter((m) => m.status === 'draft').length.toString() },
-              { label: 'Total seats', value: masterclasses.reduce((sum, m) => sum + m.seatsTotal, 0).toString() },
-            ].map((stat) => (
-              <div key={stat.label} className="rounded-[1.4rem] border-[3px] border-white/15 bg-white/8 p-4">
-                <p className="text-2xl font-black text-white">{stat.value}</p>
-                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/50">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right login panel */}
-        <div className="flex flex-1 items-center justify-center bg-[#fffdf7] px-6 py-12">
-          <div className="w-full max-w-md">
-            {/* Mobile logo */}
-            <div className="mb-8 flex items-center gap-3 lg:hidden">
-              <Image src="/logo.png" alt="TSDC Logo" width={100} height={32} />
-            </div>
-
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Admin panel</p>
-            <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#10163a]">Welcome back</h2>
-            <p className="mt-1 text-sm text-[#667085]">Sign in to manage your masterclasses.</p>
-
-            <form onSubmit={handleLogin} className="mt-8 space-y-4">
-              <label className="block">
-                <span className="mb-2 block text-xs font-black uppercase tracking-[0.14em] text-[#3244b5]">Username</span>
-                <input
-                  name="username"
-                  placeholder="Enter username"
-                  autoComplete="username"
-                  className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold text-[#10163a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#3244b5]"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-xs font-black uppercase tracking-[0.14em] text-[#3244b5]">Password</span>
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Enter password"
-                  autoComplete="current-password"
-                  className="w-full rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold text-[#10163a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#3244b5]"
-                />
-              </label>
-
-              {loginError && (
-                <p className="rounded-2xl border-[3px] border-[#b42318] bg-[#fff1f2] px-4 py-3 text-sm font-bold text-[#b42318] shadow-[4px_4px_0_#b42318]">
-                  {loginError}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#3244b5] px-5 py-4 font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5"
-              >
-                Sign In
-              </button>
-            </form>
-
-            <div className="mt-6 rounded-2xl border-[3px] border-[#10163a] bg-[#fff4eb] p-4 text-[#9a4a10] shadow-[4px_4px_0_#10163a]">
-              <p className="text-xs font-black uppercase tracking-[0.14em]">Demo credentials</p>
-              <p className="mt-1 text-sm font-bold">Username: <code className="font-mono">admin</code> · Password: <code className="font-mono">TSDC@2026</code></p>
-            </div>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
-  /* ── ADMIN PANEL ── */
   return (
     <main className="min-h-screen bg-[#f0f3ff] px-4 py-8 md:px-8">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-[2rem] border-[3px] border-[#10163a] bg-[#0e1330] p-5 text-white shadow-[8px_8px_0_#10163a] md:p-6">
           <div className="flex items-center gap-4">
             <div className="rounded-full border-[3px] border-white/20 bg-white px-3 py-2">
@@ -182,7 +110,10 @@ export default function MasterclassAdminPage() {
               <h1 className="text-2xl font-black tracking-[-0.04em]">Masterclass Manager</h1>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <span className="hidden rounded-full border-2 border-white/20 bg-white/10 px-3 py-1 text-xs font-black text-white/70 md:inline-flex">
+              {userEmail}
+            </span>
             <div className="flex gap-2">
               <span className="rounded-full border-2 border-[#22c55e] bg-[#22c55e]/15 px-3 py-1 text-xs font-black text-[#22c55e]">
                 {masterclasses.filter((m) => m.status === 'live').length} Live
@@ -191,6 +122,17 @@ export default function MasterclassAdminPage() {
                 {masterclasses.filter((m) => m.status === 'draft').length} Draft
               </span>
             </div>
+            <button
+              onClick={async () => {
+                await fetch('/api/admin/session-logout', { method: 'POST' })
+                router.replace('/admin/login')
+                router.refresh()
+              }}
+              className="inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-2.5 text-sm font-black text-[#10163a] shadow-[4px_4px_0_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5"
+            >
+              <LogOut size={15} />
+              Sign Out
+            </button>
             <button
               onClick={() => {
                 const next = emptyMasterclass()
@@ -206,7 +148,6 @@ export default function MasterclassAdminPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[0.3fr_0.7fr]">
-          {/* ── Sidebar list ── */}
           <aside className="space-y-2.5">
             <p className="px-1 text-xs font-black uppercase tracking-[0.18em] text-[#667085]">All masterclasses</p>
             {masterclasses.map((masterclass) => (
@@ -218,24 +159,25 @@ export default function MasterclassAdminPage() {
                     : 'border-[#10163a] bg-white shadow-[4px_4px_0_#10163a]'
                 }`}
               >
-                <button
-                  onClick={() => setActiveId(masterclass.id)}
-                  className="w-full p-4 text-left"
-                >
+                <button onClick={() => setActiveId(masterclass.id)} className="w-full p-4 text-left">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="font-black text-[#10163a] leading-snug">{masterclass.title}</p>
-                    <span className={`shrink-0 rounded-full border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] ${
-                      masterclass.status === 'live'
-                        ? 'border-[#16a34a] bg-[#dcfce7] text-[#16a34a]'
-                        : 'border-[#9ca3af] bg-[#f3f4f6] text-[#6b7280]'
-                    }`}>
+                    <p className="font-black leading-snug text-[#10163a]">{masterclass.title}</p>
+                    <span
+                      className={`shrink-0 rounded-full border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] ${
+                        masterclass.status === 'live'
+                          ? 'border-[#16a34a] bg-[#dcfce7] text-[#16a34a]'
+                          : 'border-[#9ca3af] bg-[#f3f4f6] text-[#6b7280]'
+                      }`}
+                    >
                       {masterclass.status}
                     </span>
                   </div>
                   <p className="mt-1 text-xs font-bold text-[#667085]">{masterclass.category}</p>
                   <div className="mt-2 flex items-center gap-2 text-[10px] font-bold text-[#9ca3af]">
-                    <span>{masterclass.seatsTaken}/{masterclass.seatsTotal} seats</span>
-                    <span>·</span>
+                    <span>
+                      {masterclass.seatsTaken}/{masterclass.seatsTotal} seats
+                    </span>
+                    <span>|</span>
                     <span>/{masterclass.slug}</span>
                   </div>
                 </button>
@@ -254,10 +196,8 @@ export default function MasterclassAdminPage() {
             ))}
           </aside>
 
-          {/* ── Edit panel ── */}
           {active && (
             <section className="rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]">
-              {/* Edit header */}
               <div className="flex flex-wrap items-center justify-between gap-3 border-b-[3px] border-[#10163a] p-5 md:p-6">
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#667085]">Editing</p>
@@ -270,11 +210,17 @@ export default function MasterclassAdminPage() {
                       active.status === 'live' ? 'bg-[#667085]' : 'bg-[#22c55e]'
                     }`}
                   >
-                    {active.status === 'live' ? '⏸ Unpublish' : '▶ Publish'}
+                    {active.status === 'live' ? 'Unpublish' : 'Publish'}
                   </button>
                   <button
                     onClick={() => {
-                      const copy = { ...active, id: `masterclass-${Date.now()}`, slug: `${active.slug}-copy`, title: `${active.title} Copy`, status: 'draft' as const }
+                      const copy = {
+                        ...active,
+                        id: `masterclass-${Date.now()}`,
+                        slug: `${active.slug}-copy`,
+                        title: `${active.title} Copy`,
+                        status: 'draft' as const,
+                      }
                       saveMasterclasses([copy, ...masterclasses])
                       setActiveId(copy.id)
                     }}
@@ -297,8 +243,7 @@ export default function MasterclassAdminPage() {
                 </div>
               </div>
 
-              <div className="p-5 md:p-6 space-y-6">
-                {/* ── Basic info ── */}
+              <div className="space-y-6 p-5 md:p-6">
                 <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
                   <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#3244b5]">Basic info</legend>
                   <div className="mt-3 grid gap-4 md:grid-cols-2">
@@ -346,12 +291,12 @@ export default function MasterclassAdminPage() {
                   </div>
                 </fieldset>
 
-                {/* ── Schedule & links ── */}
                 <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
                   <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#fa8a43]">Schedule &amp; links</legend>
                   <div className="mt-3 grid gap-4 md:grid-cols-2">
                     {[
                       ['date', 'Date'],
+                      ['eventDate', 'Event date (YYYY-MM-DD)'],
                       ['time', 'Time'],
                       ['mode', 'Mode (Online / Offline)'],
                       ['discountLabel', 'Discount label'],
@@ -369,13 +314,12 @@ export default function MasterclassAdminPage() {
                   </div>
                 </fieldset>
 
-                {/* ── Pricing & seats ── */}
                 <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
                   <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#db4b87]">Pricing &amp; seats</legend>
                   <div className="mt-3 grid gap-4 md:grid-cols-2">
                     {[
-                      ['price', 'Price (₹)'],
-                      ['originalPrice', 'Original price (₹)'],
+                      ['price', 'Price (INR)'],
+                      ['originalPrice', 'Original price (INR)'],
                       ['seatsTotal', 'Total seats'],
                       ['seatsTaken', 'Seats taken'],
                     ].map(([key, label]) => (
@@ -391,7 +335,6 @@ export default function MasterclassAdminPage() {
                     ))}
                   </div>
 
-                  {/* Live seat preview */}
                   <div className="mt-4 rounded-[1.3rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-4 shadow-[3px_3px_0_#10163a]">
                     <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">Seat fill preview</p>
                     <div className="mt-2 h-4 overflow-hidden rounded-full border-[3px] border-[#10163a] bg-[#eef1ff]">
@@ -401,12 +344,11 @@ export default function MasterclassAdminPage() {
                       />
                     </div>
                     <p className="mt-1.5 text-xs font-bold text-[#667085]">
-                      {active.seatsTaken}/{active.seatsTotal} seats · {active.seatsTotal - active.seatsTaken} remaining
+                      {active.seatsTaken}/{active.seatsTotal} seats | {active.seatsTotal - active.seatsTaken} remaining
                     </p>
                   </div>
                 </fieldset>
 
-                {/* ── Content JSON ── */}
                 <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
                   <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#3244b5]">Content (JSON)</legend>
                   <div className="mt-3 space-y-4">
@@ -418,9 +360,7 @@ export default function MasterclassAdminPage() {
                       ['instructor', active.instructor],
                     ].map(([key, value]) => (
                       <label key={key as string} className="block">
-                        <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">
-                          {key as string}
-                        </span>
+                        <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{key as string}</span>
                         <textarea
                           defaultValue={JSON.stringify(value, null, 2)}
                           rows={key === 'modules' ? 8 : 5}
@@ -432,10 +372,12 @@ export default function MasterclassAdminPage() {
                   </div>
                 </fieldset>
 
-                {/* Save notice */}
                 <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#fff4eb] p-4 text-sm font-bold text-[#9a4a10] shadow-[4px_4px_0_#10163a]">
                   <Save className="mr-2 inline h-4 w-4" />
-                  All changes save automatically to this browser. Connect Supabase, Firebase, or Vercel KV for production-wide persistence.
+                  Masterclass content still saves in browser storage today. Firebase now protects admin access, and you can move the data layer server-side next.
+                  <p className="mt-2 text-xs leading-6 text-[#7c3d12]">
+                    Expiry reminder emails use the exact <code className="font-mono">eventDate</code> field and trigger when this admin panel is opened for live masterclasses scheduled for today or tomorrow.
+                  </p>
                 </div>
               </div>
             </section>

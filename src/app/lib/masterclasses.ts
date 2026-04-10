@@ -12,6 +12,7 @@ export type Masterclass = {
   id: string
   slug: string
   status: 'live' | 'draft'
+  eventDate?: string
   title: string
   backgroundStyle?: 'midnight' | 'blueprint' | 'ember' | 'violet'
   backgroundImage?: string
@@ -40,12 +41,14 @@ export type Masterclass = {
 }
 
 export const MASTERCLASS_STORAGE_KEY = 'tsdc-masterclasses-v1'
+export const MASTERCLASS_EXPIRY_REMINDER_KEY = 'tsdc-masterclass-expiry-reminders-v1'
 
 export const defaultMasterclasses: Masterclass[] = [
   {
     id: 'logo-design-masterclass',
     slug: 'logo-masterclass',
     status: 'live',
+    eventDate: '2026-04-12',
     title: 'Logo Design Masterclass',
     backgroundStyle: 'midnight',
     backgroundImage: '',
@@ -97,6 +100,7 @@ export const defaultMasterclasses: Masterclass[] = [
     id: 'summer-bootcamp-ai-powered-graphic-design-program',
     slug: 'summer-bootcamp-ai-graphic-design',
     status: 'live',
+    eventDate: '2026-04-15',
     title: 'Summer Bootcamp for AI Powered Graphic Design Program',
     backgroundStyle: 'ember',
     backgroundImage: '',
@@ -186,6 +190,34 @@ export const loadMasterclasses = () => {
 export const persistMasterclasses = (masterclasses: Masterclass[]) => {
   if (typeof window === 'undefined') return
   window.localStorage.setItem(MASTERCLASS_STORAGE_KEY, JSON.stringify(mergeMasterclasses(masterclasses)))
+}
+
+const parseIsoDate = (value?: string) => {
+  if (!value) return null
+
+  const parts = value.split('-').map(Number)
+  if (parts.length !== 3 || parts.some((part) => Number.isNaN(part))) return null
+
+  const [year, month, day] = parts
+  return new Date(year, month - 1, day)
+}
+
+export const getMasterclassDaysUntil = (masterclass: Pick<Masterclass, 'eventDate'>, now = new Date()) => {
+  const target = parseIsoDate(masterclass.eventDate)
+  if (!target) return null
+
+  const today = new Date(now)
+  today.setHours(0, 0, 0, 0)
+  target.setHours(0, 0, 0, 0)
+
+  return Math.round((target.getTime() - today.getTime()) / 86400000)
+}
+
+export const shouldSendExpiryReminder = (masterclass: Pick<Masterclass, 'status' | 'eventDate'>, now = new Date()) => {
+  if (masterclass.status !== 'live') return false
+
+  const daysUntil = getMasterclassDaysUntil(masterclass, now)
+  return daysUntil === 0 || daysUntil === 1
 }
 
 export const masterclassBackgrounds = {
