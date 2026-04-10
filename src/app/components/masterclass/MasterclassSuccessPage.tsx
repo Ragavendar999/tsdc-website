@@ -2,19 +2,14 @@
 
 import { Check, MessageCircle, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { defaultMasterclasses, formatPrice, MASTERCLASS_STORAGE_KEY, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, formatPrice, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import MasterclassExperienceShell from './MasterclassExperienceShell'
 
 export default function MasterclassSuccessPage({ slug }: { slug: string }) {
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
-      if (stored) setMasterclasses(JSON.parse(stored))
-    } catch {
-      setMasterclasses(defaultMasterclasses)
-    }
+    setMasterclasses(loadMasterclasses())
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug) || defaultMasterclasses[0]

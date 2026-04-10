@@ -9,7 +9,7 @@ import {
   defaultMasterclasses,
   formatPrice,
   getMasterclassBackgroundClass,
-  MASTERCLASS_STORAGE_KEY,
+  loadMasterclasses,
   type Masterclass,
 } from '@/app/lib/masterclasses'
 
@@ -346,10 +346,7 @@ export default function SplashScreen() {
     if (sessionStorage.getItem('tsdc_splash')) return
     sessionStorage.setItem('tsdc_splash', '1')
 
-    try {
-      const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
-      if (stored) setMasterclasses(JSON.parse(stored))
-    } catch { /* use defaults */ }
+    setMasterclasses(loadMasterclasses())
 
     setPhase('logo')
 

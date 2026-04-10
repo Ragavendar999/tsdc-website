@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Sparkles, Users } from 'lucide-react'
 import Link from 'next/link'
-import { defaultMasterclasses, formatPrice, MASTERCLASS_STORAGE_KEY, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, formatPrice, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import { useEffect, useState } from 'react'
 
 type MasterclassSectionProps = {
@@ -16,12 +16,7 @@ export default function MasterclassSection({ compact = false, title, subtitle }:
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
-      if (stored) setMasterclasses(JSON.parse(stored))
-    } catch {
-      setMasterclasses(defaultMasterclasses)
-    }
+    setMasterclasses(loadMasterclasses())
   }, [])
 
   const liveMasterclasses = masterclasses.filter((masterclass) => masterclass.status === 'live')

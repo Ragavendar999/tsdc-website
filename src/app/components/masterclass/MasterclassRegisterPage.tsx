@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { defaultMasterclasses, formatPrice, MASTERCLASS_STORAGE_KEY, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, formatPrice, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import MasterclassExperienceShell from './MasterclassExperienceShell'
 
 type CapturedStudent = {
@@ -54,12 +54,7 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
   const studentRef = useRef<CapturedStudent | null>(null)
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
-      if (stored) setMasterclasses(JSON.parse(stored))
-    } catch {
-      setMasterclasses(defaultMasterclasses)
-    }
+    setMasterclasses(loadMasterclasses())
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug) || defaultMasterclasses[0]

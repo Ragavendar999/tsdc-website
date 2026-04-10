@@ -93,9 +93,100 @@ export const defaultMasterclasses: Masterclass[] = [
     faqs: ['Do I need Illustrator?', 'Is this recorded?', 'Beginner-friendly?', 'Will I get a certificate?'],
     whatsappLink: 'https://wa.me/917358116929',
   },
+  {
+    id: 'summer-bootcamp-ai-powered-graphic-design-program',
+    slug: 'summer-bootcamp-ai-graphic-design',
+    status: 'live',
+    title: 'Summer Bootcamp for AI Powered Graphic Design Program',
+    backgroundStyle: 'ember',
+    backgroundImage: '',
+    badge: 'Summer Bootcamp 2026',
+    category: 'AI Powered Graphic Design',
+    hook: 'Turn your summer into creativity with AI-powered graphic design.',
+    description:
+      'A summer bootcamp designed for students and beginners who want to learn graphic design with modern AI tools, practical projects, and portfolio-ready output through online or offline learning.',
+    date: 'April 15',
+    time: 'Flexible batch timings',
+    mode: 'Online & Offline Available',
+    price: 6999,
+    originalPrice: 9999,
+    discountLabel: 'Summer Offer',
+    seatsTotal: 40,
+    seatsTaken: 18,
+    modules: [
+      { title: 'Graphic design basics: layout, hierarchy, color, and composition', duration: 'Module 1' },
+      { title: 'Adobe Photoshop and Illustrator foundations for beginners', duration: 'Module 2' },
+      { title: 'Using AI tools to speed up concepts, moodboards, and creative ideation', duration: 'Module 3' },
+      { title: 'Social media posts, posters, and marketing creatives from scratch', duration: 'Module 4' },
+      { title: 'Branding basics: logos, typography, and visual identity thinking', duration: 'Module 5' },
+      { title: 'Portfolio building, project feedback, and final showcase', duration: 'Module 6' },
+    ],
+    includes: [
+      { label: 'Bootcamp mode', value: 'Online / Offline' },
+      { label: 'Program access', value: 'Summer batch' },
+      { label: 'Certificate', value: 'Included' },
+      { label: 'AI workflow', value: 'Hands-on' },
+      { label: 'Portfolio pieces', value: 'Multiple' },
+      { label: 'Mentor support', value: 'Guided' },
+    ],
+    instructor: {
+      name: 'TSDC Design Team',
+      role: 'Graphic Design & AI Mentors',
+      credibility:
+        'Learn with mentors who combine practical graphic design training with current AI workflows, so you build both creative confidence and job-relevant output.',
+    },
+    audience: [
+      'School and college students looking for a creative summer skill program',
+      'Beginners who want to start graphic design without feeling overwhelmed',
+      'Aspiring freelancers who want faster design workflows using AI tools',
+      'Anyone who wants to create posters, social posts, branding assets, and portfolio projects',
+    ],
+    faqs: [
+      'Is this beginner-friendly?',
+      'Can I join online or offline?',
+      'Will AI tools be taught practically?',
+      'Do I get a certificate and portfolio guidance?',
+    ],
+    whatsappLink: 'https://wa.me/917358116929',
+  },
 ]
 
-export const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`
+export const formatPrice = (price: number) => `Rs ${price.toLocaleString('en-IN')}/-`
+
+const getMasterclassKey = (masterclass: Pick<Masterclass, 'id' | 'slug'>) => `${masterclass.id}::${masterclass.slug}`
+
+export const mergeMasterclasses = (storedMasterclasses: Masterclass[] = []) => {
+  const merged = new Map<string, Masterclass>()
+
+  defaultMasterclasses.forEach((masterclass) => {
+    merged.set(getMasterclassKey(masterclass), masterclass)
+  })
+
+  storedMasterclasses.forEach((masterclass) => {
+    merged.set(getMasterclassKey(masterclass), masterclass)
+  })
+
+  return Array.from(merged.values())
+}
+
+export const loadMasterclasses = () => {
+  if (typeof window === 'undefined') return defaultMasterclasses
+
+  try {
+    const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
+    if (!stored) return defaultMasterclasses
+
+    const parsed = JSON.parse(stored) as Masterclass[]
+    return mergeMasterclasses(parsed)
+  } catch {
+    return defaultMasterclasses
+  }
+}
+
+export const persistMasterclasses = (masterclasses: Masterclass[]) => {
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(MASTERCLASS_STORAGE_KEY, JSON.stringify(mergeMasterclasses(masterclasses)))
+}
 
 export const masterclassBackgrounds = {
   midnight:

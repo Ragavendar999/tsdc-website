@@ -4,7 +4,7 @@ import { ExternalLink, Eye, Plus, Save, Sparkles, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { defaultMasterclasses, MASTERCLASS_STORAGE_KEY, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, loadMasterclasses, persistMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 
 const adminUsername = 'admin'
 const adminPassword = 'TSDC@2026'
@@ -33,13 +33,16 @@ export default function MasterclassAdminPage() {
 
   useEffect(() => {
     setLoggedIn(window.localStorage.getItem('tsdc-admin-session') === 'active')
-    const stored = window.localStorage.getItem(MASTERCLASS_STORAGE_KEY)
-    if (stored) setMasterclasses(JSON.parse(stored))
+    setMasterclasses(loadMasterclasses())
   }, [])
 
   const saveMasterclasses = (items: Masterclass[]) => {
-    setMasterclasses(items)
-    window.localStorage.setItem(MASTERCLASS_STORAGE_KEY, JSON.stringify(items))
+    const merged = loadMasterclasses()
+      .filter((existing) => !items.some((item) => item.id === existing.id && item.slug === existing.slug))
+      .concat(items)
+
+    setMasterclasses(merged)
+    persistMasterclasses(merged)
   }
 
   const updateActive = (patch: Partial<Masterclass>) => {
