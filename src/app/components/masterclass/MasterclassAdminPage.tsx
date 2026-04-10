@@ -98,6 +98,17 @@ export default function MasterclassAdminPage({ userEmail }: { userEmail: string 
     }
   }
 
+  const handleDeleteActive = () => {
+    if (!confirm(`Delete "${active.title}" from the entire site? This will remove its cards, links, and admin entry on this browser.`)) {
+      return
+    }
+
+    deleteMasterclass(active, masterclasses)
+    const refreshed = loadMasterclasses()
+    setMasterclasses(refreshed)
+    setActiveId(refreshed[0]?.id || '')
+  }
+
   return (
     <main className="min-h-screen bg-[#f0f3ff] px-4 py-8 md:px-8">
       <div className="mx-auto max-w-7xl">
@@ -230,12 +241,8 @@ export default function MasterclassAdminPage({ userEmail }: { userEmail: string 
                     Duplicate
                   </button>
                   <button
-                    onClick={() => {
-                      if (!confirm(`Delete "${active.title}" from the entire site? This will remove its cards, links, and admin entry on this browser.`)) return
-                      const next = deleteMasterclass(active, masterclasses)
-                      setMasterclasses(next)
-                      setActiveId((next[0] || defaultMasterclasses[0]).id)
-                    }}
+                    type="button"
+                    onClick={handleDeleteActive}
                     className="inline-flex items-center gap-1.5 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ea6865] px-4 py-2 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
                   >
                     <Trash2 size={14} />
