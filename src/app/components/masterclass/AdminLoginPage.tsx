@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { firebaseAuth } from '@/lib/firebase/client'
+import { firebaseAuth, hasFirebaseClientEnv } from '@/lib/firebase/client'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -20,6 +20,10 @@ export default function AdminLoginPage() {
     setError('')
 
     try {
+      if (!hasFirebaseClientEnv || !firebaseAuth) {
+        throw new Error('Firebase login is not configured on this deployment yet.')
+      }
+
       const credential = await signInWithEmailAndPassword(firebaseAuth, email, password)
       const idToken = await credential.user.getIdToken()
 
@@ -81,6 +85,12 @@ export default function AdminLoginPage() {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Admin panel</p>
           <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#10163a]">Welcome back</h2>
           <p className="mt-1 text-sm text-[#667085]">Sign in with your Firebase admin account.</p>
+
+          {!hasFirebaseClientEnv && (
+            <p className="mt-6 rounded-2xl border-[3px] border-[#b42318] bg-[#fff1f2] px-4 py-3 text-sm font-bold text-[#b42318] shadow-[4px_4px_0_#b42318]">
+              Firebase public environment variables are missing on this deployment. Add the `NEXT_PUBLIC_FIREBASE_*` values in Vercel and redeploy.
+            </p>
+          )}
 
           <form onSubmit={handleLogin} className="mt-8 space-y-4">
             <label className="block">
