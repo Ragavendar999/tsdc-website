@@ -42,6 +42,7 @@ export type Masterclass = {
 
 export const MASTERCLASS_STORAGE_KEY = 'tsdc-masterclasses-v1'
 export const MASTERCLASS_EXPIRY_REMINDER_KEY = 'tsdc-masterclass-expiry-reminders-v1'
+export const MASTERCLASS_DELETED_KEY = 'tsdc-masterclasses-deleted-v1'
 
 export const defaultMasterclasses: Masterclass[] = [
   {
@@ -159,14 +160,34 @@ export const formatPrice = (price: number) => `Rs ${price.toLocaleString('en-IN'
 
 const getMasterclassKey = (masterclass: Pick<Masterclass, 'id' | 'slug'>) => `${masterclass.id}::${masterclass.slug}`
 
+const loadDeletedMasterclassKeys = () => {
+  if (typeof window === 'undefined') return new Set<string>()
+
+  try {
+    const stored = window.localStorage.getItem(MASTERCLASS_DELETED_KEY)
+    if (!stored) return new Set<string>()
+    return new Set(JSON.parse(stored) as string[])
+  } catch {
+    return new Set<string>()
+  }
+}
+
+const persistDeletedMasterclassKeys = (keys: Set<string>) => {
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(MASTERCLASS_DELETED_KEY, JSON.stringify(Array.from(keys)))
+}
+
 export const mergeMasterclasses = (storedMasterclasses: Masterclass[] = []) => {
   const merged = new Map<string, Masterclass>()
+  const deletedKeys = loadDeletedMasterclassKeys()
 
   defaultMasterclasses.forEach((masterclass) => {
+    if (deletedKeys.has(getMasterclassKey(masterclass))) return
     merged.set(getMasterclassKey(masterclass), masterclass)
   })
 
   storedMasterclasses.forEach((masterclass) => {
+    if (deletedKeys.has(getMasterclassKey(masterclass))) return
     merged.set(getMasterclassKey(masterclass), masterclass)
   })
 
@@ -189,7 +210,21 @@ export const loadMasterclasses = () => {
 
 export const persistMasterclasses = (masterclasses: Masterclass[]) => {
   if (typeof window === 'undefined') return
+  const deletedKeys = loadDeletedMasterclassKeys()
+  masterclasses.forEach((masterclass) => deletedKeys.delete(getMasterclassKey(masterclass)))
+  persistDeletedMasterclassKeys(deletedKeys)
   window.localStorage.setItem(MASTERCLASS_STORAGE_KEY, JSON.stringify(mergeMasterclasses(masterclasses)))
+}
+
+export const deleteMasterclass = (masterclass: Pick<Masterclass, 'id' | 'slug'>, masterclasses: Masterclass[]) => {
+  if (typeof window === 'undefined') return masterclasses.filter((item) => item.id !== masterclass.id)
+
+  const nextMasterclasses = masterclasses.filter((item) => item.id !== masterclass.id)
+  const deletedKeys = loadDeletedMasterclassKeys()
+  deletedKeys.add(getMasterclassKey(masterclass))
+  persistDeletedMasterclassKeys(deletedKeys)
+  window.localStorage.setItem(MASTERCLASS_STORAGE_KEY, JSON.stringify(nextMasterclasses))
+  return nextMasterclasses
 }
 
 const parseIsoDate = (value?: string) => {

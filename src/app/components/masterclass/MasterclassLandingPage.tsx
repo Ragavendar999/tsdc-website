@@ -41,7 +41,39 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
     setMasterclasses(loadMasterclasses())
   }, [])
 
-  const masterclass = masterclasses.find((item) => item.slug === slug) || defaultMasterclasses[0]
+  const masterclass = masterclasses.find((item) => item.slug === slug)
+
+  if (!masterclass) {
+    return (
+      <main className="min-h-screen bg-[#0e1330] px-4 py-24 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-8 text-center text-[#10163a] shadow-[9px_9px_0_rgba(0,0,0,0.5)]">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#3244b5]">Masterclass unavailable</p>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass has been removed or is no longer active.</h1>
+          <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
+            The page no longer has a valid live masterclass connected to it. You can go back to the masterclasses page and pick another session.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href="/masterclasses"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
+            >
+              View Masterclasses
+              <ArrowRight size={16} />
+            </Link>
+            <button
+              type="button"
+              onClick={() => router.push('/')}
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-6 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a]"
+            >
+              <ArrowLeft size={16} />
+              Back to Home
+            </button>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
   const seatsLeft = masterclass.seatsTotal - masterclass.seatsTaken
   const seatProgress = Math.round((masterclass.seatsTaken / masterclass.seatsTotal) * 100)
 

@@ -57,7 +57,22 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
     setMasterclasses(loadMasterclasses())
   }, [])
 
-  const masterclass = masterclasses.find((item) => item.slug === slug) || defaultMasterclasses[0]
+  const masterclass = masterclasses.find((item) => item.slug === slug)
+
+  if (!masterclass) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-20">
+        <div className="rounded-[2.4rem] border-[3px] border-[#10163a] bg-white p-8 text-center text-[#10163a] shadow-[9px_9px_0_#10163a]">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Registration unavailable</p>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer available for registration.</h1>
+          <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
+            It may have been deleted, unpublished, or replaced in the admin panel.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   const discount = masterclass.originalPrice - masterclass.price
 
   const loadRazorpayScript = () =>

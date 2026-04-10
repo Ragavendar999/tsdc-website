@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import {
   defaultMasterclasses,
+  deleteMasterclass,
   loadMasterclasses,
   MASTERCLASS_EXPIRY_REMINDER_KEY,
   persistMasterclasses,
@@ -230,9 +231,9 @@ export default function MasterclassAdminPage({ userEmail }: { userEmail: string 
                   </button>
                   <button
                     onClick={() => {
-                      if (!confirm('Delete this masterclass?')) return
-                      const next = masterclasses.filter((item) => item.id !== active.id)
-                      saveMasterclasses(next.length ? next : defaultMasterclasses)
+                      if (!confirm(`Delete "${active.title}" from the entire site? This will remove its cards, links, and admin entry on this browser.`)) return
+                      const next = deleteMasterclass(active, masterclasses)
+                      setMasterclasses(next)
                       setActiveId((next[0] || defaultMasterclasses[0]).id)
                     }}
                     className="inline-flex items-center gap-1.5 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ea6865] px-4 py-2 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
