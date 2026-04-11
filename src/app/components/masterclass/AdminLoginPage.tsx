@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
         throw new Error(payload.error || 'Unable to create admin session')
       }
 
-      router.replace('/admin/masterclasses')
+      router.replace('/admin')
       router.refresh()
     } catch (loginError) {
       const message = loginError instanceof Error ? loginError.message : 'Unable to sign in'

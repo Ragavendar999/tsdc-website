@@ -3,53 +3,33 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Briefcase, GraduationCap, Sparkles, Users } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
+import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
-type Feature = {
-  icon: ReactNode
-  title: string
-  description: string
-  support: string
-  accent: string
-  tint: string
-}
-
-const features: Feature[] = [
-  {
-    icon: <GraduationCap className="h-6 w-6" />,
-    title: 'Beginner-friendly by design',
-    description: 'Students can start from zero and still build a polished portfolio with structure, clarity, and guided momentum.',
-    support: 'No degree required',
-    accent: '#ff9736',
-    tint: '#fff1dd',
-  },
-  {
-    icon: <Briefcase className="h-6 w-6" />,
-    title: 'Job-ready practical training',
-    description: 'The learning flow mirrors actual studio, startup, and agency work so students develop confidence employers can see.',
-    support: 'Industry-style assignments',
-    accent: '#3244b5',
-    tint: '#eef1ff',
-  },
-  {
-    icon: <Users className="h-6 w-6" />,
-    title: 'Mentors who push quality',
-    description: 'Students get direct feedback, practical corrections, and portfolio review support instead of being left to figure everything out alone.',
-    support: '1:1 growth feedback',
-    accent: '#ef6b63',
-    tint: '#fff1ee',
-  },
-  {
-    icon: <Sparkles className="h-6 w-6" />,
-    title: 'A confidence upgrade',
-    description: 'The real outcome is not just course completion. It is better work, clearer thinking, and visible proof of creative ability.',
-    support: 'Results you can show',
-    accent: '#db4b87',
-    tint: '#fff1f7',
-  },
+const featureIcons: ReactNode[] = [
+  <GraduationCap key="grad" className="h-6 w-6" />,
+  <Briefcase key="briefcase" className="h-6 w-6" />,
+  <Users key="users" className="h-6 w-6" />,
+  <Sparkles key="sparkles" className="h-6 w-6" />,
 ]
 
 export default function WhyTSDC() {
+  const [content, setContent] = useState(defaultSiteContent.whyTsdc)
+
+  useEffect(() => {
+    const syncContent = () => setContent(loadSiteContent().whyTsdc)
+
+    syncContent()
+    window.addEventListener('storage', syncContent)
+    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
+
+    return () => {
+      window.removeEventListener('storage', syncContent)
+      window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
+    }
+  }, [])
+
   return (
     <section className="site-section-bg section-alt-warm section-divider relative overflow-hidden px-4 py-14 sm:px-6 md:py-16">
       <div className="pointer-events-none absolute inset-0">
@@ -66,16 +46,16 @@ export default function WhyTSDC() {
           >
             <span className="retro-pill mb-4 px-4 py-2 text-xs font-black text-[#10163a] md:text-sm">
               <span className="h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse-soft" />
-              Why students choose TSDC in Chennai
+              {content.badge}
             </span>
 
             <h2 className="headline-balance max-w-4xl text-3xl font-black leading-[0.98] tracking-[-0.05em] text-[#081225] sm:text-4xl lg:text-5xl">
-              The institute experience feels
-              <span className="block text-[#3244b5]">clearer, brighter, and more career-focused.</span>
+              {content.title}
+              <span className="block text-[#3244b5]">{content.highlight}</span>
             </h2>
 
             <p className="mt-4 max-w-2xl text-base leading-7 text-[#344054]">
-              Students do not join TSDC for a plain classroom feeling. They join for practical work, real mentorship, stronger portfolios, internship-style learning, and a clearer path into creative jobs.
+              {content.description}
             </p>
           </motion.div>
 
@@ -86,19 +66,15 @@ export default function WhyTSDC() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="rounded-[1.9rem] border-[3px] border-[#10163a] bg-[#3244b5] p-5 text-white shadow-[8px_8px_0_#10163a] md:p-6"
           >
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#ffcb53]">What you walk away with</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#ffcb53]">{content.outcomesTitle}</p>
             <div className="mt-4 space-y-3">
-              {[
-                { text: 'A portfolio of real work you can show employers and clients — not just a certificate.', bg: '#fff1dd' },
-                { text: 'Hands-on skills from live projects, industry briefs, and mentor-reviewed feedback.', bg: '#ffffff' },
-                { text: 'A clear next step: placement support, freelance confidence, and a career direction that sticks.', bg: '#fff1f7' },
-              ].map((item) => (
+              {content.outcomes.map((item, index) => (
                 <div
-                  key={item.text}
+                  key={item}
                   className="rounded-[1.15rem] border-[3px] border-[#10163a] px-4 py-3 text-sm leading-6 shadow-[4px_4px_0_#10163a]"
-                  style={{ backgroundColor: item.bg, color: '#10163a' }}
+                  style={{ backgroundColor: ['#fff1dd', '#ffffff', '#fff1f7'][index % 3], color: '#10163a' }}
                 >
-                  {item.text}
+                  {item}
                 </div>
               ))}
             </div>
@@ -106,7 +82,7 @@ export default function WhyTSDC() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
+          {content.features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 28 }}
@@ -133,7 +109,7 @@ export default function WhyTSDC() {
                     className="flex h-12 w-12 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
                     style={{ backgroundColor: feature.accent }}
                   >
-                    <span>{feature.icon}</span>
+                    <span>{featureIcons[index % featureIcons.length]}</span>
                   </motion.div>
                   <span className="rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#667085] shadow-[3px_3px_0_#10163a]">
                     0{index + 1}
@@ -161,7 +137,7 @@ export default function WhyTSDC() {
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-8 py-4 font-black text-white shadow-[6px_6px_0_#10163a] transition-all hover:-translate-y-1"
           >
             <span className="absolute inset-y-0 -left-14 w-12 rotate-12 bg-white/30 blur-sm transition-transform duration-700 group-hover:translate-x-72" />
-            <span className="relative">View All Job-Ready Courses</span>
+            <span className="relative">{content.ctaLabel}</span>
             <ArrowRight size={16} className="relative transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

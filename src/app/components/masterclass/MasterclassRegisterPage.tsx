@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { defaultMasterclasses, formatPrice, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
+import { loadSiteSettings } from '@/app/lib/siteSettings'
 import MasterclassExperienceShell from './MasterclassExperienceShell'
 
 type CapturedStudent = {
@@ -145,6 +146,9 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
 
     const notifyAdmin = (status: 'paid' | 'abandoned') => {
       if (!studentRef.current) return
+      const triggers = loadSiteSettings().email.triggers
+      if (status === 'paid' && !triggers.masterclassPaid) return
+      if (status === 'abandoned' && !triggers.masterclassAbandoned) return
       fetch('/api/masterclass/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

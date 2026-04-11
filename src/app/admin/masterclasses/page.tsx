@@ -1,22 +1,5 @@
-import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import MasterclassAdminPage from '@/app/components/masterclass/MasterclassAdminPage'
-import { verifyAdminSession } from '@/lib/auth/admin-session'
 
-export const metadata: Metadata = {
-  title: 'TSDC Admin | Masterclasses',
-  robots: {
-    index: false,
-    follow: false,
-  },
-}
-
-export default async function Page() {
-  const session = await verifyAdminSession()
-
-  if (!session?.email) {
-    redirect('/admin/login')
-  }
-
-  return <MasterclassAdminPage userEmail={session.email} />
+export default function AdminMasterclassesPage() {
+  redirect('/admin?tab=masterclasses')
 }

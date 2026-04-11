@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next'
+import { defaultMasterclasses } from './lib/masterclasses'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://traijoedu.in'
-  const lastModified = new Date('2026-04-01')
+  const lastModified = new Date()
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
       lastModified,
@@ -53,5 +54,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/masterclasses`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms-conditions`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/refund-cancellation-policy`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
+
+  const masterclassRoutes: MetadataRoute.Sitemap = defaultMasterclasses.flatMap((masterclass) => [
+    {
+      url: `${baseUrl}/masterclasses/${masterclass.slug}`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/masterclasses/${masterclass.slug}/register`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+  ])
+
+  return [...staticRoutes, ...masterclassRoutes]
 }

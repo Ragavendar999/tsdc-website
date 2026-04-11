@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import DigitalMarketingContent from './DigitalMarketingContent'
+import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Best Digital Marketing Course in Chennai | SEO, Google Ads & Meta Ads - TSDC',
@@ -46,5 +47,31 @@ export const metadata: Metadata = {
 }
 
 export default function DigitalMarketingCoursePage() {
-  return <DigitalMarketingContent />
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Courses', path: '/courses' },
+      { name: 'Digital Marketing', path: '/courses/digital-marketing' },
+    ]),
+    courseSchema({
+      name: 'Digital Marketing Course in Chennai',
+      description:
+        "Enroll in TSDC's Digital Marketing Course in Chennai. Learn SEO, Google Ads, Meta Ads, social media marketing, analytics, content strategy and live campaign execution.",
+      path: '/courses/digital-marketing',
+      image: '/Digital_marketing.png',
+    }),
+  ]
+
+  return (
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`digital-marketing-schema-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
+        />
+      ))}
+      <DigitalMarketingContent />
+    </>
+  )
 }

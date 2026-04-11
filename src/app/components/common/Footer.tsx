@@ -3,29 +3,33 @@
 import { Facebook, Instagram, Linkedin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 import { legalLinks } from '@/app/lib/legalPages'
+import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
-const socialLinks = [
-  {
-    name: 'Instagram',
-    href: 'https://www.instagram.com/traijosdc_official/',
-    icon: Instagram,
-  },
-  {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/Traijosdc',
-    icon: Facebook,
-  },
-  {
-    name: 'LinkedIn',
-    href: 'https://in.linkedin.com/company/traijoskilldevelopmentcenter',
-    icon: Linkedin,
-  },
-]
+const socialIcons = {
+  Instagram,
+  Facebook,
+  LinkedIn: Linkedin,
+}
 
 export default function Footer() {
   const { openPopup } = useContactPopup()
+  const [content, setContent] = useState(defaultSiteContent.footer)
+
+  useEffect(() => {
+    const syncContent = () => setContent(loadSiteContent().footer)
+
+    syncContent()
+    window.addEventListener('storage', syncContent)
+    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
+
+    return () => {
+      window.removeEventListener('storage', syncContent)
+      window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
+    }
+  }, [])
 
   return (
     <footer className="relative z-10 overflow-hidden border-t-[3px] border-[#10163a] bg-[#fff8ef] px-6 py-16 text-sm text-[#39415f] sm:px-8">
@@ -33,17 +37,17 @@ export default function Footer() {
         <div className="col-span-2 space-y-4">
           <Image src="/logo.png" alt="TSDC Logo" width={150} height={40} />
           <p className="max-w-md text-sm leading-7 text-[#39415f]">
-            TSDC is a brighter path into creative careers, with practical training, real projects, portfolio building, and mentorship that helps students become more visible and employable.
+            {content.description}
           </p>
           <div className="retro-pill px-4 py-2 text-xs font-black text-[#10163a]">
             <span className="h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse-soft" />
-            Built for students who want real outcomes
+            {content.pillText}
           </div>
           <div>
             <h5 className="mb-3 mt-5 uppercase tracking-[0.18em] text-[#10163a]">Social</h5>
             <div className="flex flex-wrap gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon
+              {content.socialLinks.map((social) => {
+                const Icon = socialIcons[social.name as keyof typeof socialIcons] || Instagram
                 return (
                   <a
                     key={social.name}
@@ -110,7 +114,7 @@ export default function Footer() {
                 }
                 className="hover:text-[#3244b5]"
               >
-                support@traijoedu.in
+                {content.contactEmail}
               </button>
             </p>
             <p>
@@ -128,27 +132,28 @@ export default function Footer() {
                 }
                 className="hover:text-[#3244b5]"
               >
-                +91-73581-16929
+                {content.contactPhone}
               </button>
             </p>
-            <p>Hours: Mon-Sat, 9AM - 6PM</p>
+            <p>Hours: {content.contactHours}</p>
           </div>
 
           <div className="mt-4 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-4 text-[#10163a] shadow-[5px_5px_0_#10163a]">
             <strong>Address:</strong>
             <p className="mt-2 leading-6">
-              Villa 20, Block 52,
-              <br />
-              Bollineni Hillside Rd, Nookampalayam,
-              <br />
-              Perumbakkam, Chennai, Tamil Nadu 600131.
+              {content.addressLines.map((line, index) => (
+                <span key={`${line}-${index}`}>
+                  {line}
+                  {index < content.addressLines.length - 1 ? <br /> : null}
+                </span>
+              ))}
             </p>
           </div>
         </div>
       </div>
 
       <div className="relative z-10 mt-12 border-t-[3px] border-[#10163a] pt-6 text-center text-xs text-[#5c617d]">
-        © {new Date().getFullYear()} Traijo Skill Development Center. Design | Marketing | Innovation
+        &copy; {new Date().getFullYear()} Traijo Skill Development Center. {content.copyrightLine}
       </div>
     </footer>
   )

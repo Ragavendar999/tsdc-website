@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import GraphicDesignContent from './GraphicDesignContent'
+import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Best Graphic Design Course in Chennai | Best Graphic Design Institute - TSDC',
@@ -45,5 +46,31 @@ export const metadata: Metadata = {
 }
 
 export default function GraphicDesignCoursePage() {
-  return <GraphicDesignContent />
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Courses', path: '/courses' },
+      { name: 'Graphic Design', path: '/courses/graphic-design' },
+    ]),
+    courseSchema({
+      name: 'Graphic Design Course in Chennai',
+      description:
+        "Enroll in TSDC's Graphic Design Course in Chennai. Learn Adobe Photoshop, Illustrator, InDesign, branding, logo design, packaging and portfolio projects at a job-focused creative education institute.",
+      path: '/courses/graphic-design',
+      image: '/graphic.png',
+    }),
+  ]
+
+  return (
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`graphic-design-schema-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
+        />
+      ))}
+      <GraphicDesignContent />
+    </>
+  )
 }

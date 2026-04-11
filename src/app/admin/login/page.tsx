@@ -15,7 +15,7 @@ export default async function Page() {
   const session = await verifyAdminSession()
 
   if (session) {
-    redirect('/admin/masterclasses')
+    redirect('/admin')
   }
 
   return <AdminLoginPage />

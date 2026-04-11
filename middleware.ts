@@ -4,8 +4,12 @@ import type { NextRequest } from 'next/server'
 const ADMIN_SESSION_COOKIE = 'tsdc-admin-session'
 
 export function middleware(req: NextRequest) {
-  const isAdminRoute = req.nextUrl.pathname.startsWith('/admin/masterclasses')
+  const { pathname } = req.nextUrl
+  const isAdminRoute = pathname.startsWith('/admin')
+  const isLoginRoute = pathname === '/admin/login'
+
   if (!isAdminRoute) return NextResponse.next()
+  if (isLoginRoute) return NextResponse.next()
 
   const hasSession = Boolean(req.cookies.get(ADMIN_SESSION_COOKIE)?.value)
   if (hasSession) return NextResponse.next()
@@ -14,5 +18,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/masterclasses/:path*'],
+  matcher: ['/admin/:path*'],
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import VideoEditingContent from './VideoEditingContent'
+import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Best Video Editing & Motion Graphics Course in Chennai | Premiere Pro & After Effects - TSDC',
@@ -49,5 +50,31 @@ export const metadata: Metadata = {
 }
 
 export default function VideoEditingCoursePage() {
-  return <VideoEditingContent />
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Courses', path: '/courses' },
+      { name: 'Video Editing', path: '/courses/video-editing' },
+    ]),
+    courseSchema({
+      name: 'Video Editing and Motion Graphics Course in Chennai',
+      description:
+        "Enroll in TSDC's Video Editing and Motion Graphics Course in Chennai. Learn Premiere Pro, After Effects, DaVinci Resolve, reel editing, color grading and real commercial projects.",
+      path: '/courses/video-editing',
+      image: '/og-banner.png',
+    }),
+  ]
+
+  return (
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`video-editing-schema-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
+        />
+      ))}
+      <VideoEditingContent />
+    </>
+  )
 }

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import Hero from './components/homepage/Hero'
-import CoursesSection from './components/homepage/CoursesSection'
-import WhyTSDC from './components/homepage/WhyTSDC'
-import MasterclassSection from './components/masterclass/MasterclassSection'
+import HomepageContent from './components/homepage/HomepageContent'
+import { itemListSchema, jsonLd, organizationSchema } from './lib/seo'
 
 export const metadata: Metadata = {
   title: 'Best Creative Education Institute in Chennai | Graphic Design, UI UX, Digital Marketing, Video Editing & Motion Graphics',
@@ -32,12 +30,29 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
+  const schemas = [
+    organizationSchema,
+    itemListSchema({
+      name: 'TSDC Creative Courses',
+      items: [
+        { title: 'Graphic Design Course', path: '/courses/graphic-design' },
+        { title: 'UI/UX Design Course', path: '/courses/uiux-design' },
+        { title: 'Digital Marketing Course', path: '/courses/digital-marketing' },
+        { title: 'Video Editing Course', path: '/courses/video-editing' },
+      ],
+    }),
+  ]
+
   return (
-    <div className="-mt-20">
-      <Hero />
-      <WhyTSDC />
-      <MasterclassSection />
-      <CoursesSection />
-    </div>
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`home-schema-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
+        />
+      ))}
+      <HomepageContent />
+    </>
   )
 }

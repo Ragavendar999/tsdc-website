@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import CoursesPage from '../components/courses/CoursesPage'
+import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
 
 export const metadata: Metadata = {
   title: 'Creative Courses in Chennai | Graphic Design, UI/UX, Digital Marketing, Video Editing & Motion Graphics',
@@ -50,5 +51,32 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <CoursesPage />
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Courses', path: '/courses' },
+    ]),
+    itemListSchema({
+      name: 'Creative Courses in Chennai',
+      items: [
+        { title: 'Graphic Design Course', path: '/courses/graphic-design' },
+        { title: 'UI/UX Design Course', path: '/courses/uiux-design' },
+        { title: 'Digital Marketing Course', path: '/courses/digital-marketing' },
+        { title: 'Video Editing Course', path: '/courses/video-editing' },
+      ],
+    }),
+  ]
+
+  return (
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`courses-schema-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
+        />
+      ))}
+      <CoursesPage />
+    </>
+  )
 }
