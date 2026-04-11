@@ -33,7 +33,7 @@ export default function WhyTSDC() {
   return (
     <section className="site-section-bg section-alt-warm section-divider relative overflow-hidden px-4 py-14 sm:px-6 md:py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="animate-float-soft absolute -left-6 top-20 h-20 w-20 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] opacity-60 shadow-[5px_5px_0_#10163a]" />
+        <div className="animate-float-soft absolute -left-6 top-20 h-20 w-20 rounded-full bg-[#ffcb53] opacity-50" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -64,15 +64,15 @@ export default function WhyTSDC() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="rounded-[1.9rem] border-[3px] border-[#10163a] bg-[#3244b5] p-5 text-white shadow-[8px_8px_0_#10163a] md:p-6"
+            className="rounded-[1.9rem] border-[3px] border-[#10163a] bg-[#3244b5] p-5 text-white shadow-[5px_5px_0_#10163a] md:p-6"
           >
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#ffcb53]">{content.outcomesTitle}</p>
             <div className="mt-4 space-y-3">
               {content.outcomes.map((item, index) => (
                 <div
                   key={item}
-                  className="rounded-[1.15rem] border-[3px] border-[#10163a] px-4 py-3 text-sm leading-6 shadow-[4px_4px_0_#10163a]"
-                  style={{ backgroundColor: ['#fff1dd', '#ffffff', '#fff1f7'][index % 3], color: '#10163a' }}
+                  className="rounded-xl px-4 py-3 text-sm leading-6"
+                  style={{ backgroundColor: ['#fff4e0', '#ffffff', '#fff0f6'][index % 3], color: '#10163a', border: '1.5px solid rgba(255,255,255,0.35)' }}
                 >
                   {item}
                 </div>
@@ -94,8 +94,8 @@ export default function WhyTSDC() {
               <motion.div
                 whileHover={{ y: -8 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="group relative h-full overflow-hidden rounded-[1.7rem] border-[3px] border-[#10163a] p-5 shadow-[6px_6px_0_#10163a]"
-                style={{ backgroundColor: feature.tint }}
+                className="group relative h-full overflow-hidden rounded-[1.7rem] p-5 shadow-sm"
+                style={{ border: `2px solid ${feature.accent}25`, backgroundColor: feature.tint }}
               >
                 <div
                   className="absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-25"
@@ -111,7 +111,7 @@ export default function WhyTSDC() {
                   >
                     <span>{featureIcons[index % featureIcons.length]}</span>
                   </motion.div>
-                  <span className="rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[#667085] shadow-[3px_3px_0_#10163a]">
+                  <span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-black text-[#667085]" style={{ border: '1.5px solid rgba(16,22,58,0.1)' }}>
                     0{index + 1}
                   </span>
                 </div>
@@ -120,8 +120,8 @@ export default function WhyTSDC() {
                 <p className="relative text-sm leading-6 text-[#475467]">{feature.description}</p>
 
                 <div
-                  className="relative mt-4 inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.14em] text-white shadow-[3px_3px_0_#10163a]"
-                  style={{ backgroundColor: feature.accent }}
+                  className="relative mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-bold"
+                  style={{ backgroundColor: `${feature.accent}18`, color: feature.accent, border: `1.5px solid ${feature.accent}35` }}
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   {feature.support}

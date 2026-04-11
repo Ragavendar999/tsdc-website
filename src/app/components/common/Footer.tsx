@@ -138,7 +138,7 @@ export default function Footer() {
             <p>Hours: {content.contactHours}</p>
           </div>
 
-          <div className="mt-4 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-4 text-[#10163a] shadow-[5px_5px_0_#10163a]">
+          <div className="mt-4 rounded-[1.5rem] bg-[#f0f4ff] p-4 text-[#10163a]" style={{ border: '1.5px solid rgba(50,68,181,0.15)' }}>
             <strong>Address:</strong>
             <p className="mt-2 leading-6">
               {content.addressLines.map((line, index) => (

@@ -6,6 +6,7 @@ import CoursesSection from './CoursesSection'
 import Hero from './Hero'
 import JourneyTimeline from './JourneyTimeline'
 import WhyTSDC from './WhyTSDC'
+import BatchScheduleSection from './BatchScheduleSection'
 import MasterclassSection from '../masterclass/MasterclassSection'
 
 const sectionMap = {
@@ -13,6 +14,7 @@ const sectionMap = {
   'why-tsdc': <WhyTSDC />,
   masterclasses: <MasterclassSection />,
   courses: <CoursesSection />,
+  'batch-schedule': <BatchScheduleSection />,
   journey: <JourneyTimeline />,
 }
 

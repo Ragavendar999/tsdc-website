@@ -21,6 +21,12 @@ import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
 const impactStatIcons = [<Users key="users" size={16} />, <Briefcase key="briefcase" size={16} />, <Award key="award" size={16} />, <Star key="star" size={16} />]
+const statAccents = [
+  { bg: '#fff4e5', border: 'rgba(255,151,54,0.3)',  icon: '#ff9736' },
+  { bg: '#eef3ff', border: 'rgba(50,68,181,0.25)',  icon: '#3244b5' },
+  { bg: '#fdf4ff', border: 'rgba(219,75,135,0.25)', icon: '#db4b87' },
+  { bg: '#fffbeb', border: 'rgba(255,203,83,0.45)',  icon: '#92400e' },
+]
 const heroTrackIcons = [
   <Paintbrush key="paintbrush" size={23} />,
   <MonitorSmartphone key="device" size={23} />,
@@ -65,7 +71,7 @@ export default function HeroSection() {
     <section className="site-section-bg relative overflow-hidden pt-20">
       <div className="pointer-events-none absolute inset-0">
         <div className="brand-dot-grid absolute inset-0 opacity-15" />
-        <div className="animate-float-orb absolute right-[5%] top-16 h-20 w-20 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] opacity-70 shadow-[5px_5px_0_#10163a]" />
+        <div className="animate-float-orb absolute right-[5%] top-16 h-20 w-20 rounded-full bg-[#ffcb53] opacity-60" />
       </div>
 
       <div className="relative z-10 mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-7 px-4 py-6 sm:px-6 md:grid-cols-[1.02fr_0.98fr] md:gap-8 lg:py-6">
@@ -130,7 +136,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + index * 0.08 }}
-                className="flex items-center gap-1.5 rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1.5 text-xs font-bold text-[#1b2940] shadow-[3px_3px_0_#10163a]"
+                className="flex items-center gap-1.5 rounded-full border border-[#3244b5]/25 bg-[#eef3ff] px-3 py-1.5 text-xs font-semibold text-[#2d3d8f]"
               >
                 <CheckCircle2 size={12} className="shrink-0 text-[#3244b5]" />
                 {item}
@@ -143,9 +149,10 @@ export default function HeroSection() {
               <motion.div
                 key={stat.label}
                 whileHover={{ y: -4 }}
-                className="rounded-[1.25rem] border-[3px] border-[#10163a] bg-white px-3 py-3 text-center shadow-[5px_5px_0_#10163a]"
+                className="rounded-[1.25rem] px-3 py-3 text-center"
+                style={{ backgroundColor: statAccents[index % statAccents.length].bg, border: `1.5px solid ${statAccents[index % statAccents.length].border}` }}
               >
-                <div className="mb-1 flex justify-center text-[#3244b5]">{impactStatIcons[index % impactStatIcons.length]}</div>
+                <div className="mb-1 flex justify-center" style={{ color: statAccents[index % statAccents.length].icon }}>{impactStatIcons[index % impactStatIcons.length]}</div>
                 <div className="text-lg font-black text-[#081225]">{stat.value}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#5b6475]">{stat.label}</div>
               </motion.div>
@@ -161,7 +168,7 @@ export default function HeroSection() {
         >
           <div className="relative">
             <div className="relative overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[9px_9px_0_#10163a]">
-              <div className="mb-3 rounded-[1.45rem] border-[3px] border-[#10163a] bg-[#fffaf1] p-5 text-[#0f1634]">
+              <div className="mb-3 rounded-[1.45rem] border border-[#3244b5]/12 bg-[#f0f4ff] p-5 text-[#0f1634]">
                 <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#3244b5]">{content.panelEyebrow}</p>
                 <h3 className="mt-2 text-2xl font-black leading-tight lg:text-[1.65rem]">
                   {content.panelTitle}
@@ -180,7 +187,7 @@ export default function HeroSection() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.25 + index * 0.08 }}
                     whileHover={{ x: 6 }}
-                    className="rounded-[1.3rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-3.5 shadow-[4px_4px_0_#10163a]"
+                    className="rounded-[1.3rem] border border-[#10163a]/10 bg-white p-3.5"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -204,7 +211,7 @@ export default function HeroSection() {
                   { value: '1:1', label: 'Mentor feedback', color: '#fa8a43' },
                   { value: 'Fast', label: 'Job momentum', color: '#ea6865' },
                 ].map((item) => (
-                  <div key={item.label} className="rounded-[1.1rem] border-[3px] border-[#10163a] bg-white px-2.5 py-2.5 text-center shadow-[4px_4px_0_#10163a]">
+                  <div key={item.label} className="rounded-[1.1rem] bg-white px-2.5 py-2.5 text-center" style={{ border: '1.5px solid rgba(16,22,58,0.1)' }}>
                     <div className="text-lg font-black" style={{ color: item.color }}>{item.value}</div>
                     <div className="mt-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#6b7280]">{item.label}</div>
                   </div>

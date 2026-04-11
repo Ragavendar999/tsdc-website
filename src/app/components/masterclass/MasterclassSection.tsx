@@ -64,11 +64,11 @@ export default function MasterclassSection({ compact = false, title, subtitle }:
                 <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-xs font-black uppercase tracking-[0.24em] text-[#6b7288]">TSDC Masterclass</p>
-                    <span className="mt-3 inline-flex rounded-full border-[3px] border-[#10163a] bg-[#3244b5] px-3 py-1.5 text-xs font-black text-white shadow-[3px_3px_0_#10163a]">
+                    <span className="mt-3 inline-flex rounded-full bg-[#3244b5] px-3 py-1.5 text-xs font-black text-white" style={{ border: '1.5px solid rgba(50,68,181,0.4)' }}>
                       {masterclass.badge}
                     </span>
                   </div>
-                  <div className="rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] px-3 py-1.5 text-xs font-black text-[#160b24] shadow-[3px_3px_0_#10163a]">
+                  <div className="rounded-full bg-[#fffbeb] px-3 py-1.5 text-xs font-black text-[#92400e]" style={{ border: '1.5px solid rgba(255,203,83,0.5)' }}>
                     {formatPrice(masterclass.price)}
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export default function MasterclassSection({ compact = false, title, subtitle }:
                         </p>
                       </div>
 
-                      <div className="rounded-[1.8rem] border-[3px] border-[#10163a] bg-[linear-gradient(180deg,#f8faff_0%,#eef2ff_100%)] p-4 shadow-[5px_5px_0_#10163a]">
+                      <div className="rounded-[1.8rem] bg-[#f0f5ff] p-4" style={{ border: '1.5px solid rgba(50,68,181,0.12)' }}>
                         <div className="grid gap-3 lg:grid-cols-3">
                           {[
                             [Clock, masterclass.date],
@@ -96,7 +96,8 @@ export default function MasterclassSection({ compact = false, title, subtitle }:
                             return (
                               <div
                                 key={label as string}
-                                className="rounded-[1.25rem] border-[3px] border-[#10163a] bg-white/95 px-4 py-3 shadow-[4px_4px_0_#10163a]"
+                                className="rounded-[1.25rem] bg-white px-4 py-3"
+                                style={{ border: '1.5px solid rgba(50,68,181,0.12)' }}
                               >
                                 <div className="flex items-center gap-2 lg:min-h-[44px]">
                                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fff3e5]">
@@ -150,7 +151,8 @@ export default function MasterclassSection({ compact = false, title, subtitle }:
                         return (
                           <div
                             key={label as string}
-                            className="rounded-[1.25rem] border-[3px] border-[#10163a] bg-[linear-gradient(180deg,#f8faff_0%,#eef2ff_100%)] px-4 py-3 shadow-[4px_4px_0_#10163a]"
+                            className="rounded-[1.25rem] bg-[#f0f5ff] px-4 py-3"
+                            style={{ border: '1.5px solid rgba(50,68,181,0.12)' }}
                           >
                             <div className="flex items-center gap-2">
                               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fff3e5]">

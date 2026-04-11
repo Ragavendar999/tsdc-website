@@ -86,7 +86,7 @@ export default function CoursesSection() {
                           <p className="text-sm font-bold" style={{ color: course.accent }}>{course.role}</p>
                         </div>
                       </div>
-                      <div className="w-max rounded-full border-[3px] border-[#10163a] bg-white px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#667085] shadow-[3px_3px_0_#10163a]">
+                      <div className="w-max rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-[#667085]" style={{ border: '1.5px solid rgba(16,22,58,0.12)' }}>
                         <CalendarClock size={12} className="mr-1 inline" />
                         {course.duration}
                       </div>
@@ -100,7 +100,8 @@ export default function CoursesSection() {
                       {course.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full border-[3px] border-[#10163a] bg-[#fffdf7] px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#445066] shadow-[3px_3px_0_#10163a]"
+                          className="rounded-full px-3 py-1.5 text-xs font-semibold"
+                          style={{ backgroundColor: `${course.accent}14`, color: course.accent, border: `1.5px solid ${course.accent}28` }}
                         >
                           {skill}
                         </span>

@@ -136,9 +136,24 @@ a {
 
 .retro-card-soft {
   background: #fff8f0;
-  border: 3px solid var(--line);
+  border: 1.5px solid rgba(16, 22, 58, 0.12);
   border-radius: calc(var(--radius-card) - 0.15rem);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 12px rgba(16, 22, 58, 0.07);
+}
+
+/* Soft info chip — for date/duration/tag/stat display (not interactive) */
+.info-chip {
+  background: #f8faff;
+  border: 1.5px solid rgba(50, 68, 181, 0.14);
+  border-radius: 0.85rem;
+}
+
+/* Content card — non-interactive display card */
+.content-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(16, 22, 58, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 16px rgba(16, 22, 58, 0.07);
 }
 
 .retro-card-dark {
@@ -153,10 +168,9 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  border: 3px solid var(--line);
+  border: 1.5px solid rgba(16, 22, 58, 0.18);
   border-radius: var(--radius-pill);
-  background: #fffdf7;
-  box-shadow: 4px 4px 0 #10163a;
+  background: #f0f4ff;
 }
 
 .retro-button-primary,

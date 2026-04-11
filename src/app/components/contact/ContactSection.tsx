@@ -50,9 +50,9 @@ export default function ContactSection() {
 
   return (
     <section className="site-section-bg relative min-h-[88vh] overflow-hidden px-4 py-10 md:py-14">
-      <div className="absolute left-8 top-16 h-24 w-24 rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#ff9736] shadow-[6px_6px_0_#10163a]" />
-      <div className="absolute right-8 top-24 h-24 w-24 rounded-full border-[3px] border-[#10163a] bg-[#db4b87] shadow-[6px_6px_0_#10163a]" />
-      <div className="absolute bottom-16 left-[12%] hidden h-16 w-16 rotate-45 border-[3px] border-[#10163a] bg-[#3244b5] shadow-[5px_5px_0_#10163a] lg:block" />
+      <div className="absolute left-8 top-16 h-24 w-24 rounded-[1.8rem] bg-[#ff9736] opacity-60" />
+      <div className="absolute right-8 top-24 h-24 w-24 rounded-full bg-[#db4b87] opacity-50" />
+      <div className="absolute bottom-16 left-[12%] hidden h-16 w-16 rotate-45 bg-[#3244b5] opacity-40 lg:block" />
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
@@ -63,8 +63,8 @@ export default function ContactSection() {
         >
           <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative overflow-hidden bg-[#fff8ed] px-6 py-8 text-[#10163a] md:px-8 md:py-10">
-              <div className="absolute -left-8 top-10 h-24 w-24 rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#3244b5] shadow-[5px_5px_0_#10163a]" />
-              <div className="absolute right-8 top-12 h-16 w-16 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] shadow-[4px_4px_0_#10163a]" />
+              <div className="absolute -left-8 top-10 h-24 w-24 rounded-[1.8rem] bg-[#3244b5] opacity-50" />
+              <div className="absolute right-8 top-12 h-16 w-16 rounded-full bg-[#ffcb53] opacity-60" />
 
               <div className="relative z-10">
                 <div className="retro-pill px-4 py-2 text-sm font-black text-[#10163a]">
@@ -85,8 +85,8 @@ export default function ContactSection() {
                   {content.stats.map((item, index) => (
                     <div
                       key={item.label}
-                      className="rounded-[1.4rem] border-[3px] border-[#10163a] px-4 py-5 shadow-[4px_4px_0_#10163a]"
-                      style={{ backgroundColor: ['#fff1dd', '#eef1ff', '#fff1f6'][index % 3] }}
+                      className="rounded-[1.4rem] px-4 py-5"
+                      style={{ backgroundColor: ['#fff4e0', '#eef3ff', '#fff0f6'][index % 3], border: '1.5px solid rgba(16,22,58,0.08)' }}
                     >
                       <p className="text-2xl font-black text-[#10163a]">{item.value}</p>
                       <p className="mt-1 text-sm leading-6 text-[#445066]">{item.label}</p>
@@ -125,7 +125,7 @@ export default function ContactSection() {
                     >
                       <div className="flex items-start gap-4">
                         <div
-                          className="rounded-[1rem] border-[3px] border-[#10163a] p-3 text-white shadow-[4px_4px_0_#10163a]"
+                          className="rounded-[1rem] p-3 text-white"
                           style={{ backgroundColor: action.accent }}
                         >
                           <Icon size={18} />
@@ -166,8 +166,8 @@ export default function ContactSection() {
                 {content.supportCards.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-[1.5rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]"
-                    style={{ backgroundColor: item.color }}
+                    className="rounded-[1.5rem] p-5"
+                    style={{ backgroundColor: item.color, border: '1.5px solid rgba(16,22,58,0.08)' }}
                   >
                     <h4 className="text-base font-black text-[#10163a]">{item.title}</h4>
                     <p className="mt-2 text-sm leading-6 text-[#475569]">{item.text}</p>
@@ -177,7 +177,7 @@ export default function ContactSection() {
             </div>
 
             <div className="grid gap-5">
-              <div className="relative h-[320px] overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[7px_7px_0_#10163a]">
+              <div className="relative h-[320px] overflow-hidden rounded-[2rem] bg-white" style={{ border: '1.5px solid rgba(16,22,58,0.1)', boxShadow: '0 4px 20px rgba(16,22,58,0.08)' }}>
                 <iframe
                   src={content.mapEmbedUrl}
                   width="100%"
@@ -187,7 +187,7 @@ export default function ContactSection() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
-                <div className="absolute inset-x-4 bottom-4 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[5px_5px_0_#10163a]">
+                <div className="absolute inset-x-4 bottom-4 rounded-[1.5rem] bg-white p-4" style={{ border: '1.5px solid rgba(16,22,58,0.1)', boxShadow: '0 4px 16px rgba(16,22,58,0.1)' }}>
                   <div className="flex items-center gap-2 text-sm font-bold text-[#3244b5]">
                     <MapPin size={16} />
                     {content.mapTitle}

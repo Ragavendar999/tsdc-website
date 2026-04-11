@@ -14,7 +14,7 @@ import MasterclassAdminPage from '@/app/components/masterclass/MasterclassAdminP
 import { loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import {
   defaultSiteContent, homepageSectionCatalog, loadSiteContent,
-  persistSiteContent, type SiteContent, type SiteSectionConfig,
+  persistSiteContent, type BatchEntry, type SiteContent, type SiteSectionConfig,
 } from '@/app/lib/siteContent'
 import {
   defaultCourseContent, loadCourseContent, persistCourseContent,
@@ -51,7 +51,7 @@ const textareaCls = `${inputCls} resize-none`
 
 function Toggle({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-3 rounded-[1rem] border-[2.5px] border-[#10163a] bg-white px-4 py-3 shadow-[3px_3px_0_#10163a]">
+    <label className="flex cursor-pointer items-center justify-between gap-3 rounded-[1rem] bg-white px-4 py-3" style={{ border: '1.5px solid rgba(16,22,58,0.12)' }}>
       <span className="text-sm font-bold text-[#10163a]">{label}</span>
       <div
         onClick={onToggle}
@@ -65,8 +65,8 @@ function Toggle({ on, onToggle, label }: { on: boolean; onToggle: () => void; la
 
 function SectionCard({ title, accent, children }: { title: string; accent?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[1.8rem] border-[3px] border-[#10163a] bg-white shadow-[6px_6px_0_#10163a]">
-      <div className="border-b-[3px] border-[#10163a] px-6 py-4" style={{ backgroundColor: accent ?? '#eef1ff' }}>
+    <div className="rounded-[1.8rem] bg-white" style={{ border: '1.5px solid rgba(16,22,58,0.1)', boxShadow: '0 2px 16px rgba(16,22,58,0.06)' }}>
+      <div className="rounded-t-[1.6rem] px-6 py-4" style={{ backgroundColor: accent ?? '#eef3ff', borderBottom: '1.5px solid rgba(16,22,58,0.08)' }}>
         <p className="text-sm font-black text-[#10163a]">{title}</p>
       </div>
       <div className="p-6">{children}</div>
@@ -125,8 +125,10 @@ export default function UnifiedAdminPage({
 
   /* ─── Site content helpers ───────────────────────────────── */
   const saveSiteContent = (next: SiteContent) => { setSiteContent(next); persistSiteContent(next); stamp() }
-  const updateSiteContent = <K extends keyof SiteContent>(section: K, patch: Partial<SiteContent[K]>) =>
-    saveSiteContent({ ...siteContent, [section]: { ...siteContent[section], ...patch } } as SiteContent)
+  const updateSiteContent = <K extends keyof SiteContent>(section: K, patch: Partial<SiteContent[K]>) => {
+    const current = siteContent[section]
+    saveSiteContent({ ...siteContent, [section]: Array.isArray(current) ? patch : { ...current, ...patch } } as SiteContent)
+  }
 
   const homepageSections = siteContent.homepage.sections
   const missingHomepageSections = homepageSectionCatalog.filter(
@@ -248,7 +250,7 @@ export default function UnifiedAdminPage({
             {/* Stats */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {overviewStats.map((s) => (
-                <div key={s.label} className="rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[5px_5px_0_#10163a]">
+                <div key={s.label} className="rounded-[1.5rem] bg-white p-5" style={{ border: `2px solid ${s.accent}30`, boxShadow: `0 2px 12px ${s.accent}18` }}>
                   <p className="text-3xl font-black" style={{ color: s.accent }}>{s.value}</p>
                   <p className="mt-1 text-sm font-black text-[#10163a]">{s.label}</p>
                   <p className="mt-0.5 text-[11px] text-[#667085]">{s.note}</p>
@@ -394,6 +396,87 @@ export default function UnifiedAdminPage({
                 <Field label="Support description"><textarea rows={3} className={textareaCls} value={siteContent.contact.supportDescription} onChange={(e) => updateSiteContent('contact', { supportDescription: e.target.value })} /></Field>
                 <Field label="Map phone"><input className={inputCls} value={siteContent.contact.mapPhone} onChange={(e) => updateSiteContent('contact', { mapPhone: e.target.value })} /></Field>
                 <Field label="Map title"><input className={inputCls} value={siteContent.contact.mapTitle} onChange={(e) => updateSiteContent('contact', { mapTitle: e.target.value })} /></Field>
+              </div>
+            </SectionCard>
+
+            {/* Batch Schedule */}
+            <SectionCard title="Batch Schedule section" accent="#fff1dd">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Badge"><input className={inputCls} value={siteContent.batchSchedule.badge} onChange={(e) => updateSiteContent('batchSchedule', { badge: e.target.value })} /></Field>
+                <Field label="Title"><input className={inputCls} value={siteContent.batchSchedule.title} onChange={(e) => updateSiteContent('batchSchedule', { title: e.target.value })} /></Field>
+                <Field label="Highlight"><input className={inputCls} value={siteContent.batchSchedule.highlight} onChange={(e) => updateSiteContent('batchSchedule', { highlight: e.target.value })} /></Field>
+                <Field label="Description"><textarea rows={3} className={textareaCls} value={siteContent.batchSchedule.description} onChange={(e) => updateSiteContent('batchSchedule', { description: e.target.value })} /></Field>
+                <Field label="Bottom note (urgency text)"><textarea rows={2} className={textareaCls} value={siteContent.batchSchedule.noteText} onChange={(e) => updateSiteContent('batchSchedule', { noteText: e.target.value })} /></Field>
+              </div>
+
+              <div className="mt-5 space-y-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#667085]">Individual batches</p>
+                {siteContent.batchSchedule.batches.map((batch, i) => (
+                  <div key={batch.course} className="rounded-[1.2rem] border-[2.5px] border-[#10163a] p-4" style={{ backgroundColor: `${batch.accent}10` }}>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="text-lg">{batch.icon}</span>
+                      <p className="font-black text-[#10163a]">{batch.course}</p>
+                      <select
+                        className="ml-auto rounded-lg border-2 border-[#10163a] bg-white px-2 py-1 text-xs font-black text-[#10163a]"
+                        value={batch.status}
+                        onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], status: e.target.value as BatchEntry['status'] }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }}
+                      >
+                        <option value="open">Enrolling Now</option>
+                        <option value="filling">Filling Fast</option>
+                        <option value="starting-soon">Starting Soon</option>
+                        <option value="full">Batch Full</option>
+                      </select>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      <Field label="Start date">
+                        <input className={inputCls} value={batch.startDate} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], startDate: e.target.value }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                      <Field label="Fee">
+                        <input className={inputCls} value={batch.fee} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], fee: e.target.value }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                      <Field label="EMI line">
+                        <input className={inputCls} value={batch.emi} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], emi: e.target.value }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                      <Field label="Seats taken">
+                        <input type="number" min={0} className={inputCls} value={batch.seatsTaken} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], seatsTaken: Number(e.target.value) }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                      <Field label="Total seats">
+                        <input type="number" min={1} className={inputCls} value={batch.seatsTotal} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], seatsTotal: Number(e.target.value) }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                      <Field label="Mode">
+                        <input className={inputCls} value={batch.mode} onChange={(e) => {
+                          const updated = [...siteContent.batchSchedule.batches]
+                          updated[i] = { ...updated[i], mode: e.target.value }
+                          updateSiteContent('batchSchedule', { batches: updated })
+                        }} />
+                      </Field>
+                    </div>
+                  </div>
+                ))}
               </div>
             </SectionCard>
           </div>
