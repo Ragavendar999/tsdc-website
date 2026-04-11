@@ -6,7 +6,7 @@ const ADMIN_SESSION_COOKIE = 'tsdc-admin-session'
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
   const isAdminRoute = pathname.startsWith('/admin')
-  const isLoginRoute = pathname === '/admin/login'
+  const isLoginRoute = pathname === '/admin/login' || pathname === '/admin/login/'
 
   if (!isAdminRoute) return NextResponse.next()
   if (isLoginRoute) return NextResponse.next()
