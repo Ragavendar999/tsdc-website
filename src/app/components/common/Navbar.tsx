@@ -46,6 +46,7 @@ const navItems: NavItem[] = [
       { name: 'Video Editing', href: '/courses/video-editing', icon: Video, accent: '#4a4a99', tint: '#f2f0ff', desc: 'Premiere · Reels · Motion', badge: 'NEW' },
     ],
   },
+  { name: 'Blog', href: '/blog' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]

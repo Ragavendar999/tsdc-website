@@ -107,3 +107,34 @@ export const eventSchema = ({
   },
   ...(startDate ? { startDate } : {}),
 })
+
+export const articleSchema = ({
+  headline,
+  description,
+  path,
+  image,
+  datePublished,
+  author,
+}: {
+  headline: string
+  description: string
+  path: string
+  image?: string
+  datePublished?: string
+  author?: string
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline,
+  description,
+  url: `${siteUrl}${path}`,
+  ...(image ? { image: image.startsWith('http') ? image : `${siteUrl}${image}` } : {}),
+  ...(datePublished ? { datePublished } : {}),
+  author: {
+    '@type': 'Person',
+    name: author || 'TSDC Creative Team',
+  },
+  publisher: {
+    '@id': `${siteUrl}/#organization`,
+  },
+})

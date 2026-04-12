@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { defaultBlogPosts } from './lib/blogPosts'
 import { defaultMasterclasses } from './lib/masterclasses'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -61,6 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/privacy-policy`,
       lastModified,
       changeFrequency: 'yearly',
@@ -95,5 +102,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ])
 
-  return [...staticRoutes, ...masterclassRoutes]
+  const blogRoutes: MetadataRoute.Sitemap = defaultBlogPosts
+    .filter((post) => post.status === 'published')
+    .map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    }))
+
+  return [...staticRoutes, ...masterclassRoutes, ...blogRoutes]
 }

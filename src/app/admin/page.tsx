@@ -24,8 +24,8 @@ export default async function AdminPage({
 
   const tab = searchParams?.tab
   const initialTab =
-    tab === 'site-content' || tab === 'masterclasses' || tab === 'overview' || tab === 'courses' || tab === 'settings'
-      ? (tab as 'overview' | 'site-content' | 'masterclasses' | 'courses' | 'settings')
+    tab === 'site-content' || tab === 'masterclasses' || tab === 'overview' || tab === 'courses' || tab === 'settings' || tab === 'blog'
+      ? (tab as 'overview' | 'site-content' | 'masterclasses' | 'courses' | 'settings' | 'blog')
       : 'overview'
 
   return <UnifiedAdminPage userEmail={session.email} initialTab={initialTab} />

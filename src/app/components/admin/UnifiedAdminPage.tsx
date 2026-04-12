@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
+import BlogAdminPage from '@/app/components/blog/BlogAdminPage'
 import MasterclassAdminPage from '@/app/components/masterclass/MasterclassAdminPage'
 import { loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import {
@@ -26,12 +27,13 @@ import {
 } from '@/app/lib/siteSettings'
 
 /* ─── Types ──────────────────────────────────────────────── */
-type AdminTab = 'overview' | 'site-content' | 'masterclasses' | 'courses' | 'settings'
+type AdminTab = 'overview' | 'site-content' | 'masterclasses' | 'blog' | 'courses' | 'settings'
 
 const tabs: { id: AdminTab; label: string; icon: typeof LayoutDashboard }[] = [
   { id: 'overview',      label: 'Overview',      icon: LayoutDashboard },
   { id: 'site-content',  label: 'Site Content',  icon: Globe2 },
   { id: 'masterclasses', label: 'Masterclasses', icon: MonitorPlay },
+  { id: 'blog',          label: 'Blog',          icon: MonitorPlay },
   { id: 'courses',       label: 'Courses',       icon: BookOpen },
   { id: 'settings',      label: 'Settings',      icon: Settings },
 ]
@@ -174,6 +176,7 @@ export default function UnifiedAdminPage({
     { label: 'Homepage',         href: '/',                    note: 'Public' },
     { label: 'Courses',          href: '/courses',             note: 'Public' },
     { label: 'Masterclasses',    href: '/masterclasses',       note: 'Public' },
+    { label: 'Blog',             href: '/blog',                note: 'Public' },
     { label: 'Contact',          href: '/contact',             note: 'Public' },
     { label: 'About',            href: '/about',               note: 'Public' },
     { label: 'Graphic Design',   href: '/courses/graphic-design',   note: 'Course' },
@@ -493,6 +496,8 @@ export default function UnifiedAdminPage({
             onSignOut={handleSignOut}
           />
         )}
+
+        {activeTab === 'blog' && <BlogAdminPage />}
 
         {/* ══════════════════════════════════════════════
             TAB: COURSES

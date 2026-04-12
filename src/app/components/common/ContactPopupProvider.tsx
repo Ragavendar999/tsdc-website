@@ -33,6 +33,16 @@ type ContactPopupContextValue = {
   closePopup: () => void
 }
 
+type EnquiryFormState = {
+  name: string
+  email: string
+  mobile: string
+  occupation: string
+  appointmentDate: string
+  appointmentTime: string
+  message: string
+}
+
 const ContactPopupContext = createContext<ContactPopupContextValue | null>(null)
 
 const programOptions = [
@@ -59,12 +69,6 @@ const joiningOptions = [
   'Just enquiry',
 ]
 
-const getProgramFromInterest = (interest?: string) => {
-  if (!interest) return ''
-  const normalizedInterest = interest.toLowerCase()
-  return programOptions.find((program) => normalizedInterest.includes(program.toLowerCase())) || ''
-}
-
 const defaultOptions: Required<ContactPopupOptions> = {
   title: "Let's Build Your Career",
   subtitle: 'Share your details and our team will contact you shortly with the right guidance.',
@@ -75,6 +79,16 @@ const defaultOptions: Required<ContactPopupOptions> = {
   syllabusFileName: 'tsdc-syllabus.pdf',
 }
 
+const initialFormState: EnquiryFormState = {
+  name: '',
+  email: '',
+  mobile: '',
+  occupation: '',
+  appointmentDate: '',
+  appointmentTime: '',
+  message: '',
+}
+
 const inputClass =
   'w-full rounded-xl border-2 border-[#e2e8f0] bg-white px-4 py-3 text-sm text-[#0f172a] outline-none transition focus:border-[#3244b5] focus:ring-2 focus:ring-[#3244b5]/10 placeholder:text-[#94a3b8]'
 
@@ -83,10 +97,16 @@ const selectClass =
 
 function FieldLabel({ children }: { children: ReactNode }) {
   return (
-    <span className="mb-1.5 block text-[11px] font-bold text-[#64748b] uppercase tracking-wide">
+    <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-[#64748b]">
       {children}
     </span>
   )
+}
+
+const getProgramFromInterest = (interest?: string) => {
+  if (!interest) return ''
+  const normalizedInterest = interest.toLowerCase()
+  return programOptions.find((program) => normalizedInterest.includes(program.toLowerCase())) || ''
 }
 
 export function ContactPopupProvider({ children }: { children: ReactNode }) {
@@ -96,21 +116,31 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
   const [options, setOptions] = useState(defaultOptions)
   const [selectedProgram, setSelectedProgram] = useState('')
   const [joiningTimeline, setJoiningTimeline] = useState('')
+  const [currentStep, setCurrentStep] = useState(1)
+  const [stepError, setStepError] = useState('')
+  const [formState, setFormState] = useState<EnquiryFormState>(initialFormState)
+
+  const resetState = useCallback((interest = '', keepSubmitted = false) => {
+    setLoading(false)
+    setSubmitted(keepSubmitted)
+    setCurrentStep(1)
+    setStepError('')
+    setFormState(initialFormState)
+    setSelectedProgram(getProgramFromInterest(interest))
+    setJoiningTimeline('')
+  }, [])
 
   const closePopup = useCallback(() => {
     setIsOpen(false)
-    setLoading(false)
-    setSubmitted(false)
-  }, [])
+    resetState()
+  }, [resetState])
 
   const openPopup = useCallback((nextOptions?: ContactPopupOptions) => {
     const mergedOptions = { ...defaultOptions, ...nextOptions }
     setOptions(mergedOptions)
-    setSelectedProgram(getProgramFromInterest(mergedOptions.interest))
-    setJoiningTimeline('')
-    setSubmitted(false)
+    resetState(mergedOptions.interest)
     setIsOpen(true)
-  }, [])
+  }, [resetState])
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -122,12 +152,69 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
     }
   }, [isOpen])
 
+  const updateForm = <K extends keyof EnquiryFormState>(key: K, value: EnquiryFormState[K]) => {
+    setFormState((current) => ({ ...current, [key]: value }))
+    setStepError('')
+  }
+
+  const validateStep = (step: number) => {
+    if (step === 1) {
+      if (!formState.name.trim()) return 'Please enter your full name.'
+      if (!/^[0-9]{10}$/.test(formState.mobile.trim())) return 'Please enter a valid 10-digit WhatsApp number.'
+      if (!formState.email.trim()) return 'Please enter your email address.'
+      return ''
+    }
+
+    if (step === 2) {
+      if (!selectedProgram) return 'Please select your program of interest.'
+      if (!formState.occupation) return 'Please select your occupation.'
+      if (!joiningTimeline) return 'Please tell us when you can join.'
+      return ''
+    }
+
+    if (step === 3) {
+      if (!formState.appointmentDate) return 'Please choose your preferred appointment date.'
+      if (!formState.appointmentTime) return 'Please choose your preferred appointment time.'
+      return ''
+    }
+
+    return ''
+  }
+
+  const goToNextStep = () => {
+    const error = validateStep(currentStep)
+    if (error) {
+      setStepError(error)
+      return
+    }
+
+    setStepError('')
+    setCurrentStep((step) => Math.min(step + 1, 3))
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const error = validateStep(3)
+    if (error) {
+      setStepError(error)
+      return
+    }
+
     setLoading(true)
 
-    const form = e.currentTarget
-    const formData = new FormData(form)
+    const formData = new FormData()
+    formData.append('source', options.source)
+    formData.append('interest', selectedProgram || options.interest)
+    formData.append('name', formState.name)
+    formData.append('email', formState.email)
+    formData.append('mobile', formState.mobile)
+    formData.append('occupation', formState.occupation)
+    formData.append('joiningTimeline', joiningTimeline)
+    formData.append('appointmentDate', formState.appointmentDate)
+    formData.append('appointmentTime', formState.appointmentTime)
+    formData.append('message', formState.message)
+
     const response = await fetch('/api/contact', {
       method: 'POST',
       body: formData,
@@ -141,7 +228,6 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
       })
 
       setSubmitted(true)
-      form.reset()
 
       if (options.syllabusDownloadUrl) {
         const downloadLink = document.createElement('a')
@@ -151,6 +237,8 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
         downloadLink.click()
         downloadLink.remove()
       }
+
+      resetState(options.interest, true)
 
       setTimeout(() => {
         closePopup()
@@ -176,7 +264,11 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[5000] flex items-end justify-center bg-black/60 px-4 pb-0 backdrop-blur-md sm:items-center sm:pb-4"
-            onClick={closePopup}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                closePopup()
+              }
+            }}
           >
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.96 }}
@@ -187,15 +279,11 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
               className="relative w-full max-w-[920px] overflow-hidden rounded-t-[2rem] rounded-b-none border-[3px] border-[#10163a] bg-white shadow-[0_-8px_40px_rgba(0,0,0,0.25)] sm:rounded-[2rem] sm:shadow-[10px_10px_0_#10163a]"
             >
               <div className="grid sm:grid-cols-[0.85fr_1.15fr]">
-
-                {/* ── Left panel ── */}
                 <div className="relative hidden overflow-hidden bg-[#10163a] p-7 text-white sm:block">
-                  {/* Decorative blobs */}
                   <div className="pointer-events-none absolute -left-6 top-8 h-28 w-28 rounded-full bg-[#3244b5]/50 blur-2xl" />
                   <div className="pointer-events-none absolute -right-4 bottom-16 h-24 w-24 rounded-full bg-[#db4b87]/40 blur-2xl" />
                   <div className="pointer-events-none absolute right-8 top-[-1rem] h-16 w-16 rounded-full bg-[#ff9736]/30 blur-xl" />
 
-                  {/* Dot grid */}
                   <div
                     className="pointer-events-none absolute inset-0 opacity-[0.07]"
                     style={{
@@ -205,13 +293,11 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                   />
 
                   <div className="relative z-10 flex h-full flex-col">
-                    {/* Badge */}
                     <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border-2 border-[#ffffff30] bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm">
                       <Sparkles size={13} className="text-[#ff9736]" />
                       TSDC Admissions
                     </div>
 
-                    {/* Title */}
                     <h3 className="text-[1.85rem] font-black leading-[1.1] text-white">
                       {options.title}
                     </h3>
@@ -219,7 +305,6 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       {options.subtitle}
                     </p>
 
-                    {/* Benefit cards */}
                     <div className="mt-6 space-y-2.5">
                       {[
                         { icon: '🎯', text: 'Personalized course guidance' },
@@ -236,17 +321,15 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       ))}
                     </div>
 
-                    {/* Bottom accent */}
                     <div className="mt-auto pt-8 text-xs text-white/40">
                       Trusted by 500+ students in Chennai
                     </div>
                   </div>
                 </div>
 
-                {/* ── Right panel ── */}
-                <div className="relative max-h-[85vh] overflow-y-auto bg-white p-6 sm:max-h-[88vh] sm:p-7">
-                  {/* Close button */}
+                <div className="relative bg-white p-6 sm:p-7">
                   <button
+                    type="button"
                     onClick={closePopup}
                     className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#e2e8f0] bg-white text-[#94a3b8] transition hover:border-[#cbd5e1] hover:text-[#475569]"
                     aria-label="Close"
@@ -254,20 +337,35 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     <X size={15} />
                   </button>
 
-                  {/* Form header */}
                   <div className="mb-5 pr-8">
-                    <p className="text-xs font-bold text-[#3244b5] uppercase tracking-widest">
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#3244b5]">
                       Enquiry Form
                     </p>
                     <h4 className="mt-1.5 text-2xl font-black text-[#0f172a]">
-                      Tell us about your goal
+                      {currentStep === 1 && 'Let’s start with your details'}
+                      {currentStep === 2 && 'Tell us what you want to join'}
+                      {currentStep === 3 && 'Pick an appointment slot'}
                     </h4>
                     <p className="mt-1 text-sm text-[#64748b]">
-                      Fill in your details — we'll reach out within a few hours.
+                      {currentStep === 1 && 'Step 1 of 3 — basic contact details so we can reach you quickly.'}
+                      {currentStep === 2 && 'Step 2 of 3 — help us understand the right course and joining plan.'}
+                      {currentStep === 3 && 'Step 3 of 3 — choose a preferred date, time, and add a message if needed.'}
                     </p>
                   </div>
 
-                  {/* Success state */}
+                  <div className="mb-5 grid grid-cols-3 gap-2">
+                    {[1, 2, 3].map((step) => (
+                      <div
+                        key={step}
+                        className={`rounded-full px-3 py-2 text-center text-[11px] font-black uppercase tracking-[0.14em] ${
+                          step <= currentStep ? 'bg-[#3244b5] text-white' : 'bg-[#eef2f7] text-[#94a3b8]'
+                        }`}
+                      >
+                        Step {step}
+                      </div>
+                    ))}
+                  </div>
+
                   <AnimatePresence>
                     {submitted && (
                       <motion.div
@@ -292,189 +390,241 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                   </AnimatePresence>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <input type="hidden" name="source" value={options.source} />
-                    <input type="hidden" name="interest" value={selectedProgram || options.interest} />
-
-                    {/* Row 1: Name + Email */}
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <FieldLabel>Full Name</FieldLabel>
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="e.g. Priya Sharma"
-                          required
-                          className={inputClass}
-                        />
-                      </div>
-                      <div>
-                        <FieldLabel>Email Address</FieldLabel>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="you@email.com"
-                          required
-                          className={inputClass}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Row 2: Mobile */}
-                    <div>
-                      <FieldLabel>Mobile Number</FieldLabel>
-                      <input
-                        type="tel"
-                        name="mobile"
-                        placeholder="10-digit mobile number"
-                        required
-                        pattern="[0-9]{10}"
-                        className={inputClass}
-                      />
-                    </div>
-
-                    {/* Row 3: Program + Occupation */}
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <FieldLabel>Program of Interest</FieldLabel>
-                        <select
-                          value={selectedProgram}
-                          onChange={(e) => setSelectedProgram(e.target.value)}
-                          required
-                          className={selectClass}
-                        >
-                          <option value="">Select a program</option>
-                          {programOptions.map((program) => (
-                            <option key={program} value={program}>
-                              {program}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <FieldLabel>Your Occupation</FieldLabel>
-                        <select
-                          name="occupation"
-                          required
-                          className={selectClass}
-                        >
-                          <option value="">Select occupation</option>
-                          {occupationOptions.map((occupation) => (
-                            <option key={occupation} value={occupation}>
-                              {occupation}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Row 4: Joining timeline */}
-                    <div>
-                      <FieldLabel>When can you join?</FieldLabel>
-                      <select
-                        name="joiningTimeline"
-                        value={joiningTimeline}
-                        onChange={(e) => setJoiningTimeline(e.target.value)}
-                        required
-                        className={selectClass}
-                      >
-                        <option value="">Select your joining plan</option>
-                        {joiningOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Row 5: Appointment date + time */}
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <FieldLabel>Preferred Date</FieldLabel>
-                        <div className="relative">
-                          <Calendar size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+                    {currentStep === 1 && (
+                      <div className="space-y-4">
+                        <div>
+                          <FieldLabel>Full Name</FieldLabel>
                           <input
-                            type="date"
-                            name="appointmentDate"
-                            className={`${inputClass} pl-9`}
+                            type="text"
+                            name="name"
+                            placeholder="e.g. Priya Sharma"
+                            required
+                            value={formState.name}
+                            onChange={(e) => updateForm('name', e.target.value)}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div>
+                          <FieldLabel>WhatsApp Number</FieldLabel>
+                          <input
+                            type="tel"
+                            name="mobile"
+                            placeholder="10-digit mobile number"
+                            required
+                            pattern="[0-9]{10}"
+                            value={formState.mobile}
+                            onChange={(e) => updateForm('mobile', e.target.value.replace(/\D/g, '').slice(0, 10))}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div>
+                          <FieldLabel>Email Address</FieldLabel>
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="you@email.com"
+                            required
+                            value={formState.email}
+                            onChange={(e) => updateForm('email', e.target.value)}
+                            className={inputClass}
                           />
                         </div>
                       </div>
-                      <div>
-                        <FieldLabel>Preferred Time</FieldLabel>
-                        <div className="relative">
-                          <Clock size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
-                          <input
-                            type="time"
-                            name="appointmentTime"
-                            className={`${inputClass} pl-9`}
+                    )}
+
+                    {currentStep === 2 && (
+                      <div className="space-y-4">
+                        <div>
+                          <FieldLabel>Program of Interest</FieldLabel>
+                          <select
+                            value={selectedProgram}
+                            onChange={(e) => {
+                              setSelectedProgram(e.target.value)
+                              setStepError('')
+                            }}
+                            required
+                            className={selectClass}
+                          >
+                            <option value="">Select a program</option>
+                            {programOptions.map((program) => (
+                              <option key={program} value={program}>
+                                {program}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <FieldLabel>Your Occupation</FieldLabel>
+                          <select
+                            name="occupation"
+                            required
+                            value={formState.occupation}
+                            onChange={(e) => updateForm('occupation', e.target.value)}
+                            className={selectClass}
+                          >
+                            <option value="">Select occupation</option>
+                            {occupationOptions.map((occupation) => (
+                              <option key={occupation} value={occupation}>
+                                {occupation}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <FieldLabel>When can you join?</FieldLabel>
+                          <select
+                            name="joiningTimeline"
+                            value={joiningTimeline}
+                            onChange={(e) => {
+                              setJoiningTimeline(e.target.value)
+                              setStepError('')
+                            }}
+                            required
+                            className={selectClass}
+                          >
+                            <option value="">Select your joining plan</option>
+                            {joiningOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
+
+                    {currentStep === 3 && (
+                      <div className="space-y-4">
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <div>
+                            <FieldLabel>Preferred Date</FieldLabel>
+                            <div className="relative">
+                              <Calendar size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+                              <input
+                                type="date"
+                                name="appointmentDate"
+                                required
+                                value={formState.appointmentDate}
+                                onChange={(e) => updateForm('appointmentDate', e.target.value)}
+                                className={`${inputClass} pl-9`}
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <FieldLabel>Preferred Time</FieldLabel>
+                            <div className="relative">
+                              <Clock size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+                              <input
+                                type="time"
+                                name="appointmentTime"
+                                required
+                                value={formState.appointmentTime}
+                                onChange={(e) => updateForm('appointmentTime', e.target.value)}
+                                className={`${inputClass} pl-9`}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <AnimatePresence>
+                          {joiningTimeline === 'Immediately' && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 8 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -4 }}
+                              className="flex items-start gap-3 rounded-xl border-2 border-[#fed7aa] bg-[#fff7ed] px-4 py-3"
+                            >
+                              <span className="mt-0.5 text-base">🎁</span>
+                              <p className="text-sm font-semibold text-[#9a3412]">
+                                Submit now and receive a <strong>₹2,000 discount coupon</strong> in your email — valid for 24 hours.
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        <div>
+                          <FieldLabel>Message (optional)</FieldLabel>
+                          <textarea
+                            name="message"
+                            rows={4}
+                            value={formState.message}
+                            onChange={(e) => updateForm('message', e.target.value)}
+                            placeholder="Tell us what you want to learn or achieve..."
+                            className={inputClass}
                           />
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Bonus coupon nudge */}
-                    <AnimatePresence>
-                      {joiningTimeline === 'Immediately' && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          className="flex items-start gap-3 rounded-xl border-2 border-[#fed7aa] bg-[#fff7ed] px-4 py-3"
+                    {stepError ? (
+                      <div className="rounded-xl border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-semibold text-[#b42318]">
+                        {stepError}
+                      </div>
+                    ) : null}
+
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      {currentStep > 1 ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCurrentStep((step) => Math.max(step - 1, 1))
+                            setStepError('')
+                          }}
+                          className="w-full rounded-xl border-[3px] border-[#10163a] bg-white py-3.5 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a] sm:w-auto sm:px-6"
                         >
-                          <span className="mt-0.5 text-base">🎁</span>
-                          <p className="text-sm font-semibold text-[#9a3412]">
-                            Submit now and receive a <strong>₹2,000 discount coupon</strong> in your email — valid for 24 hours.
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          Back
+                        </button>
+                      ) : null}
 
-                    {/* Message */}
-                    <div>
-                      <FieldLabel>Message (optional)</FieldLabel>
-                      <textarea
-                        name="message"
-                        rows={3}
-                        placeholder="Tell us what you want to learn or achieve..."
-                        className={inputClass}
-                      />
-                    </div>
-
-                    {/* Submit */}
-                    <motion.button
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                      type="submit"
-                      disabled={loading}
-                      className="relative w-full overflow-hidden rounded-xl border-[3px] border-[#10163a] bg-[#3244b5] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition disabled:opacity-60"
-                    >
-                      {!loading && (
-                        <motion.span
-                          animate={{ x: ['-120%', '220%'] }}
-                          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', repeatDelay: 3 }}
-                          className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                        />
-                      )}
-                      {loading ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <motion.span
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
-                            className="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
-                          />
-                          Sending...
-                        </span>
+                      {currentStep < 3 ? (
+                        <motion.button
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            goToNextStep()
+                          }}
+                          className="relative w-full overflow-hidden rounded-xl border-[3px] border-[#10163a] bg-[#3244b5] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition"
+                        >
+                          Next step
+                        </motion.button>
                       ) : (
-                        options.ctaLabel
+                        <motion.button
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          type="submit"
+                          disabled={loading}
+                          className="relative w-full overflow-hidden rounded-xl border-[3px] border-[#10163a] bg-[#3244b5] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition disabled:opacity-60"
+                        >
+                          {!loading && (
+                            <motion.span
+                              animate={{ x: ['-120%', '220%'] }}
+                              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', repeatDelay: 3 }}
+                              className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                            />
+                          )}
+                          {loading ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <motion.span
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                                className="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
+                              />
+                              Sending...
+                            </span>
+                          ) : (
+                            options.ctaLabel
+                          )}
+                        </motion.button>
                       )}
-                    </motion.button>
+                    </div>
 
                     <p className="text-center text-[11px] text-[#94a3b8]">
                       No spam, ever. We only reach out with course info.
                     </p>
                   </form>
                 </div>
-
               </div>
             </motion.div>
           </motion.div>
