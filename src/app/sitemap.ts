@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next'
 import { defaultBlogPosts } from './lib/blogPosts'
-import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from './lib/masterclasses'
+import { isMasterclassVisibleOnLiveSite } from './lib/masterclasses'
+import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://traijoedu.in'
   const lastModified = new Date()
+  const masterclasses = await getStoredMasterclasses()
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -87,7 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const masterclassRoutes: MetadataRoute.Sitemap = defaultMasterclasses
+  const masterclassRoutes: MetadataRoute.Sitemap = masterclasses
     .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
     .flatMap((masterclass) => [
       {

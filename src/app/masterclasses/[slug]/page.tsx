@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import MasterclassLandingPage from '@/app/components/masterclass/MasterclassLandingPage'
-import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
+import { isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
 import { breadcrumbSchema, eventSchema, jsonLd } from '@/app/lib/seo'
+import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 
 export const revalidate = 3600
 
@@ -11,7 +12,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const masterclass = defaultMasterclasses.find((item) => item.slug === slug)
+  const masterclasses = await getStoredMasterclasses()
+  const masterclass = masterclasses.find((item) => item.slug === slug)
 
   if (!masterclass || !isMasterclassVisibleOnLiveSite(masterclass)) {
     return {
@@ -39,15 +41,17 @@ export async function generateMetadata({
   }
 }
 
-export function generateStaticParams() {
-  return defaultMasterclasses
+export async function generateStaticParams() {
+  const masterclasses = await getStoredMasterclasses()
+  return masterclasses
     .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
     .map((masterclass) => ({ slug: masterclass.slug }))
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const masterclass = defaultMasterclasses.find((item) => item.slug === slug)
+  const masterclasses = await getStoredMasterclasses()
+  const masterclass = masterclasses.find((item) => item.slug === slug)
 
   const schemas = masterclass
     ? [

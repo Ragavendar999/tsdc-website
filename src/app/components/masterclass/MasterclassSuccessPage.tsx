@@ -2,14 +2,14 @@
 
 import { Check, MessageCircle, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { defaultMasterclasses, formatPrice, isMasterclassVisibleOnLiveSite, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, fetchMasterclasses, formatPrice, isMasterclassVisibleOnLiveSite, type Masterclass } from '@/app/lib/masterclasses'
 import MasterclassExperienceShell from './MasterclassExperienceShell'
 
 export default function MasterclassSuccessPage({ slug }: { slug: string }) {
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
 
   useEffect(() => {
-    setMasterclasses(loadMasterclasses())
+    fetchMasterclasses().then(setMasterclasses)
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug)
@@ -21,7 +21,7 @@ export default function MasterclassSuccessPage({ slug }: { slug: string }) {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Page unavailable</p>
           <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass confirmation page is no longer active.</h1>
           <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            The linked masterclass has been automatically hidden from the live site because the event is too close or already over.
+            The linked masterclass is no longer live on the site.
           </p>
         </div>
       </div>

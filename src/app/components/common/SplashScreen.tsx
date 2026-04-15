@@ -7,10 +7,10 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
   defaultMasterclasses,
+  fetchMasterclasses,
   formatPrice,
   getMasterclassBackgroundClass,
   isMasterclassVisibleOnLiveSite,
-  loadMasterclasses,
   type Masterclass,
 } from '@/app/lib/masterclasses'
 
@@ -347,7 +347,9 @@ export default function SplashScreen() {
     if (sessionStorage.getItem('tsdc_splash')) return
     sessionStorage.setItem('tsdc_splash', '1')
 
-    setMasterclasses(loadMasterclasses().filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass)))
+    fetchMasterclasses().then((items) => {
+      setMasterclasses(items.filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass)))
+    })
 
     setPhase('logo')
 

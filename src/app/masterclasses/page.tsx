@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import MasterclassSection from '@/app/components/masterclass/MasterclassSection'
-import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '../lib/masterclasses'
+import { isMasterclassVisibleOnLiveSite } from '../lib/masterclasses'
 import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
+import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 
 export const revalidate = 3600
 
@@ -14,8 +15,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function MasterclassesPage() {
-  const publicMasterclasses = defaultMasterclasses.filter((masterclass) =>
+export default async function MasterclassesPage() {
+  const masterclasses = await getStoredMasterclasses()
+  const publicMasterclasses = masterclasses.filter((masterclass) =>
     isMasterclassVisibleOnLiveSite(masterclass)
   )
 

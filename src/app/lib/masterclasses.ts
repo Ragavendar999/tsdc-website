@@ -13,6 +13,9 @@ export type Masterclass = {
   slug: string
   status: 'live' | 'draft'
   eventDate?: string
+  turnOffAt?: string
+  autoTurnedOffAt?: string
+  expiryNotificationSentAt?: string
   title: string
   backgroundStyle?: 'midnight' | 'blueprint' | 'ember' | 'violet'
   backgroundImage?: string
@@ -41,7 +44,6 @@ export type Masterclass = {
 }
 
 export const MASTERCLASS_STORAGE_KEY = 'tsdc-masterclasses-v1'
-export const MASTERCLASS_EXPIRY_REMINDER_KEY = 'tsdc-masterclass-expiry-reminders-v1'
 export const MASTERCLASS_DELETED_KEY = 'tsdc-masterclasses-deleted-v1'
 
 export const defaultMasterclasses: Masterclass[] = [
@@ -158,6 +160,12 @@ export const defaultMasterclasses: Masterclass[] = [
 
 export const formatPrice = (price: number) => `Rs ${price.toLocaleString('en-IN')}/-`
 
+const parseDateTime = (value?: string) => {
+  if (!value) return null
+  const parsed = new Date(value)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
 const getMasterclassKey = (masterclass: Pick<Masterclass, 'id' | 'slug'>) => `${masterclass.id}::${masterclass.slug}`
 
 const loadDeletedMasterclassKeys = () => {
@@ -248,24 +256,47 @@ export const getMasterclassDaysUntil = (masterclass: Pick<Masterclass, 'eventDat
   return Math.round((target.getTime() - today.getTime()) / 86400000)
 }
 
-export const isMasterclassVisibleOnLiveSite = (
-  masterclass: Pick<Masterclass, 'status' | 'eventDate'>,
+export const isMasterclassPastTurnOffAt = (
+  masterclass: Pick<Masterclass, 'turnOffAt'>,
   now = new Date()
 ) => {
-  if (masterclass.status !== 'live') return false
-
-  const daysUntil = getMasterclassDaysUntil(masterclass, now)
-  if (daysUntil === null) return true
-
-  // Hide the page when the session is today or tomorrow so stale offers do not stay public.
-  return daysUntil > 1
+  const turnOffAt = parseDateTime(masterclass.turnOffAt)
+  if (!turnOffAt) return false
+  return turnOffAt.getTime() <= now.getTime()
 }
 
-export const shouldSendExpiryReminder = (masterclass: Pick<Masterclass, 'status' | 'eventDate'>, now = new Date()) => {
-  if (masterclass.status !== 'live') return false
+export const isMasterclassVisibleOnLiveSite = (
+  masterclass: Pick<Masterclass, 'status' | 'turnOffAt'>,
+  now = new Date()
+) => masterclass.status === 'live' && !isMasterclassPastTurnOffAt(masterclass, now)
 
-  const daysUntil = getMasterclassDaysUntil(masterclass, now)
-  return daysUntil === 0 || daysUntil === 1
+export const fetchMasterclasses = async () => {
+  if (typeof window === 'undefined') return defaultMasterclasses
+
+  try {
+    const response = await fetch('/api/masterclasses', { cache: 'no-store' })
+    if (!response.ok) throw new Error(`Failed to fetch masterclasses: ${response.status}`)
+    const payload = (await response.json()) as { masterclasses?: Masterclass[] }
+    return Array.isArray(payload.masterclasses) ? payload.masterclasses : defaultMasterclasses
+  } catch {
+    return defaultMasterclasses
+  }
+}
+
+export const saveMasterclassesToApi = async (masterclasses: Masterclass[]) => {
+  const response = await fetch('/api/masterclasses', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ masterclasses }),
+  })
+
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => ({}))) as { error?: string }
+    throw new Error(payload.error || `Failed to save masterclasses: ${response.status}`)
+  }
+
+  const payload = (await response.json()) as { masterclasses?: Masterclass[] }
+  return Array.isArray(payload.masterclasses) ? payload.masterclasses : masterclasses
 }
 
 export const masterclassBackgrounds = {

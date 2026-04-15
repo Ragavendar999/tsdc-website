@@ -169,7 +169,7 @@ export default function RootLayout({
 
       <body
         suppressHydrationWarning={true}
-        className="bg-transparent text-gray-900 transition-colors duration-300"
+        className="bg-transparent text-gray-900"
       >
         {/* GTM noscript fallback */}
         <noscript>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import MasterclassRegisterPage from '@/app/components/masterclass/MasterclassRegisterPage'
-import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
+import { isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
+import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 
 export const revalidate = 3600
 
@@ -9,8 +10,9 @@ export const metadata: Metadata = {
   description: 'Register for a TSDC creative masterclass and secure your seat.',
 }
 
-export function generateStaticParams() {
-  return defaultMasterclasses
+export async function generateStaticParams() {
+  const masterclasses = await getStoredMasterclasses()
+  return masterclasses
     .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
     .map((masterclass) => ({ slug: masterclass.slug }))
 }

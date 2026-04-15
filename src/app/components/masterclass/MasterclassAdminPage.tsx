@@ -4,14 +4,11 @@ import { ExternalLink, Eye, LogOut, Plus, Save, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   defaultMasterclasses,
-  deleteMasterclass,
-  loadMasterclasses,
-  MASTERCLASS_EXPIRY_REMINDER_KEY,
-  persistMasterclasses,
-  shouldSendExpiryReminder,
+  fetchMasterclasses,
+  saveMasterclassesToApi,
   type Masterclass,
 } from '@/app/lib/masterclasses'
 
@@ -34,6 +31,15 @@ type MasterclassAdminPageProps = {
   onSignOut?: () => Promise<void> | void
 }
 
+const getTurnOffInputValue = (value?: string) => {
+  if (!value) return ''
+  const parsed = new Date(value)
+  if (Number.isNaN(parsed.getTime())) return ''
+
+  const pad = (part: number) => String(part).padStart(2, '0')
+  return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}T${pad(parsed.getHours())}:${pad(parsed.getMinutes())}`
+}
+
 export default function MasterclassAdminPage({
   userEmail,
   embedded = false,
@@ -43,63 +49,46 @@ export default function MasterclassAdminPage({
   const router = useRouter()
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
   const [activeId, setActiveId] = useState(defaultMasterclasses[0].id)
+  const [saveError, setSaveError] = useState('')
+  const hasLoadedRef = useRef(false)
+  const skipNextPersistRef = useRef(true)
   const active = useMemo(
     () => masterclasses.find((masterclass) => masterclass.id === activeId) || masterclasses[0],
     [activeId, masterclasses]
   )
 
   useEffect(() => {
-    const initial = loadMasterclasses()
-    setMasterclasses(initial)
-    setActiveId(initial[0]?.id || '')
-    onMasterclassesChange?.(initial)
+    fetchMasterclasses().then((initial) => {
+      setMasterclasses(initial)
+      setActiveId(initial[0]?.id || '')
+      onMasterclassesChange?.(initial)
+      hasLoadedRef.current = true
+    })
   }, [onMasterclassesChange])
 
   useEffect(() => {
-    const todayKey = new Date().toISOString().slice(0, 10)
-    const rawSent = window.localStorage.getItem(MASTERCLASS_EXPIRY_REMINDER_KEY)
-    const sentMap = rawSent ? (JSON.parse(rawSent) as Record<string, string>) : {}
+    if (!hasLoadedRef.current) return
+    if (skipNextPersistRef.current) {
+      skipNextPersistRef.current = false
+      return
+    }
 
-    masterclasses.forEach((masterclass) => {
-      if (!shouldSendExpiryReminder(masterclass)) return
+    const timeout = window.setTimeout(async () => {
+      try {
+        setSaveError('')
+        const saved = await saveMasterclassesToApi(masterclasses)
+        onMasterclassesChange?.(saved)
+      } catch (error) {
+        setSaveError(error instanceof Error ? error.message : 'Unable to save masterclasses right now.')
+      }
+    }, 500)
 
-      const reminderKey = `${masterclass.id}:${todayKey}`
-      if (sentMap[reminderKey]) return
-
-      fetch('/api/masterclass/expiry-reminder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          masterclass: {
-            id: masterclass.id,
-            title: masterclass.title,
-            slug: masterclass.slug,
-            category: masterclass.category,
-            date: masterclass.date,
-            eventDate: masterclass.eventDate,
-            status: masterclass.status,
-          },
-        }),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error(`Reminder failed with status ${response.status}`)
-          sentMap[reminderKey] = 'sent'
-          window.localStorage.setItem(MASTERCLASS_EXPIRY_REMINDER_KEY, JSON.stringify(sentMap))
-        })
-        .catch((error) => {
-          console.error('[masterclass-expiry-reminder]', error)
-        })
-    })
-  }, [masterclasses])
+    return () => window.clearTimeout(timeout)
+  }, [masterclasses, onMasterclassesChange])
 
   const saveMasterclasses = (items: Masterclass[]) => {
-    const merged = loadMasterclasses()
-      .filter((existing) => !items.some((item) => item.id === existing.id && item.slug === existing.slug))
-      .concat(items)
-
-    setMasterclasses(merged)
-    persistMasterclasses(merged)
-    onMasterclassesChange?.(merged)
+    setMasterclasses(items)
+    onMasterclassesChange?.(items)
   }
 
   const updateActive = (patch: Partial<Masterclass>) => {
@@ -115,12 +104,11 @@ export default function MasterclassAdminPage({
   }
 
   const handleDeleteActive = () => {
-    if (!confirm(`Delete "${active.title}" from the entire site? This will remove its cards, links, and admin entry on this browser.`)) {
+    if (!confirm(`Delete "${active.title}" from the entire site? This will remove its cards, links, and admin entry.`)) {
       return
     }
 
-    deleteMasterclass(active, masterclasses)
-    const refreshed = loadMasterclasses()
+    const refreshed = masterclasses.filter((item) => item.id !== active.id)
     setMasterclasses(refreshed)
     setActiveId(refreshed[0]?.id || '')
     onMasterclassesChange?.(refreshed)
@@ -313,6 +301,28 @@ export default function MasterclassAdminPage({
                     />
                   </label>
                 ))}
+
+                <label className="block">
+                  <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">Turn off date &amp; time</span>
+                  <input
+                    type="datetime-local"
+                    value={getTurnOffInputValue(active.turnOffAt)}
+                    onChange={(event) =>
+                      updateActive({
+                        turnOffAt: event.target.value ? new Date(event.target.value).toISOString() : undefined,
+                        autoTurnedOffAt: undefined,
+                        expiryNotificationSentAt: undefined,
+                      })
+                    }
+                    className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-3 font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                  />
+                </label>
+
+                <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#eef1ff] px-4 py-3 text-sm font-semibold text-[#3244b5] shadow-[3px_3px_0_#10163a]">
+                  {active.turnOffAt
+                    ? `This masterclass will auto turn off at ${new Date(active.turnOffAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}.`
+                    : 'No auto turn-off is scheduled for this masterclass yet.'}
+                </div>
               </div>
             </fieldset>
 
@@ -376,10 +386,11 @@ export default function MasterclassAdminPage({
 
             <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#fff4eb] p-4 text-sm font-bold text-[#9a4a10] shadow-[4px_4px_0_#10163a]">
               <Save className="mr-2 inline h-4 w-4" />
-              Masterclass content still saves in browser storage today. Firebase now protects admin access, and you can move the data layer server-side next.
+              Masterclass content now saves to the server so the live site, admin panel, and auto turn-off cron all use the same data.
               <p className="mt-2 text-xs leading-6 text-[#7c3d12]">
-                Expiry reminder emails use the exact <code className="font-mono">eventDate</code> field and trigger when this admin panel is opened for live masterclasses scheduled for today or tomorrow.
+                When a live masterclass reaches its turn-off date and time, it is unpublished automatically and a notification email is sent to <code className="font-mono">n.ragavendar@gmail.com</code>.
               </p>
+              {saveError ? <p className="mt-2 text-xs leading-6 text-[#b42318]">{saveError}</p> : null}
             </div>
           </div>
         </section>

@@ -12,7 +12,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import BlogAdminPage from '@/app/components/blog/BlogAdminPage'
 import MasterclassAdminPage from '@/app/components/masterclass/MasterclassAdminPage'
-import { loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
+import { fetchMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
 import {
   defaultSiteContent, homepageSectionCatalog, loadSiteContent,
   persistSiteContent, type BatchEntry, type SiteContent, type SiteSectionConfig,
@@ -109,7 +109,7 @@ export default function UnifiedAdminPage({
     setSiteContent(loadSiteContent())
     setCourseContent(loadCourseContent())
     setSettings(loadSiteSettings())
-    setMasterclasses(loadMasterclasses())
+    fetchMasterclasses().then(setMasterclasses)
   }, [])
 
   useEffect(() => { setActiveTab(initialTab) }, [initialTab])

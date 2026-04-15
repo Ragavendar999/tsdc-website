@@ -21,10 +21,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
   defaultMasterclasses,
+  fetchMasterclasses,
   formatPrice,
   getMasterclassBackgroundClass,
   isMasterclassVisibleOnLiveSite,
-  loadMasterclasses,
   type Masterclass,
 } from '@/app/lib/masterclasses'
 
@@ -39,7 +39,7 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
 
   useEffect(() => {
-    setMasterclasses(loadMasterclasses())
+    fetchMasterclasses().then(setMasterclasses)
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug)
@@ -51,7 +51,7 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#3244b5]">Masterclass unavailable</p>
           <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer live on the site.</h1>
           <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            The session date is too close or has already passed, so the page has been automatically hidden from the live site. You can go back to the masterclasses page and pick another session.
+            This session has been unpublished from the live site. You can go back to the masterclasses page and pick another session.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link

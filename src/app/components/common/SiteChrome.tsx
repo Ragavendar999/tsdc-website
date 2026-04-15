@@ -1,20 +1,40 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import ScrollProgress from './ScrollProgress'
-import SplashScreen from './SplashScreen'
 import WhatsAppFAB from './WhatsAppFAB'
+
+const SplashScreen = dynamic(() => import('./SplashScreen'), { ssr: false })
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMasterclassRoute = pathname.startsWith('/masterclasses/')
+  const [showSplash, setShowSplash] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const schedule = window.requestIdleCallback
+      ? window.requestIdleCallback(() => setShowSplash(true), { timeout: 1200 })
+      : window.setTimeout(() => setShowSplash(true), 800)
+
+    return () => {
+      if (typeof schedule === 'number') {
+        window.clearTimeout(schedule)
+        return
+      }
+
+      window.cancelIdleCallback?.(schedule)
+    }
+  }, [])
 
   return (
     <>
-      <SplashScreen />
+      {showSplash ? <SplashScreen /> : null}
       {!isMasterclassRoute && (
         <>
           <ScrollProgress />

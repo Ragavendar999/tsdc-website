@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/masterclass/expiry-reminder",
-      "schedule": "0 3 * * *"
+      "path": "/api/masterclasses/auto-turnoff",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

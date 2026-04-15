@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { defaultMasterclasses, formatPrice, isMasterclassVisibleOnLiveSite, loadMasterclasses, type Masterclass } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, fetchMasterclasses, formatPrice, isMasterclassVisibleOnLiveSite, type Masterclass } from '@/app/lib/masterclasses'
 import { loadSiteSettings } from '@/app/lib/siteSettings'
 import MasterclassExperienceShell from './MasterclassExperienceShell'
 
@@ -55,7 +55,7 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
   const studentRef = useRef<CapturedStudent | null>(null)
 
   useEffect(() => {
-    setMasterclasses(loadMasterclasses())
+    fetchMasterclasses().then(setMasterclasses)
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug)
@@ -67,7 +67,7 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Registration unavailable</p>
           <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer available for registration.</h1>
           <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            The page is automatically hidden when the event is today or tomorrow, or when it has been unpublished in the admin panel.
+            This page is hidden whenever the masterclass is unpublished from the admin panel or reaches its admin-configured turn-off date and time.
           </p>
         </div>
       </div>
