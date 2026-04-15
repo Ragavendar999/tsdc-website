@@ -19,9 +19,9 @@ const milestones = [
     color: '#FF8652'
   },
   {
-    year: '2025',
-    title: 'Launched Student Ventures',
-    description: 'Student startup incubator model implemented. Several real businesses emerged from course projects.',
+    year: '2026',
+    title: 'Expanded Career Outcomes',
+    description: 'Batch delivery, portfolio coaching, and industry-aligned student output matured into a stronger career-first training model.',
     icon: Star,
     color: '#F6416C'
   }

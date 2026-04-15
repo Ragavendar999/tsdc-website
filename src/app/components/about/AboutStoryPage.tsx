@@ -67,6 +67,30 @@ const visionItems = [
   'A TSDC alumni community that hires, collaborates, and grows together.',
 ]
 
+const founderHighlights = [
+  'Started TSDC in Perumbakkam to make creative learning feel practical, current, and worth paying for.',
+  'Built the curriculum around portfolio output, live briefs, and job-ready confidence instead of passive theory.',
+  'Still involved in product, design, and student mentoring work so the training stays grounded in real industry expectations.',
+]
+
+const mentorCards = [
+  {
+    name: 'Ragavendar',
+    role: 'Founder and Lead Mentor',
+    expertise: 'Graphic Design, UI/UX Design, brand systems, and product thinking.',
+  },
+  {
+    name: 'TSDC Creative Team',
+    role: 'Design and Video Mentors',
+    expertise: 'Adobe workflows, portfolio coaching, social creatives, reels, and motion-led execution.',
+  },
+  {
+    name: 'TSDC Growth Team',
+    role: 'Digital Marketing Mentors',
+    expertise: 'SEO, paid ads, analytics, reporting, and campaign strategy for real business goals.',
+  },
+]
+
 const faqItems = [
   {
     question: 'What courses does TSDC offer in Chennai?',
@@ -413,6 +437,47 @@ export default function AboutStoryPage() {
               >
                 Talk to a Counsellor
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-10 md:py-14">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="rounded-[2.8rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-8 shadow-[8px_8px_0_#10163a] md:p-10">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">Founder Story</p>
+            <h2 className="mt-3 text-3xl font-black leading-tight text-[#081225] md:text-5xl">Why Ragavendar started TSDC.</h2>
+            <p className="mt-5 text-lg font-semibold leading-8 text-[#445066]">
+              TSDC was built because too many students were finishing courses with certificates but no proof of ability. The goal was simple: make creative education in Chennai feel honest, practical, and visibly career-focused.
+            </p>
+            <div className="mt-6 space-y-3">
+              {founderHighlights.map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-[1.4rem] border-[3px] border-[#10163a] bg-white px-5 py-4 text-sm font-semibold leading-7 text-[#445066] shadow-[4px_4px_0_#10163a]">
+                  <CheckCircle2 size={18} className="mt-1 shrink-0 text-[#ff9736]" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[2.8rem] border-[3px] border-[#10163a] bg-white p-8 shadow-[8px_8px_0_#10163a] md:p-10">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#db4b87]">Mentor Profiles</p>
+            <h2 className="mt-3 text-3xl font-black leading-tight text-[#081225] md:text-5xl">The people behind the training.</h2>
+            <div className="mt-6 grid gap-4">
+              {mentorCards.map((mentor, index) => (
+                <div
+                  key={mentor.name}
+                  className="rounded-[1.8rem] p-5"
+                  style={{
+                    backgroundColor: index === 0 ? '#eef3ff' : index === 1 ? '#fff4e0' : '#fff0f6',
+                    border: '1.5px solid rgba(16,22,58,0.08)',
+                  }}
+                >
+                  <h3 className="text-2xl font-black text-[#081225]">{mentor.name}</h3>
+                  <p className="mt-1 text-sm font-black text-[#3244b5]">{mentor.role}</p>
+                  <p className="mt-3 text-sm font-semibold leading-7 text-[#445066]">{mentor.expertise}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

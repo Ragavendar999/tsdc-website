@@ -23,6 +23,7 @@ import {
   defaultMasterclasses,
   formatPrice,
   getMasterclassBackgroundClass,
+  isMasterclassVisibleOnLiveSite,
   loadMasterclasses,
   type Masterclass,
 } from '@/app/lib/masterclasses'
@@ -43,14 +44,14 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
 
   const masterclass = masterclasses.find((item) => item.slug === slug)
 
-  if (!masterclass) {
+  if (!masterclass || !isMasterclassVisibleOnLiveSite(masterclass)) {
     return (
       <main className="min-h-screen bg-[#0e1330] px-4 py-24 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-8 text-center text-[#10163a] shadow-[9px_9px_0_rgba(0,0,0,0.5)]">
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#3244b5]">Masterclass unavailable</p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass has been removed or is no longer active.</h1>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer live on the site.</h1>
           <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            The page no longer has a valid live masterclass connected to it. You can go back to the masterclasses page and pick another session.
+            The session date is too close or has already passed, so the page has been automatically hidden from the live site. You can go back to the masterclasses page and pick another session.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
@@ -307,12 +308,12 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
                   <p className="mt-3 text-sm font-semibold leading-6 text-white/90">{masterclass.instructor.credibility}</p>
                 </div>
                 <div className="rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-5 shadow-[5px_5px_0_#10163a]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Quick syllabus</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Program snapshot</p>
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                    {masterclass.modules.slice(0, 4).map((module) => (
-                      <div key={module.title} className="flex items-start justify-between gap-3 rounded-xl border-[3px] border-[#10163a] bg-white px-3 py-2 text-xs font-bold shadow-[3px_3px_0_#10163a]">
-                        <span className="line-clamp-2 text-[#10163a]">{module.title}</span>
-                        <span className="shrink-0 rounded-full border-2 border-[#10163a] bg-[#3244b5] px-2 py-1 text-[10px] font-black text-white">{module.duration}</span>
+                    {masterclass.includes.slice(0, 4).map((item) => (
+                      <div key={item.label} className="rounded-xl border-[3px] border-[#10163a] bg-white px-3 py-3 text-xs font-bold shadow-[3px_3px_0_#10163a]">
+                        <p className="text-[10px] uppercase tracking-[0.16em] text-[#667085]">{item.label}</p>
+                        <p className="mt-1 text-sm font-black text-[#10163a]">{item.value}</p>
                       </div>
                     ))}
                   </div>

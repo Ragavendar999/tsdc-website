@@ -110,7 +110,7 @@ export const defaultMasterclasses: Masterclass[] = [
     hook: 'Turn your summer into creativity with AI-powered graphic design.',
     description:
       'A summer bootcamp designed for students and beginners who want to learn graphic design with modern AI tools, practical projects, and portfolio-ready output through online or offline learning.',
-    date: 'April 15',
+    date: 'April 15, 2026',
     time: 'Flexible batch timings',
     mode: 'Online & Offline Available',
     price: 6999,
@@ -248,6 +248,19 @@ export const getMasterclassDaysUntil = (masterclass: Pick<Masterclass, 'eventDat
   return Math.round((target.getTime() - today.getTime()) / 86400000)
 }
 
+export const isMasterclassVisibleOnLiveSite = (
+  masterclass: Pick<Masterclass, 'status' | 'eventDate'>,
+  now = new Date()
+) => {
+  if (masterclass.status !== 'live') return false
+
+  const daysUntil = getMasterclassDaysUntil(masterclass, now)
+  if (daysUntil === null) return true
+
+  // Hide the page when the session is today or tomorrow so stale offers do not stay public.
+  return daysUntil > 1
+}
+
 export const shouldSendExpiryReminder = (masterclass: Pick<Masterclass, 'status' | 'eventDate'>, now = new Date()) => {
   if (masterclass.status !== 'live') return false
 
@@ -268,3 +281,4 @@ export const masterclassBackgrounds = {
 
 export const getMasterclassBackgroundClass = (style?: Masterclass['backgroundStyle']) =>
   masterclassBackgrounds[style || 'midnight'] || masterclassBackgrounds.midnight
+

@@ -11,7 +11,7 @@ const courses = [
     image: '/images/courses/graphic-design.jpg',
     href: '/courses/graphic-design',
     duration: '12 Weeks',
-    batches: ['Aug 1, 2025', 'Sep 5, 2025'],
+    batches: ['May 11, 2026', 'June 8, 2026'],
     projects: '3 Live Projects + 1 Portfolio Build',
   },
   {
@@ -20,7 +20,7 @@ const courses = [
     image: '/images/courses/uiux-design.jpg',
     href: '/courses/uiux-design',
     duration: '10 Weeks',
-    batches: ['Jul 25, 2025', 'Aug 29, 2025'],
+    batches: ['May 18, 2026', 'June 15, 2026'],
     projects: '4 Product Redesigns + Internship Option',
   },
   {
@@ -29,8 +29,17 @@ const courses = [
     image: '/images/courses/digital-marketing.jpg',
     href: '/courses/digital-marketing',
     duration: '8 Weeks',
-    batches: ['Aug 10, 2025', 'Sep 15, 2025'],
+    batches: ['May 14, 2026', 'June 11, 2026'],
     projects: 'Campaign Simulations + 2 Live Clients',
+  },
+  {
+    title: 'Video Editing',
+    desc: 'Master reels, ad edits, motion graphics, and showreel building with Premiere Pro, After Effects, and DaVinci Resolve.',
+    image: '/graphic.png',
+    href: '/courses/video-editing',
+    duration: '12 Weeks',
+    batches: ['May 25, 2026', 'June 22, 2026'],
+    projects: '5 Commercial Edits + 1 Showreel Build',
   },
 ]
 

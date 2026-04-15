@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import MasterclassSuccessPage from '@/app/components/masterclass/MasterclassSuccessPage'
-import { defaultMasterclasses } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'TSDC Masterclass Registration Successful',
@@ -8,7 +10,9 @@ export const metadata: Metadata = {
 }
 
 export function generateStaticParams() {
-  return defaultMasterclasses.map((masterclass) => ({ slug: masterclass.slug }))
+  return defaultMasterclasses
+    .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
+    .map((masterclass) => ({ slug: masterclass.slug }))
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

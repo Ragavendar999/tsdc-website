@@ -10,13 +10,35 @@ import {
   Phone,
   Sparkles,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
+
+type ContactFormState = {
+  name: string
+  email: string
+  mobile: string
+  interest: string
+  message: string
+}
+
+const initialFormState: ContactFormState = {
+  name: '',
+  email: '',
+  mobile: '',
+  interest: 'General Enquiry',
+  message: '',
+}
+
+const inputClass =
+  'w-full rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#10163a] shadow-[4px_4px_0_#10163a] outline-none placeholder:text-[#667085]'
 
 export default function ContactSection() {
   const { openPopup } = useContactPopup()
   const [content, setContent] = useState(defaultSiteContent.contact)
+  const [formState, setFormState] = useState<ContactFormState>(initialFormState)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formMessage, setFormMessage] = useState('')
 
   useEffect(() => {
     const syncContent = () => setContent(loadSiteContent().contact)
@@ -47,6 +69,44 @@ export default function ContactSection() {
         ctaLabel: item.ctaLabel,
       }),
   }))
+
+  const updateForm = <K extends keyof ContactFormState>(key: K, value: ContactFormState[K]) => {
+    setFormState((current) => ({ ...current, [key]: value }))
+    setFormMessage('')
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsSubmitting(true)
+    setFormMessage('')
+
+    const payload = new FormData()
+    payload.append('source', 'contact-page-inline-form')
+    payload.append('interest', formState.interest)
+    payload.append('name', formState.name)
+    payload.append('email', formState.email)
+    payload.append('mobile', formState.mobile)
+    payload.append('occupation', 'Website Visitor')
+    payload.append('joiningTimeline', 'Just enquiry')
+    payload.append('appointmentDate', '')
+    payload.append('appointmentTime', '')
+    payload.append('message', formState.message)
+
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      body: payload,
+    })
+
+    setIsSubmitting(false)
+
+    if (response.ok) {
+      setFormMessage('Thanks. Our admissions team will contact you shortly.')
+      setFormState(initialFormState)
+      return
+    }
+
+    setFormMessage('We could not submit your enquiry right now. Please call or WhatsApp us directly.')
+  }
 
   return (
     <section className="site-section-bg relative min-h-[88vh] overflow-hidden px-4 py-10 md:py-14">
@@ -174,6 +234,77 @@ export default function ContactSection() {
                   </div>
                 ))}
               </div>
+
+              <form onSubmit={handleSubmit} className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-6 shadow-[7px_7px_0_#10163a]">
+                <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">Quick Enquiry Form</p>
+                <h4 className="mt-2 text-2xl font-black text-[#10163a]">Fill in your details and we will get back to you.</h4>
+                <p className="mt-2 text-sm leading-7 text-[#475569]">This form is rendered directly on the page for faster enquiries and better crawlability.</p>
+
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={formState.name}
+                    onChange={(event) => updateForm('name', event.target.value)}
+                    className={inputClass}
+                    placeholder="Your name"
+                  />
+                  <input
+                    type="tel"
+                    name="mobile"
+                    required
+                    pattern="[0-9]{10}"
+                    value={formState.mobile}
+                    onChange={(event) => updateForm('mobile', event.target.value.replace(/\D/g, '').slice(0, 10))}
+                    className={inputClass}
+                    placeholder="10-digit phone number"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formState.email}
+                    onChange={(event) => updateForm('email', event.target.value)}
+                    className={inputClass}
+                    placeholder="Email address"
+                  />
+                  <select
+                    name="interest"
+                    value={formState.interest}
+                    onChange={(event) => updateForm('interest', event.target.value)}
+                    className={inputClass}
+                  >
+                    <option>General Enquiry</option>
+                    <option>Graphic Design</option>
+                    <option>UI/UX Design</option>
+                    <option>Digital Marketing</option>
+                    <option>Video Editing</option>
+                  </select>
+                </div>
+
+                <textarea
+                  name="message"
+                  rows={4}
+                  value={formState.message}
+                  onChange={(event) => updateForm('message', event.target.value)}
+                  className={`${inputClass} mt-4`}
+                  placeholder="Tell us what you want to learn, your current level, or the batch you want to join."
+                />
+
+                {formMessage ? (
+                  <p className="mt-4 text-sm font-bold text-[#3244b5]">{formMessage}</p>
+                ) : null}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-5 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60"
+                >
+                  {isSubmitting ? 'Sending...' : 'Submit Enquiry'}
+                  <ArrowRight size={16} />
+                </button>
+              </form>
             </div>
 
             <div className="grid gap-5">
@@ -200,14 +331,15 @@ export default function ContactSection() {
                       <Phone size={15} />
                       {content.mapPhone}
                     </a>
-                    <button
-                      type="button"
-                      onClick={() => openPopup(primaryPopupOptions)}
+                    <a
+                      href="https://www.google.com/maps/dir/?api=1&destination=12.8817134,80.2026107"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#fff7f1] px-3 py-2 text-[#fa8a43] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#10163a]"
                     >
-                      <Mail size={15} />
-                      {content.mapButtonLabel}
-                    </button>
+                      <MapPin size={15} />
+                      Get Directions
+                    </a>
                   </div>
                 </div>
               </div>
@@ -221,6 +353,16 @@ export default function ContactSection() {
                 <p className="mt-3 text-sm leading-7 text-white/85">
                   {content.launchCardDescription}
                 </p>
+                <div className="mt-5 flex flex-wrap gap-3 text-sm font-black">
+                  <a href="mailto:support@traijoedu.in" className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2">
+                    <Mail size={15} />
+                    support@traijoedu.in
+                  </a>
+                  <a href="https://wa.me/917358116929" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2">
+                    <MessageCircle size={15} />
+                    WhatsApp Admissions
+                  </a>
+                </div>
               </button>
             </div>
           </div>

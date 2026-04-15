@@ -6,6 +6,7 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import ScrollProgress from './ScrollProgress'
 import SplashScreen from './SplashScreen'
+import WhatsAppFAB from './WhatsAppFAB'
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -21,6 +22,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
         </>
       )}
       <main className={isMasterclassRoute ? '' : 'pt-[5.5rem]'}>{children}</main>
+      {!isMasterclassRoute && <WhatsAppFAB />}
       {!isMasterclassRoute && <Footer />}
     </>
   )

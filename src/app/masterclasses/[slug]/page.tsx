@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import MasterclassLandingPage from '@/app/components/masterclass/MasterclassLandingPage'
-import { defaultMasterclasses } from '@/app/lib/masterclasses'
+import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '@/app/lib/masterclasses'
 import { breadcrumbSchema, eventSchema, jsonLd } from '@/app/lib/seo'
+
+export const revalidate = 3600
 
 export async function generateMetadata({
   params,
@@ -11,10 +13,14 @@ export async function generateMetadata({
   const { slug } = await params
   const masterclass = defaultMasterclasses.find((item) => item.slug === slug)
 
-  if (!masterclass) {
+  if (!masterclass || !isMasterclassVisibleOnLiveSite(masterclass)) {
     return {
       title: 'TSDC Masterclass',
       description: 'Join a focused TSDC creative masterclass in Chennai with live learning, certificate, resources and practical portfolio guidance.',
+      robots: {
+        index: false,
+        follow: false,
+      },
     }
   }
 
@@ -34,7 +40,9 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return defaultMasterclasses.map((masterclass) => ({ slug: masterclass.slug }))
+  return defaultMasterclasses
+    .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
+    .map((masterclass) => ({ slug: masterclass.slug }))
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

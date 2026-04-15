@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import MasterclassSection from '@/app/components/masterclass/MasterclassSection'
-import { defaultMasterclasses } from '../lib/masterclasses'
+import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from '../lib/masterclasses'
 import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'TSDC Masterclasses | Live Creative Workshops and Bootcamps',
@@ -13,6 +15,10 @@ export const metadata: Metadata = {
 }
 
 export default function MasterclassesPage() {
+  const publicMasterclasses = defaultMasterclasses.filter((masterclass) =>
+    isMasterclassVisibleOnLiveSite(masterclass)
+  )
+
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -20,7 +26,7 @@ export default function MasterclassesPage() {
     ]),
     itemListSchema({
       name: 'TSDC Masterclasses',
-      items: defaultMasterclasses.map((masterclass) => ({
+      items: publicMasterclasses.map((masterclass) => ({
         title: masterclass.title,
         path: `/masterclasses/${masterclass.slug}`,
       })),

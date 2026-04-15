@@ -39,7 +39,7 @@ export type BatchEntry = {
   course: string
   accent: string
   icon: string                       // emoji icon for visual scanning
-  startDate: string                  // e.g. "May 5, 2025"
+  startDate: string                  // e.g. "June 1, 2026"
   duration: string                   // e.g. "12 Weeks"
   mode: string                       // "Offline / Hybrid"
   fee: string                        // e.g. "₹18,000"
@@ -296,7 +296,7 @@ export const defaultSiteContent: SiteContent = {
         course: 'Graphic Design',
         accent: '#fa8a43',
         icon: '🎨',
-        startDate: 'May 5, 2025',
+        startDate: 'May 11, 2026',
         duration: '12 Weeks',
         mode: 'Offline / Hybrid',
         fee: '₹18,000',
@@ -310,7 +310,7 @@ export const defaultSiteContent: SiteContent = {
         course: 'UI/UX Design',
         accent: '#4562b0',
         icon: '🖥️',
-        startDate: 'May 12, 2025',
+        startDate: 'May 18, 2026',
         duration: '10 Weeks',
         mode: 'Offline / Hybrid',
         fee: '₹20,000',
@@ -324,21 +324,21 @@ export const defaultSiteContent: SiteContent = {
         course: 'Digital Marketing',
         accent: '#ea6865',
         icon: '📣',
-        startDate: 'May 8, 2025',
+        startDate: 'May 14, 2026',
         duration: '8 Weeks',
         mode: 'Offline / Hybrid',
         fee: '₹15,000',
         emi: '₹7,500 × 2 months',
         seatsTotal: 20,
-        seatsTaken: 20,
-        status: 'full',
+        seatsTaken: 11,
+        status: 'filling',
         link: '/courses/digital-marketing',
       },
       {
         course: 'Video Editing',
         accent: '#4a4a99',
         icon: '🎬',
-        startDate: 'May 19, 2025',
+        startDate: 'May 25, 2026',
         duration: '12 Weeks',
         mode: 'Offline / Hybrid',
         fee: '₹18,000',
@@ -505,3 +505,7 @@ export const persistSiteContent = (content: SiteContent) => {
   window.localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(content))
   window.dispatchEvent(new Event(SITE_CONTENT_UPDATED_EVENT))
 }
+
+
+
+

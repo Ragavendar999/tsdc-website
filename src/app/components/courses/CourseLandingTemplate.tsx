@@ -1,7 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, BookOpenCheck, CheckCircle2, Clock, FileDown, Sparkles, Users } from 'lucide-react'
+import {
+  ArrowRight,
+  BookOpenCheck,
+  CalendarDays,
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  FileDown,
+  Sparkles,
+  Users,
+  Wrench,
+} from 'lucide-react'
 import Image from 'next/image'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
@@ -17,6 +28,9 @@ export type CourseLandingData = {
   duration: string
   mode: string
   seats: string
+  fee: string
+  emi: string
+  nextBatches: string[]
   syllabusUrl: string
   syllabusFileName: string
   heroPoints: string[]
@@ -26,6 +40,7 @@ export type CourseLandingData = {
   project: string
   careerRoles: string
   testimonial: { quote: string; author: string; role: string }
+  faqs: { question: string; answer: string }[]
   popupInterest: string
 }
 
@@ -54,12 +69,9 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
 
   return (
     <section className="site-section-bg relative overflow-hidden px-5 py-12 text-[#081225] md:px-8">
-      {/* Comic halftone background */}
       <div className="comic-dots pointer-events-none absolute inset-0 z-0" />
-      {/* Comic burst stickers — peeking behind the card */}
       <div className="comic-burst pointer-events-none absolute -right-6 top-16 z-0 hidden h-28 w-28 bg-[#ff9736] opacity-80 lg:block" />
       <div className="comic-burst pointer-events-none absolute -left-6 bottom-24 z-0 hidden h-24 w-24 bg-[#db4b87] opacity-75 lg:block" />
-      <div className="comic-burst pointer-events-none absolute right-[2%] bottom-16 z-0 hidden h-16 w-16 bg-[#ffcb53] opacity-85 xl:block" />
 
       <div className="relative z-10 mx-auto max-w-6xl rounded-[2.5rem] border-[3px] border-[#10163a] bg-white px-5 py-6 shadow-[9px_9px_0_#10163a] md:px-10 md:py-10">
         <motion.div
@@ -69,13 +81,9 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           className="relative overflow-hidden rounded-[2.4rem] border-[3px] border-[#10163a] px-6 py-8 text-white shadow-[7px_7px_0_#10163a] md:px-10 md:py-10"
           style={{ backgroundColor: course.deep }}
         >
-          {/* Comic halftone on the dark hero */}
           <div className="comic-dots-dark pointer-events-none absolute inset-0 z-0" />
-          {/* Comic burst accent on hero */}
           <div className="comic-burst pointer-events-none absolute -right-8 -top-8 z-0 h-32 w-32 bg-white opacity-8" />
           <div className="comic-burst pointer-events-none absolute -bottom-6 -left-6 z-0 h-24 w-24 opacity-15" style={{ backgroundColor: course.accent }} />
-          <div className="absolute -left-10 top-8 h-32 w-32 rounded-full bg-white/10" />
-          <div className="absolute -right-8 bottom-8 h-36 w-36 rounded-[2rem] bg-[#ffcb53]/15" />
 
           <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[1fr_0.88fr]">
             <div>
@@ -131,7 +139,7 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
                 />
                 <div className="absolute bottom-7 left-7 right-7 rounded-[1.4rem] border-[3px] border-[#10163a] bg-white p-4 text-[#081225] shadow-[5px_5px_0_#10163a]">
                   <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: course.accent }}>
-                    Career-ready program
+                    Upcoming intake snapshot
                   </p>
                   <div className="mt-2 grid gap-2 text-sm font-black sm:grid-cols-3">
                     <span>{course.duration}</span>
@@ -144,7 +152,31 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           </div>
         </motion.div>
 
-        <div className="py-14 text-center">
+        <div className="my-10 grid gap-5 md:grid-cols-3">
+          <div className="rounded-[1.8rem] border-[3px] border-[#10163a] p-6 shadow-[6px_6px_0_#10163a]" style={{ backgroundColor: course.soft }}>
+            <CreditCard className="mb-3" style={{ color: course.deep }} />
+            <h2 className="text-2xl font-black text-[#10163a]">{course.fee}</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#475467]">Flexible payment plan: {course.emi}</p>
+          </div>
+          <div className="rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#eef1ff] p-6 shadow-[6px_6px_0_#10163a]">
+            <CalendarDays className="mb-3 text-[#4562b0]" />
+            <h2 className="text-2xl font-black text-[#10163a]">Next batches</h2>
+            <div className="mt-3 space-y-2 text-sm font-semibold text-[#475467]">
+              {course.nextBatches.map((batch) => (
+                <div key={batch} className="rounded-xl border-[2px] border-[#10163a] bg-white px-4 py-3 shadow-[3px_3px_0_#10163a]">
+                  {batch}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#fff1f6] p-6 shadow-[6px_6px_0_#10163a]">
+            <Users className="mb-3 text-[#db4b87]" />
+            <h2 className="text-2xl font-black text-[#10163a]">Career outcomes</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#475467]">{course.careerRoles}</p>
+          </div>
+        </div>
+
+        <div className="py-6 text-center">
           <p className="mx-auto mb-3 inline-flex rounded-full border-[3px] border-[#10163a] px-4 py-2 text-sm font-black shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft, color: course.deep }}>
             What students develop here
           </p>
@@ -194,29 +226,27 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           </button>
         </div>
 
-        <div className="py-10 text-center">
-          <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">Choose your learning focus</h2>
+        <div className="py-4 text-center">
+          <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">Structured syllabus breakdown</h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#475467]">
-            Each block is designed to move you toward visible work, stronger thinking, and employable output.
+            Each module is designed to move you from basics to finished, portfolio-ready outcomes with clear practical deliverables.
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="space-y-4">
           {course.modules.map((module, index) => (
             <motion.div
               key={module.title}
-              whileHover={{ y: -6 }}
-              className="relative overflow-hidden rounded-[1.8rem] border-[3px] border-[#10163a] p-6 text-white shadow-[6px_6px_0_#10163a]"
-              style={{ backgroundColor: index % 3 === 0 ? course.deep : index % 3 === 1 ? course.accent : '#db4b87' }}
+              whileHover={{ y: -4 }}
+              className="grid gap-4 rounded-[1.8rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a] md:grid-cols-[180px_1fr]"
             >
-              <div className="comic-dots-dark pointer-events-none absolute inset-0 z-0" />
-              <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/10" />
-              <div className="relative z-10">
-                <div className="mb-4 inline-flex rounded-full bg-white/16 px-3 py-1 text-xs font-black uppercase tracking-[0.16em]">
-                  {module.label}
-                </div>
-                <h3 className="text-2xl font-black">{module.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/86">{module.text}</p>
+              <div className="rounded-[1.2rem] border-[3px] border-[#10163a] px-4 py-4 text-center font-black text-white shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: index % 2 === 0 ? course.deep : course.accent }}>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/75">{module.label}</p>
+                <p className="mt-2 text-lg">Core module</p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-[#10163a]">{module.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#475467]">{module.text}</p>
               </div>
             </motion.div>
           ))}
@@ -226,26 +256,45 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           <div className="rounded-[1.5rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft }}>
             <Clock className="mb-3" style={{ color: course.deep }} />
             <h3 className="font-black">{course.duration}</h3>
-            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.mode} with rolling admissions and guided batches.</p>
+            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.mode} with guided sessions and active mentor feedback.</p>
           </div>
           <div className="rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#eef1ff] p-5 shadow-[4px_4px_0_#10163a]">
-            <Users className="mb-3 text-[#4562b0]" />
-            <h3 className="font-black">Career paths</h3>
-            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.careerRoles}</p>
+            <Wrench className="mb-3 text-[#4562b0]" />
+            <h3 className="font-black">Tools covered</h3>
+            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.tools.join(', ')}</p>
           </div>
           <div className="rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#fff1f6] p-5 shadow-[4px_4px_0_#10163a]">
             <Sparkles className="mb-3 text-[#ea6865]" />
-            <h3 className="font-black">Tools included</h3>
-            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.tools.join(', ')}</p>
+            <h3 className="font-black">Fee and EMI</h3>
+            <p className="mt-2 text-sm leading-6 text-[#475467]">{course.fee} with {course.emi} available for students who want a lighter start.</p>
           </div>
         </div>
 
-        <div className="rounded-[2rem] border-[3px] border-[#10163a] p-7 text-white shadow-[8px_8px_0_#10163a] md:grid md:grid-cols-[1fr_0.8fr] md:items-center md:gap-8" style={{ backgroundColor: course.deep }}>
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Still confused?</p>
-            <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">Talk to TSDC and get the right course plan.</h2>
+        <div className="grid gap-5 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#171d4d] p-7 text-white shadow-[8px_8px_0_#10163a]">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Student proof</p>
+            <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">The page should answer the question: can I see myself getting results here?</h2>
             <p className="mt-4 text-sm leading-7 text-white/82">"{course.testimonial.quote}"</p>
             <p className="mt-3 text-sm font-black text-white">{course.testimonial.author}, {course.testimonial.role}</p>
+          </div>
+          <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-7 shadow-[8px_8px_0_#10163a]">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">Frequently asked questions</p>
+            <div className="mt-5 space-y-3">
+              {course.faqs.map((faq) => (
+                <details key={faq.question} className="rounded-[1.2rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-4 shadow-[4px_4px_0_#10163a]">
+                  <summary className="cursor-pointer list-none text-base font-black text-[#10163a]">{faq.question}</summary>
+                  <p className="mt-3 text-sm leading-7 text-[#475467]">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 rounded-[2rem] border-[3px] border-[#10163a] p-7 text-white shadow-[8px_8px_0_#10163a] md:grid md:grid-cols-[1fr_0.8fr] md:items-center md:gap-8" style={{ backgroundColor: course.deep }}>
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Need clarity before you decide?</p>
+            <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">Talk to TSDC and get the right batch, fee plan, and course roadmap.</h2>
+            <p className="mt-4 text-sm leading-7 text-white/82">We will help you understand the syllabus, next batch dates, payment options, and whether this course fits your current level.</p>
           </div>
           <div className="mt-6 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-5 text-[#10163a] shadow-[5px_5px_0_#10163a] md:mt-0">
             <div className="space-y-3">
