@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { defaultBlogPosts } from './lib/blogPosts'
-import { defaultMasterclasses } from './lib/masterclasses'
+import { defaultMasterclasses, isMasterclassVisibleOnLiveSite } from './lib/masterclasses'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://traijoedu.in'
@@ -87,20 +87,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const masterclassRoutes: MetadataRoute.Sitemap = defaultMasterclasses.flatMap((masterclass) => [
-    {
-      url: `${baseUrl}/masterclasses/${masterclass.slug}`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/masterclasses/${masterclass.slug}/register`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-  ])
+  const masterclassRoutes: MetadataRoute.Sitemap = defaultMasterclasses
+    .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
+    .flatMap((masterclass) => [
+      {
+        url: `${baseUrl}/masterclasses/${masterclass.slug}`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/masterclasses/${masterclass.slug}/register`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.5,
+      },
+    ])
 
   const blogRoutes: MetadataRoute.Sitemap = defaultBlogPosts
     .filter((post) => post.status === 'published')

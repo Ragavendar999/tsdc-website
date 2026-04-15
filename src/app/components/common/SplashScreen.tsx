@@ -9,6 +9,7 @@ import {
   defaultMasterclasses,
   formatPrice,
   getMasterclassBackgroundClass,
+  isMasterclassVisibleOnLiveSite,
   loadMasterclasses,
   type Masterclass,
 } from '@/app/lib/masterclasses'
@@ -107,7 +108,7 @@ function MasterclassAd({
   masterclasses: Masterclass[]
   onDismiss: () => void
 }) {
-  const live = masterclasses.filter((m) => m.status === 'live')
+  const live = masterclasses.filter((m) => isMasterclassVisibleOnLiveSite(m))
 
   return (
     <motion.div
@@ -346,7 +347,7 @@ export default function SplashScreen() {
     if (sessionStorage.getItem('tsdc_splash')) return
     sessionStorage.setItem('tsdc_splash', '1')
 
-    setMasterclasses(loadMasterclasses())
+    setMasterclasses(loadMasterclasses().filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass)))
 
     setPhase('logo')
 
