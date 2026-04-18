@@ -1,17 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
   CheckCircle2,
   Clock3,
-  Mail,
   MessageCircle,
   Phone,
   Sparkles,
-  Ticket,
   UserRound,
   Zap,
 } from 'lucide-react'
@@ -27,17 +24,15 @@ import {
   type Masterclass,
 } from '@/app/lib/masterclasses'
 
-const contactDetails = [
-  { label: 'Call', value: '+91 73581 16929', href: 'tel:+917358116929', icon: Phone },
-  { label: 'WhatsApp', value: 'Ask anything', href: 'https://wa.me/917358116929', icon: MessageCircle },
-  { label: 'Email', value: 'support@traijoedu.in', href: 'mailto:support@traijoedu.in', icon: Mail },
-]
-
 export default function MasterclassLandingPage({ slug }: { slug: string }) {
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     fetchMasterclasses().then(setMasterclasses)
+    const onScroll = () => setScrolled(window.scrollY > 320)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const masterclass = masterclasses.find((item) => item.slug === slug)
@@ -47,24 +42,23 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
       <main className="min-h-screen bg-[#0e1330] px-4 py-24 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-8 text-center text-[#10163a] shadow-[9px_9px_0_rgba(0,0,0,0.5)]">
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#3244b5]">Masterclass unavailable</p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer live on the site.</h1>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer live.</h1>
           <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            This session has been unpublished from the live site. You can go back to the masterclasses page and pick another session.
+            This session has been unpublished. Browse other sessions below.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/masterclasses"
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
             >
-              View Masterclasses
+              View All Masterclasses
               <ArrowRight size={16} />
             </Link>
             <Link
               href="/"
               className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-6 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a]"
             >
-              <ArrowLeft size={16} />
-              Back to Home
+              Back to TSDC
             </Link>
           </div>
         </div>
@@ -76,173 +70,144 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
   const seatProgress = Math.round((masterclass.seatsTaken / masterclass.seatsTotal) * 100)
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#0e1330] text-[#fffdf7]">
-      {/* ── Hero section with dark immersive background ── */}
-      <section className="relative overflow-hidden px-4 pb-28 pt-6 sm:px-6 lg:px-8">
-        {/* Atmospheric background layers */}
+    <main className="min-h-screen overflow-hidden bg-[#0b0f26] text-[#fffdf7]">
+
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden px-4 pb-24 pt-6 sm:px-6 lg:px-8">
+        {/* Background atmosphere */}
         <div className="pointer-events-none absolute inset-0">
-          <div className={`absolute inset-x-0 top-0 h-[28rem] ${getMasterclassBackgroundClass(masterclass.backgroundStyle)} opacity-30`} />
-          <div className="absolute inset-x-0 top-0 h-[28rem] bg-gradient-to-b from-transparent via-[#0e1330]/60 to-[#0e1330]" />
+          <div className={`absolute inset-x-0 top-0 h-[32rem] ${getMasterclassBackgroundClass(masterclass.backgroundStyle)} opacity-25`} />
+          <div className="absolute inset-x-0 top-0 h-[32rem] bg-gradient-to-b from-transparent via-[#0b0f26]/70 to-[#0b0f26]" />
           {masterclass.backgroundImage && (
-            <div
-              className="absolute inset-x-0 top-0 h-[28rem] bg-cover bg-center opacity-10"
-              style={{ backgroundImage: `url(${masterclass.backgroundImage})` }}
-            />
+            <div className="absolute inset-x-0 top-0 h-[32rem] bg-cover bg-center opacity-8" style={{ backgroundImage: `url(${masterclass.backgroundImage})` }} />
           )}
-          <div className="absolute inset-0 opacity-10 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.25)_1px,transparent_0)] [background-size:28px_28px]" />
-          {/* Glow orbs */}
-          <div className="absolute -left-20 top-40 h-80 w-80 rounded-full bg-[#3244b5]/25 blur-3xl" />
-          <div className="absolute -right-20 top-20 h-80 w-80 rounded-full bg-[#db4b87]/15 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.3)_1px,transparent_0)] [background-size:28px_28px]" />
+          <div className="absolute -left-24 top-32 h-96 w-96 rounded-full bg-[#3244b5]/20 blur-3xl" />
+          <div className="absolute -right-16 top-16 h-72 w-72 rounded-full bg-[#ff9736]/12 blur-3xl" />
         </div>
 
-        {/* Back to site button */}
-        <motion.div whileHover={{ x: -3 }} whileTap={{ scale: 0.97 }} className="relative z-[1300] mb-5 w-max">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/20"
-          >
-            <ArrowLeft size={13} />
-            Back to TSDC
-          </Link>
-        </motion.div>
-
-        <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4">
-          {/* Header bar */}
-          <header className="flex flex-col gap-3 rounded-[1.8rem] border-[3px] border-white/15 bg-white/8 p-3 backdrop-blur-md md:flex-row md:items-center md:justify-between">
-            <Link href="/" aria-label="TSDC home" className="inline-flex w-max items-center rounded-full border-[3px] border-white/20 bg-white px-3.5 py-2 shadow-[4px_4px_0_rgba(0,0,0,0.3)]">
-              <Image src="/logo.png" alt="TSDC Logo" width={96} height={32} priority />
+        <div className="relative z-10 mx-auto max-w-6xl">
+          {/* Top nav */}
+          <div className="mb-8 flex items-center justify-between">
+            <Link href="/" aria-label="TSDC home" className="inline-flex items-center rounded-full border-[2px] border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-sm transition hover:bg-white/20">
+              <Image src="/logo.png" alt="TSDC" width={80} height={26} priority />
             </Link>
-
-            <div className="flex flex-wrap gap-2">
-              {contactDetails.map((item) => {
-                const Icon = item.icon
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith('http') ? '_blank' : undefined}
-                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-3 py-1.5 text-xs font-black text-white backdrop-blur-sm transition hover:bg-white hover:text-[#10163a]"
-                  >
-                    <Icon size={14} />
-                    <span className="hidden sm:inline">{item.label}:</span>
-                    {item.value}
-                  </a>
-                )
-              })}
-            </div>
-          </header>
-
-          {/* Main 12-col grid */}
-          <div className="grid gap-4 lg:grid-cols-12">
-            {/* ── Left hero card ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-5 shadow-[9px_9px_0_rgba(0,0,0,0.5)] lg:col-span-7 lg:p-7"
+            <a
+              href={masterclass.whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border-[2px] border-white/20 bg-white/10 px-4 py-2 text-xs font-black text-white backdrop-blur-sm transition hover:bg-white/20"
             >
-              <div className="flex h-full flex-col justify-between gap-5">
-                <div>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-black shadow-[4px_4px_0_#10163a] sm:text-xs">
-                      <Sparkles size={14} className="text-[#fa8a43]" />
-                      {masterclass.badge}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] px-3.5 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#10163a] shadow-[4px_4px_0_#10163a] sm:text-xs">
-                      <Zap size={12} />
-                      {masterclass.discountLabel}
-                    </span>
-                  </div>
+              <MessageCircle size={13} />
+              Ask on WhatsApp
+            </a>
+          </div>
 
-                  <p className="mt-5 text-xs font-black uppercase tracking-[0.28em] text-[#667085]">Exclusive TSDC session</p>
-                  <h1 className="mt-3 max-w-4xl text-[2.35rem] font-black leading-[0.92] tracking-[-0.07em] text-[#10163a] min-[380px]:text-[2.75rem] sm:text-[3.35rem] lg:text-[4rem] xl:text-[4.55rem]">
-                    {masterclass.hook}
-                  </h1>
-                  <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-[#445066] sm:text-lg sm:leading-8">
-                    {masterclass.description}
-                  </p>
-                </div>
+          {/* Hero grid */}
+          <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-start lg:gap-10">
 
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <motion.div
-                    animate={{ scale: [1, 1.035, 1] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="relative"
+            {/* LEFT: headline + CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Badges */}
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border-[2px] border-white/25 bg-white/10 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+                  <Sparkles size={12} className="text-[#fa8a43]" />
+                  {masterclass.badge}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border-[2px] border-[#ffcb53]/40 bg-[#ffcb53]/15 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#ffcb53]">
+                  <Zap size={11} />
+                  {masterclass.discountLabel}
+                </span>
+              </div>
+
+              <h1 className="mt-5 text-[2.6rem] font-black leading-[1.02] tracking-[-0.07em] text-white min-[380px]:text-5xl sm:text-[3.5rem] lg:text-[4rem]">
+                {masterclass.hook}
+              </h1>
+
+              <p className="mt-5 max-w-2xl text-base font-medium leading-8 text-white/65 sm:text-lg">
+                {masterclass.description}
+              </p>
+
+              {/* CTAs */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <div className="relative">
+                  <motion.span
+                    animate={{ scale: [1, 1.5], opacity: [0.45, 0] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+                    className="pointer-events-none absolute inset-0 rounded-[1rem] bg-[#ff9736]/60"
+                  />
+                  <Link
+                    href={`/masterclasses/${masterclass.slug}/register`}
+                    className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-sm font-black text-white shadow-[5px_5px_0_rgba(0,0,0,0.4)] transition hover:-translate-y-1"
                   >
-                    {/* Pulse glow ring */}
                     <motion.span
-                      animate={{ scale: [1, 1.55], opacity: [0.55, 0] }}
-                      transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut' }}
-                      className="pointer-events-none absolute inset-0 rounded-[1rem] bg-[#ff9736]"
+                      animate={{ x: ['-120%', '220%'] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1.2 }}
+                      className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                     />
-                    <Link
-                      href={`/masterclasses/${masterclass.slug}/register`}
-                      className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1"
-                    >
-                      {/* Shimmer sweep */}
-                      <motion.span
-                        animate={{ x: ['-120%', '220%'] }}
-                        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
-                        className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
-                      />
-                      Secure Your Spot — {formatPrice(masterclass.price)}
-                      <motion.span
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-                      >
-                        <ArrowRight size={17} />
-                      </motion.span>
-                    </Link>
-                  </motion.div>
-                  <a
-                    href={masterclass.whatsappLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-6 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1 hover:bg-[#3244b5] hover:text-white"
-                  >
-                    <MessageCircle size={17} />
-                    Ask on WhatsApp
-                  </a>
+                    Secure Your Spot — {formatPrice(masterclass.price)}
+                    <ArrowRight size={17} />
+                  </Link>
                 </div>
+                <a
+                  href="tel:+917358116929"
+                  className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[2px] border-white/20 bg-white/8 px-7 py-4 text-sm font-black text-white backdrop-blur-sm transition hover:bg-white/16"
+                >
+                  <Phone size={15} />
+                  Call to Register
+                </a>
+              </div>
+
+              {/* Trust row */}
+              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+                {['Instant WhatsApp confirmation', 'Mentor-led live session', 'Limited seats only'].map((t) => (
+                  <span key={t} className="flex items-center gap-1.5 text-xs font-semibold text-white/50">
+                    <CheckCircle2 size={12} className="text-[#7df7ab]" />
+                    {t}
+                  </span>
+                ))}
               </div>
             </motion.div>
 
-            {/* ── Ticket sidebar ── */}
-            <motion.aside
-              initial={{ opacity: 0, scale: 0.94, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.12, duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-5"
+            {/* RIGHT: ticket card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:sticky lg:top-24"
             >
-              <div className="relative h-full overflow-hidden rounded-[2.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] shadow-[9px_9px_0_rgba(0,0,0,0.5)]">
-                {/* Ticket top */}
-                <div className="bg-[#3244b5] p-5 text-white">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/60">Your seat</p>
-                  <div className="mt-1 flex items-start justify-between gap-3">
-                    <h2 className="text-xl font-black tracking-[-0.04em] leading-tight">{masterclass.category}</h2>
-                    <div className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] px-3 py-1.5 text-sm font-black text-[#10163a] shadow-[3px_3px_0_#10163a]">
+              <div className="overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-[#fffdf7] text-[#10163a] shadow-[8px_8px_0_rgba(0,0,0,0.5)]">
+                {/* Ticket header */}
+                <div className="bg-[#3244b5] px-5 py-4 text-white">
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/55">Your seat</p>
+                  <div className="mt-1 flex items-center justify-between gap-3">
+                    <h2 className="text-lg font-black leading-snug tracking-[-0.03em]">{masterclass.category}</h2>
+                    <div className="shrink-0 rounded-full border-[2px] border-white/30 bg-[#ff9736] px-3 py-1 text-sm font-black text-white">
                       {formatPrice(masterclass.price)}
                     </div>
                   </div>
                 </div>
 
-                {/* Perforated divider */}
-                <div className="relative flex items-center px-5">
-                  <div className="absolute -left-3 h-6 w-6 rounded-full bg-[#0e1330]" />
-                  <div className="absolute -right-3 h-6 w-6 rounded-full bg-[#0e1330]" />
-                  <div className="w-full border-t-[3px] border-dashed border-[#10163a]/25" />
+                {/* Perforated edge */}
+                <div className="relative flex items-center px-4">
+                  <div className="absolute -left-3 h-5 w-5 rounded-full bg-[#0b0f26]" />
+                  <div className="absolute -right-3 h-5 w-5 rounded-full bg-[#0b0f26]" />
+                  <div className="w-full border-t-[2.5px] border-dashed border-[#10163a]/20" />
                 </div>
 
                 {/* Ticket body */}
                 <div className="p-5">
-                  {/* Seat rush */}
-                  <div className="rounded-[1.4rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[4px_4px_0_#10163a]">
+                  {/* Seat progress */}
+                  <div className="rounded-[1.2rem] border-[2px] border-[#10163a]/12 bg-[#fef9f0] p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#667085]">Filling fast</p>
-                      <span className="text-xs font-black text-[#fa8a43]">{seatProgress}% booked</span>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#667085]">Filling fast</p>
+                      <span className="text-xs font-black text-[#fa8a43]">{seatsLeft} left</span>
                     </div>
-                    <div className="mt-3 h-4 overflow-hidden rounded-full border-[3px] border-[#10163a] bg-[#eef1ff]">
+                    <div className="mt-3 h-3 overflow-hidden rounded-full bg-[#eef1ff]">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${seatProgress}%` }}
@@ -250,108 +215,75 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
                         className="h-full rounded-full bg-gradient-to-r from-[#fa8a43] to-[#ff9736]"
                       />
                     </div>
-                    <p className="mt-2 text-xs font-bold text-[#445066]">
-                      <span className="font-black text-[#10163a]">{seatsLeft} seats remaining</span> — {masterclass.seatsTaken} already taken
-                    </p>
+                    <p className="mt-2 text-xs font-semibold text-[#667085]">{masterclass.seatsTaken} of {masterclass.seatsTotal} seats taken</p>
                   </div>
 
-                  {/* Quick info */}
+                  {/* Date + Time */}
                   <div className="mt-3 grid grid-cols-2 gap-2.5">
                     {[
-                      { icon: CalendarDays, label: 'Date', value: masterclass.date, bg: '#fff1dd' },
-                      { icon: Clock3, label: 'Time', value: masterclass.time, bg: '#eef1ff' },
+                      { icon: CalendarDays, label: 'Date', value: masterclass.date, bg: 'bg-[#fff4e0]' },
+                      { icon: Clock3, label: 'Time', value: masterclass.time, bg: 'bg-[#eef3ff]' },
                     ].map(({ icon: Icon, label, value, bg }) => (
-                      <div key={label} className="rounded-[1.2rem] border-[3px] border-[#10163a] p-3 shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: bg }}>
-                        <Icon size={15} className="mb-1.5 text-[#fa8a43]" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{label}</p>
+                      <div key={label} className={`rounded-[1rem] border-[2px] border-[#10163a]/12 p-3 ${bg}`}>
+                        <Icon size={14} className="text-[#fa8a43]" />
+                        <p className="mt-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{label}</p>
                         <p className="mt-0.5 text-sm font-black text-[#10163a]">{value}</p>
                       </div>
                     ))}
-                    <div className="col-span-2 rounded-[1.2rem] border-[3px] border-[#10163a] bg-[#fff1f6] p-3 shadow-[4px_4px_0_#10163a]">
-                      <Ticket size={15} className="mb-1.5 text-[#db4b87]" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">Available seats</p>
-                      <p className="mt-0.5 text-sm font-black text-[#10163a]">{seatsLeft} of {masterclass.seatsTotal} seats left</p>
-                    </div>
                   </div>
+
+                  <Link
+                    href={`/masterclasses/${masterclass.slug}/register`}
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
+                  >
+                    Reserve My Seat
+                    <ArrowRight size={16} />
+                  </Link>
                 </div>
               </div>
-            </motion.aside>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-            {/* ── What's included ── */}
-            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-5 shadow-[7px_7px_0_rgba(0,0,0,0.4)] lg:col-span-5">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#667085]">What's included</p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+      {/* ── WHAT YOU'LL UNLOCK ── */}
+      <section className="bg-[#fffdf7] px-4 py-16 text-[#10163a] sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Session breakdown</p>
+            <h2 className="mt-2 text-4xl font-black tracking-[-0.05em] text-[#10163a]">What you'll unlock</h2>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {/* Modules */}
+            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[7px_7px_0_#10163a]">
+              <div className="space-y-0">
+                {masterclass.modules.map((module, i) => (
+                  <div key={module.title} className={`flex items-start justify-between gap-4 py-4 ${i < masterclass.modules.length - 1 ? 'border-b-[2px] border-[#eef1ff]' : ''}`}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#eef3ff] text-[10px] font-black text-[#3244b5]">
+                        {String(i + 1).padStart(2, '0')}
+                      </div>
+                      <span className="text-sm font-bold leading-6 text-[#445066]">{module.title}</span>
+                    </div>
+                    <span className="shrink-0 rounded-full border-[2px] border-[#10163a] bg-[#eef3ff] px-3 py-1 text-[10px] font-black text-[#3244b5]">{module.duration}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* What's included */}
+            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[7px_7px_0_#10163a]">
+              <p className="mb-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#667085]">Included in this session</p>
+              <div className="grid gap-2.5 sm:grid-cols-2">
                 {masterclass.includes.slice(0, 6).map((item, index) => (
                   <div
                     key={item.label}
-                    className="rounded-[1rem] border-[3px] border-[#10163a] px-3 py-2.5 shadow-[3px_3px_0_#10163a]"
-                    style={{ backgroundColor: index % 2 === 0 ? '#fff4e7' : '#eef1ff' }}
+                    className="rounded-[1rem] border-[2px] border-[#10163a]/10 px-4 py-3"
+                    style={{ backgroundColor: index % 2 === 0 ? '#fff8f0' : '#eef3ff' }}
                   >
-                    <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#5b6475]">{item.label}</p>
-                    <p className="text-sm font-black text-[#081225]">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Mentor highlight ── */}
-            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-4 shadow-[7px_7px_0_rgba(0,0,0,0.4)] lg:col-span-12">
-              <div className="grid gap-3 sm:grid-cols-[auto_1fr]">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-[3px] border-[#10163a] bg-[#ff9736] text-white shadow-[4px_4px_0_#10163a]">
-                  <UserRound size={28} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#667085]">Your mentor</p>
-                  <h2 className="mt-0.5 text-xl font-black text-[#10163a]">{masterclass.instructor.name}</h2>
-                  <p className="text-sm font-bold text-[#667085]">{masterclass.instructor.role}</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[#445066]">{masterclass.instructor.credibility}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Full modules + instructor ── */}
-      <section className="relative z-10 bg-[#fffdf7] px-4 py-14 text-[#10163a] sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-2">
-          <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a]">
-            <h2 className="text-3xl font-black tracking-[-0.05em] text-[#10163a]">What you'll unlock</h2>
-            <div className="mt-6 space-y-4">
-              {masterclass.modules.map((module) => (
-                <div key={module.title} className="flex items-start justify-between gap-4 border-b-[3px] border-[#eef1ff] pb-4 last:border-0 last:pb-0">
-                  <span className="font-bold leading-7 text-[#445066]">{module.title}</span>
-                  <span className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#3244b5] px-3 py-1 text-xs font-black text-white shadow-[3px_3px_0_#10163a]">{module.duration}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-5">
-            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#ff9736] p-6 text-white shadow-[8px_8px_0_#10163a]">
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full border-[3px] border-[#10163a] bg-white text-[#10163a] shadow-[4px_4px_0_#10163a]">
-                  <UserRound size={24} />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-black">{masterclass.instructor.name}</h2>
-                  <p className="text-sm font-bold text-white/75">{masterclass.instructor.role}</p>
-                </div>
-              </div>
-              <p className="mt-5 text-base font-semibold leading-8">{masterclass.instructor.credibility}</p>
-            </div>
-
-            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 text-black shadow-[8px_8px_0_#10163a]">
-              <h2 className="text-3xl font-black tracking-[-0.05em]">Who this is for</h2>
-              <div className="mt-5 grid gap-3">
-                {masterclass.audience.map((item, index) => (
-                  <div
-                    key={item}
-                    className="flex items-start gap-3 rounded-2xl border-[3px] border-[#10163a] p-4 text-sm font-bold leading-6 shadow-[4px_4px_0_#10163a]"
-                    style={{ backgroundColor: index % 2 === 0 ? '#eef1ff' : '#fff4e7' }}
-                  >
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#4562b0]" />
-                    {item}
+                    <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{item.label}</p>
+                    <p className="mt-0.5 text-sm font-black text-[#10163a]">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -360,83 +292,118 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-[#0e1330] px-4 py-12 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 rounded-[2.4rem] border-[3px] border-white/15 bg-white/8 p-6 backdrop-blur-sm md:grid-cols-[1fr_auto] md:p-8">
-          <div>
-            <div className="rounded-full border-[3px] border-white/20 bg-white p-2.5 w-max">
-              <Image src="/logo.png" alt="TSDC Logo" width={120} height={38} />
-            </div>
-            <p className="mt-5 max-w-2xl text-sm font-semibold leading-7 text-white/70">
-              TSDC masterclasses are live, limited-seat sessions designed to give you a real creative skill upgrade in just a few hours — with expert mentorship, practical output, and no filler.
-            </p>
-            <p className="mt-4 text-xs font-black uppercase tracking-[0.22em] text-white/40">
-              One session. Real skills. Real confidence.
-            </p>
+      {/* ── MENTOR ── */}
+      <section className="bg-[#f0f4ff] px-4 py-16 text-[#10163a] sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Who's teaching</p>
+            <h2 className="mt-2 text-4xl font-black tracking-[-0.05em] text-[#10163a]">Your mentor</h2>
           </div>
-          <div className="flex flex-col justify-center gap-3">
+
+          <div className="overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[7px_7px_0_#10163a]">
+            <div className="grid gap-0 md:grid-cols-[auto_1fr]">
+              <div className="flex items-center justify-center bg-[#ff9736] p-8 md:min-h-full md:w-40">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full border-[3px] border-white/30 bg-white/20 text-white">
+                  <UserRound size={36} />
+                </div>
+              </div>
+              <div className="p-6 md:p-8">
+                <h3 className="text-2xl font-black tracking-[-0.04em] text-[#10163a]">{masterclass.instructor.name}</h3>
+                <p className="mt-1 text-sm font-bold text-[#667085]">{masterclass.instructor.role}</p>
+                <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-[#445466]">{masterclass.instructor.credibility}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO IT'S FOR ── */}
+      <section className="bg-[#fffdf7] px-4 py-16 text-[#10163a] sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Right for you?</p>
+            <h2 className="mt-2 text-4xl font-black tracking-[-0.05em] text-[#10163a]">Who this is for</h2>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {masterclass.audience.map((item, index) => (
+              <motion.div
+                key={item}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06 }}
+                className="flex items-start gap-3 rounded-[1.4rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]"
+                style={{ backgroundColor: index % 2 === 0 ? '#eef3ff' : '#fff8f0' }}
+              >
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#3244b5]" />
+                <p className="text-sm font-bold leading-6 text-[#2c3a5e]">{item}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ── */}
+      <section className="bg-[#0b0f26] px-4 py-16 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/40">Limited seats</p>
+          <h2 className="mt-3 text-4xl font-black tracking-[-0.05em]">Ready to learn?</h2>
+          <p className="mt-4 text-base font-semibold leading-8 text-white/60">
+            {seatsLeft} seats remaining. Secure yours before the batch fills up.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href={`/masterclasses/${masterclass.slug}/register`}
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_rgba(0,0,0,0.4)] transition hover:-translate-y-1"
+              className="inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-8 py-4 text-sm font-black text-white shadow-[5px_5px_0_rgba(0,0,0,0.4)] transition hover:-translate-y-1"
             >
-              Book Your Seat
+              Book Your Seat — {formatPrice(masterclass.price)}
               <ArrowRight size={16} />
             </Link>
             <a
-              href="tel:+917358116929"
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-white/20 bg-white/10 px-6 py-3.5 text-sm font-black text-white backdrop-blur-sm transition hover:bg-white hover:text-[#10163a]"
+              href={masterclass.whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-[1rem] border-[2px] border-white/20 bg-white/8 px-8 py-4 text-sm font-black text-white backdrop-blur-sm transition hover:bg-white/16"
             >
-              <Phone size={16} />
-              Call TSDC
+              <MessageCircle size={15} />
+              Ask on WhatsApp
             </a>
           </div>
-        </div>
-      </footer>
-
-      {/* ── Sticky CTA bar ── */}
-      <motion.div
-        initial={{ y: 90, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed inset-x-0 bottom-0 z-[1250] border-t-[3px] border-white/15 bg-[#0e1330]/95 px-4 py-3 backdrop-blur-xl sm:px-6"
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-2.5 w-2.5 rounded-full bg-[#fa8a43] animate-pulse" />
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/80">
-              {seatsLeft} seats left · {masterclass.category}
-            </p>
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <Image src="/logo.png" alt="TSDC" width={72} height={24} className="opacity-40" />
           </div>
-          <motion.div
-            animate={{ scale: [1, 1.03, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative"
-          >
-            <motion.span
-              animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut' }}
-              className="pointer-events-none absolute inset-0 rounded-[1rem] bg-[#ff9736]"
-            />
-            <Link
-              href={`/masterclasses/${masterclass.slug}/register`}
-              className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3 text-sm font-black text-white shadow-[4px_4px_0_rgba(0,0,0,0.4)] transition hover:-translate-y-1"
-            >
-              <motion.span
-                animate={{ x: ['-120%', '220%'] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
-                className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
-              />
-              Secure Your Spot — {formatPrice(masterclass.price)}
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <ArrowRight size={16} />
-              </motion.span>
-            </Link>
-          </motion.div>
         </div>
-      </motion.div>
+      </section>
+
+      {/* ── STICKY CTA ── */}
+      <AnimatePresence>
+        {scrolled && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-0 bottom-0 z-[1250] border-t-[2px] border-white/10 bg-[#0b0f26]/96 px-4 py-3 backdrop-blur-xl sm:px-6"
+          >
+            <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse" />
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-white/70">
+                  {seatsLeft} seats left · {masterclass.category}
+                </p>
+              </div>
+              <Link
+                href={`/masterclasses/${masterclass.slug}/register`}
+                className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3 text-sm font-black text-white shadow-[4px_4px_0_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5"
+              >
+                Secure Your Spot — {formatPrice(masterclass.price)}
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }
