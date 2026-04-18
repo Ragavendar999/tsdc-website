@@ -305,16 +305,15 @@ export default function GraphicDesignScholarshipPage() {
               transition={{ duration: 0.5, delay: 0.22 }}
               className="mt-8 overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a] lg:hidden"
             >
-              <div className="relative w-full bg-[#f4f7ff]" style={{ aspectRatio: '3/4' }}>
-                <Image
-                  src="/correct%20may%202nd.jpg.jpeg"
-                  alt="TSDC Graphic Design Scholarship 2026"
-                  fill
-                  priority
-                  className="object-contain"
-                  sizes="100vw"
-                />
-              </div>
+              <Image
+                src="/correct%20may%202nd.jpg.jpeg"
+                alt="TSDC Graphic Design Scholarship 2026"
+                width={1200}
+                height={1200}
+                priority
+                className="w-full h-auto block"
+                sizes="100vw"
+              />
             </motion.div>
 
             {/* 3 what-you-get cards */}
@@ -344,15 +343,14 @@ export default function GraphicDesignScholarshipPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-8 hidden overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a] lg:block"
             >
-              <div className="relative w-full bg-[#f4f7ff]" style={{ aspectRatio: '4/3' }}>
-                <Image
-                  src="/correct%20may%202nd.jpg.jpeg"
-                  alt="TSDC Graphic Design Scholarship 2026"
-                  fill
-                  className="object-contain"
-                  sizes="55vw"
-                />
-              </div>
+              <Image
+                src="/correct%20may%202nd.jpg.jpeg"
+                alt="TSDC Graphic Design Scholarship 2026"
+                width={1200}
+                height={1200}
+                className="w-full h-auto block"
+                sizes="55vw"
+              />
             </motion.div>
           </div>
 
