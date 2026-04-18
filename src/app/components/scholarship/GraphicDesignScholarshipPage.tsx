@@ -5,15 +5,11 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  GraduationCap,
-  MapPin,
   MessageCircle,
-  Paintbrush,
   Phone,
   Trophy,
 } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 
@@ -31,19 +27,11 @@ type ScholarshipRazorpayOptions = {
   name: string
   description: string
   order_id: string
-  prefill: {
-    name: string
-    email: string
-    contact: string
-  }
+  prefill: { name: string; email: string; contact: string }
   notes: Record<string, string>
-  theme: {
-    color: string
-  }
+  theme: { color: string }
   handler: (response: { razorpay_order_id: string; razorpay_payment_id: string }) => void
-  modal: {
-    ondismiss: () => void
-  }
+  modal: { ondismiss: () => void }
 }
 
 type ScholarshipFormState = {
@@ -68,40 +56,28 @@ const demoSlots = [
   'April 27, 2026 - 4:00 PM',
 ]
 
-const scholarshipBenefits = [
-  '100% scholarship for the top performer',
-  'Up to 50% scholarship for the top 10 performers',
-  '25% scholarship for all selected participants',
-]
-
-const commitmentBadges = [
-  'Instant WhatsApp confirmation',
-  'Demo class + evaluation access',
-  'No prior design experience needed',
-]
-
 const processSteps = [
   {
     title: 'Register your slot',
-    description: 'Complete the form and pay Rs 99 to lock your scholarship evaluation spot before May 2, 2026.',
+    description: 'Fill the form and pay ₹99 to lock your scholarship evaluation spot.',
   },
   {
     title: 'Attend the demo class',
-    description: 'We share your confirmed demo class slot, joining instructions, and the exact exam flow on WhatsApp and email.',
+    description: 'Get your slot details and joining instructions on WhatsApp and email.',
   },
   {
-    title: 'Take the scholarship assessment',
-    description: 'Attend the guided creative assessment to measure design thinking, curiosity, and learning potential.',
+    title: 'Take the scholarship test',
+    description: 'A guided creative assessment measuring design thinking and curiosity.',
   },
   {
-    title: 'Get your result and admission guidance',
-    description: 'We send your scholarship outcome, course fee guidance, and the next admission steps directly from TSDC.',
+    title: 'Get your result',
+    description: 'Scholarship outcome, fee guidance, and next steps directly from TSDC.',
   },
 ]
 
 const faqs = [
   {
-    question: 'What does the Rs 99 cover?',
+    question: 'What does the ₹99 cover?',
     answer: 'It confirms your scholarship registration, demo class slot, and assessment entry for this campaign.',
   },
   {
@@ -110,16 +86,16 @@ const faqs = [
   },
   {
     question: 'Is this for beginners?',
-    answer: 'Yes. The page and offer are designed for students and beginners who want to build a creative career in graphic design.',
+    answer: 'Yes. The offer is designed for students and beginners who want to build a creative career in graphic design.',
   },
   {
-    question: 'Will details be shared after I register?',
+    question: 'Will I get details after I register?',
     answer: 'Yes. Demo class confirmation, exam format, and next-step instructions are sent after payment.',
   },
 ]
 
 const inputClass =
-  'w-full rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-semibold text-[#10163a] outline-none shadow-[4px_4px_0_#10163a] transition focus:border-[#3244b5]'
+  'w-full rounded-[0.875rem] border-[2.5px] border-[#10163a]/20 bg-[#f8f9fc] px-4 py-3 text-sm font-semibold text-[#10163a] outline-none transition placeholder:text-[#9ca3af] focus:border-[#3244b5] focus:bg-white focus:ring-4 focus:ring-[#3244b5]/10'
 
 const initialFormState: ScholarshipFormState = {
   name: '',
@@ -154,11 +130,7 @@ export default function GraphicDesignScholarshipPage() {
 
   const loadRazorpayScript = () =>
     new Promise<boolean>((resolve) => {
-      if (window.Razorpay) {
-        resolve(true)
-        return
-      }
-
+      if (window.Razorpay) { resolve(true); return }
       const script = document.createElement('script')
       script.src = 'https://checkout.razorpay.com/v1/checkout.js'
       script.onload = () => resolve(true)
@@ -167,19 +139,15 @@ export default function GraphicDesignScholarshipPage() {
     })
 
   const validate = () => {
-    if (!formState.name.trim()) return 'Please enter the student name.'
-    if (!formState.email.trim()) return 'Please enter the email address.'
-    if (!/^[0-9]{10}$/.test(formState.phone.trim())) return 'Please enter a valid 10-digit phone number.'
+    if (!formState.name.trim()) return 'Please enter your name.'
+    if (!formState.email.trim()) return 'Please enter your email address.'
+    if (!/^[0-9]{10}$/.test(formState.phone.trim())) return 'Please enter a valid 10-digit WhatsApp number.'
     return ''
   }
 
   const handlePayment = async () => {
     const validationError = validate()
-    if (validationError) {
-      setError(validationError)
-      scrollToForm()
-      return
-    }
+    if (validationError) { setError(validationError); scrollToForm(); return }
 
     setLoading(true)
     setStatusMessage('')
@@ -192,10 +160,7 @@ export default function GraphicDesignScholarshipPage() {
         campaignSlug,
         campaignTitle,
         amount: registrationFee,
-        student: {
-          ...formState,
-          source: 'meta-ad-graphic-design-scholarship',
-        },
+        student: { ...formState, source: 'meta-ad-graphic-design-scholarship' },
       }),
     })
 
@@ -203,36 +168,30 @@ export default function GraphicDesignScholarshipPage() {
 
     if (!leadResponse.ok) {
       setLoading(false)
-      setError(leadPayload.error || 'Unable to save the scholarship enquiry right now. Please try again.')
+      setError(leadPayload.error || 'Unable to save your enquiry right now. Please try again.')
       return
     }
 
-    if (leadPayload.leadId) {
-      setLeadId(leadPayload.leadId)
-    }
+    if (leadPayload.leadId) setLeadId(leadPayload.leadId)
 
     const scriptLoaded = await loadRazorpayScript()
     if (!scriptLoaded) {
       setLoading(false)
-      setError('Unable to load Razorpay checkout right now. Please try again.')
+      setError('Unable to load the payment checkout. Please try again.')
       return
     }
 
     const orderResponse = await fetch('/api/razorpay/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: registrationFee,
-        masterclassTitle: campaignTitle,
-        studentName: formState.name,
-      }),
+      body: JSON.stringify({ amount: registrationFee, masterclassTitle: campaignTitle, studentName: formState.name }),
     })
 
     const orderPayload = await orderResponse.json()
 
     if (!orderResponse.ok) {
       setLoading(false)
-      setError(orderPayload.error || 'Unable to create payment order right now.')
+      setError(orderPayload.error || 'Unable to create the payment order right now.')
       return
     }
 
@@ -243,18 +202,9 @@ export default function GraphicDesignScholarshipPage() {
       name: 'TSDC Scholarship Registration',
       description: campaignTitle,
       order_id: orderPayload.orderId,
-      prefill: {
-        name: formState.name,
-        email: formState.email,
-        contact: formState.phone,
-      },
-      notes: {
-        campaign: campaignTitle,
-        slot: formState.preferredSlot,
-      },
-      theme: {
-        color: '#3244b5',
-      },
+      prefill: { name: formState.name, email: formState.email, contact: formState.phone },
+      notes: { campaign: campaignTitle, slot: formState.preferredSlot },
+      theme: { color: '#ff9736' },
       handler: async (response) => {
         await fetch('/api/scholarship/notify', {
           method: 'POST',
@@ -264,28 +214,22 @@ export default function GraphicDesignScholarshipPage() {
             campaignSlug,
             campaignTitle,
             amount: registrationFee,
-            student: {
-              ...formState,
-              source: 'meta-ad-graphic-design-scholarship',
-            },
-            payment: {
-              orderId: response.razorpay_order_id,
-              paymentId: response.razorpay_payment_id,
-            },
+            student: { ...formState, source: 'meta-ad-graphic-design-scholarship' },
+            payment: { orderId: response.razorpay_order_id, paymentId: response.razorpay_payment_id },
           }),
         })
 
-        window.gtag?.('event', 'conversion', {
-          send_to: 'AW-11403134953/GA8iCOS_g5gcEOmPuL0q',
-        })
+        window.gtag?.('event', 'conversion', { send_to: 'AW-11403134953/GA8iCOS_g5gcEOmPuL0q' })
         window.fbq?.('track', 'Purchase', { currency: 'INR', value: registrationFee })
 
-        router.push(`/graphic-design-scholarship/success?name=${encodeURIComponent(formState.name)}&slot=${encodeURIComponent(formState.preferredSlot)}`)
+        router.push(
+          `/graphic-design-scholarship/success?name=${encodeURIComponent(formState.name)}&slot=${encodeURIComponent(formState.preferredSlot)}`
+        )
       },
       modal: {
         ondismiss: () => {
           setLoading(false)
-          setStatusMessage('Student details are saved. If payment is not completed now, your team can still follow up later.')
+          setStatusMessage('Your details are saved. Our team will follow up on WhatsApp if you need help completing the payment.')
         },
       },
     }
@@ -296,418 +240,325 @@ export default function GraphicDesignScholarshipPage() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#eef2f7] text-[#10163a]">
-      <section className="relative overflow-hidden px-4 pb-14 pt-10 md:px-8 md:pb-18 md:pt-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,151,54,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(50,68,181,0.16),transparent_30%)]" />
-        <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_1px_1px,rgba(16,22,58,0.15)_1px,transparent_0)] [background-size:26px_26px]" />
+    <main className="min-h-screen bg-[#fffdf9] text-[#10163a]">
 
-        <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-6">
-            <div className="overflow-hidden rounded-[2.8rem] border-[3px] border-[#10163a] bg-white shadow-[10px_10px_0_#10163a]">
-              <div className="relative aspect-square w-full bg-[#eef2f7]">
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden px-4 pb-20 pt-10 md:px-8 md:pt-14">
+        <div className="absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(16,22,58,0.055)_1px,transparent_0)] [background-size:28px_28px]" />
+        <div className="absolute left-0 top-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-[#ff9736]/10 blur-3xl" />
+        <div className="absolute right-0 top-0 h-[400px] w-[400px] translate-x-1/3 -translate-y-1/4 rounded-full bg-[#3244b5]/10 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_400px] lg:gap-14 lg:items-start">
+
+          {/* ── LEFT ── */}
+          <div className="pt-2">
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+              <div className="inline-flex items-center gap-2 rounded-full border-[2px] border-[#fa8a43]/40 bg-[#fff4eb] px-4 py-2">
+                <Trophy size={13} className="text-[#fa8a43]" />
+                <span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c45e1a]">Scholarship 2026 · Limited Seats</span>
+              </div>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.06 }}
+              className="mt-5 text-[2.8rem] font-black leading-[1.06] tracking-[-0.06em] text-[#10163a] md:text-6xl lg:text-[4.2rem]"
+            >
+              Learn design.<br />
+              <span className="text-[#ff9736]">Win a scholarship.</span><br />
+              Start at just ₹99.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.12 }}
+              className="mt-5 max-w-lg text-lg font-semibold leading-8 text-[#475467]"
+            >
+              Attend a free demo class, take the scholarship assessment, and earn up to 100% fee waiver on our Graphic Design course.
+            </motion.p>
+
+            {/* scholarship tiers */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.18 }}
+              className="mt-7 flex flex-wrap gap-3"
+            >
+              {[
+                { pct: '100%', label: 'Top performer', bg: 'bg-[#fef9c3] text-[#713f12] border-[#fde68a]' },
+                { pct: '50%', label: 'Top 10 students', bg: 'bg-[#dcfce7] text-[#14532d] border-[#86efac]' },
+                { pct: '25%', label: 'All selected', bg: 'bg-[#dbeafe] text-[#1e3a8a] border-[#93c5fd]' },
+              ].map((tier) => (
+                <div key={tier.pct} className={`flex items-center gap-2 rounded-full border-[2px] px-5 py-2.5 ${tier.bg}`}>
+                  <span className="text-xl font-black">{tier.pct}</span>
+                  <span className="text-xs font-semibold">{tier.label}</span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* poster — mobile only */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.22 }}
+              className="mt-8 overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a] lg:hidden"
+            >
+              <div className="relative aspect-[4/3] w-full">
                 <Image
                   src="/correct%20may%202nd.jpg.jpeg"
-                  alt="TSDC Graphic Design Scholarship campaign poster"
+                  alt="TSDC Graphic Design Scholarship 2026"
                   fill
                   priority
                   className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  sizes="100vw"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-              <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-6 shadow-[8px_8px_0_#10163a]">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-[#10163a] bg-[#ffcb53] text-[#10163a] shadow-[4px_4px_0_#10163a]">
-                    <Trophy size={28} />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#9a4a10]">Scholarship ladder</p>
-                    <p className="text-3xl font-black tracking-[-0.05em] text-[#10163a]">100% for the top performer</p>
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-3">
-                  {scholarshipBenefits.map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-[1.2rem] border-[3px] border-[#10163a] bg-white px-4 py-3 shadow-[4px_4px_0_#10163a]">
-                      <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#16a34a]" />
-                      <p className="text-sm font-bold leading-6 text-[#10163a]">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[linear-gradient(180deg,#10163a_0%,#182152_100%)] p-6 text-white shadow-[8px_8px_0_#10163a]">
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/55">Register at just</p>
-                <p className="mt-3 text-7xl font-black leading-none tracking-[-0.08em] text-[#ff9736]">Rs 99</p>
-                <p className="mt-3 text-lg font-semibold text-white/85">Limited seats. Demo class slot, scholarship evaluation, and next-step guidance included.</p>
-                <div className="mt-5 grid gap-2">
-                  {commitmentBadges.map((item) => (
-                    <div key={item} className="flex items-center gap-2 rounded-[1rem] border border-white/12 bg-white/8 px-3 py-2 text-sm font-semibold text-white/88">
-                      <CheckCircle2 size={15} className="shrink-0 text-[#7df7ab]" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={scrollToForm}
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-white bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[5px_5px_0_#000]"
-                >
-                  Reserve Your Slot
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div ref={formRef} className="self-start rounded-[2.4rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[10px_10px_0_#10163a] lg:sticky lg:top-28">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Scholarship registration</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#10163a]">Reserve your demo class and scholarship slot.</h2>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#475467]">
-              Fill the essentials, pay Rs 99, and we will send the demo class slot, scholarship instructions, and next steps on WhatsApp and email.
-            </p>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {/* 3 what-you-get cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.26 }}
+              className="mt-7 grid gap-3 sm:grid-cols-3"
+            >
               {[
-                { label: 'Fast checkout', value: 'Takes about 1 minute' },
-                { label: 'Confirmation', value: 'Shared instantly' },
-                { label: 'Best for', value: 'Students and beginners' },
+                { emoji: '🎓', title: 'Free demo class', sub: 'See the course live' },
+                { emoji: '📋', title: 'Scholarship test', sub: 'Creative evaluation' },
+                { emoji: '🏆', title: 'Scholarship result', sub: 'Guidance + next step' },
               ].map((item) => (
-                <div key={item.label} className="rounded-[1.2rem] border-[3px] border-[#10163a] bg-[#eef3ff] px-4 py-3 shadow-[3px_3px_0_#10163a]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#3244b5]">{item.label}</p>
-                  <p className="mt-2 text-sm font-bold leading-6 text-[#10163a]">{item.value}</p>
+                <div key={item.title} className="rounded-[1.4rem] border-[2px] border-[#10163a]/10 bg-white px-4 py-4 shadow-sm">
+                  <span className="text-2xl">{item.emoji}</span>
+                  <p className="mt-2 text-sm font-black text-[#10163a]">{item.title}</p>
+                  <p className="text-xs font-semibold text-[#667085]">{item.sub}</p>
                 </div>
               ))}
-            </div>
+            </motion.div>
 
-            <div className="mt-6 grid gap-4">
-              <label className="block">
-                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">Student name</span>
-                <input type="text" autoComplete="name" value={formState.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Full name" className={inputClass} />
-              </label>
-              <label className="block">
-                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">WhatsApp number</span>
-                <input type="tel" pattern="[0-9]{10}" autoComplete="tel" value={formState.phone} onChange={(event) => updateForm('phone', event.target.value)} placeholder="10-digit mobile number" className={inputClass} />
-              </label>
-              <label className="block">
-                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">Email address</span>
-                <input type="email" autoComplete="email" value={formState.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="your@email.com" className={inputClass} />
-              </label>
-              <div className="rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-4 shadow-[4px_4px_0_#10163a]">
-                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#9a4a10]">Optional details for better follow-up</p>
-                <div className="mt-3 grid gap-4">
-                  <input value={formState.city} onChange={(event) => updateForm('city', event.target.value)} placeholder="City (optional)" className={inputClass} />
-                  <input value={formState.schoolOrCollege} onChange={(event) => updateForm('schoolOrCollege', event.target.value)} placeholder="School or college name (optional)" className={inputClass} />
-                  <input value={formState.classLevel} onChange={(event) => updateForm('classLevel', event.target.value)} placeholder="Class / year / current status (optional)" className={inputClass} />
-                </div>
-              </div>
-
-              <label className="block">
-                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">Preferred demo class slot</span>
-                <select value={formState.preferredSlot} onChange={(event) => updateForm('preferredSlot', event.target.value)} className={inputClass}>
-                  {demoSlots.map((slot) => (
-                    <option key={slot} value={slot}>
-                      {slot}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <textarea
-                value={formState.goals}
-                onChange={(event) => updateForm('goals', event.target.value)}
-                rows={4}
-                placeholder="What kind of creative career are you aiming for? (optional)"
-                className={inputClass}
-              />
-            </div>
-
-            {error ? (
-              <div className="mt-4 rounded-[0.875rem] border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-bold text-[#b42318]">
-                {error}
-              </div>
-            ) : null}
-            {statusMessage ? (
-              <div className="mt-4 rounded-[0.875rem] border-2 border-[#bfdbfe] bg-[#eff6ff] px-4 py-3 text-sm font-bold text-[#1570ef]">
-                {statusMessage}
-              </div>
-            ) : null}
-
-            <button
-              type="button"
-              onClick={handlePayment}
-              disabled={loading}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[5px_5px_0_#10163a] disabled:opacity-60"
+            {/* poster — desktop */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-8 hidden overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a] lg:block"
             >
-              {loading ? 'Preparing payment...' : 'Pay Rs 99 and Confirm Slot'}
-              <ArrowRight size={16} />
-            </button>
-
-            <p className="mt-4 text-center text-xs font-bold text-[#667085]">
-              Student details are saved before checkout so the admissions team can follow up even if payment is completed later.
-            </p>
+              <div className="relative aspect-video w-full">
+                <Image
+                  src="/correct%20may%202nd.jpg.jpeg"
+                  alt="TSDC Graphic Design Scholarship 2026"
+                  fill
+                  className="object-cover"
+                  sizes="55vw"
+                />
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
 
-      <section className="bg-[linear-gradient(180deg,#fffdf7_0%,#f4f7ff_100%)] px-4 py-16 md:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6">
-          <div className="overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]">
-            <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="p-6 md:p-8">
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Why students register</p>
-                <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-[-0.06em] text-[#10163a] md:text-5xl">
-                  A clear, affordable first step before full admission.
-                </h2>
-                <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-[#475467]">
-                  This is built for students and parents who want confidence before making a bigger course decision. Register once, attend the guided demo class, take the scholarship evaluation, and get direct admission guidance from the TSDC team.
-                </p>
+          {/* ── RIGHT: FORM ── */}
+          <motion.div
+            ref={formRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:sticky lg:top-28"
+          >
+            <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]">
 
-                <div className="mt-8 space-y-4">
-                  {[
-                    {
-                      step: '01',
-                      title: 'Low-risk entry',
-                      text: 'Start with a Rs 99 registration instead of paying the full course fee upfront.',
-                      bg: 'bg-[#eef3ff]',
-                    },
-                    {
-                      step: '02',
-                      title: 'Real scholarship opportunity',
-                      text: 'Top performers can unlock meaningful fee support, including up to 100% scholarship.',
-                      bg: 'bg-[#fff4e8]',
-                    },
-                    {
-                      step: '03',
-                      title: 'Guided support after payment',
-                      text: 'You receive demo slot details, scholarship instructions, and next-step follow-up from admissions.',
-                      bg: 'bg-[#effcf3]',
-                    },
-                  ].map((item) => (
-                    <div
-                      key={item.title}
-                      className={`rounded-[1.75rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a] ${item.bg}`}
+              {/* price header */}
+              <div className="rounded-t-[1.7rem] bg-[#10163a] px-6 py-5 text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/50">One-time registration fee</p>
+                <p className="mt-1 text-6xl font-black tracking-[-0.08em] text-[#ff9736]">₹99</p>
+                <p className="mt-1.5 text-xs font-semibold text-white/65">Demo class + scholarship evaluation included</p>
+              </div>
+
+              <div className="p-6">
+                <div className="grid gap-4">
+                  <label className="block">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.16em] text-[#667085]">Your name</span>
+                    <input
+                      type="text"
+                      autoComplete="name"
+                      value={formState.name}
+                      onChange={(e) => updateForm('name', e.target.value)}
+                      placeholder="Full name"
+                      className={inputClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.16em] text-[#667085]">WhatsApp number</span>
+                    <input
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      autoComplete="tel"
+                      value={formState.phone}
+                      onChange={(e) => updateForm('phone', e.target.value)}
+                      placeholder="10-digit mobile number"
+                      className={inputClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.16em] text-[#667085]">Email address</span>
+                    <input
+                      type="email"
+                      autoComplete="email"
+                      value={formState.email}
+                      onChange={(e) => updateForm('email', e.target.value)}
+                      placeholder="your@email.com"
+                      className={inputClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.16em] text-[#667085]">Pick a demo class slot</span>
+                    <select
+                      value={formState.preferredSlot}
+                      onChange={(e) => updateForm('preferredSlot', e.target.value)}
+                      className={inputClass}
                     >
-                      <div className="flex items-start gap-4">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[1.1rem] border-[3px] border-[#10163a] bg-white text-lg font-black text-[#3244b5] shadow-[3px_3px_0_#10163a]">
-                          {item.step}
-                        </div>
-                        <div>
-                          <p className="text-xl font-black tracking-[-0.04em] text-[#10163a]">{item.title}</p>
-                          <p className="mt-2 max-w-xl text-sm font-semibold leading-7 text-[#23315f]">{item.text}</p>
-                        </div>
-                      </div>
-                    </div>
+                      {demoSlots.map((slot) => (
+                        <option key={slot} value={slot}>{slot}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                {error ? (
+                  <div className="mt-4 rounded-[0.875rem] border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-bold text-[#b42318]">
+                    {error}
+                  </div>
+                ) : null}
+                {statusMessage ? (
+                  <div className="mt-4 rounded-[0.875rem] border-2 border-[#bfdbfe] bg-[#eff6ff] px-4 py-3 text-sm font-bold text-[#1570ef]">
+                    {statusMessage}
+                  </div>
+                ) : null}
+
+                <button
+                  type="button"
+                  onClick={handlePayment}
+                  disabled={loading}
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60"
+                >
+                  {loading ? 'Preparing payment...' : 'Pay ₹99 · Reserve My Slot'}
+                  {!loading && <ArrowRight size={18} />}
+                </button>
+
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                  {['Instant WhatsApp confirmation', 'Safe Razorpay checkout'].map((t) => (
+                    <span key={t} className="flex items-center gap-1 text-[11px] font-semibold text-[#667085]">
+                      <CheckCircle2 size={11} className="text-[#16a34a]" />
+                      {t}
+                    </span>
                   ))}
-                </div>
-              </div>
-
-              <div className="border-t-[3px] border-[#10163a] bg-[#10163a] p-6 text-white lg:border-l-[3px] lg:border-t-0 md:p-8">
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/55">Good fit for</p>
-                <h3 className="mt-3 text-3xl font-black tracking-[-0.05em]">Students who want clarity before they commit.</h3>
-                <div className="mt-6 space-y-3">
-                  {[
-                    'School and college students exploring graphic design as a real career path',
-                    'Parents looking for a structured, lower-risk first step before admission',
-                    'Beginners who want guidance, scholarship support, and a stronger career direction',
-                  ].map((item) => (
-                    <div key={item} className="rounded-[1.35rem] border-[3px] border-white/15 bg-white/8 px-4 py-4 text-sm font-semibold leading-7 text-white/90">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6 rounded-[1.6rem] border-[3px] border-white/15 bg-[linear-gradient(135deg,#3244b5_0%,#6b5cff_100%)] p-5 shadow-[4px_4px_0_#000]">
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/70">Why this works for families</p>
-                  <p className="mt-3 text-lg font-black leading-8">
-                    The offer is simple: pay a small amount, attend the demo class, and earn the chance to reduce your full course fee.
-                  </p>
-                </div>
-
-                <div className="mt-6 rounded-[1.7rem] border-[3px] border-white/12 bg-white/6 p-5 shadow-[4px_4px_0_#000]">
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/55">Book your slot</p>
-                  <p className="mt-3 text-sm font-semibold leading-7 text-white/78">
-                    Limited scholarship entries are open. Reserve the student slot now and complete the registration in one step.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={scrollToForm}
-                    className="mt-5 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-white bg-[#ff9736] px-5 py-3 text-sm font-black text-white shadow-[4px_4px_0_#000]"
-                  >
-                    Start Registration
-                    <ArrowRight size={16} />
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-[#0f1634] text-white shadow-[8px_8px_0_#10163a]">
-            <div className="grid gap-0 lg:grid-cols-[0.95fr_1.05fr]">
-              <div className="border-b-[3px] border-white/10 p-6 md:p-8 lg:border-b-0 lg:border-r-[3px] lg:border-white/10">
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/55">Inside the program</p>
-                <h2 className="mt-3 text-3xl font-black tracking-[-0.06em] md:text-5xl">Real projects. Industry tools. Portfolio-ready output.</h2>
-                <p className="mt-5 max-w-xl text-base font-semibold leading-8 text-white/75">
-                  This is not just a demo session. It introduces students to the actual learning style, tools, and creative thinking they need to build confidence and move toward paid work.
-                </p>
-
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  {[
-                    { label: 'Tools used', value: 'Photoshop, Illustrator, Figma' },
-                    { label: 'Learning style', value: 'Demo class + guided evaluation' },
-                    { label: 'Outcome', value: 'Portfolio direction + scholarship result' },
-                  ].map((item) => (
-                    <div key={item.label} className="rounded-[1.35rem] border-[3px] border-white/12 bg-white/8 px-4 py-4">
-                      <p className="text-[11px] font-black uppercase tracking-[0.16em] text-white/50">{item.label}</p>
-                      <p className="mt-2 text-sm font-bold leading-6 text-white">{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-6 md:p-8">
-                <div className="grid gap-4 md:grid-cols-3">
-                  {[
-                    { icon: Paintbrush, title: 'Design foundations', text: 'Layout, hierarchy, typography, branding basics, and composition through guided creative exercises.' },
-                    { icon: Trophy, title: 'Portfolio building', text: 'Project-based work that helps students show ability, effort, and creative thinking instead of only theory.' },
-                    { icon: GraduationCap, title: 'Career direction', text: 'Clear direction on role fit, course pathway, scholarship opportunity, and what to do next after the demo.' },
-                  ].map((item) => {
-                    const Icon = item.icon
-                    return (
-                      <div key={item.title} className="rounded-[1.7rem] border-[3px] border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-5 shadow-[4px_4px_0_rgba(0,0,0,0.45)]">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-[1rem] border-[3px] border-white/12 bg-white/10">
-                          <Icon size={22} className="text-[#ffcb53]" />
-                        </div>
-                        <p className="mt-5 text-xl font-black tracking-[-0.04em]">{item.title}</p>
-                        <p className="mt-3 text-sm font-semibold leading-7 text-white/78">{item.text}</p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="bg-[#eef2f7] px-4 py-16 md:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 text-center">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#3244b5]">What happens next</p>
-            <h2 className="mt-3 text-4xl font-black tracking-[-0.06em] text-[#10163a]">From registration to scholarship result, everything is clearly guided.</h2>
+      {/* ── HOW IT WORKS ── */}
+      <section className="bg-[#f0f4ff] px-4 py-16 md:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-10 text-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Simple process</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">From registration to result.</h2>
           </div>
-
-          <div className="grid gap-4 lg:grid-cols-4">
-            {processSteps.map((step, index) => (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {processSteps.map((step, i) => (
               <motion.div
                 key={step.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
-                className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[7px_7px_0_#10163a]"
+                transition={{ delay: i * 0.07 }}
+                className="rounded-[1.75rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
               >
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#667085]">Step {index + 1}</p>
-                <h3 className="mt-3 text-2xl font-black tracking-[-0.04em] text-[#10163a]">{step.title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-7 text-[#475467]">{step.description}</p>
+                <div className="flex h-10 w-10 items-center justify-center rounded-[0.875rem] bg-[#10163a] text-sm font-black text-[#ff9736]">
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <h3 className="mt-4 text-base font-black leading-snug tracking-[-0.02em] text-[#10163a]">{step.title}</h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#475467]">{step.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#fffdf7] px-4 py-16 md:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[2.3rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a]">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#3244b5]">FAQ</p>
-            <div className="mt-5 space-y-3">
-              {faqs.map((faq, index) => (
-                <div key={faq.question} className="overflow-hidden rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#eef3ff] shadow-[4px_4px_0_#10163a]">
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                    aria-expanded={openFaqIndex === index}
-                    className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left"
-                  >
-                    <h3 className="text-lg font-black tracking-[-0.03em] text-[#10163a]">{faq.question}</h3>
-                    <ChevronDown
-                      size={18}
-                      className={`shrink-0 text-[#3244b5] transition-transform duration-200 ${openFaqIndex === index ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {openFaqIndex === index && (
-                      <motion.div
-                        key="answer"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: 'easeInOut' }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-4 pb-4 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </div>
+      {/* ── FAQ ── */}
+      <section className="bg-[#fffdf9] px-4 py-16 md:px-8">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-8 text-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Questions answered</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">Got questions?</h2>
           </div>
 
-          <div className="rounded-[2.3rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-6 shadow-[8px_8px_0_#10163a]">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#9a4a10]">Visit or contact TSDC</p>
-            <div className="mt-4 flex items-start gap-3">
-              <MapPin size={18} className="mt-1 shrink-0 text-[#fa8a43]" />
-              <p className="text-base font-semibold leading-8 text-[#10163a]">
-                Villa 20, Bollineni Iris, Block 52, Bollineni Hillside Rd, Perumbakkam, Chennai, Tamil Nadu 600131
-              </p>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <a href="tel:+917358116929" className="flex items-center gap-3 rounded-[1.1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]">
-                <Phone size={16} className="text-[#3244b5]" />
-                Call admissions: +91 73581 16929
-              </a>
-              <a href="https://wa.me/917358116929" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-[1.1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]">
-                <MessageCircle size={16} className="text-[#16a34a]" />
-                WhatsApp us for slot support
-              </a>
-            </div>
-
-            <div className="mt-6 rounded-[1.6rem] border-[3px] border-[#10163a] bg-[#10163a] p-5 text-white shadow-[5px_5px_0_#10163a]">
-              <div className="inline-flex rounded-[1.1rem] border-[3px] border-white/20 bg-white px-5 py-4 shadow-[4px_4px_0_#000]">
-                <Image src="/logo.png" alt="TSDC Logo" width={156} height={52} className="h-auto w-auto" />
-              </div>
-              <p className="mt-4 text-[0.72rem] font-black uppercase tracking-[0.28em] text-[#9db0ff]">
-                TSDC Admissions Support
-              </p>
-              <p className="mt-3 text-sm font-semibold leading-7 text-white/80">
-                Complete your Rs 99 registration, attend the demo class, and our team will guide you through the scholarship evaluation and admission follow-up.
-              </p>
-              <div className="mt-5">
+          <div className="space-y-3">
+            {faqs.map((faq, index) => (
+              <div key={faq.question} className="overflow-hidden rounded-[1.4rem] border-[3px] border-[#10163a] bg-white shadow-[4px_4px_0_#10163a]">
                 <button
                   type="button"
-                  onClick={scrollToForm}
-                  className="inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-white bg-[#ff9736] px-5 py-3 text-sm font-black text-white shadow-[4px_4px_0_#000]"
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                  aria-expanded={openFaqIndex === index}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
                 >
-                  Start Registration
-                  <ArrowRight size={16} />
+                  <span className="text-base font-black text-[#10163a]">{faq.question}</span>
+                  <ChevronDown
+                    size={18}
+                    className={`shrink-0 text-[#3244b5] transition-transform duration-200 ${openFaqIndex === index ? 'rotate-180' : ''}`}
+                  />
                 </button>
+                <AnimatePresence initial={false}>
+                  {openFaqIndex === index && (
+                    <motion.div
+                      key="answer"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-5 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <p className="text-sm font-semibold text-[#667085]">Still have a question?</p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="tel:+917358116929"
+                className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-6 py-2.5 text-sm font-black text-[#10163a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+              >
+                <Phone size={14} />
+                Call admissions
+              </a>
+              <a
+                href="https://wa.me/917358116929"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-2.5 text-sm font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+              >
+                <MessageCircle size={14} />
+                WhatsApp us
+              </a>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── MOBILE STICKY CTA ── */}
       <div className="fixed inset-x-0 bottom-0 z-[1100] border-t-[3px] border-[#10163a] bg-white/95 px-4 py-3 backdrop-blur-xl sm:hidden">
         <button
           type="button"
           onClick={scrollToForm}
           className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
         >
-          Reserve Your Slot — Rs 99
+          Reserve Your Slot — ₹99
           <ArrowRight size={16} />
         </button>
       </div>
