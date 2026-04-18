@@ -7,7 +7,6 @@ import {
   BriefcaseBusiness,
   CheckCircle2,
   Clock,
-  FileDown,
   Megaphone,
   Palette,
   PlaySquare,
@@ -35,6 +34,7 @@ const courses = [
     soft: '#fff1dd',
     icon: Palette,
     tools: ['Photoshop', 'Illustrator', 'InDesign'],
+    fit: 'Best if you enjoy visuals, branding, posters, and social content.',
   },
   {
     title: 'UI/UX Design',
@@ -51,6 +51,7 @@ const courses = [
     soft: '#eaf0ff',
     icon: BookOpenCheck,
     tools: ['Figma', 'UX Research', 'Prototypes'],
+    fit: 'Best if you like apps, websites, research, and structured problem solving.',
   },
   {
     title: 'Digital Marketing',
@@ -67,6 +68,7 @@ const courses = [
     soft: '#fff0ed',
     icon: Megaphone,
     tools: ['SEO', 'Meta Ads', 'Google Ads'],
+    fit: 'Best if you want a marketing role, freelance growth work, or business promotion skills.',
   },
   {
     title: 'Video Editing',
@@ -84,25 +86,26 @@ const courses = [
     icon: PlaySquare,
     tools: ['Premiere Pro', 'After Effects', 'DaVinci'],
     badge: 'NEW',
+    fit: 'Best if you enjoy reels, edits, motion, storytelling, and creator-brand video work.',
   },
 ]
 
 const proofPoints = [
   {
-    title: 'Lead with clarity',
-    text: 'Each course tells visitors exactly what they will become, what they will build, and how fast they can start moving toward work.',
+    title: 'Know what you will become',
+    text: 'Every course card leads with the role, projects, and practical outcome so students can evaluate fit quickly.',
     icon: Sparkles,
     accent: '#ff9736',
   },
   {
-    title: 'Show proof fast',
-    text: 'Projects, portfolio pieces, live briefs, and tool stacks are visible early so the page works like a conversion page instead of a brochure.',
+    title: 'See proof early',
+    text: 'Projects, tools, and portfolio outcomes appear before long descriptions so confidence builds faster.',
     icon: BriefcaseBusiness,
     accent: '#3244b5',
   },
   {
-    title: 'Convert intent to enquiry',
-    text: 'Every section keeps the same goal: reduce confusion, build trust, and move the visitor toward a call, form, or counselling step.',
+    title: 'Move to action naturally',
+    text: 'The flow keeps guiding visitors toward comparison, details, and admissions help without feeling pushy.',
     icon: Users,
     accent: '#db4b87',
   },
@@ -122,10 +125,7 @@ export default function CoursesPage() {
 
   return (
     <section className="site-section-bg relative overflow-hidden px-4 py-10 text-[#081225] md:px-8">
-      {/* Comic halftone background */}
       <div className="comic-dots pointer-events-none absolute inset-0 z-0" />
-
-      {/* Comic burst stickers */}
       <div className="comic-burst pointer-events-none absolute -left-5 top-10 z-0 h-28 w-28 bg-[#ff9736] opacity-80" />
       <div className="comic-burst pointer-events-none absolute -right-5 top-28 z-0 h-24 w-24 bg-[#db4b87] opacity-75" />
       <div className="comic-burst pointer-events-none absolute bottom-28 left-[4%] z-0 hidden h-20 w-20 bg-[#3244b5] opacity-65 xl:block" />
@@ -146,7 +146,7 @@ export default function CoursesPage() {
               </div>
               <h1 className="max-w-4xl text-4xl font-black leading-[0.92] tracking-[-0.06em] text-[#10163a] md:text-6xl lg:text-7xl">
                 Choose the creative course that
-                <span className="block text-[#3244b5]">gets your work noticed.</span>
+                <span className="block text-[#3244b5]">matches how you want to grow.</span>
               </h1>
               <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-[#445066] md:text-lg">
                 Explore job-focused Graphic Design, UI/UX Design, Digital Marketing, and Video Editing courses in Chennai, built with projects, mentor feedback, portfolio support, and practical career guidance.
@@ -165,7 +165,7 @@ export default function CoursesPage() {
                   href="#course-pathways"
                   className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-7 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1"
                 >
-                  View All Programs
+                  Compare Programs
                 </Link>
               </div>
             </div>
@@ -223,17 +223,58 @@ export default function CoursesPage() {
           })}
         </div>
 
+        <div className="mb-12 rounded-[2.5rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a] md:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#eef3ff] px-4 py-2 text-sm font-black text-[#3244b5] shadow-[4px_4px_0_#10163a]">
+                <CheckCircle2 size={16} className="text-[#ff9736]" />
+                Find your fit faster
+              </div>
+              <h2 className="mt-5 max-w-3xl text-3xl font-black leading-tight md:text-5xl">
+                Use this quick guide if you are wondering
+                <span className="block text-[#db4b87]">which path suits you best.</span>
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => openGuidancePopup('courses-fit-guide')}
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-3 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
+            >
+              Talk To A Counsellor
+              <ArrowRight size={16} />
+            </button>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {courses.map((course) => {
+              const Icon = course.icon
+              return (
+                <div key={course.title} className="rounded-[1.8rem] border-[3px] border-[#10163a] p-5 shadow-[5px_5px_0_#10163a]" style={{ backgroundColor: course.soft }}>
+                  <div
+                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
+                    style={{ backgroundColor: course.accent }}
+                  >
+                    <Icon size={20} />
+                  </div>
+                  <h3 className="text-xl font-black text-[#10163a]">{course.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[#475569]">{course.fit}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
         <div id="course-pathways" className="py-8 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-sm font-black text-[#3244b5] shadow-[4px_4px_0_#10163a]">
             <CheckCircle2 size={16} className="text-[#ff9736]" />
             Career Pathways
           </div>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black leading-tight md:text-5xl">
-            Four programs. One clear
-            <span className="block text-[#db4b87]">career-first conversion flow.</span>
+            Four programs with clear
+            <span className="block text-[#db4b87]">outcomes, projects, and next steps.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base font-semibold leading-7 text-[#445066]">
-            Every course page now has a stronger visual style, higher text contrast, clearer outcomes, and better CTA rhythm so visitors can move from curiosity to enquiry faster.
+            Compare what each course covers, how long it runs, and what kind of work you will leave with.
           </p>
         </div>
 
@@ -261,11 +302,11 @@ export default function CoursesPage() {
                   <div className="absolute left-8 top-8 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-[4px_4px_0_#10163a]" style={{ color: course.accent }}>
                     {course.eyebrow}
                   </div>
-                  {course.badge && (
+                  {course.badge ? (
                     <div className="absolute right-8 top-8 rounded-full border-[3px] border-[#10163a] bg-[#fa8a43] px-3 py-1.5 text-xs font-black text-white shadow-[4px_4px_0_#10163a]">
                       {course.badge}
                     </div>
-                  )}
+                  ) : null}
                 </div>
 
                 <div className="p-6 md:p-7">
@@ -304,13 +345,15 @@ export default function CoursesPage() {
 
                   <div className="mt-5 flex flex-wrap gap-2">
                     {course.tools.map((tool) => (
-                      <span
-                        key={tool}
-                        className="rounded-full border-[3px] border-[#10163a] bg-[#f8fbff] px-3 py-1.5 text-xs font-black text-[#344054] shadow-[3px_3px_0_#10163a]"
-                      >
+                      <span key={tool} className="rounded-full border-[3px] border-[#10163a] bg-[#f8fbff] px-3 py-1.5 text-xs font-black text-[#344054] shadow-[3px_3px_0_#10163a]">
                         {tool}
                       </span>
                     ))}
+                  </div>
+
+                  <div className="mt-6 rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-4 shadow-[4px_4px_0_#10163a]">
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#667085]">Choose this if...</p>
+                    <p className="mt-2 text-sm font-semibold leading-7 text-[#445066]">{course.fit}</p>
                   </div>
 
                   <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -365,7 +408,7 @@ export default function CoursesPage() {
                 <span className="block text-[#ffd9ed]">We will match you to the right path.</span>
               </h2>
               <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/84">
-                Whether you want a job, freelance clients, a stronger portfolio, or a career switch, this page should move you naturally toward a conversation with the admissions team.
+                Whether you want a job, freelance clients, a stronger portfolio, or a career switch, we can help you understand which course fits best.
               </p>
             </div>
             <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 text-[#081225] shadow-[6px_6px_0_#10163a]">
@@ -383,7 +426,7 @@ export default function CoursesPage() {
                 className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
               >
                 Open Contact Form
-                <FileDown size={16} />
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>

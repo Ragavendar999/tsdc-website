@@ -16,6 +16,9 @@ export type Masterclass = {
   turnOffAt?: string
   autoTurnedOffAt?: string
   expiryNotificationSentAt?: string
+  replacementMasterclassId?: string
+  autoActivatedAt?: string
+  activatedFromMasterclassId?: string
   title: string
   backgroundStyle?: 'midnight' | 'blueprint' | 'ember' | 'violet'
   backgroundImage?: string
@@ -52,6 +55,8 @@ export const defaultMasterclasses: Masterclass[] = [
     slug: 'logo-masterclass',
     status: 'live',
     eventDate: '2026-04-20',
+    turnOffAt: '2026-04-20T09:30:00.000Z',
+    replacementMasterclassId: 'summer-bootcamp-ai-powered-graphic-design-program',
     title: 'Logo Design Masterclass',
     backgroundStyle: 'midnight',
     backgroundImage: '',
@@ -104,6 +109,7 @@ export const defaultMasterclasses: Masterclass[] = [
     slug: 'summer-bootcamp-ai-graphic-design',
     status: 'live',
     eventDate: '2026-04-20',
+    turnOffAt: '2026-04-20T09:30:00.000Z',
     title: 'Summer Bootcamp for AI Powered Graphic Design Program',
     backgroundStyle: 'ember',
     backgroundImage: '',

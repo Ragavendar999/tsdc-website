@@ -1,7 +1,18 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Calendar, CheckCircle2, Clock, Sparkles, X } from 'lucide-react'
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  GraduationCap,
+  IndianRupee,
+  MessageCircle,
+  PhoneCall,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from 'lucide-react'
 import {
   createContext,
   useCallback,
@@ -70,7 +81,7 @@ const joiningOptions = [
 ]
 
 const defaultOptions: Required<ContactPopupOptions> = {
-  title: "Let's Build Your Career",
+  title: "Let's Build Your Creative Career",
   subtitle: 'Share your details and our team will contact you shortly with the right guidance.',
   interest: '',
   source: 'website-popup',
@@ -109,6 +120,14 @@ const getProgramFromInterest = (interest?: string) => {
   return programOptions.find((program) => normalizedInterest.includes(program.toLowerCase())) || ''
 }
 
+const needsScheduledCallback = (options: ContactPopupOptions) => {
+  const combined = `${options.title ?? ''} ${options.subtitle ?? ''} ${options.interest ?? ''} ${options.source ?? ''}`.toLowerCase()
+  return ['counselling', 'session', 'appointment', 'callback', 'call'].some((keyword) => combined.includes(keyword))
+}
+
+const stepLabels = ['Your details', 'Your goal', 'Next step']
+const today = new Date().toISOString().split('T')[0]
+
 export function ContactPopupProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -118,13 +137,17 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
   const [joiningTimeline, setJoiningTimeline] = useState('')
   const [currentStep, setCurrentStep] = useState(1)
   const [stepError, setStepError] = useState('')
+  const [requestError, setRequestError] = useState('')
   const [formState, setFormState] = useState<EnquiryFormState>(initialFormState)
+
+  const requiresScheduling = useMemo(() => needsScheduledCallback(options), [options])
 
   const resetState = useCallback((interest = '', keepSubmitted = false) => {
     setLoading(false)
     setSubmitted(keepSubmitted)
     setCurrentStep(1)
     setStepError('')
+    setRequestError('')
     setFormState(initialFormState)
     setSelectedProgram(getProgramFromInterest(interest))
     setJoiningTimeline('')
@@ -152,9 +175,23 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (!isOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closePopup()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [closePopup, isOpen])
+
   const updateForm = <K extends keyof EnquiryFormState>(key: K, value: EnquiryFormState[K]) => {
     setFormState((current) => ({ ...current, [key]: value }))
     setStepError('')
+    setRequestError('')
   }
 
   const validateStep = (step: number) => {
@@ -172,10 +209,9 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
       return ''
     }
 
-    if (step === 3) {
+    if (step === 3 && requiresScheduling) {
       if (!formState.appointmentDate) return 'Please choose your preferred appointment date.'
       if (!formState.appointmentTime) return 'Please choose your preferred appointment time.'
-      return ''
     }
 
     return ''
@@ -202,6 +238,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
     }
 
     setLoading(true)
+    setRequestError('')
 
     const formData = new FormData()
     formData.append('source', options.source)
@@ -215,14 +252,16 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
     formData.append('appointmentTime', formState.appointmentTime)
     formData.append('message', formState.message)
 
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      body: formData,
-    })
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      })
 
-    setLoading(false)
+      if (!response.ok) {
+        throw new Error('Unable to submit your enquiry right now.')
+      }
 
-    if (response.ok) {
       window.gtag?.('event', 'conversion', {
         send_to: 'AW-11403134953/GA8iCOS_g5gcEOmPuL0q',
       })
@@ -240,25 +279,24 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
 
       resetState(options.interest, true)
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         closePopup()
       }, options.syllabusDownloadUrl ? 2600 : 1800)
-    } else {
-      alert('Failed to send enquiry. Please try again.')
+    } catch (error) {
+      setRequestError(error instanceof Error ? error.message : 'Unable to submit your enquiry right now.')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const value = useMemo(
-    () => ({ openPopup, closePopup }),
-    [openPopup, closePopup]
-  )
+  const value = useMemo(() => ({ openPopup, closePopup }), [openPopup, closePopup])
 
   return (
     <ContactPopupContext.Provider value={value}>
       {children}
 
       <AnimatePresence>
-        {isOpen && (
+        {isOpen ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -271,6 +309,9 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
             }}
           >
             <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label={options.title}
               initial={{ opacity: 0, y: 40, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 40, scale: 0.96 }}
@@ -298,31 +339,32 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       TSDC Admissions
                     </div>
 
-                    <h3 className="text-[1.85rem] font-black leading-[1.1] text-white">
-                      {options.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-white/70">
-                      {options.subtitle}
-                    </p>
+                    <h3 className="text-[1.85rem] font-black leading-[1.1] text-white">{options.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-white/70">{options.subtitle}</p>
 
                     <div className="mt-6 space-y-2.5">
                       {[
-                        { icon: '🎯', text: 'Personalized course guidance' },
-                        { icon: '📅', text: 'Schedule a free counselling call' },
-                        { icon: '🎁', text: 'Immediate joiners get ₹2,000 off' },
-                      ].map((item) => (
-                        <div
-                          key={item.text}
-                          className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur-sm"
-                        >
-                          <span className="text-base">{item.icon}</span>
-                          {item.text}
-                        </div>
-                      ))}
+                        { icon: GraduationCap, text: 'Personalized course guidance' },
+                        { icon: PhoneCall, text: requiresScheduling ? 'Choose a callback slot that suits you' : 'Get a response from admissions quickly' },
+                        { icon: IndianRupee, text: 'EMI, batch timing, and fee-plan clarity' },
+                      ].map((item) => {
+                        const Icon = item.icon
+                        return (
+                          <div
+                            key={item.text}
+                            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur-sm"
+                          >
+                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                              <Icon size={16} />
+                            </span>
+                            {item.text}
+                          </div>
+                        )
+                      })}
                     </div>
 
                     <div className="mt-auto pt-8 text-xs text-white/40">
-                      Trusted by 500+ students in Chennai
+                      Trusted by students across Chennai who want portfolio-first training and clear career direction.
                     </div>
                   </div>
                 </div>
@@ -337,37 +379,51 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     <X size={15} />
                   </button>
 
-                  <div className="mb-5 pr-8">
-                    <p className="text-xs font-bold uppercase tracking-widest text-[#3244b5]">
-                      Enquiry Form
+                  <div className="mb-5 rounded-[1.3rem] border border-[#e2e8f0] bg-[#f8fbff] p-4 sm:hidden">
+                    <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#3244b5]">
+                      <ShieldCheck size={14} />
+                      TSDC Admissions
+                    </div>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-[#475569]">
+                      Share your details once and we will help with course choice, fees, and the best next step.
                     </p>
+                  </div>
+
+                  <div className="mb-5 pr-8">
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#3244b5]">Enquiry Form</p>
                     <h4 className="mt-1.5 text-2xl font-black text-[#0f172a]">
-                      {currentStep === 1 && 'Let’s start with your details'}
+                      {currentStep === 1 && "Let's start with your details"}
                       {currentStep === 2 && 'Tell us what you want to join'}
-                      {currentStep === 3 && 'Pick an appointment slot'}
+                      {currentStep === 3 && (requiresScheduling ? 'Choose your preferred callback slot' : 'Add a note for our admissions team')}
                     </h4>
                     <p className="mt-1 text-sm text-[#64748b]">
-                      {currentStep === 1 && 'Step 1 of 3 — basic contact details so we can reach you quickly.'}
-                      {currentStep === 2 && 'Step 2 of 3 — help us understand the right course and joining plan.'}
-                      {currentStep === 3 && 'Step 3 of 3 — choose a preferred date, time, and add a message if needed.'}
+                      {currentStep === 1 && 'Step 1 of 3. Basic contact details so we can reach you quickly.'}
+                      {currentStep === 2 && 'Step 2 of 3. Help us understand the right course and joining plan for you.'}
+                      {currentStep === 3 &&
+                        (requiresScheduling
+                          ? 'Step 3 of 3. Pick a date and time for a free callback.'
+                          : 'Step 3 of 3. Add optional timing or message so we can follow up better.')}
                     </p>
                   </div>
 
                   <div className="mb-5 grid grid-cols-3 gap-2">
-                    {[1, 2, 3].map((step) => (
-                      <div
-                        key={step}
-                        className={`rounded-full px-3 py-2 text-center text-[11px] font-black uppercase tracking-[0.14em] ${
-                          step <= currentStep ? 'bg-[#3244b5] text-white' : 'bg-[#eef2f7] text-[#94a3b8]'
-                        }`}
-                      >
-                        Step {step}
-                      </div>
-                    ))}
+                    {stepLabels.map((label, index) => {
+                      const step = index + 1
+                      return (
+                        <div
+                          key={label}
+                          className={`rounded-2xl px-3 py-2 text-center text-[11px] font-black uppercase tracking-[0.12em] ${
+                            step <= currentStep ? 'bg-[#3244b5] text-white' : 'bg-[#eef2f7] text-[#94a3b8]'
+                          }`}
+                        >
+                          {label}
+                        </div>
+                      )
+                    })}
                   </div>
 
                   <AnimatePresence>
-                    {submitted && (
+                    {submitted ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -378,19 +434,17 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                         <div>
                           <p className="text-sm font-bold text-[#15803d]">
                             {options.syllabusDownloadUrl
-                              ? 'Enquiry received! Your syllabus download is starting.'
-                              : 'Enquiry sent successfully!'}
+                              ? 'Enquiry received. Your syllabus download is starting.'
+                              : 'Enquiry sent successfully.'}
                           </p>
-                          <p className="mt-0.5 text-xs text-[#4ade80]">
-                            Our team will contact you within a few hours.
-                          </p>
+                          <p className="mt-0.5 text-xs text-[#4b7a5a]">Our admissions team will contact you shortly.</p>
                         </div>
                       </motion.div>
-                    )}
+                    ) : null}
                   </AnimatePresence>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    {currentStep === 1 && (
+                    {currentStep === 1 ? (
                       <div className="space-y-4">
                         <div>
                           <FieldLabel>Full Name</FieldLabel>
@@ -430,12 +484,12 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                           />
                         </div>
                       </div>
-                    )}
+                    ) : null}
 
-                    {currentStep === 2 && (
+                    {currentStep === 2 ? (
                       <div className="space-y-4">
                         <div>
-                          <FieldLabel>Program of Interest</FieldLabel>
+                          <FieldLabel>Program Of Interest</FieldLabel>
                           <select
                             value={selectedProgram}
                             onChange={(e) => {
@@ -471,7 +525,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                           </select>
                         </div>
                         <div>
-                          <FieldLabel>When can you join?</FieldLabel>
+                          <FieldLabel>When Can You Join?</FieldLabel>
                           <select
                             name="joiningTimeline"
                             value={joiningTimeline}
@@ -491,19 +545,20 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                           </select>
                         </div>
                       </div>
-                    )}
+                    ) : null}
 
-                    {currentStep === 3 && (
+                    {currentStep === 3 ? (
                       <div className="space-y-4">
                         <div className="grid gap-3 sm:grid-cols-2">
                           <div>
-                            <FieldLabel>Preferred Date</FieldLabel>
+                            <FieldLabel>{requiresScheduling ? 'Preferred Date' : 'Preferred Follow-up Date (optional)'}</FieldLabel>
                             <div className="relative">
                               <Calendar size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
                               <input
                                 type="date"
                                 name="appointmentDate"
-                                required
+                                min={today}
+                                required={requiresScheduling}
                                 value={formState.appointmentDate}
                                 onChange={(e) => updateForm('appointmentDate', e.target.value)}
                                 className={`${inputClass} pl-9`}
@@ -511,13 +566,13 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                             </div>
                           </div>
                           <div>
-                            <FieldLabel>Preferred Time</FieldLabel>
+                            <FieldLabel>{requiresScheduling ? 'Preferred Time' : 'Preferred Follow-up Time (optional)'}</FieldLabel>
                             <div className="relative">
                               <Clock size={14} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
                               <input
                                 type="time"
                                 name="appointmentTime"
-                                required
+                                required={requiresScheduling}
                                 value={formState.appointmentTime}
                                 onChange={(e) => updateForm('appointmentTime', e.target.value)}
                                 className={`${inputClass} pl-9`}
@@ -527,19 +582,21 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                         </div>
 
                         <AnimatePresence>
-                          {joiningTimeline === 'Immediately' && (
+                          {joiningTimeline === 'Immediately' ? (
                             <motion.div
                               initial={{ opacity: 0, y: 8 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -4 }}
                               className="flex items-start gap-3 rounded-xl border-2 border-[#fed7aa] bg-[#fff7ed] px-4 py-3"
                             >
-                              <span className="mt-0.5 text-base">🎁</span>
+                              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ffedd5] text-[#c2410c]">
+                                <IndianRupee size={16} />
+                              </span>
                               <p className="text-sm font-semibold text-[#9a3412]">
-                                Submit now and receive a <strong>₹2,000 discount coupon</strong> in your email — valid for 24 hours.
+                                Submit now and receive a <strong>Rs 2,000 discount coupon</strong> by email. It stays valid for 24 hours.
                               </p>
                             </motion.div>
-                          )}
+                          ) : null}
                         </AnimatePresence>
 
                         <div>
@@ -549,16 +606,28 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                             rows={4}
                             value={formState.message}
                             onChange={(e) => updateForm('message', e.target.value)}
-                            placeholder="Tell us what you want to learn or achieve..."
+                            placeholder="Tell us what you want to learn, your current level, or any question you want answered."
                             className={inputClass}
                           />
                         </div>
+
+                        {!requiresScheduling ? (
+                          <div className="rounded-xl border border-[#dbeafe] bg-[#f8fbff] px-4 py-3 text-sm text-[#475569]">
+                            Leave date and time blank if you just want a quick response by call or WhatsApp.
+                          </div>
+                        ) : null}
                       </div>
-                    )}
+                    ) : null}
 
                     {stepError ? (
                       <div className="rounded-xl border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-semibold text-[#b42318]">
                         {stepError}
+                      </div>
+                    ) : null}
+
+                    {requestError ? (
+                      <div className="rounded-xl border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-semibold text-[#b42318]">
+                        {requestError}
                       </div>
                     ) : null}
 
@@ -587,7 +656,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                           }}
                           className="relative w-full overflow-hidden rounded-xl border-[3px] border-[#10163a] bg-[#3244b5] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition"
                         >
-                          Next step
+                          Next Step
                         </motion.button>
                       ) : (
                         <motion.button
@@ -597,13 +666,13 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                           disabled={loading}
                           className="relative w-full overflow-hidden rounded-xl border-[3px] border-[#10163a] bg-[#3244b5] py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition disabled:opacity-60"
                         >
-                          {!loading && (
+                          {!loading ? (
                             <motion.span
                               animate={{ x: ['-120%', '220%'] }}
                               transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', repeatDelay: 3 }}
                               className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
                             />
-                          )}
+                          ) : null}
                           {loading ? (
                             <span className="flex items-center justify-center gap-2">
                               <motion.span
@@ -620,15 +689,27 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       )}
                     </div>
 
-                    <p className="text-center text-[11px] text-[#94a3b8]">
-                      No spam, ever. We only reach out with course info.
-                    </p>
+                    <div className="flex items-center justify-center gap-2 text-center text-[11px] text-[#94a3b8]">
+                      <ShieldCheck size={14} />
+                      No spam. We only use your details to help with course guidance.
+                    </div>
+
+                    <div className="flex justify-center gap-3 text-xs font-semibold text-[#64748b]">
+                      <a href="tel:+917358116929" className="inline-flex items-center gap-1 hover:text-[#3244b5]">
+                        <PhoneCall size={13} />
+                        Call
+                      </a>
+                      <a href="https://wa.me/917358116929" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-[#3244b5]">
+                        <MessageCircle size={13} />
+                        WhatsApp
+                      </a>
+                    </div>
                   </form>
                 </div>
               </div>
             </motion.div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </ContactPopupContext.Provider>
   )

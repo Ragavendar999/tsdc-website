@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ContactPopupProvider } from "./components/common/ContactPopupProvider";
 import SiteChrome from "./components/common/SiteChrome";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -123,7 +130,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${plusJakartaSans.variable}`}>
       <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11403134953"></script>
 
@@ -167,11 +174,11 @@ export default function RootLayout({
         </noscript>
       </head>
 
-      <body
-        suppressHydrationWarning={true}
-        className="bg-transparent text-gray-900"
-      >
-        {/* GTM noscript fallback */}
+      <body suppressHydrationWarning={true} className="bg-transparent text-gray-900">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PXHJZ55T"

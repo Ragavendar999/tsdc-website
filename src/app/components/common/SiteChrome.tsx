@@ -14,9 +14,10 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMasterclassRoute = pathname.startsWith('/masterclasses/')
   const [showSplash, setShowSplash] = useState(false)
+  const shouldEnableSplash = process.env.NODE_ENV === 'production'
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !shouldEnableSplash) return
 
     const schedule = window.requestIdleCallback
       ? window.requestIdleCallback(() => setShowSplash(true), { timeout: 1200 })
@@ -30,18 +31,20 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
       window.cancelIdleCallback?.(schedule)
     }
-  }, [])
+  }, [shouldEnableSplash])
 
   return (
     <>
-      {showSplash ? <SplashScreen /> : null}
+      {shouldEnableSplash && showSplash ? <SplashScreen /> : null}
       {!isMasterclassRoute && (
         <>
           <ScrollProgress />
           <Navbar />
         </>
       )}
-      <main className={isMasterclassRoute ? '' : 'pt-[5.5rem]'}>{children}</main>
+      <main id="main-content" className={isMasterclassRoute ? '' : 'pt-[5.5rem]'}>
+        {children}
+      </main>
       {!isMasterclassRoute && <WhatsAppFAB />}
       {!isMasterclassRoute && <Footer />}
     </>

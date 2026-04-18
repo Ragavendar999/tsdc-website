@@ -141,6 +141,35 @@ export default function ContactSection() {
                   {content.description}
                 </p>
 
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  <a
+                    href={`tel:${content.mapPhone.replace(/[^\d+]/g, '')}`}
+                    className="rounded-[1.3rem] border-[3px] border-[#10163a] bg-white px-4 py-4 text-left shadow-[4px_4px_0_#10163a]"
+                  >
+                    <Phone size={16} className="text-[#ff9736]" />
+                    <p className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-[#64748b]">Call</p>
+                    <p className="mt-1 text-sm font-black text-[#10163a]">{content.mapPhone}</p>
+                  </a>
+                  <a
+                    href="https://wa.me/917358116929"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-[1.3rem] border-[3px] border-[#10163a] bg-white px-4 py-4 text-left shadow-[4px_4px_0_#10163a]"
+                  >
+                    <MessageCircle size={16} className="text-[#3244b5]" />
+                    <p className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-[#64748b]">WhatsApp</p>
+                    <p className="mt-1 text-sm font-black text-[#10163a]">Admissions Chat</p>
+                  </a>
+                  <a
+                    href={`mailto:${content.popupPrimary.source ? 'support@traijoedu.in' : 'support@traijoedu.in'}`}
+                    className="rounded-[1.3rem] border-[3px] border-[#10163a] bg-white px-4 py-4 text-left shadow-[4px_4px_0_#10163a]"
+                  >
+                    <Mail size={16} className="text-[#db4b87]" />
+                    <p className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-[#64748b]">Email</p>
+                    <p className="mt-1 text-sm font-black text-[#10163a]">support@traijoedu.in</p>
+                  </a>
+                </div>
+
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
                   {content.stats.map((item, index) => (
                     <div
@@ -184,19 +213,13 @@ export default function ContactSection() {
                       className="group rounded-[1.8rem] border-[3px] border-[#10163a] bg-white p-5 text-left shadow-[6px_6px_0_#10163a] transition hover:-translate-y-1"
                     >
                       <div className="flex items-start gap-4">
-                        <div
-                          className="rounded-[1rem] p-3 text-white"
-                          style={{ backgroundColor: action.accent }}
-                        >
+                        <div className="rounded-[1rem] p-3 text-white" style={{ backgroundColor: action.accent }}>
                           <Icon size={18} />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between gap-3">
                             <h3 className="text-lg font-black text-[#10163a]">{action.title}</h3>
-                            <ArrowRight
-                              size={16}
-                              className="text-[#94a3b8] transition group-hover:translate-x-1 group-hover:text-[#3244b5]"
-                            />
+                            <ArrowRight size={16} className="text-[#94a3b8] transition group-hover:translate-x-1 group-hover:text-[#3244b5]" />
                           </div>
                           <p className="mt-2 text-sm leading-7 text-[#475569]">{action.text}</p>
                         </div>
@@ -211,15 +234,9 @@ export default function ContactSection() {
           <div className="grid gap-6 border-t-[3px] border-[#10163a] bg-white px-6 py-8 md:px-8 lg:grid-cols-[1.04fr_0.96fr]">
             <div className="space-y-5">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#3244b5]">
-                  {content.supportEyebrow}
-                </p>
-                <h3 className="mt-2 text-3xl font-black text-[#10163a]">
-                  {content.supportTitle}
-                </h3>
-                <p className="mt-3 max-w-2xl text-base leading-8 text-[#475569]">
-                  {content.supportDescription}
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#3244b5]">{content.supportEyebrow}</p>
+                <h3 className="mt-2 text-3xl font-black text-[#10163a]">{content.supportTitle}</h3>
+                <p className="mt-3 max-w-2xl text-base leading-8 text-[#475569]">{content.supportDescription}</p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
@@ -238,7 +255,9 @@ export default function ContactSection() {
               <form onSubmit={handleSubmit} className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-6 shadow-[7px_7px_0_#10163a]">
                 <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">Quick Enquiry Form</p>
                 <h4 className="mt-2 text-2xl font-black text-[#10163a]">Fill in your details and we will get back to you.</h4>
-                <p className="mt-2 text-sm leading-7 text-[#475569]">This form is rendered directly on the page for faster enquiries and better crawlability.</p>
+                <p className="mt-2 text-sm leading-7 text-[#475569]">
+                  Best for quick questions. Use the guided contact form above if you want counselling or a scheduled callback.
+                </p>
 
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
                   <input
@@ -292,9 +311,7 @@ export default function ContactSection() {
                   placeholder="Tell us what you want to learn, your current level, or the batch you want to join."
                 />
 
-                {formMessage ? (
-                  <p className="mt-4 text-sm font-bold text-[#3244b5]">{formMessage}</p>
-                ) : null}
+                {formMessage ? <p className="mt-4 text-sm font-bold text-[#3244b5]">{formMessage}</p> : null}
 
                 <button
                   type="submit"
@@ -350,9 +367,7 @@ export default function ContactSection() {
               >
                 <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white/70">{content.launchCardEyebrow}</p>
                 <h4 className="mt-2 text-2xl font-black">{content.launchCardTitle}</h4>
-                <p className="mt-3 text-sm leading-7 text-white/85">
-                  {content.launchCardDescription}
-                </p>
+                <p className="mt-3 text-sm leading-7 text-white/85">{content.launchCardDescription}</p>
                 <div className="mt-5 flex flex-wrap gap-3 text-sm font-black">
                   <a href="mailto:support@traijoedu.in" className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2">
                     <Mail size={15} />

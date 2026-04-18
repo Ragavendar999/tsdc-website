@@ -13,10 +13,10 @@ import {
 } from '@/app/lib/siteContent'
 
 const statusConfig: Record<BatchEntry['status'], { label: string; bg: string; text: string; dot: string; icon: React.ReactNode }> = {
-  open:           { label: 'Enrolling Now',   bg: '#dcfce7', text: '#15803d', dot: '#22c55e', icon: <CheckCircle2 size={12} /> },
-  filling:        { label: 'Filling Fast',    bg: '#fef3c7', text: '#92400e', dot: '#f59e0b', icon: <Zap size={12} />          },
-  'starting-soon':{ label: 'Starting Soon',  bg: '#e0f2fe', text: '#0369a1', dot: '#0ea5e9', icon: <Clock size={12} />        },
-  full:           { label: 'Batch Full',      bg: '#fee2e2', text: '#991b1b', dot: '#ef4444', icon: <AlertCircle size={12} /> },
+  open: { label: 'Enrolling Now', bg: '#dcfce7', text: '#15803d', dot: '#22c55e', icon: <CheckCircle2 size={12} /> },
+  filling: { label: 'Filling Fast', bg: '#fef3c7', text: '#92400e', dot: '#f59e0b', icon: <Zap size={12} /> },
+  'starting-soon': { label: 'Starting Soon', bg: '#e0f2fe', text: '#0369a1', dot: '#0ea5e9', icon: <Clock size={12} /> },
+  full: { label: 'Batch Full', bg: '#fee2e2', text: '#991b1b', dot: '#ef4444', icon: <AlertCircle size={12} /> },
 }
 
 function SeatBar({ taken, total }: { taken: number; total: number }) {
@@ -72,7 +72,6 @@ export default function BatchScheduleSection() {
 
   return (
     <section className="site-section-bg section-alt-clean section-divider relative overflow-hidden px-4 py-16 sm:px-6 md:py-20">
-      {/* Background accent */}
       <div className="pointer-events-none absolute inset-0">
         <div className="comic-dots absolute inset-0 opacity-30" />
         <div className="comic-burst pointer-events-none absolute -left-8 bottom-24 hidden h-24 w-24 bg-[#ffcb53] opacity-40 lg:block" />
@@ -80,8 +79,6 @@ export default function BatchScheduleSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
-
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -96,12 +93,9 @@ export default function BatchScheduleSection() {
             {content.title}
             <span className="block text-[#3244b5]">{content.highlight}</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#475467]">
-            {content.description}
-          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#475467]">{content.description}</p>
         </motion.div>
 
-        {/* Batch cards */}
         <div className="grid gap-5 md:grid-cols-2">
           {content.batches.map((batch, i) => {
             const status = statusConfig[batch.status]
@@ -116,12 +110,10 @@ export default function BatchScheduleSection() {
                 transition={{ delay: i * 0.07 }}
               >
                 <div className={`overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[7px_7px_0_#10163a] transition-all duration-200 ${isFull ? 'opacity-70' : 'hover:-translate-y-1'}`}>
-
-                  {/* Card header strip */}
                   <div className="flex items-center justify-between px-5 py-4" style={{ backgroundColor: `${batch.accent}15` }}>
                     <div className="flex items-center gap-3">
                       <div
-                        className="flex h-11 w-11 items-center justify-center rounded-2xl border-[3px] border-[#10163a] text-xl shadow-[3px_3px_0_#10163a]"
+                        className="flex h-11 w-11 items-center justify-center rounded-2xl border-[3px] border-[#10163a] text-sm font-black text-white shadow-[3px_3px_0_#10163a]"
                         style={{ backgroundColor: batch.accent }}
                       >
                         {batch.icon}
@@ -134,7 +126,6 @@ export default function BatchScheduleSection() {
                       </div>
                     </div>
 
-                    {/* Status badge */}
                     <div
                       className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold"
                       style={{ backgroundColor: status.bg, color: status.text, border: `1.5px solid ${status.dot}35` }}
@@ -149,9 +140,7 @@ export default function BatchScheduleSection() {
                     </div>
                   </div>
 
-                  {/* Card body */}
                   <div className="px-5 py-4">
-                    {/* Key details row */}
                     <div className="mb-4 grid grid-cols-2 gap-3">
                       <div className="rounded-[1rem] border-[2px] border-[#10163a]/10 bg-[#f8faff] px-4 py-3">
                         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#667085]">Batch starts</p>
@@ -163,7 +152,6 @@ export default function BatchScheduleSection() {
                       </div>
                     </div>
 
-                    {/* Fee row */}
                     <div className="mb-4 flex items-center justify-between rounded-[1rem] border-[2px] border-[#10163a]/10 bg-[#fffbf5] px-4 py-3">
                       <div>
                         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#667085]">Course fee</p>
@@ -178,12 +166,10 @@ export default function BatchScheduleSection() {
                       </div>
                     </div>
 
-                    {/* Seat bar */}
                     <div className="mb-5">
                       <SeatBar taken={batch.seatsTaken} total={batch.seatsTotal} />
                     </div>
 
-                    {/* CTAs */}
                     <div className="flex gap-2.5">
                       {isFull ? (
                         <>
@@ -232,7 +218,6 @@ export default function BatchScheduleSection() {
           })}
         </div>
 
-        {/* Bottom note */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -245,19 +230,20 @@ export default function BatchScheduleSection() {
             {content.noteText}
           </div>
           <button
-            onClick={() => openPopup({
-              title: 'Free Counselling — Pick the Right Batch',
-              subtitle: 'Not sure which course or batch is right for you? Our admissions team will guide you in under 10 minutes.',
-              interest: 'Batch Counselling',
-              source: 'batch-schedule-counselling-cta',
-              ctaLabel: 'Book Free Counselling',
-            })}
+            onClick={() =>
+              openPopup({
+                title: 'Free Counselling - Pick the Right Batch',
+                subtitle: 'Not sure which course or batch is right for you? Our admissions team will guide you in under 10 minutes.',
+                interest: 'Batch Counselling',
+                source: 'batch-schedule-counselling-cta',
+                ctaLabel: 'Book Free Counselling',
+              })
+            }
             className="shrink-0 rounded-[1rem] border-[3px] border-[#10163a] bg-[#10163a] px-6 py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
           >
-            Book Free Counselling →
+            Book Free Counselling
           </button>
         </motion.div>
-
       </div>
     </section>
   )

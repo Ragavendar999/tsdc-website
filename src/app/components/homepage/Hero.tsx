@@ -15,6 +15,7 @@ import {
   Users,
   Video,
 } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
@@ -69,6 +70,18 @@ export default function HeroSection() {
 
   return (
     <section className="site-section-bg relative overflow-hidden pt-20">
+      <div className="pointer-events-none absolute inset-0">
+        <Image
+          src="/Graphic%20Designer%20Class%20Room.png"
+          alt=""
+          fill
+          priority
+          aria-hidden="true"
+          className="object-cover object-center opacity-[0.32] scale-[1.02]"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,253,247,0.68)_0%,rgba(255,250,241,0.58)_42%,rgba(255,248,238,0.74)_100%)]" />
+      </div>
+
       <div className="pointer-events-none absolute inset-0">
         <div className="brand-dot-grid absolute inset-0 opacity-15" />
         <div className="animate-float-orb absolute right-[5%] top-16 h-20 w-20 rounded-full bg-[#ffcb53] opacity-60" />
@@ -168,16 +181,25 @@ export default function HeroSection() {
         >
           <div className="relative">
             <div className="relative overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[9px_9px_0_#10163a]">
-              <div className="mb-3 rounded-[1.45rem] border border-[#3244b5]/12 bg-[#f0f4ff] p-5 text-[#0f1634]">
-                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#3244b5]">{content.panelEyebrow}</p>
+              <Link
+                href="/graphic-design-scholarship"
+                className="group mb-3 block rounded-[1.45rem] border border-[#3244b5]/12 bg-[#f0f4ff] p-5 text-[#0f1634] transition hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(50,68,181,0.14)]"
+              >
+                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#3244b5]">
+                  Graphic Design Scholarship
+                </p>
                 <h3 className="mt-2 text-2xl font-black leading-tight lg:text-[1.65rem]">
-                  {content.panelTitle}
-                  <span className="block text-[#db4b87]">{content.panelHighlight}</span>
+                  Apply for the
+                  <span className="block text-[#db4b87]">TSDC scholarship.</span>
                 </h3>
                 <p className="mt-2 max-w-md text-sm leading-6 text-[#4d556f]">
-                  {content.panelDescription}
+                  If you are serious about building a creative career, start with the scholarship route and unlock a lighter-fee entry into our Graphic Design program.
                 </p>
-              </div>
+                <div className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#3244b5] transition group-hover:gap-3">
+                  Go to scholarship page
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
 
               <div className="grid gap-2.5">
                 {content.tracks.map((track, index) => (

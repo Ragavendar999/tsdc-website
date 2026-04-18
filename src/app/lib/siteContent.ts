@@ -38,12 +38,12 @@ export type CourseCard = {
 export type BatchEntry = {
   course: string
   accent: string
-  icon: string                       // emoji icon for visual scanning
-  startDate: string                  // e.g. "June 1, 2026"
-  duration: string                   // e.g. "12 Weeks"
-  mode: string                       // "Offline / Hybrid"
-  fee: string                        // e.g. "₹18,000"
-  emi: string                        // e.g. "₹6,000 × 3 months"
+  icon: string
+  startDate: string
+  duration: string
+  mode: string
+  fee: string
+  emi: string
   seatsTotal: number
   seatsTaken: number
   status: 'open' | 'filling' | 'starting-soon' | 'full'
@@ -140,63 +140,61 @@ export const SITE_CONTENT_STORAGE_KEY = 'tsdc-site-content-v1'
 export const SITE_CONTENT_UPDATED_EVENT = 'tsdc-site-content-updated'
 
 export const homepageSectionCatalog: SiteSectionConfig[] = [
-  { id: 'hero',             label: 'Hero',             enabled: true  },
-  { id: 'why-tsdc',         label: 'Why TSDC',         enabled: true  },
-  { id: 'masterclasses',    label: 'Masterclasses',    enabled: true  },
-  { id: 'courses',          label: 'Courses',          enabled: true  },
-  { id: 'batch-schedule',   label: 'Batch Schedule',   enabled: true  },
-  { id: 'journey',          label: 'Journey Timeline', enabled: false },
+  { id: 'hero', label: 'Hero', enabled: true },
+  { id: 'why-tsdc', label: 'Why TSDC', enabled: true },
+  { id: 'masterclasses', label: 'Masterclasses', enabled: true },
+  { id: 'courses', label: 'Courses', enabled: true },
+  { id: 'batch-schedule', label: 'Batch Schedule', enabled: true },
+  { id: 'journey', label: 'Journey Timeline', enabled: false },
 ]
 
 export const defaultSiteContent: SiteContent = {
   homepage: {
     sections: homepageSectionCatalog,
   },
-
   hero: {
     badge: 'Best Creative Institute in Chennai',
     title: 'Learn creative skills that',
     highlight: 'get you hired.',
     description:
-      "TSDC is Chennai's hands-on creative career institute. Real projects, portfolio building, and mentor feedback — designed to get you job-ready fast.",
+      "TSDC is Chennai's hands-on creative career institute. Real projects, portfolio building, and mentor feedback designed to get you job-ready fast.",
     primaryCta: 'Explore Courses',
     secondaryCta: 'Free Counselling',
     checklist: ['Live client projects', 'Portfolio-first', '1:1 mentorship', 'Placement support'],
     stats: [
       { value: '1500+', label: 'Students launched' },
-      { value: '95%',   label: 'Career outcomes'   },
-      { value: 'ISO',   label: 'Certified institute'},
-      { value: '4.9/5', label: 'Student love'       },
+      { value: '95%', label: 'Career outcomes' },
+      { value: 'ISO', label: 'Certified institute' },
+      { value: '4.9/5', label: 'Student love' },
     ],
-    panelEyebrow:      'Chennai Creative Career Hub',
-    panelTitle:        'Build a portfolio that looks',
-    panelHighlight:    'worth hiring.',
+    panelEyebrow: 'Chennai Creative Career Hub',
+    panelTitle: 'Build a portfolio that looks',
+    panelHighlight: 'worth hiring.',
     panelDescription:
       'Learn with structured projects, internship-style feedback, and practical briefs designed to make your work stand out to employers and clients.',
     tracks: [
-      { title: 'Graphic Design',    accent: '#fa8a43', line: 'Branding, posters, social creatives'   },
-      { title: 'UI/UX Design',      accent: '#4562b0', line: 'Figma, product thinking, portfolio'    },
-      { title: 'Digital Marketing', accent: '#ea6865', line: 'SEO, Meta Ads, Google Ads, growth'    },
-      { title: 'Video Editing',     accent: '#4a4a99', line: 'Premiere Pro, reels, ads, motion'     },
+      { title: 'Graphic Design', accent: '#fa8a43', line: 'Branding, posters, and social creatives' },
+      { title: 'UI/UX Design', accent: '#4562b0', line: 'Figma, product thinking, and portfolio work' },
+      { title: 'Digital Marketing', accent: '#ea6865', line: 'SEO, Meta Ads, Google Ads, and growth' },
+      { title: 'Video Editing', accent: '#4a4a99', line: 'Premiere Pro, reels, ads, and motion' },
     ],
   },
-
   whyTsdc: {
     badge: 'Why students choose TSDC in Chennai',
     title: 'The institute experience feels',
     highlight: 'clearer, brighter, and more career-focused.',
     description:
-      'Students join TSDC for practical work, real mentorship, stronger portfolios, and a clearer path into creative jobs — not just a classroom experience.',
+      'Students join TSDC for practical work, real mentorship, stronger portfolios, and a clearer path into creative jobs, not just a classroom experience.',
     outcomesTitle: 'What you walk away with',
     outcomes: [
-      'A portfolio of real work you can show employers and clients — not just a certificate.',
+      'A portfolio of real work you can show employers and clients, not just a certificate.',
       'Hands-on skills from live projects, industry briefs, and mentor-reviewed feedback.',
       'A clear next step: placement support, freelance confidence, and a career direction that sticks.',
     ],
     features: [
       {
         title: 'Beginner-friendly by design',
-        description: 'Start from zero and build a polished portfolio with structure, clarity, and guided momentum — no prior experience required.',
+        description: 'Start from zero and build a polished portfolio with structure, clarity, and guided momentum. No prior experience required.',
         support: 'No degree required',
         accent: '#ff9736',
         tint: '#fff1dd',
@@ -210,7 +208,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         title: 'Mentors who push quality',
-        description: 'Get direct feedback, practical corrections, and portfolio review support — not just recorded videos left to watch alone.',
+        description: 'Get direct feedback, practical corrections, and portfolio review support, not just recorded videos left to watch alone.',
         support: '1:1 growth feedback',
         accent: '#ef6b63',
         tint: '#fff1ee',
@@ -225,13 +223,12 @@ export const defaultSiteContent: SiteContent = {
     ],
     ctaLabel: 'View All Job-Ready Courses',
   },
-
   coursesSection: {
     badge: 'High-demand creative career courses',
     title: 'Choose the course that turns',
     highlight: 'interest into income.',
     description:
-      'Four in-demand creative skills. Real projects, portfolio building, and mentor guidance — designed for students in Chennai ready to make their move.',
+      'Four in-demand creative skills with real projects, portfolio building, and mentor guidance for students in Chennai ready to make their move.',
     courses: [
       {
         title: 'Graphic Design',
@@ -283,24 +280,23 @@ export const defaultSiteContent: SiteContent = {
       },
     ],
   },
-
   batchSchedule: {
-    badge: 'Upcoming batches — Chennai',
+    badge: 'Upcoming batches in Chennai',
     title: 'See which batch',
     highlight: 'fits your schedule.',
     description:
       'All courses run in small batches so every student gets real attention. Check seat availability and join the upcoming batch that works for you.',
-    noteText: 'Batches fill fast. Once a batch closes, the next opening is 4–6 weeks away. Secure your seat today.',
+    noteText: 'Batches fill fast. Once a batch closes, the next opening is usually 4 to 6 weeks away. Secure your seat early.',
     batches: [
       {
         course: 'Graphic Design',
         accent: '#fa8a43',
-        icon: '🎨',
+        icon: 'GD',
         startDate: 'May 11, 2026',
         duration: '12 Weeks',
         mode: 'Offline / Hybrid',
-        fee: '₹18,000',
-        emi: '₹6,000 × 3 months',
+        fee: 'Rs 18,000',
+        emi: 'Rs 6,000 x 3 months',
         seatsTotal: 20,
         seatsTaken: 14,
         status: 'filling',
@@ -309,12 +305,12 @@ export const defaultSiteContent: SiteContent = {
       {
         course: 'UI/UX Design',
         accent: '#4562b0',
-        icon: '🖥️',
+        icon: 'UX',
         startDate: 'May 18, 2026',
         duration: '10 Weeks',
         mode: 'Offline / Hybrid',
-        fee: '₹20,000',
-        emi: '₹10,000 × 2 months',
+        fee: 'Rs 20,000',
+        emi: 'Rs 10,000 x 2 months',
         seatsTotal: 15,
         seatsTaken: 8,
         status: 'open',
@@ -323,12 +319,12 @@ export const defaultSiteContent: SiteContent = {
       {
         course: 'Digital Marketing',
         accent: '#ea6865',
-        icon: '📣',
+        icon: 'DM',
         startDate: 'May 14, 2026',
         duration: '8 Weeks',
         mode: 'Offline / Hybrid',
-        fee: '₹15,000',
-        emi: '₹7,500 × 2 months',
+        fee: 'Rs 15,000',
+        emi: 'Rs 7,500 x 2 months',
         seatsTotal: 20,
         seatsTaken: 11,
         status: 'filling',
@@ -337,12 +333,12 @@ export const defaultSiteContent: SiteContent = {
       {
         course: 'Video Editing',
         accent: '#4a4a99',
-        icon: '🎬',
+        icon: 'VE',
         startDate: 'May 25, 2026',
         duration: '12 Weeks',
         mode: 'Offline / Hybrid',
-        fee: '₹18,000',
-        emi: '₹6,000 × 3 months',
+        fee: 'Rs 18,000',
+        emi: 'Rs 6,000 x 3 months',
         seatsTotal: 15,
         seatsTaken: 3,
         status: 'open',
@@ -350,15 +346,14 @@ export const defaultSiteContent: SiteContent = {
       },
     ],
   },
-
   footer: {
     description:
       'TSDC is a hands-on creative career institute in Chennai, with practical training, real projects, portfolio building, and mentorship that helps students become more visible and employable.',
     pillText: 'Built for students who want real outcomes',
     socialLinks: [
-      { name: 'Instagram', href: 'https://www.instagram.com/traijosdc_official/'                     },
-      { name: 'Facebook',  href: 'https://www.facebook.com/Traijosdc'                                },
-      { name: 'LinkedIn',  href: 'https://in.linkedin.com/company/traijoskilldevelopmentcenter'      },
+      { name: 'Instagram', href: 'https://www.instagram.com/traijosdc_official/' },
+      { name: 'Facebook', href: 'https://www.facebook.com/Traijosdc' },
+      { name: 'LinkedIn', href: 'https://in.linkedin.com/company/traijoskilldevelopmentcenter' },
     ],
     contactEmail: 'support@traijoedu.in',
     contactPhone: '+91-73581-16929',
@@ -370,17 +365,16 @@ export const defaultSiteContent: SiteContent = {
     ],
     copyrightLine: 'Design | Marketing | Innovation',
   },
-
   contact: {
     badge: 'Contact TSDC Admissions',
     title: 'Start your creative career',
     highlight: 'with one conversation.',
     description:
-      'Whether you want to pick the right course, understand fees, or know what a batch looks like day-to-day — our admissions team will walk you through everything clearly and quickly.',
+      'Whether you want to pick the right course, understand fees, or know what a batch looks like day to day, our admissions team will walk you through everything clearly and quickly.',
     stats: [
-      { value: '4 courses', label: 'Creative career tracks'  },
-      { value: 'Same day',  label: 'Response time'           },
-      { value: 'Free',      label: 'Counselling session'     },
+      { value: '4 courses', label: 'Creative career tracks' },
+      { value: 'Same day', label: 'Response time' },
+      { value: 'Free', label: 'Counselling session' },
     ],
     quickActions: [
       {
@@ -421,7 +415,7 @@ export const defaultSiteContent: SiteContent = {
     supportCards: [
       {
         title: 'Course Guidance',
-        text: 'Graphic Design, UI/UX, Digital Marketing, and Video Editing — we will help you pick the right one.',
+        text: 'Graphic Design, UI/UX, Digital Marketing, and Video Editing. We will help you pick the right one.',
         color: '#eef1ff',
       },
       {
@@ -431,7 +425,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         title: 'Fee & EMI Plans',
-        text: 'We offer easy 2–3 month installment plans so fees never block your start.',
+        text: 'We offer easy 2 to 3 month installment plans so fees never block your start.',
         color: '#fff1f6',
       },
       {
@@ -480,12 +474,12 @@ export const mergeSiteContent = (parsed?: Partial<SiteContent>): SiteContent => 
     ...parsed?.homepage,
     sections: mergeHomepageSections(parsed?.homepage?.sections),
   },
-  hero:           { ...defaultSiteContent.hero,           ...parsed?.hero           },
-  whyTsdc:        { ...defaultSiteContent.whyTsdc,        ...parsed?.whyTsdc        },
+  hero: { ...defaultSiteContent.hero, ...parsed?.hero },
+  whyTsdc: { ...defaultSiteContent.whyTsdc, ...parsed?.whyTsdc },
   coursesSection: { ...defaultSiteContent.coursesSection, ...parsed?.coursesSection },
-  batchSchedule:  { ...defaultSiteContent.batchSchedule,  ...parsed?.batchSchedule  },
-  footer:         { ...defaultSiteContent.footer,         ...parsed?.footer         },
-  contact:        { ...defaultSiteContent.contact,        ...parsed?.contact        },
+  batchSchedule: { ...defaultSiteContent.batchSchedule, ...parsed?.batchSchedule },
+  footer: { ...defaultSiteContent.footer, ...parsed?.footer },
+  contact: { ...defaultSiteContent.contact, ...parsed?.contact },
 })
 
 export const loadSiteContent = () => {
@@ -505,7 +499,3 @@ export const persistSiteContent = (content: SiteContent) => {
   window.localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(content))
   window.dispatchEvent(new Event(SITE_CONTENT_UPDATED_EVENT))
 }
-
-
-
-

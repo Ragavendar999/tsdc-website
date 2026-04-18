@@ -17,6 +17,9 @@ const emptyMasterclass = (): Masterclass => ({
   id: `masterclass-${Date.now()}`,
   slug: `new-masterclass-${Date.now()}`,
   status: 'draft',
+  replacementMasterclassId: '',
+  autoActivatedAt: undefined,
+  activatedFromMasterclassId: undefined,
   title: 'New Masterclass',
   backgroundStyle: 'midnight',
   backgroundImage: '',
@@ -173,6 +176,12 @@ export default function MasterclassAdminPage({
                 </span>
                 <span>|</span>
                 <span>/{masterclass.slug}</span>
+                {masterclass.replacementMasterclassId ? (
+                  <>
+                    <span>|</span>
+                    <span>auto replace on expiry</span>
+                  </>
+                ) : null}
               </div>
             </button>
             <div className="flex gap-1.5 border-t-[3px] border-dashed border-[#10163a]/15 px-4 py-2.5">
@@ -318,10 +327,37 @@ export default function MasterclassAdminPage({
                   />
                 </label>
 
-                <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#eef1ff] px-4 py-3 text-sm font-semibold text-[#3244b5] shadow-[3px_3px_0_#10163a]">
+                <label className="block">
+                  <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">Auto replacement masterclass</span>
+                  <select
+                    value={active.replacementMasterclassId || ''}
+                    onChange={(event) =>
+                      updateActive({
+                        replacementMasterclassId: event.target.value || undefined,
+                        autoActivatedAt: undefined,
+                        activatedFromMasterclassId: undefined,
+                      })
+                    }
+                    className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-3 font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a]"
+                  >
+                    <option value="">Do not auto replace</option>
+                    {masterclasses
+                      .filter((item) => item.id !== active.id)
+                      .map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.title} ({item.status})
+                        </option>
+                      ))}
+                  </select>
+                </label>
+
+                <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#eef1ff] px-4 py-3 text-sm font-semibold text-[#3244b5] shadow-[3px_3px_0_#10163a] md:col-span-2">
                   {active.turnOffAt
                     ? `This masterclass will auto turn off at ${new Date(active.turnOffAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}.`
                     : 'No auto turn-off is scheduled for this masterclass yet.'}
+                  {active.replacementMasterclassId
+                    ? ` When that happens, the selected replacement will be published automatically if it is still in draft and not expired.`
+                    : ' You can also choose a draft masterclass above to publish automatically after expiry.'}
                 </div>
               </div>
             </fieldset>
@@ -388,7 +424,7 @@ export default function MasterclassAdminPage({
               <Save className="mr-2 inline h-4 w-4" />
               Masterclass content now saves to the server so the live site, admin panel, and auto turn-off cron all use the same data.
               <p className="mt-2 text-xs leading-6 text-[#7c3d12]">
-                When a live masterclass reaches its turn-off date and time, it is unpublished automatically and a notification email is sent to <code className="font-mono">n.ragavendar@gmail.com</code>.
+                When a live masterclass reaches its turn-off date and time, it is unpublished automatically. If you selected a replacement masterclass, that draft item is published automatically next. Email notifications still go to <code className="font-mono">n.ragavendar@gmail.com</code>.
               </p>
               {saveError ? <p className="mt-2 text-xs leading-6 text-[#b42318]">{saveError}</p> : null}
             </div>

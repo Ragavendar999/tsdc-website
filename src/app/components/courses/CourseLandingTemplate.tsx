@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import {
   ArrowRight,
   BookOpenCheck,
+  BriefcaseBusiness,
   CalendarDays,
   CheckCircle2,
   Clock,
@@ -44,6 +45,21 @@ export type CourseLandingData = {
   popupInterest: string
 }
 
+const courseFitCards = [
+  {
+    title: 'Best for beginners',
+    text: 'A clear, guided structure if you are starting from zero and want to build confidence quickly.',
+  },
+  {
+    title: 'Good for career switchers',
+    text: 'Useful if you want job-ready proof, practical projects, and a portfolio you can show in interviews.',
+  },
+  {
+    title: 'Helpful for freelancers',
+    text: 'Strong if you want clearer services, better-looking work, and more confidence presenting to clients.',
+  },
+]
+
 export function CourseLandingTemplate({ course }: { course: CourseLandingData }) {
   const { openPopup } = useContactPopup()
 
@@ -58,7 +74,7 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
 
   const openSyllabusPopup = () =>
     openPopup({
-      title: `Get the ${course.popupInterest} Syllabus`,
+      title: `Get the ${course.popupInterest} syllabus`,
       subtitle: 'Submit your details and the syllabus PDF will download immediately after successful submission.',
       interest: `${course.popupInterest} Syllabus`,
       source: `${course.popupInterest.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-syllabus-download`,
@@ -176,12 +192,27 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           </div>
         </div>
 
+        <div className="mb-12 grid gap-5 md:grid-cols-3">
+          {courseFitCards.map((item, index) => (
+            <div
+              key={item.title}
+              className="rounded-[1.8rem] border-[3px] border-[#10163a] p-6 shadow-[6px_6px_0_#10163a]"
+              style={{ backgroundColor: index === 0 ? '#fff6eb' : index === 1 ? '#eef3ff' : '#fff1f7' }}
+            >
+              <p className="text-sm font-black uppercase tracking-[0.18em]" style={{ color: index === 0 ? '#c25e19' : index === 1 ? '#3244b5' : '#db4b87' }}>
+                {item.title}
+              </p>
+              <p className="mt-3 text-sm leading-7 text-[#475467]">{item.text}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="py-6 text-center">
           <p className="mx-auto mb-3 inline-flex rounded-full border-[3px] border-[#10163a] px-4 py-2 text-sm font-black shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft, color: course.deep }}>
             What students develop here
           </p>
           <h2 className="mx-auto max-w-3xl text-3xl font-black tracking-[-0.04em] md:text-5xl">
-            Practical skills, portfolio proof, and confidence from multiple sides.
+            Practical skills, portfolio proof, and confidence from multiple angles.
           </h2>
         </div>
 
@@ -273,7 +304,7 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
         <div className="grid gap-5 md:grid-cols-[1.05fr_0.95fr]">
           <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#171d4d] p-7 text-white shadow-[8px_8px_0_#10163a]">
             <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Student proof</p>
-            <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">The page should answer the question: can I see myself getting results here?</h2>
+            <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">Can you picture yourself getting results here?</h2>
             <p className="mt-4 text-sm leading-7 text-white/82">"{course.testimonial.quote}"</p>
             <p className="mt-3 text-sm font-black text-white">{course.testimonial.author}, {course.testimonial.role}</p>
           </div>
@@ -294,19 +325,29 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           <div>
             <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Need clarity before you decide?</p>
             <h2 className="mt-2 text-3xl font-black leading-tight md:text-4xl">Talk to TSDC and get the right batch, fee plan, and course roadmap.</h2>
-            <p className="mt-4 text-sm leading-7 text-white/82">We will help you understand the syllabus, next batch dates, payment options, and whether this course fits your current level.</p>
+            <p className="mt-4 text-sm leading-7 text-white/82">
+              We will help you understand the syllabus, next batch dates, payment options, and whether this course fits your current level.
+            </p>
           </div>
           <div className="mt-6 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-5 text-[#10163a] shadow-[5px_5px_0_#10163a] md:mt-0">
-            <div className="space-y-3">
-              <div className="rounded-full border-[3px] border-[#10163a] px-4 py-3 text-sm font-semibold text-[#667085]">Your name</div>
-              <div className="rounded-full border-[3px] border-[#10163a] px-4 py-3 text-sm font-semibold text-[#667085]">Mobile number</div>
+            <div className="grid gap-3">
+              {[
+                'Course fit based on your current level',
+                'Fee and installment clarity before you join',
+                'Batch timing guidance with real next steps',
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff8ed] px-4 py-3 text-sm font-black shadow-[3px_3px_0_#10163a]">
+                  <BriefcaseBusiness size={16} className="shrink-0 text-[#ff9736]" />
+                  {item}
+                </div>
+              ))}
               <button
                 type="button"
                 onClick={() => openApplyPopup(`${course.popupInterest.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-bottom-cta`)}
-                className="flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] px-5 py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
+                className="mt-1 flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] px-5 py-3.5 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
                 style={{ backgroundColor: course.accent }}
               >
-                Open Contact Form
+                Talk To Admissions
                 <ArrowRight size={16} />
               </button>
             </div>

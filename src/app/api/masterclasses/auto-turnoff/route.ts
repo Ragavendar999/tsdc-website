@@ -8,8 +8,8 @@ const escapeHtml = (value: string) =>
 
 const s = (value: unknown) => escapeHtml(String(value ?? '-').trim() || '-')
 
-const buildEmailHtml = (masterclasses: Masterclass[], siteUrl: string, nowLabel: string) => {
-  const rows = masterclasses
+const buildStatusRows = (masterclasses: Masterclass[], siteUrl: string, statusLabel: string, statusColor: string) =>
+  masterclasses
     .map((masterclass) => {
       const publicUrl = `${siteUrl.replace(/\/$/, '')}/masterclasses/${masterclass.slug}`
 
@@ -19,11 +19,39 @@ const buildEmailHtml = (masterclasses: Masterclass[], siteUrl: string, nowLabel:
           <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#475467">${s(masterclass.category)}</td>
           <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#475467">${s(masterclass.date)}</td>
           <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#475467">${s(masterclass.turnOffAt)}</td>
-          <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px;font-weight:800;color:#b42318">Auto turned off</td>
+          <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px;font-weight:800;color:${statusColor}">${statusLabel}</td>
           <td style="padding:14px;border-bottom:1px solid #e5e7eb;font-size:13px"><a href="${s(publicUrl)}" style="color:#3244b5">Open page</a></td>
         </tr>`
     })
     .join('')
+
+const buildEmailSection = (title: string, description: string, rows: string) =>
+  rows
+    ? `
+          <tr>
+            <td style="padding:24px 32px 0">
+              <p style="margin:0 0 12px;font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#3244b5">${s(title)}</p>
+              <p style="margin:0 0 16px;font-size:14px;color:#475467;line-height:1.7">${s(description)}</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
+                <thead>
+                  <tr style="background:#fff8ed">
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Title</th>
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Category</th>
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Shown date</th>
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Turn off at</th>
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Status</th>
+                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Link</th>
+                  </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </td>
+          </tr>`
+    : ''
+
+const buildEmailHtml = (turnedOff: Masterclass[], activated: Masterclass[], siteUrl: string, nowLabel: string) => {
+  const turnedOffRows = buildStatusRows(turnedOff, siteUrl, 'Auto turned off', '#b42318')
+  const activatedRows = buildStatusRows(activated, siteUrl, 'Auto published', '#15803d')
 
   return `
 <!DOCTYPE html>
@@ -49,27 +77,20 @@ const buildEmailHtml = (masterclasses: Masterclass[], siteUrl: string, nowLabel:
           <tr>
             <td style="padding:24px 32px 0">
               <p style="margin:0;font-size:14px;color:#475467;line-height:1.7">
-                Checked at ${s(nowLabel)} IST. These live masterclasses reached the admin-configured turn-off date/time and were automatically unpublished from the live site.
+                Checked at ${s(nowLabel)} IST. The automation reviewed the live masterclasses, unpublished expired items, and promoted any preselected replacement items that were ready to go live.
               </p>
             </td>
           </tr>
-          <tr>
-            <td style="padding:24px 32px">
-              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:14px;overflow:hidden">
-                <thead>
-                  <tr style="background:#fff8ed">
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Title</th>
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Category</th>
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Shown date</th>
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Turn off at</th>
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Status</th>
-                    <th align="left" style="padding:14px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9a6010">Link</th>
-                  </tr>
-                </thead>
-                <tbody>${rows}</tbody>
-              </table>
-            </td>
-          </tr>
+          ${buildEmailSection(
+            'Expired masterclasses',
+            'These live masterclasses reached the admin-configured turn-off date and were automatically unpublished.',
+            turnedOffRows
+          )}
+          ${buildEmailSection(
+            'Replacement masterclasses',
+            'These draft masterclasses were automatically published as the next live offer after expiry.',
+            activatedRows
+          )}
         </table>
       </td>
     </tr>
@@ -91,42 +112,67 @@ export async function GET() {
     }
 
     const nowIso = now.toISOString()
-    const updatedMasterclasses = currentMasterclasses.map((masterclass) =>
-      toTurnOff.some((item) => item.id === masterclass.id)
-        ? {
-            ...masterclass,
-            status: 'draft' as const,
-            autoTurnedOffAt: nowIso,
-            expiryNotificationSentAt: nowIso,
-          }
-        : masterclass
-    )
+    const turnedOffIds = new Set(toTurnOff.map((item) => item.id))
+    const activatedIds = new Set<string>()
+
+    const updatedMasterclasses = currentMasterclasses.map((masterclass) => {
+      if (turnedOffIds.has(masterclass.id)) {
+        return {
+          ...masterclass,
+          status: 'draft' as const,
+          autoTurnedOffAt: nowIso,
+          expiryNotificationSentAt: nowIso,
+        }
+      }
+
+      const trigger = toTurnOff.find((item) => item.replacementMasterclassId === masterclass.id)
+      if (
+        trigger &&
+        !activatedIds.has(masterclass.id) &&
+        masterclass.status === 'draft' &&
+        !isMasterclassPastTurnOffAt(masterclass, now)
+      ) {
+        activatedIds.add(masterclass.id)
+        return {
+          ...masterclass,
+          status: 'live' as const,
+          autoActivatedAt: nowIso,
+          activatedFromMasterclassId: trigger.id,
+        }
+      }
+
+      return masterclass
+    })
 
     await saveStoredMasterclasses(updatedMasterclasses)
 
+    const activated = updatedMasterclasses.filter((masterclass) => activatedIds.has(masterclass.id))
+
     const apiKey = process.env.RESEND_API_KEY
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://traijoedu.in'
+    const nowLabel = now.toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    })
+
     if (apiKey) {
       const resend = new Resend(apiKey)
       const recipient = process.env.CONTACT_TO_EMAIL || 'n.ragavendar@gmail.com'
       const fromEmail = process.env.CONTACT_FROM_EMAIL || 'TSDC <onboarding@resend.dev>'
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://traijoedu.in'
-      const nowLabel = now.toLocaleString('en-IN', {
-        timeZone: 'Asia/Kolkata',
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
 
       await resend.emails.send({
         from: fromEmail,
         to: recipient,
-        subject: `Masterclasses auto turned off (${toTurnOff.length})`,
-        html: buildEmailHtml(toTurnOff, siteUrl, nowLabel),
+        subject: `Masterclass automation update (${toTurnOff.length} expired, ${activated.length} activated)`,
+        html: buildEmailHtml(toTurnOff, activated, siteUrl, nowLabel),
       })
     }
 
     return NextResponse.json({
       success: true,
       turnedOff: toTurnOff.map((masterclass) => masterclass.slug),
+      activated: activated.map((masterclass) => masterclass.slug),
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
