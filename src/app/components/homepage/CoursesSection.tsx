@@ -69,7 +69,7 @@ export default function CoursesSection() {
                 transition={{ delay: idx * 0.08, duration: 0.6 }}
               >
                 <motion.div
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -4 }}
                   className="group h-full overflow-hidden rounded-[2.1rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]"
                 >
                   <div className="p-5 sm:p-6" style={{ backgroundColor: course.bg }}>
@@ -100,8 +100,8 @@ export default function CoursesSection() {
                       {course.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full px-3 py-1.5 text-xs font-semibold"
-                          style={{ backgroundColor: `${course.accent}14`, color: course.accent, border: `1.5px solid ${course.accent}28` }}
+                          className="rounded-full px-3 py-1.5 text-xs font-semibold text-[#374151]"
+                          style={{ backgroundColor: `${course.accent}18`, border: `1.5px solid ${course.accent}35` }}
                         >
                           {skill}
                         </span>
@@ -118,6 +118,16 @@ export default function CoursesSection() {
                     </p>
 
                     <div className="flex flex-col gap-3 sm:flex-row">
+                      {/* Primary: View Course (learn before committing) */}
+                      <Link
+                        href={course.link}
+                        className="group/link flex flex-1 items-center justify-center gap-1.5 rounded-[1rem] border-[3px] border-[#10163a] py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1"
+                        style={{ backgroundColor: course.accent }}
+                      >
+                        View Course
+                        <ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                      </Link>
+                      {/* Secondary: Enquire */}
                       <motion.button
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -130,18 +140,10 @@ export default function CoursesSection() {
                             ctaLabel: 'Get Course Guidance',
                           })
                         }
-                        className="flex-1 rounded-[1rem] border-[3px] border-[#10163a] py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1"
-                        style={{ backgroundColor: course.accent }}
+                        className="rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-black text-[#1b2940] shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1"
                       >
-                        Enquire Now
+                        Enquire
                       </motion.button>
-                      <Link
-                        href={course.link}
-                        className="group/link inline-flex items-center justify-center gap-1 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 text-sm font-black text-[#1b2940] shadow-[4px_4px_0_#10163a] transition-all hover:-translate-y-1 hover:text-[#4562b0]"
-                      >
-                        Details
-                        <ArrowUpRight size={14} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-                      </Link>
                     </div>
                   </div>
                 </motion.div>

@@ -47,7 +47,7 @@ export default function Footer() {
           <div className="grid gap-3 sm:grid-cols-2">
             <a
               href={`tel:${content.contactPhone.replace(/[^\d+]/g, '')}`}
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff8ed] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff8ed] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
             >
               <PhoneCall size={16} />
               Call Admissions
@@ -56,14 +56,14 @@ export default function Footer() {
               href="https://wa.me/917358116929"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#eef3ff] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#eef3ff] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
             >
               <MessageCircle size={16} />
               WhatsApp Us
             </a>
             <a
               href={`mailto:${content.contactEmail}`}
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff1f6] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a]"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff1f6] px-4 py-3 text-sm font-black text-[#10163a] shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
             >
               <Mail size={16} />
               Email Support
@@ -79,7 +79,7 @@ export default function Footer() {
                   ctaLabel: 'Send My Enquiry',
                 })
               }
-              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-4 py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
+              className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-4 py-3 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
             >
               <MessageCircle size={16} />
               Open Enquiry Form
@@ -91,10 +91,15 @@ export default function Footer() {
           <div className="space-y-4">
             <Image src="/logo.png" alt="TSDC Logo" width={150} height={40} />
             <p className="max-w-md text-sm leading-7 text-[#39415f]">{content.description}</p>
-            <div className="retro-pill px-4 py-2 text-xs font-black text-[#10163a]">
-              <span className="h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse-soft" />
-              {content.pillText}
-            </div>
+            {content.pillText ? (
+              <a
+                href="/contact"
+                className="retro-pill px-4 py-2 text-xs font-black text-[#10163a] transition hover:-translate-y-0.5"
+              >
+                <span className="h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse-soft" />
+                {content.pillText}
+              </a>
+            ) : null}
             <div>
               <h5 className="mb-3 mt-5 uppercase tracking-[0.18em] text-[#10163a]">Social</h5>
               <div className="flex flex-wrap gap-3">
@@ -118,7 +123,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h5 className="mb-3 uppercase tracking-[0.18em] text-[#10163a]">Courses</h5>
+            <h5 className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-[#10163a]">Courses</h5>
             <ul className="space-y-2.5">
               {[
                 { slug: 'graphic-design', label: 'Graphic Design' },
@@ -127,20 +132,25 @@ export default function Footer() {
                 { slug: 'video-editing', label: 'Video Editing' },
               ].map(({ slug, label }) => (
                 <li key={slug}>
-                  <Link href={`/courses/${slug}`} className="transition hover:text-[#3244b5]">
+                  <Link href={`/courses/${slug}`} className="font-medium transition-colors hover:text-[#3244b5]">
                     {label}
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/graphic-design-scholarship" className="font-medium text-[#fa8a43] transition-colors hover:text-[#c45e1a]">
+                  Scholarship ↗
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h5 className="mb-3 uppercase tracking-[0.18em] text-[#10163a]">Legal</h5>
+            <h5 className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-[#10163a]">Legal</h5>
             <ul className="space-y-2.5">
               {legalLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="transition hover:text-[#3244b5]">
+                  <Link href={link.href} className="font-medium transition-colors hover:text-[#3244b5]">
                     {link.title}
                   </Link>
                 </li>

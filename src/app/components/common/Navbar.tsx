@@ -6,9 +6,11 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
+  Award,
   ChevronDown,
   Megaphone,
   Menu,
+  MessageCircle,
   MonitorSmartphone,
   MoveRight,
   Paintbrush,
@@ -17,7 +19,7 @@ import {
   Video,
   X,
 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 
 type SubItem = {
@@ -34,10 +36,10 @@ type NavItem = {
   name: string
   href: string
   submenu?: SubItem[]
+  highlight?: boolean
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '/' },
   {
     name: 'Courses',
     href: '/courses',
@@ -51,6 +53,7 @@ const navItems: NavItem[] = [
   { name: 'Blog', href: '/blog' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
+  { name: 'Scholarship', href: '/graphic-design-scholarship', highlight: true },
 ]
 
 export default function Navbar() {
@@ -60,6 +63,7 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
+  const dropdownRef = useRef<HTMLLIElement>(null)
 
   const coursesItem = useMemo(() => navItems.find((item) => item.submenu), [])
 
@@ -76,6 +80,18 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (!dropdownOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [dropdownOpen])
 
   useEffect(() => {
     setIsOpen(false)
@@ -123,15 +139,25 @@ export default function Navbar() {
               item.submenu ? (
                 <li
                   key={item.name}
+                  ref={dropdownRef}
                   className="relative"
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                      setDropdownOpen(false)
+                    }
+                  }}
                 >
-                  <Link
-                    href={item.href}
+                  <button
+                    type="button"
                     aria-haspopup="menu"
                     aria-expanded={dropdownOpen}
                     onFocus={() => setDropdownOpen(true)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') setDropdownOpen(false)
+                    }}
+                    onClick={() => setDropdownOpen((prev) => !prev)}
                     className={`flex items-center gap-1.5 rounded-[0.9rem] px-3.5 py-2 text-xs font-black transition-all duration-200 ${
                       pathname.startsWith(item.href)
                         ? 'bg-[#10163a] text-white'
@@ -142,7 +168,7 @@ export default function Navbar() {
                     <motion.span animate={{ rotate: dropdownOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                       <ChevronDown size={13} />
                     </motion.span>
-                  </Link>
+                  </button>
 
                   <AnimatePresence>
                     {dropdownOpen && (
@@ -152,8 +178,7 @@ export default function Navbar() {
                         exit={{ opacity: 0, y: -6, scale: 0.98 }}
                         transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
                         className="absolute left-1/2 top-full z-50 mt-3 w-[30rem] -translate-x-1/2"
-                        onMouseEnter={() => setDropdownOpen(true)}
-                        onMouseLeave={() => setDropdownOpen(false)}
+                        role="menu"
                       >
                         <div className="overflow-hidden rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#fffdf7] shadow-[8px_8px_0_#10163a]">
                           <div className="border-b-[3px] border-[#10163a] bg-[#10163a] px-5 py-3">
@@ -169,11 +194,13 @@ export default function Navbar() {
                                   initial={{ opacity: 0, y: 6 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: i * 0.04 }}
+                                  role="menuitem"
                                 >
                                   <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
                                     <Link
                                       href={sub.href}
-                                      className="group relative flex items-start gap-3 overflow-hidden rounded-[1.2rem] border-[3px] border-[#10163a] p-3.5 shadow-[3px_3px_0_#10163a] transition-shadow hover:shadow-[5px_5px_0_#10163a]"
+                                      onClick={() => setDropdownOpen(false)}
+                                      className="group relative flex items-start gap-3 overflow-hidden rounded-[1.2rem] border-[3px] border-[#10163a] p-3.5 shadow-[3px_3px_0_#10163a] transition-shadow hover:shadow-[5px_5px_0_#10163a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3244b5]/50"
                                       style={{ backgroundColor: sub.tint }}
                                     >
                                       <motion.span
@@ -209,14 +236,22 @@ export default function Navbar() {
                           </div>
 
                           <div className="flex items-center justify-between gap-3 border-t-[3px] border-[#10163a] px-4 py-3">
-                            <Link href="/courses" className="flex items-center justify-between text-xs font-black text-[#3244b5] transition hover:text-[#10163a]">
+                            <Link
+                              href="/courses"
+                              onClick={() => setDropdownOpen(false)}
+                              className="flex items-center gap-1 text-xs font-black text-[#3244b5] transition hover:text-[#10163a]"
+                              role="menuitem"
+                            >
                               View all courses
                               <ArrowRight size={13} />
                             </Link>
                             <button
                               type="button"
-                              onClick={() => openCounsellingPopup('navbar-desktop-dropdown')}
-                              className="rounded-[0.9rem] border-[3px] border-[#10163a] bg-[#ff9736] px-3 py-2 text-[11px] font-black text-white shadow-[3px_3px_0_#10163a]"
+                              onClick={() => {
+                                setDropdownOpen(false)
+                                openCounsellingPopup('navbar-desktop-dropdown')
+                              }}
+                              className="rounded-[0.9rem] border-[3px] border-[#10163a] bg-[#ff9736] px-3 py-2 text-[11px] font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
                             >
                               Need help choosing?
                             </button>
@@ -228,26 +263,43 @@ export default function Navbar() {
                 </li>
               ) : (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`block rounded-[0.9rem] px-3.5 py-2 text-xs font-black transition-all duration-200 ${
-                      pathname === item.href ? 'bg-[#10163a] text-white' : 'text-[#10163a] hover:bg-[#10163a]/8'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
+                  {item.highlight ? (
+                    <Link
+                      href={item.href}
+                      aria-current={pathname === item.href ? 'page' : undefined}
+                      className={`flex items-center gap-1.5 rounded-[0.9rem] border-[2px] px-3.5 py-2 text-xs font-black transition-all duration-200 ${
+                        pathname === item.href
+                          ? 'border-[#10163a] bg-[#10163a] text-white'
+                          : 'border-[#fa8a43]/40 bg-[#fff4eb] text-[#c45e1a] hover:border-[#fa8a43] hover:bg-[#fa8a43] hover:text-white'
+                      }`}
+                    >
+                      <Award size={12} />
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      aria-current={pathname === item.href ? 'page' : undefined}
+                      className={`block rounded-[0.9rem] px-3.5 py-2 text-xs font-black transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3244b5]/50 ${
+                        pathname === item.href ? 'bg-[#10163a] text-white' : 'text-[#10163a] hover:bg-[#10163a]/8'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               )
             )}
           </ul>
 
           <div className="flex items-center gap-2">
+            {/* Ghost phone link — secondary, no retro shadow */}
             <a
               href="tel:+917358116929"
-              className="hidden items-center gap-2 rounded-[0.9rem] border-[3px] border-[#10163a] bg-white px-3 py-2 text-[10px] font-black text-[#10163a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5 lg:flex"
+              className="hidden items-center gap-1.5 rounded-[0.9rem] px-3 py-2 text-[11px] font-semibold text-[#10163a]/60 transition hover:text-[#10163a] lg:flex"
             >
               <PhoneCall size={12} />
-              Call Admissions
+              +91 73581 16929
             </a>
 
             <motion.button
@@ -258,7 +310,7 @@ export default function Navbar() {
               className="hidden items-center gap-2 rounded-[0.9rem] border-[3px] border-[#10163a] bg-[#ff9736] px-4 py-2 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition md:flex"
             >
               <Sparkles size={13} />
-              Book Free Counselling
+              Free Counselling
             </motion.button>
 
             <motion.button
@@ -325,14 +377,14 @@ export default function Navbar() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[2px] border-white/15 bg-white/10 px-4 py-3 text-sm font-black text-white"
                     >
-                      <Sparkles size={15} />
+                      <MessageCircle size={15} />
                       WhatsApp
                     </a>
                   </div>
                 </div>
 
                 <div className="mb-4 flex flex-col gap-1">
-                  {navItems.filter((item) => !item.submenu).map((item, idx) => (
+                  {navItems.filter((item) => !item.submenu && !item.highlight).map((item, idx) => (
                     <motion.div
                       key={item.href}
                       initial={{ opacity: 0, x: -12 }}
@@ -342,6 +394,7 @@ export default function Navbar() {
                       <Link
                         href={item.href}
                         onClick={() => setIsOpen(false)}
+                        aria-current={pathname === item.href ? 'page' : undefined}
                         className={`block rounded-[1rem] px-4 py-3 text-sm font-black transition-all ${
                           pathname === item.href ? 'bg-white text-[#10163a]' : 'text-white/75 hover:bg-white/10 hover:text-white'
                         }`}
@@ -350,6 +403,21 @@ export default function Navbar() {
                       </Link>
                     </motion.div>
                   ))}
+                  {/* Scholarship — highlighted in mobile nav */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Link
+                      href="/graphic-design-scholarship"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-2 rounded-[1rem] border border-[#fa8a43]/30 bg-[#fa8a43]/10 px-4 py-3 text-sm font-black text-[#fa8a43] transition hover:bg-[#fa8a43]/20"
+                    >
+                      <Award size={14} />
+                      Scholarship — ₹99 only
+                    </Link>
+                  </motion.div>
                 </div>
 
                 <div className="mb-4">

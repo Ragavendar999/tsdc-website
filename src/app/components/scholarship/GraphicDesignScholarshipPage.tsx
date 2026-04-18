@@ -1,12 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
-  CalendarDays,
   CheckCircle2,
-  Clock3,
-  Gift,
+  ChevronDown,
   GraduationCap,
   MapPin,
   MessageCircle,
@@ -141,6 +139,7 @@ export default function GraphicDesignScholarshipPage() {
   const [error, setError] = useState('')
   const [leadId, setLeadId] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
   const formRef = useRef<HTMLDivElement | null>(null)
 
   const updateForm = <K extends keyof ScholarshipFormState>(key: K, value: ScholarshipFormState[K]) => {
@@ -384,9 +383,18 @@ export default function GraphicDesignScholarshipPage() {
             </div>
 
             <div className="mt-6 grid gap-4">
-              <input value={formState.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Student name" className={inputClass} />
-              <input value={formState.phone} onChange={(event) => updateForm('phone', event.target.value)} placeholder="WhatsApp number" className={inputClass} />
-              <input value={formState.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="Email address" className={inputClass} />
+              <label className="block">
+                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">Student name</span>
+                <input type="text" autoComplete="name" value={formState.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Full name" className={inputClass} />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">WhatsApp number</span>
+                <input type="tel" pattern="[0-9]{10}" autoComplete="tel" value={formState.phone} onChange={(event) => updateForm('phone', event.target.value)} placeholder="10-digit mobile number" className={inputClass} />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-[11px] font-black uppercase tracking-[0.16em] text-[#667085]">Email address</span>
+                <input type="email" autoComplete="email" value={formState.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="your@email.com" className={inputClass} />
+              </label>
               <div className="rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-4 shadow-[4px_4px_0_#10163a]">
                 <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#9a4a10]">Optional details for better follow-up</p>
                 <div className="mt-3 grid gap-4">
@@ -416,27 +424,26 @@ export default function GraphicDesignScholarshipPage() {
               />
             </div>
 
-            {error ? <p className="mt-4 text-sm font-bold text-[#b42318]">{error}</p> : null}
-            {statusMessage ? <p className="mt-4 text-sm font-bold text-[#1570ef]">{statusMessage}</p> : null}
+            {error ? (
+              <div className="mt-4 rounded-[0.875rem] border-2 border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-bold text-[#b42318]">
+                {error}
+              </div>
+            ) : null}
+            {statusMessage ? (
+              <div className="mt-4 rounded-[0.875rem] border-2 border-[#bfdbfe] bg-[#eff6ff] px-4 py-3 text-sm font-bold text-[#1570ef]">
+                {statusMessage}
+              </div>
+            ) : null}
 
             <button
               type="button"
               onClick={handlePayment}
               disabled={loading}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-5 py-4 text-sm font-black text-white shadow-[5px_5px_0_#10163a] disabled:opacity-60"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[5px_5px_0_#10163a] disabled:opacity-60"
             >
               {loading ? 'Preparing payment...' : 'Pay Rs 99 and Confirm Slot'}
               <ArrowRight size={16} />
             </button>
-
-            <div className="mt-5 rounded-[1.5rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-4 shadow-[4px_4px_0_#10163a]">
-              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#9a4a10]">What happens next</p>
-              <div className="mt-3 space-y-2 text-sm font-semibold text-[#10163a]">
-                <p className="flex items-center gap-2"><CalendarDays size={15} className="text-[#fa8a43]" /> Demo class slot confirmation</p>
-                <p className="flex items-center gap-2"><Clock3 size={15} className="text-[#fa8a43]" /> Scholarship exam instructions</p>
-                <p className="flex items-center gap-2"><Gift size={15} className="text-[#fa8a43]" /> Result and scholarship follow-up</p>
-              </div>
-            </div>
 
             <p className="mt-4 text-center text-xs font-bold text-[#667085]">
               Student details are saved before checkout so the admissions team can follow up even if payment is completed later.
@@ -616,10 +623,34 @@ export default function GraphicDesignScholarshipPage() {
           <div className="rounded-[2.3rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a]">
             <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#3244b5]">FAQ</p>
             <div className="mt-5 space-y-3">
-              {faqs.map((faq) => (
-                <div key={faq.question} className="rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#eef3ff] p-4 shadow-[4px_4px_0_#10163a]">
-                  <h3 className="text-lg font-black tracking-[-0.03em] text-[#10163a]">{faq.question}</h3>
-                  <p className="mt-2 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
+              {faqs.map((faq, index) => (
+                <div key={faq.question} className="overflow-hidden rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#eef3ff] shadow-[4px_4px_0_#10163a]">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                    aria-expanded={openFaqIndex === index}
+                    className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left"
+                  >
+                    <h3 className="text-lg font-black tracking-[-0.03em] text-[#10163a]">{faq.question}</h3>
+                    <ChevronDown
+                      size={18}
+                      className={`shrink-0 text-[#3244b5] transition-transform duration-200 ${openFaqIndex === index ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {openFaqIndex === index && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-4 pb-4 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
@@ -669,6 +700,17 @@ export default function GraphicDesignScholarshipPage() {
           </div>
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-[1100] border-t-[3px] border-[#10163a] bg-white/95 px-4 py-3 backdrop-blur-xl sm:hidden">
+        <button
+          type="button"
+          onClick={scrollToForm}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
+        >
+          Reserve Your Slot — Rs 99
+          <ArrowRight size={16} />
+        </button>
+      </div>
     </main>
   )
 }

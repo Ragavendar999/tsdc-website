@@ -17,7 +17,6 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
   defaultMasterclasses,
@@ -35,7 +34,6 @@ const contactDetails = [
 ]
 
 export default function MasterclassLandingPage({ slug }: { slug: string }) {
-  const router = useRouter()
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
 
   useEffect(() => {
@@ -61,14 +59,13 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
               View Masterclasses
               <ArrowRight size={16} />
             </Link>
-            <button
-              type="button"
-              onClick={() => router.push('/')}
+            <Link
+              href="/"
               className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-6 py-3.5 text-sm font-black text-[#10163a] shadow-[5px_5px_0_#10163a]"
             >
               <ArrowLeft size={16} />
               Back to Home
-            </button>
+            </Link>
           </div>
         </div>
       </main>
@@ -99,16 +96,15 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
         </div>
 
         {/* Back to site button */}
-        <motion.button
-          type="button"
-          onClick={() => router.push('/')}
-          whileHover={{ x: -3 }}
-          whileTap={{ scale: 0.97 }}
-          className="relative z-[1300] mb-5 inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/20"
-        >
-          <ArrowLeft size={13} />
-          Back to TSDC
-        </motion.button>
+        <motion.div whileHover={{ x: -3 }} whileTap={{ scale: 0.97 }} className="relative z-[1300] mb-5 w-max">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/20"
+          >
+            <ArrowLeft size={13} />
+            Back to TSDC
+          </Link>
+        </motion.div>
 
         <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4">
           {/* Header bar */}
@@ -298,25 +294,17 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
               </div>
             </div>
 
-            {/* ── Mentor + syllabus ── */}
+            {/* ── Mentor highlight ── */}
             <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-4 shadow-[7px_7px_0_rgba(0,0,0,0.4)] lg:col-span-12">
-              <div className="grid gap-3 lg:grid-cols-[0.8fr_1.2fr]">
-                <div className="rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#ff9736] p-5 text-white shadow-[5px_5px_0_#10163a]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/60">Your mentor</p>
-                  <h2 className="mt-1.5 text-xl font-black">{masterclass.instructor.name}</h2>
-                  <p className="text-xs font-bold text-white/70">{masterclass.instructor.role}</p>
-                  <p className="mt-3 text-sm font-semibold leading-6 text-white/90">{masterclass.instructor.credibility}</p>
+              <div className="grid gap-3 sm:grid-cols-[auto_1fr]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-[3px] border-[#10163a] bg-[#ff9736] text-white shadow-[4px_4px_0_#10163a]">
+                  <UserRound size={28} />
                 </div>
-                <div className="rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-5 shadow-[5px_5px_0_#10163a]">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Program snapshot</p>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                    {masterclass.includes.slice(0, 4).map((item) => (
-                      <div key={item.label} className="rounded-xl border-[3px] border-[#10163a] bg-white px-3 py-3 text-xs font-bold shadow-[3px_3px_0_#10163a]">
-                        <p className="text-[10px] uppercase tracking-[0.16em] text-[#667085]">{item.label}</p>
-                        <p className="mt-1 text-sm font-black text-[#10163a]">{item.value}</p>
-                      </div>
-                    ))}
-                  </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#667085]">Your mentor</p>
+                  <h2 className="mt-0.5 text-xl font-black text-[#10163a]">{masterclass.instructor.name}</h2>
+                  <p className="text-sm font-bold text-[#667085]">{masterclass.instructor.role}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[#445066]">{masterclass.instructor.credibility}</p>
                 </div>
               </div>
             </div>
@@ -409,7 +397,7 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
       <motion.div
         initial={{ y: 90, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.5, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="fixed inset-x-0 bottom-0 z-[1250] border-t-[3px] border-white/15 bg-[#0e1330]/95 px-4 py-3 backdrop-blur-xl sm:px-6"
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

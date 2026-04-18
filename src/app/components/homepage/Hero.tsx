@@ -54,6 +54,7 @@ export default function HeroSection() {
   }, [])
 
   const handleConfetti = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const rect = buttonRef.current?.getBoundingClientRect()
     const x = rect ? (rect.left + rect.width / 2) / window.innerWidth : 0.5
     const y = rect ? (rect.top + rect.height / 2) / window.innerHeight : 0.5
@@ -141,6 +142,21 @@ export default function HeroSection() {
               {content.secondaryCta}
             </motion.button>
           </div>
+
+          {/* Mobile-only scholarship callout */}
+          <Link
+            href="/graphic-design-scholarship"
+            className="flex items-center gap-3 rounded-[1.2rem] border-[2px] border-[#3244b5]/20 bg-[#eef3ff] px-4 py-3 text-sm text-[#0f1634] transition hover:border-[#3244b5]/40 md:hidden"
+          >
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#3244b5] text-white">
+              <Award size={15} />
+            </span>
+            <span>
+              <span className="block text-xs font-black text-[#3244b5]">Graphic Design Scholarship</span>
+              <span className="text-xs text-[#475569]">Apply for ₹99 · Limited seats this batch</span>
+            </span>
+            <ArrowRight size={14} className="ml-auto shrink-0 text-[#3244b5]" />
+          </Link>
 
           <div className="flex flex-wrap gap-2">
             {content.checklist.map((item, index) => (

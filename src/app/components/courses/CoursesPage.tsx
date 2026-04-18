@@ -92,20 +92,20 @@ const courses = [
 
 const proofPoints = [
   {
-    title: 'Know what you will become',
-    text: 'Every course card leads with the role, projects, and practical outcome so students can evaluate fit quickly.',
+    title: 'Portfolio ready in weeks',
+    text: 'Every course runs on real project work — not just theory. You leave with actual output you can show in interviews and to clients.',
     icon: Sparkles,
     accent: '#ff9736',
   },
   {
-    title: 'See proof early',
-    text: 'Projects, tools, and portfolio outcomes appear before long descriptions so confidence builds faster.',
+    title: 'Live mentor feedback',
+    text: 'Sessions are led by working industry professionals who give honest critique, not just pre-recorded lessons you watch alone.',
     icon: BriefcaseBusiness,
     accent: '#3244b5',
   },
   {
-    title: 'Move to action naturally',
-    text: 'The flow keeps guiding visitors toward comparison, details, and admissions help without feeling pushy.',
+    title: 'Chennai campus or remote',
+    text: 'Attend from TSDC Chennai or join remotely. Same structured program, same mentor access, same batch pace.',
     icon: Users,
     accent: '#db4b87',
   },
@@ -180,16 +180,24 @@ export default function CoursesPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.06 }}
-                    className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
+                    whileHover={{ y: -4 }}
                   >
-                    <div
-                      className="mb-5 flex h-14 w-14 items-center justify-center rounded-[1.2rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
-                      style={{ backgroundColor: course.accent }}
+                    <Link
+                      href={course.href}
+                      className="group flex flex-col rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a] transition-shadow hover:shadow-[8px_8px_0_#10163a]"
                     >
-                      <Icon size={24} />
-                    </div>
-                    <h2 className="text-2xl font-black text-[#10163a]">{course.title}</h2>
-                    <p className="mt-2 text-base font-semibold text-[#445066]">{course.duration}</p>
+                      <div
+                        className="mb-4 flex h-14 w-14 items-center justify-center rounded-[1.2rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
+                        style={{ backgroundColor: course.accent }}
+                      >
+                        <Icon size={24} />
+                      </div>
+                      <h2 className="text-xl font-black text-[#10163a]">{course.title}</h2>
+                      <p className="mt-1 text-sm font-semibold text-[#445066]">{course.duration}</p>
+                      <div className="mt-3 flex items-center gap-1 text-xs font-black" style={{ color: course.accent }}>
+                        View course <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </Link>
                   </motion.div>
                 )
               })}
@@ -423,9 +431,9 @@ export default function CoursesPage() {
               <button
                 type="button"
                 onClick={() => openGuidancePopup('courses-page-final-cta')}
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a]"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-7 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5"
               >
-                Open Contact Form
+                Talk to a Counsellor
                 <ArrowRight size={16} />
               </button>
             </div>
