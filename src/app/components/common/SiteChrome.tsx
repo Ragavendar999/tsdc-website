@@ -13,6 +13,7 @@ const SplashScreen = dynamic(() => import('./SplashScreen'), { ssr: false })
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMasterclassRoute = pathname.startsWith('/masterclasses/')
+  const isScholarshipRoute = pathname.startsWith('/graphic-design-scholarship')
   const [showSplash, setShowSplash] = useState(false)
   const isHomepage = pathname === '/'
   const shouldEnableSplash = process.env.NODE_ENV === 'production' && isHomepage
@@ -40,17 +41,17 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   return (
     <>
       {shouldEnableSplash && showSplash ? <SplashScreen /> : null}
-      {!isMasterclassRoute && (
+      {!isMasterclassRoute && !isScholarshipRoute && (
         <>
           <ScrollProgress />
           <Navbar />
         </>
       )}
-      <main id="main-content" className={isMasterclassRoute ? '' : 'pt-[5.5rem]'}>
+      <main id="main-content" className={isMasterclassRoute || isScholarshipRoute ? '' : 'pt-[5.5rem]'}>
         {children}
       </main>
-      {!isMasterclassRoute && <WhatsAppFAB />}
-      {!isMasterclassRoute && <Footer />}
+      {!isMasterclassRoute && !isScholarshipRoute && <WhatsAppFAB />}
+      {!isMasterclassRoute && !isScholarshipRoute && <Footer />}
     </>
   )
 }
