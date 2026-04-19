@@ -259,6 +259,41 @@ export default function HeroSection() {
           </div>
         </motion.div>
       </div>
+
+      {/* ── Scholarship strip banner ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="relative z-10 mx-4 mb-8 overflow-hidden rounded-[1.75rem] border-[3px] border-[#10163a] bg-[#10163a] shadow-[6px_6px_0_#10163a] sm:mx-6"
+      >
+        {/* animated shimmer */}
+        <motion.div
+          animate={{ x: ['-100%', '200%'] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 2 }}
+          className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/6 to-transparent"
+        />
+        <div className="flex flex-col items-start justify-between gap-4 px-5 py-4 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.875rem] border-[2px] border-[#ffcb53]/40 bg-[#ffcb53]/15 text-[#ffcb53]">
+              <Award size={20} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ff9736]">Scholarship 2026 · Limited Seats</p>
+              <p className="mt-0.5 text-base font-black leading-snug text-white">
+                Win up to <span className="text-[#ffcb53]">100% fee waiver</span> on Graphic Design — Register for just ₹99
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/graphic-design-scholarship"
+            className="inline-flex shrink-0 items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-2.5 text-sm font-black text-white shadow-[4px_4px_0_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5"
+          >
+            Apply Now
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+      </motion.div>
     </section>
   )
 }

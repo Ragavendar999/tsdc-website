@@ -13,6 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
+import CountdownTimer from '@/app/components/common/CountdownTimer'
 import StickyRailLayout from '@/app/components/common/StickyRailLayout'
 
 declare global {
@@ -61,7 +62,7 @@ const demoSlots = [
 const processSteps = [
   {
     title: 'Register your slot',
-    description: 'Fill the form and pay Rs 99 to lock your scholarship evaluation spot.',
+    description: 'Fill the form and pay Rs 99/- to lock your scholarship evaluation spot.',
   },
   {
     title: 'Attend the demo class',
@@ -79,7 +80,7 @@ const processSteps = [
 
 const faqs = [
   {
-    question: 'What does the Rs 99 cover?',
+    question: 'What does the Rs 99/- cover?',
     answer: 'It confirms your scholarship registration, demo class slot, and assessment entry for this campaign.',
   },
   {
@@ -265,10 +266,13 @@ export default function GraphicDesignScholarshipPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
+      <div className="space-y-3">
+        <CountdownTimer />
+
       <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]">
         <div className="rounded-t-[1.7rem] bg-[#10163a] px-6 py-5 text-center">
           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/50">One-time registration fee</p>
-          <p className="mt-1 text-6xl font-black tracking-[-0.08em] text-[#ff9736]">Rs 99</p>
+          <p className="mt-1 text-6xl font-black tracking-[-0.08em] text-[#ff9736]">Rs 99/-</p>
           <p className="mt-1.5 text-xs font-semibold text-white/65">Demo class + scholarship evaluation included</p>
         </div>
 
@@ -342,7 +346,7 @@ export default function GraphicDesignScholarshipPage() {
             disabled={loading}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60"
           >
-            {loading ? 'Preparing payment...' : 'Pay Rs 99 · Reserve My Slot'}
+            {loading ? 'Preparing payment...' : 'Pay Rs 99/- · Reserve My Slot'}
             {!loading ? <ArrowRight size={18} /> : null}
           </button>
 
@@ -355,6 +359,7 @@ export default function GraphicDesignScholarshipPage() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </motion.div>
   )
@@ -414,7 +419,7 @@ export default function GraphicDesignScholarshipPage() {
                 <br />
                 <span className="text-[#ff9736]">Win a scholarship.</span>
                 <br />
-                Start at just Rs 99.
+                Start at just Rs 99/-.
               </motion.h1>
 
               <motion.p
@@ -578,7 +583,7 @@ export default function GraphicDesignScholarshipPage() {
           onClick={scrollToForm}
           className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
         >
-          Reserve Your Slot — Rs 99
+          Reserve Your Slot — Rs 99/-
           <ArrowRight size={16} />
         </button>
       </div>
