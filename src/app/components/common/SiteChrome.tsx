@@ -14,10 +14,14 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isMasterclassRoute = pathname.startsWith('/masterclasses/')
   const [showSplash, setShowSplash] = useState(false)
-  const shouldEnableSplash = process.env.NODE_ENV === 'production'
+  const isHomepage = pathname === '/'
+  const shouldEnableSplash = process.env.NODE_ENV === 'production' && isHomepage
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !shouldEnableSplash) return
+    if (typeof window === 'undefined' || !shouldEnableSplash) {
+      setShowSplash(false)
+      return
+    }
 
     const schedule = window.requestIdleCallback
       ? window.requestIdleCallback(() => setShowSplash(true), { timeout: 1200 })
