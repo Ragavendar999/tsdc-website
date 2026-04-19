@@ -14,7 +14,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import CountdownTimer from '@/app/components/common/CountdownTimer'
-import StickyRailLayout from '@/app/components/common/StickyRailLayout'
 
 declare global {
   interface Window {
@@ -391,21 +390,15 @@ export default function GraphicDesignScholarshipPage() {
             </a>
           </div>
 
-          <StickyRailLayout
-            sidebar={scholarshipFormCard}
-            className="lg:gap-14"
-            contentClassName="space-y-6"
-            desktopGridClassName="lg:grid-cols-[minmax(0,1fr)_400px]"
-            desktopSidebarWidthClassName="lg:w-[400px]"
-            desktopSidebarTopClassName="lg:top-28"
-          >
-            <div className="pt-2">
+          {/* ── Hero grid: left content + right sticky form ── */}
+          <div className="grid gap-10 lg:grid-cols-[1fr_400px] lg:items-start lg:gap-14">
+
+            {/* LEFT: hero content */}
+            <div className="space-y-6 pt-2">
               <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                 <div className="inline-flex items-center gap-2 rounded-full border-[2px] border-[#fa8a43]/40 bg-[#fff4eb] px-4 py-2">
                   <Trophy size={13} className="text-[#fa8a43]" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c45e1a]">
-                    Scholarship 2026 · Limited Seats
-                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c45e1a]">Scholarship 2026 · Limited Seats</span>
                 </div>
               </motion.div>
 
@@ -413,30 +406,27 @@ export default function GraphicDesignScholarshipPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.06 }}
-                className="mt-5 text-[2.8rem] font-black leading-[1.06] tracking-[-0.06em] text-[#10163a] md:text-6xl lg:text-[4.2rem]"
+                className="text-[2.8rem] font-black leading-[1.06] tracking-[-0.06em] text-[#10163a] md:text-6xl lg:text-[4.2rem]"
               >
-                Learn design.
-                <br />
-                <span className="text-[#ff9736]">Win a scholarship.</span>
-                <br />
-                Start at just Rs 99/-.
+                Learn design.<br />
+                <span className="text-[#ff9736]">Win a scholarship.</span><br />
+                Start at just ₹99.
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.12 }}
-                className="mt-5 max-w-lg text-lg font-semibold leading-8 text-[#475467]"
+                className="max-w-lg text-lg font-semibold leading-8 text-[#475467]"
               >
-                Attend a free demo class, take the scholarship assessment, and earn up to 100% fee waiver on our Graphic
-                Design course.
+                Attend a free demo class, take the scholarship assessment, and earn up to 100% fee waiver on our Graphic Design course.
               </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.18 }}
-                className="mt-7 flex flex-wrap gap-3"
+                className="flex flex-wrap gap-3"
               >
                 {[
                   { pct: '100%', label: 'Top performer', bg: 'bg-[#fef9c3] text-[#713f12] border-[#fde68a]' },
@@ -454,7 +444,7 @@ export default function GraphicDesignScholarshipPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22 }}
-                className="mt-8 overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a]"
+                className="overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] shadow-[8px_8px_0_#10163a]"
               >
                 <Image
                   src="/correct%20may%202nd.jpg.jpeg"
@@ -471,7 +461,7 @@ export default function GraphicDesignScholarshipPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.26 }}
-                className="mt-7 grid gap-3 sm:grid-cols-3"
+                className="grid gap-3 sm:grid-cols-3"
               >
                 {[
                   { emoji: '🎓', title: 'Free demo class', sub: 'See the course live' },
@@ -487,93 +477,82 @@ export default function GraphicDesignScholarshipPage() {
               </motion.div>
             </div>
 
-            <section className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#f0f4ff] p-6 text-[#10163a] shadow-[7px_7px_0_rgba(0,0,0,0.12)] md:p-8">
-              <div className="mb-10">
-                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Simple process</p>
-                <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">From registration to result.</h2>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {processSteps.map((step, index) => (
-                  <motion.div
-                    key={step.title}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.07 }}
-                    className="rounded-[1.75rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-[0.875rem] bg-[#10163a] text-sm font-black text-[#ff9736]">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                    <h3 className="mt-4 text-base font-black leading-snug tracking-[-0.02em] text-[#10163a]">{step.title}</h3>
-                    <p className="mt-2 text-sm font-semibold leading-6 text-[#475467]">{step.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
+            {/* RIGHT: sticky form — uses CSS sticky, stops naturally at section end */}
+            <div className="lg:sticky lg:top-24 lg:self-start">
+              {scholarshipFormCard}
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <section className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 text-[#10163a] shadow-[7px_7px_0_rgba(0,0,0,0.12)] md:p-8">
-              <div className="mb-8">
-                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Questions answered</p>
-                <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">Got questions?</h2>
-              </div>
-
-              <div className="space-y-3">
-                {faqs.map((faq, index) => (
-                  <div key={faq.question} className="overflow-hidden rounded-[1.4rem] border-[3px] border-[#10163a] bg-white shadow-[4px_4px_0_#10163a]">
-                    <button
-                      type="button"
-                      onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                      aria-expanded={openFaqIndex === index}
-                      className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
-                    >
-                      <span className="text-base font-black text-[#10163a]">{faq.question}</span>
-                      <ChevronDown
-                        size={18}
-                        className={`shrink-0 text-[#3244b5] transition-transform duration-200 ${openFaqIndex === index ? 'rotate-180' : ''}`}
-                      />
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {openFaqIndex === index ? (
-                        <motion.div
-                          key="answer"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2, ease: 'easeInOut' }}
-                          className="overflow-hidden"
-                        >
-                          <p className="px-5 pb-5 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 rounded-[1.6rem] border-[3px] border-[#10163a] bg-[#fff4eb] p-5 shadow-[4px_4px_0_#10163a]">
-                <p className="text-sm font-semibold text-[#667085]">Still have a question?</p>
-                <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <a
-                    href="tel:+917358116929"
-                    className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-6 py-2.5 text-sm font-black text-[#10163a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
-                  >
-                    <Phone size={14} />
-                    Call admissions
-                  </a>
-                  <a
-                    href="https://wa.me/917358116929"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-2.5 text-sm font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
-                  >
-                    <MessageCircle size={14} />
-                    WhatsApp us
-                  </a>
+      {/* ── Process steps (full width, below the hero grid) ── */}
+      <section className="bg-[#f0f4ff] px-4 py-16 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Simple process</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">From registration to result.</h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {processSteps.map((step, index) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07 }}
+                className="rounded-[1.75rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-[0.875rem] bg-[#10163a] text-sm font-black text-[#ff9736]">
+                  {String(index + 1).padStart(2, '0')}
                 </div>
+                <h3 className="mt-4 text-base font-black leading-snug tracking-[-0.02em] text-[#10163a]">{step.title}</h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#475467]">{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ (full width, below process) ── */}
+      <section className="bg-[#fffdf9] px-4 py-16 md:px-8">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#3244b5]">Questions answered</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-[#10163a]">Got questions?</h2>
+          </div>
+          <div className="space-y-3">
+            {faqs.map((faq, index) => (
+              <div key={faq.question} className="overflow-hidden rounded-[1.4rem] border-[3px] border-[#10163a] bg-white shadow-[4px_4px_0_#10163a]">
+                <button
+                  type="button"
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                  aria-expanded={openFaqIndex === index}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                >
+                  <span className="text-base font-black text-[#10163a]">{faq.question}</span>
+                  <ChevronDown size={18} className={`shrink-0 text-[#3244b5] transition-transform duration-200 ${openFaqIndex === index ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence initial={false}>
+                  {openFaqIndex === index ? (
+                    <motion.div key="answer" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }} className="overflow-hidden">
+                      <p className="px-5 pb-5 text-sm font-semibold leading-7 text-[#475467]">{faq.answer}</p>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </div>
-            </section>
-          </StickyRailLayout>
+            ))}
+          </div>
+          <div className="mt-8 rounded-[1.6rem] border-[3px] border-[#10163a] bg-[#fff4eb] p-5 shadow-[4px_4px_0_#10163a]">
+            <p className="text-sm font-semibold text-[#667085]">Still have a question?</p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a href="tel:+917358116929" className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-white px-6 py-2.5 text-sm font-black text-[#10163a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5">
+                <Phone size={14} /> Call admissions
+              </a>
+              <a href="https://wa.me/917358116929" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-2.5 text-sm font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5">
+                <MessageCircle size={14} /> WhatsApp us
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
