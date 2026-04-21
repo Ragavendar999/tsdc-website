@@ -87,6 +87,8 @@ export default function MasterclassAdminPage({
     setSaveError('')
     try {
       const saved = await saveMasterclassesToApi(masterclasses)
+      setMasterclasses(saved)
+      setActiveId((current) => (saved.some((item) => item.id === current) ? current : saved[0]?.id || ''))
       onMasterclassesChange?.(saved)
       setHasUnsaved(false)
       setSavedAt(new Date())

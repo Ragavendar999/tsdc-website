@@ -35,8 +35,17 @@ export async function PUT(req: Request) {
 
   const saved = await saveStoredMasterclasses(masterclasses)
 
-  // Bust the Next.js page cache so changes show immediately on the live site
-  revalidatePath('/masterclasses', 'layout')
+  // Bust relevant Next.js caches so admin changes show up immediately across
+  // listing, detail, register/success pages, and homepage entry points.
+  revalidatePath('/')
+  revalidatePath('/masterclasses')
+  revalidatePath('/sitemap.xml')
+
+  saved.forEach((masterclass) => {
+    revalidatePath(`/masterclasses/${masterclass.slug}`)
+    revalidatePath(`/masterclasses/${masterclass.slug}/register`)
+    revalidatePath(`/masterclasses/${masterclass.slug}/success`)
+  })
 
   return NextResponse.json({ masterclasses: saved })
 }

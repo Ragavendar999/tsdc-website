@@ -54,8 +54,8 @@ export const defaultMasterclasses: Masterclass[] = [
     id: 'logo-design-masterclass',
     slug: 'logo-masterclass',
     status: 'live',
-    eventDate: '2026-04-20',
-    turnOffAt: '2026-04-20T09:30:00.000Z',
+    eventDate: '2026-05-01',
+    turnOffAt: '2026-05-01T09:30:00.000Z',
     replacementMasterclassId: 'summer-bootcamp-ai-powered-graphic-design-program',
     title: 'Logo Design Masterclass',
     backgroundStyle: 'midnight',
@@ -65,7 +65,7 @@ export const defaultMasterclasses: Masterclass[] = [
     hook: 'Build logos that actually get remembered',
     description:
       'A 1-day intensive masterclass on logo design: theory, process, tools, and real practice for students, freelancers, and business owners.',
-    date: 'April 20, 2026',
+    date: 'May 01, 2026',
     time: '10:00 AM - 2:00 PM',
     mode: 'Online Zoom / Meet',
     price: 1999,
@@ -279,13 +279,21 @@ export const isMasterclassVisibleOnLiveSite = (
 export const fetchMasterclasses = async () => {
   if (typeof window === 'undefined') return defaultMasterclasses
 
-  const response = await fetch('/api/masterclasses', { cache: 'no-store' })
-  if (!response.ok) {
-    const payload = (await response.json().catch(() => ({}))) as { error?: string }
-    throw new Error(payload.error || `Failed to fetch masterclasses: ${response.status}`)
+  try {
+    const response = await fetch('/api/masterclasses', { cache: 'no-store' })
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => ({}))) as { error?: string }
+      throw new Error(payload.error || `Failed to fetch masterclasses: ${response.status}`)
+    }
+
+    const payload = (await response.json()) as { masterclasses?: Masterclass[] }
+    const items = Array.isArray(payload.masterclasses) ? mergeMasterclasses(payload.masterclasses) : defaultMasterclasses
+    persistMasterclasses(items)
+    return items
+  } catch (error) {
+    console.error('[fetchMasterclasses] falling back to local cache:', error)
+    return loadMasterclasses()
   }
-  const payload = (await response.json()) as { masterclasses?: Masterclass[] }
-  return Array.isArray(payload.masterclasses) ? payload.masterclasses : defaultMasterclasses
 }
 
 export const saveMasterclassesToApi = async (masterclasses: Masterclass[]) => {
@@ -301,7 +309,9 @@ export const saveMasterclassesToApi = async (masterclasses: Masterclass[]) => {
   }
 
   const payload = (await response.json()) as { masterclasses?: Masterclass[] }
-  return Array.isArray(payload.masterclasses) ? payload.masterclasses : masterclasses
+  const items = Array.isArray(payload.masterclasses) ? mergeMasterclasses(payload.masterclasses) : mergeMasterclasses(masterclasses)
+  persistMasterclasses(items)
+  return items
 }
 
 export const masterclassBackgrounds = {
@@ -317,4 +327,3 @@ export const masterclassBackgrounds = {
 
 export const getMasterclassBackgroundClass = (style?: Masterclass['backgroundStyle']) =>
   masterclassBackgrounds[style || 'midnight'] || masterclassBackgrounds.midnight
-
