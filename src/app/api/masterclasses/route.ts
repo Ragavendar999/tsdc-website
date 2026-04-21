@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { verifyAdminSession } from '@/lib/auth/admin-session'
 import { getStoredMasterclasses, saveStoredMasterclasses } from '@/lib/masterclasses-store'
@@ -25,5 +26,9 @@ export async function PUT(req: Request) {
   }
 
   const saved = await saveStoredMasterclasses(masterclasses)
+
+  // Bust the Next.js page cache so changes show immediately on the live site
+  revalidatePath('/masterclasses', 'layout')
+
   return NextResponse.json({ masterclasses: saved })
 }
