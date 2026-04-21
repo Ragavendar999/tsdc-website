@@ -10,14 +10,19 @@ const isMasterclassRecord = (value: unknown): value is Masterclass =>
   typeof value === 'object' && value !== null && 'id' in value && 'slug' in value && 'status' in value && 'title' in value
 
 export const getStoredMasterclasses = async () => {
-  const db = getFirebaseAdminDb()
-  const snapshot = await db.collection(COLLECTION_NAME).doc(DOCUMENT_ID).get()
-  const items = snapshot.data()?.items
+  try {
+    const db = getFirebaseAdminDb()
+    const snapshot = await db.collection(COLLECTION_NAME).doc(DOCUMENT_ID).get()
+    const items = snapshot.data()?.items
 
-  if (!Array.isArray(items)) return defaultMasterclasses
+    if (!Array.isArray(items)) return defaultMasterclasses
 
-  const masterclasses = items.filter(isMasterclassRecord) as Masterclass[]
-  return masterclasses.length ? masterclasses : defaultMasterclasses
+    const masterclasses = items.filter(isMasterclassRecord) as Masterclass[]
+    return masterclasses.length ? masterclasses : defaultMasterclasses
+  } catch (error) {
+    console.error('[masterclasses-store] Firebase read error — falling back to defaults:', error)
+    return defaultMasterclasses
+  }
 }
 
 export const saveStoredMasterclasses = async (masterclasses: Masterclass[]) => {
