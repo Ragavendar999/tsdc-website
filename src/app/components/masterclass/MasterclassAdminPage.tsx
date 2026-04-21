@@ -53,8 +53,10 @@ export default function MasterclassAdminPage({
   const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
   const [activeId, setActiveId] = useState(defaultMasterclasses[0].id)
   const [saveError, setSaveError] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
+  const [savedAt, setSavedAt] = useState<Date | null>(null)
+  const [hasUnsaved, setHasUnsaved] = useState(false)
   const hasLoadedRef = useRef(false)
-  const skipNextPersistRef = useRef(true)
   const active = useMemo(
     () => masterclasses.find((masterclass) => masterclass.id === activeId) || masterclasses[0],
     [activeId, masterclasses]
@@ -69,29 +71,25 @@ export default function MasterclassAdminPage({
     })
   }, [onMasterclassesChange])
 
-  useEffect(() => {
-    if (!hasLoadedRef.current) return
-    if (skipNextPersistRef.current) {
-      skipNextPersistRef.current = false
-      return
-    }
-
-    const timeout = window.setTimeout(async () => {
-      try {
-        setSaveError('')
-        const saved = await saveMasterclassesToApi(masterclasses)
-        onMasterclassesChange?.(saved)
-      } catch (error) {
-        setSaveError(error instanceof Error ? error.message : 'Unable to save masterclasses right now.')
-      }
-    }, 500)
-
-    return () => window.clearTimeout(timeout)
-  }, [masterclasses, onMasterclassesChange])
-
   const saveMasterclasses = (items: Masterclass[]) => {
     setMasterclasses(items)
     onMasterclassesChange?.(items)
+    if (hasLoadedRef.current) setHasUnsaved(true)
+  }
+
+  const handleSave = async () => {
+    setIsSaving(true)
+    setSaveError('')
+    try {
+      const saved = await saveMasterclassesToApi(masterclasses)
+      onMasterclassesChange?.(saved)
+      setHasUnsaved(false)
+      setSavedAt(new Date())
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'Unable to save masterclasses right now.')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const updateActive = (patch: Partial<Masterclass>) => {
@@ -207,6 +205,17 @@ export default function MasterclassAdminPage({
               <h2 className="text-xl font-black text-[#10163a]">{active.title}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isSaving}
+                className={`inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] px-4 py-2 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60 ${
+                  hasUnsaved ? 'bg-[#3244b5]' : 'bg-[#22c55e]'
+                }`}
+              >
+                <Save size={14} />
+                {isSaving ? 'Saving…' : hasUnsaved ? 'Save changes' : savedAt ? 'Saved ✓' : 'Save'}
+              </button>
               <button
                 onClick={() => updateActive({ status: active.status === 'live' ? 'draft' : 'live' })}
                 className={`rounded-[1rem] border-[3px] border-[#10163a] px-4 py-2 text-sm font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5 ${
@@ -397,34 +406,179 @@ export default function MasterclassAdminPage({
               </div>
             </fieldset>
 
+            {/* ── Instructor ── */}
             <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
-              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#3244b5]">Content (JSON)</legend>
-              <div className="mt-3 space-y-4">
-                {[
-                  ['modules', active.modules],
-                  ['includes', active.includes],
-                  ['audience', active.audience],
-                  ['faqs', active.faqs],
-                  ['instructor', active.instructor],
-                ].map(([key, value]) => (
-                  <label key={key as string} className="block">
-                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{key as string}</span>
-                    <textarea
-                      defaultValue={JSON.stringify(value, null, 2)}
-                      rows={key === 'modules' ? 8 : 5}
-                      onBlur={(event) => updateJson(key as keyof Masterclass, event.target.value)}
-                      className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#0e1330] px-4 py-3 font-mono text-sm text-[#a5b4fc] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#db4b87]">Instructor</legend>
+              <div className="mt-3 grid gap-4 md:grid-cols-2">
+                {([['name', 'Instructor name'], ['role', 'Role / title']] as const).map(([key, label]) => (
+                  <label key={key} className="block">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">{label}</span>
+                    <input
+                      value={active.instructor[key]}
+                      onChange={(e) => updateActive({ instructor: { ...active.instructor, [key]: e.target.value } })}
+                      className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-3 font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
                     />
                   </label>
                 ))}
+                <label className="block md:col-span-2">
+                  <span className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.14em] text-[#667085]">Credibility statement</span>
+                  <textarea
+                    value={active.instructor.credibility}
+                    onChange={(e) => updateActive({ instructor: { ...active.instructor, credibility: e.target.value } })}
+                    rows={3}
+                    className="w-full rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-3 font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                  />
+                </label>
               </div>
             </fieldset>
 
-            <div className="rounded-2xl border-[3px] border-[#10163a] bg-[#fff4eb] p-4 text-sm font-bold text-[#9a4a10] shadow-[4px_4px_0_#10163a]">
+            {/* ── Modules ── */}
+            <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
+              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#3244b5]">Modules</legend>
+              <div className="mt-3 space-y-2.5">
+                {active.modules.map((mod, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#eef3ff] text-[10px] font-black text-[#3244b5]">{i + 1}</span>
+                    <input
+                      value={mod.title}
+                      onChange={(e) => updateActive({ modules: active.modules.map((m, j) => j === i ? { ...m, title: e.target.value } : m) })}
+                      placeholder="Module title"
+                      className="min-w-0 flex-1 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <input
+                      value={mod.duration}
+                      onChange={(e) => updateActive({ modules: active.modules.map((m, j) => j === i ? { ...m, duration: e.target.value } : m) })}
+                      placeholder="Duration"
+                      className="w-28 shrink-0 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-3 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateActive({ modules: active.modules.filter((_, j) => j !== i) })}
+                      className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#ea6865] px-3 py-1.5 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => updateActive({ modules: [...active.modules, { title: '', duration: '' }] })}
+                  className="mt-1 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#eef3ff] px-4 py-2 text-xs font-black text-[#3244b5] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                >
+                  <Plus size={12} /> Add module
+                </button>
+              </div>
+            </fieldset>
+
+            {/* ── Includes ── */}
+            <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
+              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#fa8a43]">What's included</legend>
+              <div className="mt-3 space-y-2.5">
+                {active.includes.map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input
+                      value={item.label}
+                      onChange={(e) => updateActive({ includes: active.includes.map((m, j) => j === i ? { ...m, label: e.target.value } : m) })}
+                      placeholder="Label (e.g. Certificate)"
+                      className="w-36 shrink-0 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-3 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <input
+                      value={item.value}
+                      onChange={(e) => updateActive({ includes: active.includes.map((m, j) => j === i ? { ...m, value: e.target.value } : m) })}
+                      placeholder="Value (e.g. Included)"
+                      className="min-w-0 flex-1 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-3 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateActive({ includes: active.includes.filter((_, j) => j !== i) })}
+                      className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#ea6865] px-3 py-1.5 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => updateActive({ includes: [...active.includes, { label: '', value: '' }] })}
+                  className="mt-1 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#fff8ed] px-4 py-2 text-xs font-black text-[#fa8a43] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                >
+                  <Plus size={12} /> Add include
+                </button>
+              </div>
+            </fieldset>
+
+            {/* ── Audience ── */}
+            <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
+              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#22c55e]">Who it's for (audience)</legend>
+              <div className="mt-3 space-y-2.5">
+                {active.audience.map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input
+                      value={item}
+                      onChange={(e) => updateActive({ audience: active.audience.map((a, j) => j === i ? e.target.value : a) })}
+                      placeholder="Audience description"
+                      className="min-w-0 flex-1 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateActive({ audience: active.audience.filter((_, j) => j !== i) })}
+                      className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#ea6865] px-3 py-1.5 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => updateActive({ audience: [...active.audience, ''] })}
+                  className="mt-1 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#f0fdf4] px-4 py-2 text-xs font-black text-[#16a34a] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                >
+                  <Plus size={12} /> Add audience item
+                </button>
+              </div>
+            </fieldset>
+
+            {/* ── FAQs ── */}
+            <fieldset className="rounded-[1.6rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]">
+              <legend className="px-2 text-xs font-black uppercase tracking-[0.18em] text-[#667085]">FAQs</legend>
+              <div className="mt-3 space-y-2.5">
+                {active.faqs.map((faq, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#f3f4f6] text-[10px] font-black text-[#667085]">Q</span>
+                    <input
+                      value={faq}
+                      onChange={(e) => updateActive({ faqs: active.faqs.map((f, j) => j === i ? e.target.value : f) })}
+                      placeholder="FAQ question"
+                      className="min-w-0 flex-1 rounded-2xl border-[3px] border-[#10163a] bg-[#f8f9ff] px-4 py-2.5 text-sm font-semibold text-[#10163a] outline-none shadow-[3px_3px_0_#10163a] transition focus:border-[#3244b5]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateActive({ faqs: active.faqs.filter((_, j) => j !== i) })}
+                      className="shrink-0 rounded-full border-[3px] border-[#10163a] bg-[#ea6865] px-3 py-1.5 text-xs font-black text-white shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => updateActive({ faqs: [...active.faqs, ''] })}
+                  className="mt-1 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#f9fafb] px-4 py-2 text-xs font-black text-[#667085] shadow-[3px_3px_0_#10163a] transition hover:-translate-y-0.5"
+                >
+                  <Plus size={12} /> Add FAQ
+                </button>
+              </div>
+            </fieldset>
+
+            <div className={`rounded-2xl border-[3px] border-[#10163a] p-4 text-sm font-bold shadow-[4px_4px_0_#10163a] ${hasUnsaved ? 'bg-[#eef3ff] text-[#1e3a8a]' : 'bg-[#fff4eb] text-[#9a4a10]'}`}>
               <Save className="mr-2 inline h-4 w-4" />
-              Masterclass content now saves to the server so the live site, admin panel, and auto turn-off cron all use the same data.
-              <p className="mt-2 text-xs leading-6 text-[#7c3d12]">
-                When a live masterclass reaches its turn-off date and time, it is unpublished automatically. If you selected a replacement masterclass, that draft item is published automatically next. Email notifications still go to <code className="font-mono">n.ragavendar@gmail.com</code>.
+              {hasUnsaved
+                ? 'You have unsaved changes. Click "Save changes" above to push them live.'
+                : savedAt
+                ? `Last saved at ${savedAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}. All changes are live.`
+                : 'Make edits above and hit "Save changes" when ready to push to the live site.'}
+              <p className="mt-2 text-xs leading-6 opacity-70">
+                Auto turn-off and replacement publishing run via cron. Notifications go to <code className="font-mono">n.ragavendar@gmail.com</code>.
               </p>
               {saveError ? <p className="mt-2 text-xs leading-6 text-[#b42318]">{saveError}</p> : null}
             </div>
