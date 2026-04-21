@@ -279,14 +279,13 @@ export const isMasterclassVisibleOnLiveSite = (
 export const fetchMasterclasses = async () => {
   if (typeof window === 'undefined') return defaultMasterclasses
 
-  try {
-    const response = await fetch('/api/masterclasses', { cache: 'no-store' })
-    if (!response.ok) throw new Error(`Failed to fetch masterclasses: ${response.status}`)
-    const payload = (await response.json()) as { masterclasses?: Masterclass[] }
-    return Array.isArray(payload.masterclasses) ? payload.masterclasses : defaultMasterclasses
-  } catch {
-    return defaultMasterclasses
+  const response = await fetch('/api/masterclasses', { cache: 'no-store' })
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => ({}))) as { error?: string }
+    throw new Error(payload.error || `Failed to fetch masterclasses: ${response.status}`)
   }
+  const payload = (await response.json()) as { masterclasses?: Masterclass[] }
+  return Array.isArray(payload.masterclasses) ? payload.masterclasses : defaultMasterclasses
 }
 
 export const saveMasterclassesToApi = async (masterclasses: Masterclass[]) => {

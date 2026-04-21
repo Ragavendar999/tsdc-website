@@ -63,12 +63,17 @@ export default function MasterclassAdminPage({
   )
 
   useEffect(() => {
-    fetchMasterclasses().then((initial) => {
-      setMasterclasses(initial)
-      setActiveId(initial[0]?.id || '')
-      onMasterclassesChange?.(initial)
-      hasLoadedRef.current = true
-    })
+    fetchMasterclasses()
+      .then((initial) => {
+        setMasterclasses(initial)
+        setActiveId(initial[0]?.id || '')
+        onMasterclassesChange?.(initial)
+        hasLoadedRef.current = true
+      })
+      .catch((error) => {
+        setSaveError(error instanceof Error ? error.message : 'Failed to load masterclasses from database.')
+        hasLoadedRef.current = true
+      })
   }, [onMasterclassesChange])
 
   const saveMasterclasses = (items: Masterclass[]) => {

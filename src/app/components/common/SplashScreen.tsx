@@ -348,19 +348,21 @@ export default function SplashScreen() {
 
     let cancelled = false
 
-    fetchMasterclasses().then((items) => {
-      if (cancelled) return
-      const live = items.filter((m) => isMasterclassVisibleOnLiveSite(m))
-      if (live.length === 0) return  // No live masterclasses — skip splash entirely
+    fetchMasterclasses()
+      .then((items) => {
+        if (cancelled) return
+        const live = items.filter((m) => isMasterclassVisibleOnLiveSite(m))
+        if (live.length === 0) return  // No live masterclasses — skip splash entirely
 
-      sessionStorage.setItem('tsdc_splash', '1')
-      setMasterclasses(live)
-      setPhase('logo')
+        sessionStorage.setItem('tsdc_splash', '1')
+        setMasterclasses(live)
+        setPhase('logo')
 
-      setTimeout(() => {
-        if (!cancelled) setPhase('ad')
-      }, 2000)
-    })
+        setTimeout(() => {
+          if (!cancelled) setPhase('ad')
+        }, 2000)
+      })
+      .catch(() => { /* silently skip splash if fetch fails */ })
 
     return () => { cancelled = true }
   }, [])
