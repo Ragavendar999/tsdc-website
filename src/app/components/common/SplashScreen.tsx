@@ -340,22 +340,29 @@ function MasterclassAd({
 ───────────────────────────────────────────── */
 export default function SplashScreen() {
   const [phase, setPhase] = useState<'logo' | 'ad' | 'hidden'>('hidden')
-  const [masterclasses, setMasterclasses] = useState<Masterclass[]>(defaultMasterclasses)
+  const [masterclasses, setMasterclasses] = useState<Masterclass[]>([])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     if (sessionStorage.getItem('tsdc_splash')) return
-    sessionStorage.setItem('tsdc_splash', '1')
+
+    let cancelled = false
 
     fetchMasterclasses().then((items) => {
-      setMasterclasses(items.filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass)))
+      if (cancelled) return
+      const live = items.filter((m) => isMasterclassVisibleOnLiveSite(m))
+      if (live.length === 0) return  // No live masterclasses — skip splash entirely
+
+      sessionStorage.setItem('tsdc_splash', '1')
+      setMasterclasses(live)
+      setPhase('logo')
+
+      setTimeout(() => {
+        if (!cancelled) setPhase('ad')
+      }, 2000)
     })
 
-    setPhase('logo')
-
-    // After logo plays, switch to ad
-    const t = setTimeout(() => setPhase('ad'), 2000)
-    return () => clearTimeout(t)
+    return () => { cancelled = true }
   }, [])
 
   const dismiss = () => setPhase('hidden')
