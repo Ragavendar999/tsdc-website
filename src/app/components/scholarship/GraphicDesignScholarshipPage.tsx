@@ -52,10 +52,10 @@ const campaignSlug = 'graphic-design-scholarship-2026'
 const registrationFee = 99
 
 const demoSlots = [
-  'April 24, 2026 - 11:00 AM',
-  'April 25, 2026 - 4:00 PM',
-  'April 26, 2026 - 11:00 AM',
-  'April 27, 2026 - 4:00 PM',
+  'May 10, 2026 - 11:00 AM',
+  'May 11, 2026 - 4:00 PM',
+  'May 12, 2026 - 11:00 AM',
+  'May 13, 2026 - 4:00 PM',
 ]
 
 const processSteps = [
