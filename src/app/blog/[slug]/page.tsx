@@ -22,12 +22,12 @@ export async function generateMetadata({
     title: post.seoTitle,
     description: post.seoDescription,
     alternates: {
-      canonical: `/blog/${post.slug}`,
+      canonical: `/blog/${post.slug}/`,
     },
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://traijoedu.in/blog/${post.slug}`,
+      url: `https://traijoedu.in/blog/${post.slug}/`,
       images: [{ url: post.coverImage || '/og-banner.png', width: 1200, height: 630, alt: post.coverImageAlt || post.title }],
     },
   }
@@ -74,4 +74,3 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     </>
   )
 }
-

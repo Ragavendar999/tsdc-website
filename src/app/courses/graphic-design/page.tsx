@@ -3,7 +3,7 @@ import GraphicDesignContent from './GraphicDesignContent'
 import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Best Graphic Design Course in Chennai | Best Graphic Design Institute - TSDC',
+  title: 'Graphic Design Course in Chennai',
   description:
     "Enroll in TSDC's Graphic Design Course in Chennai. Learn Adobe Photoshop, Illustrator, InDesign, branding, logo design, packaging and portfolio projects at a job-focused creative education institute.",
   keywords: [
@@ -28,18 +28,18 @@ export const metadata: Metadata = {
     'TSDC Graphic Design',
   ],
   alternates: {
-    canonical: '/courses/graphic-design',
+    canonical: '/courses/graphic-design/',
   },
   openGraph: {
-    title: 'Best Graphic Design Course in Chennai | TSDC Creative Education Institute',
+    title: 'Graphic Design Course in Chennai',
     description:
       "Join TSDC's Graphic Design program in Chennai for Photoshop, Illustrator, branding, logo design, real projects and a job-ready portfolio.",
-    url: 'https://traijoedu.in/courses/graphic-design',
+    url: 'https://traijoedu.in/courses/graphic-design/',
     images: [{ url: '/graphic.png', width: 1200, height: 630, alt: 'Best Graphic Design Course Chennai - TSDC' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Best Graphic Design Course Chennai | TSDC',
+    title: 'Graphic Design Course in Chennai',
     description: 'Master Photoshop, Illustrator, branding and logo design with real projects at TSDC Chennai.',
     images: ['/graphic.png'],
   },

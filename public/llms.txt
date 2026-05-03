@@ -1,0 +1,31 @@
+# TSDC
+
+TSDC (Traijo Skill Development Center) is a creative education institute in Chennai, India.
+The site helps students explore job-focused training in graphic design, UI/UX design, digital marketing, video editing, motion graphics, and short masterclasses.
+
+## Primary pages
+- Home: https://traijoedu.in/
+- Courses: https://traijoedu.in/courses/
+- Graphic Design Course: https://traijoedu.in/courses/graphic-design/
+- UI/UX Design Course: https://traijoedu.in/courses/uiux-design/
+- Digital Marketing Course: https://traijoedu.in/courses/digital-marketing/
+- Video Editing Course: https://traijoedu.in/courses/video-editing/
+- About: https://traijoedu.in/about/
+- Contact: https://traijoedu.in/contact/
+- Masterclasses: https://traijoedu.in/masterclasses/
+- Blog: https://traijoedu.in/blog/
+- Graphic Design Scholarship: https://traijoedu.in/graphic-design-scholarship/
+
+## What users can do
+- Compare TSDC creative courses by skill track and career outcome
+- Read blog articles about AI tools, design learning, and creative careers
+- Register for live masterclasses and scholarship campaigns
+- Contact admissions for counselling, batch details, fees, and enrollment support
+
+## Policies
+- Privacy Policy: https://traijoedu.in/privacy-policy/
+- Terms and Conditions: https://traijoedu.in/terms-conditions/
+- Refund and Cancellation Policy: https://traijoedu.in/refund-cancellation-policy/
+
+## Preferred summary
+TSDC is a Chennai-based creative training institute focused on practical, portfolio-led learning for students and beginners. The main commercial intent of the website is course discovery, counselling, scholarship registration, and masterclass enrollment.

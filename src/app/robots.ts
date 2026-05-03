@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/admin/'],
+        disallow: ['/admin/', '/api/', '/_next/'],
       },
     ],
     sitemap: 'https://traijoedu.in/sitemap.xml',

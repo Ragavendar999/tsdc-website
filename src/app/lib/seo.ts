@@ -5,6 +5,14 @@ type BreadcrumbItem = {
 
 export const siteUrl = 'https://traijoedu.in'
 
+export const normalizePath = (path: string) => {
+  if (!path || path === '/') return '/'
+  const withLeadingSlash = path.startsWith('/') ? path : `/${path}`
+  return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`
+}
+
+export const absoluteUrl = (path: string) => `${siteUrl}${normalizePath(path) === '/' ? '/' : normalizePath(path)}`
+
 export const jsonLd = (value: object) => JSON.stringify(value).replace(/</g, '\\u003c')
 
 export const breadcrumbSchema = (items: BreadcrumbItem[]) => ({
@@ -14,7 +22,7 @@ export const breadcrumbSchema = (items: BreadcrumbItem[]) => ({
     '@type': 'ListItem',
     position: index + 1,
     name: item.name,
-    item: `${siteUrl}${item.path}`,
+    item: absoluteUrl(item.path),
   })),
 })
 
@@ -59,10 +67,13 @@ export const courseSchema = ({
   '@type': 'Course',
   name,
   description,
-  url: `${siteUrl}${path}`,
-  image: `${siteUrl}${image}`,
+  url: absoluteUrl(path),
+  image: absoluteUrl(image),
   provider: {
+    '@type': 'EducationalOrganization',
     '@id': `${siteUrl}/#organization`,
+    name: 'TSDC - Traijo Skill Development Center',
+    url: siteUrl,
   },
 })
 
@@ -80,7 +91,7 @@ export const itemListSchema = ({
     '@type': 'ListItem',
     position: index + 1,
     name: item.title,
-    url: `${siteUrl}${item.path}`,
+    item: absoluteUrl(item.path),
   })),
 })
 
@@ -99,11 +110,27 @@ export const eventSchema = ({
   '@type': 'Event',
   name,
   description,
-  url: `${siteUrl}${path}`,
+  url: absoluteUrl(path),
   eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
+  image: `${siteUrl}/og-banner.png`,
   organizer: {
+    '@type': 'EducationalOrganization',
     '@id': `${siteUrl}/#organization`,
+    name: 'TSDC - Traijo Skill Development Center',
+    url: siteUrl,
+  },
+  location: {
+    '@type': 'Place',
+    name: 'TSDC - Traijo Skill Development Center',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Villa 20, Block 52, Bollineni Hillside Rd, Nookampalayam',
+      addressLocality: 'Perumbakkam',
+      addressRegion: 'Tamil Nadu',
+      postalCode: '600131',
+      addressCountry: 'IN',
+    },
   },
   ...(startDate ? { startDate } : {}),
 })
@@ -127,8 +154,9 @@ export const articleSchema = ({
   '@type': 'Article',
   headline,
   description,
-  url: `${siteUrl}${path}`,
-  ...(image ? { image: image.startsWith('http') ? image : `${siteUrl}${image}` } : {}),
+  url: absoluteUrl(path),
+  mainEntityOfPage: absoluteUrl(path),
+  ...(image ? { image: image.startsWith('http') ? image : absoluteUrl(image) } : {}),
   ...(datePublished ? { datePublished } : {}),
   author: {
     '@type': 'Person',

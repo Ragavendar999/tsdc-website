@@ -13,8 +13,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Best Creative Education Institute in Chennai | TSDC Graphic Design, UI UX, Digital Marketing, Video Editing & Motion Graphics",
-    template: "%s | Best Creative Education Institute in Chennai - TSDC",
+    default: "Creative Courses in Chennai | TSDC",
+    template: "%s | TSDC",
   },
   description:
     "Join TSDC, a job-focused creative education institute in Chennai for Graphic Design, UI UX Design, Digital Marketing, Video Editing and Motion Graphics courses. Build a portfolio, work on live projects, learn from mentors, and become career-ready faster.",
@@ -88,10 +88,10 @@ export const metadata: Metadata = {
     apple: "/tsdc-fav-icon.jpg",
   },
   openGraph: {
-    title: "Best Creative Education Institute in Chennai | TSDC Creative Courses",
+    title: "Creative Courses in Chennai | TSDC",
     description:
       "Explore Graphic Design, UI UX Design, Digital Marketing, Video Editing and Motion Graphics courses in Chennai with live projects, internships, mentorship and strong placement support.",
-    url: "https://traijoedu.in",
+    url: "https://traijoedu.in/",
     siteName: "TSDC - Traijo Skill Development Center",
     images: [
       {
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Creative Education Institute in Chennai | TSDC",
+    title: "Creative Courses in Chennai | TSDC",
     description:
       "Join Chennai's job-focused Graphic Design, UI UX, Digital Marketing, Video Editing and Motion Graphics courses at TSDC.",
     images: ["/og-banner.png"],

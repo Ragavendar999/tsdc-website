@@ -3,7 +3,7 @@ import CoursesPage from '../components/courses/CoursesPage'
 import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Creative Courses in Chennai | Graphic Design, UI/UX, Digital Marketing, Video Editing & Motion Graphics',
+  title: 'Creative Courses in Chennai',
   description:
     'Explore all creative courses at TSDC Chennai: Graphic Design, UI/UX Design, Digital Marketing, Video Editing and Motion Graphics with real projects, portfolio support and career guidance.',
   keywords: [
@@ -33,18 +33,18 @@ export const metadata: Metadata = {
     'Skill Development Courses Chennai',
   ],
   alternates: {
-    canonical: '/courses',
+    canonical: '/courses/',
   },
   openGraph: {
-    title: 'All Courses at TSDC | Creative Education Institute Chennai',
+    title: 'Creative Courses in Chennai',
     description:
       'Explore Graphic Design, UI/UX Design, Digital Marketing, Video Editing and Motion Graphics courses in Chennai with practical projects, portfolio support and counselling.',
-    url: 'https://traijoedu.in/courses',
+    url: 'https://traijoedu.in/courses/',
     images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'TSDC Creative Courses Chennai' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'All Creative Courses | TSDC Chennai',
+    title: 'Creative Courses in Chennai',
     description: 'Explore Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics courses in Chennai.',
     images: ['/og-banner.png'],
   },

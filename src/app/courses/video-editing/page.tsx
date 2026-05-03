@@ -3,7 +3,7 @@ import VideoEditingContent from './VideoEditingContent'
 import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Best Video Editing & Motion Graphics Course in Chennai | Premiere Pro & After Effects - TSDC',
+  title: 'Video Editing Course in Chennai',
   description:
     "Enroll in TSDC's Video Editing and Motion Graphics Course in Chennai. Learn Premiere Pro, After Effects, DaVinci Resolve, reel editing, color grading and real commercial projects.",
   keywords: [
@@ -32,18 +32,18 @@ export const metadata: Metadata = {
     'Video Editing Certificate Course Chennai',
   ],
   alternates: {
-    canonical: '/courses/video-editing',
+    canonical: '/courses/video-editing/',
   },
   openGraph: {
-    title: 'Best Video Editing & Motion Graphics Course in Chennai | TSDC Creative Education Institute',
+    title: 'Video Editing Course in Chennai',
     description:
       'Master Premiere Pro, After Effects, DaVinci Resolve and motion graphics with real commercial projects at TSDC Chennai.',
-    url: 'https://traijoedu.in/courses/video-editing',
+    url: 'https://traijoedu.in/courses/video-editing/',
     images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'Best Video Editing and Motion Graphics Course Chennai - TSDC' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Best Video Editing & Motion Graphics Course Chennai | TSDC',
+    title: 'Video Editing Course in Chennai',
     description: 'Learn Premiere Pro, After Effects, DaVinci Resolve, reel editing and motion graphics at TSDC Chennai.',
     images: ['/og-banner.png'],
   },

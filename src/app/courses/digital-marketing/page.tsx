@@ -3,7 +3,7 @@ import DigitalMarketingContent from './DigitalMarketingContent'
 import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Best Digital Marketing Course in Chennai | SEO, Google Ads & Meta Ads - TSDC',
+  title: 'Digital Marketing Course in Chennai',
   description:
     "Enroll in TSDC's Digital Marketing Course in Chennai. Learn SEO, Google Ads, Meta Ads, social media marketing, analytics, content strategy and live campaign execution.",
   keywords: [
@@ -29,18 +29,18 @@ export const metadata: Metadata = {
     'TSDC Digital Marketing',
   ],
   alternates: {
-    canonical: '/courses/digital-marketing',
+    canonical: '/courses/digital-marketing/',
   },
   openGraph: {
-    title: 'Best Digital Marketing Course in Chennai | TSDC Creative Education Institute',
+    title: 'Digital Marketing Course in Chennai',
     description:
       'Master SEO, Google Ads, Meta Ads and social media with live client campaigns at TSDC Chennai.',
-    url: 'https://traijoedu.in/courses/digital-marketing',
+    url: 'https://traijoedu.in/courses/digital-marketing/',
     images: [{ url: '/Digital_marketing.png', width: 1200, height: 630, alt: 'Best Digital Marketing Course Chennai - TSDC' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Best Digital Marketing Course Chennai | TSDC',
+    title: 'Digital Marketing Course in Chennai',
     description: 'Learn SEO, Google Ads, Meta Ads, social media strategy and analytics with real campaigns at TSDC Chennai.',
     images: ['/Digital_marketing.png'],
   },

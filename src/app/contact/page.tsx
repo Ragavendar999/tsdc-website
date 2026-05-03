@@ -3,7 +3,7 @@ import React from 'react'
 import ContactSection from '../components/contact/ContactSection'
 
 export const metadata: Metadata = {
-  title: 'Contact TSDC | Creative Education Institute in Chennai',
+  title: 'Contact TSDC Chennai',
   description:
     'Contact TSDC (Traijo Skill Development Center) to enroll in Graphic Design, UI/UX Design, Digital Marketing, Video Editing or Motion Graphics courses in Chennai. Call, WhatsApp or fill our form - admissions open now.',
   keywords: [
@@ -24,18 +24,18 @@ export const metadata: Metadata = {
     'TSDC Phone Number',
   ],
   alternates: {
-    canonical: '/contact',
+    canonical: '/contact/',
   },
   openGraph: {
-    title: 'Contact TSDC | Creative Education Institute in Chennai',
+    title: 'Contact TSDC Chennai',
     description:
       "Get in touch with TSDC, Chennai's creative education institute. Enroll in Graphic Design, UI/UX, Digital Marketing, Video Editing or Motion Graphics today.",
-    url: 'https://traijoedu.in/contact',
+    url: 'https://traijoedu.in/contact/',
     images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: 'Contact TSDC Chennai' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contact TSDC | Creative Courses Chennai',
+    title: 'Contact TSDC Chennai',
     description: 'Enroll in creative design, marketing, video editing and motion graphics courses in Chennai. Contact TSDC now.',
     images: ['/og-banner.png'],
   },

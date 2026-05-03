@@ -3,7 +3,7 @@ import HomepageContent from './components/homepage/HomepageContent'
 import { itemListSchema, jsonLd, organizationSchema } from './lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Best Creative Education Institute in Chennai | Graphic Design, UI UX, Digital Marketing, Video Editing & Motion Graphics',
+  title: 'Creative Courses in Chennai',
   description:
     'Launch your creative career with TSDC, a creative education institute in Chennai for Graphic Design, UI UX Design, Digital Marketing, Video Editing and Motion Graphics courses with live projects, portfolio building, mentorship and placement support.',
   keywords: [

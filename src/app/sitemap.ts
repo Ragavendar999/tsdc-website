@@ -1,94 +1,95 @@
 import type { MetadataRoute } from 'next'
 import { defaultBlogPosts } from './lib/blogPosts'
+import { normalizePath, siteUrl } from './lib/seo'
 import { isMasterclassVisibleOnLiveSite } from './lib/masterclasses'
 import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://traijoedu.in'
   const lastModified = new Date()
   const masterclasses = await getStoredMasterclasses()
+  const withSiteUrl = (path: string) => `${siteUrl}${normalizePath(path)}`
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/`,
+      url: withSiteUrl('/'),
       lastModified,
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/courses`,
+      url: withSiteUrl('/courses'),
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/courses/graphic-design`,
+      url: withSiteUrl('/courses/graphic-design'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/courses/uiux-design`,
+      url: withSiteUrl('/courses/uiux-design'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/courses/digital-marketing`,
+      url: withSiteUrl('/courses/digital-marketing'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/courses/video-editing`,
+      url: withSiteUrl('/courses/video-editing'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/about`,
+      url: withSiteUrl('/about'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: withSiteUrl('/contact'),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/masterclasses`,
+      url: withSiteUrl('/masterclasses'),
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/blog`,
+      url: withSiteUrl('/blog'),
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/graphic-design-scholarship`,
+      url: withSiteUrl('/graphic-design-scholarship'),
       lastModified,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/privacy-policy`,
+      url: withSiteUrl('/privacy-policy'),
       lastModified,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/terms-conditions`,
+      url: withSiteUrl('/terms-conditions'),
       lastModified,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/refund-cancellation-policy`,
+      url: withSiteUrl('/refund-cancellation-policy'),
       lastModified,
       changeFrequency: 'yearly',
       priority: 0.3,
@@ -99,13 +100,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((masterclass) => isMasterclassVisibleOnLiveSite(masterclass))
     .flatMap((masterclass) => [
       {
-        url: `${baseUrl}/masterclasses/${masterclass.slug}`,
+        url: withSiteUrl(`/masterclasses/${masterclass.slug}`),
         lastModified,
         changeFrequency: 'weekly',
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/masterclasses/${masterclass.slug}/register`,
+        url: withSiteUrl(`/masterclasses/${masterclass.slug}/register`),
         lastModified,
         changeFrequency: 'weekly',
         priority: 0.5,
@@ -115,7 +116,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogRoutes: MetadataRoute.Sitemap = defaultBlogPosts
     .filter((post) => post.status === 'published')
     .map((post) => ({
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: withSiteUrl(`/blog/${post.slug}`),
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,

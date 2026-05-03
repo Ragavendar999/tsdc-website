@@ -30,9 +30,17 @@ const eventSchema = {
   '@type': 'Event',
   name: 'Graphic Design Scholarship and Demo Class 2026',
   description: 'Pay Rs 99 to reserve your TSDC graphic design scholarship entry, demo class slot, and scholarship evaluation opportunity.',
+  url: `${siteUrl}/graphic-design-scholarship/`,
+  image: `${siteUrl}/og-banner.png`,
   startDate: '2026-05-02T23:59:59+05:30',
   eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
+  organizer: {
+    '@type': 'EducationalOrganization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'TSDC - Traijo Skill Development Center',
+    url: siteUrl,
+  },
   location: {
     '@type': 'Place',
     name: 'TSDC - Traijo Skill Development Center',
@@ -50,16 +58,16 @@ const eventSchema = {
     price: '99',
     priceCurrency: 'INR',
     availability: 'https://schema.org/LimitedAvailability',
-    url: `${siteUrl}/graphic-design-scholarship`,
+    url: `${siteUrl}/graphic-design-scholarship/`,
   },
 }
 
 export const metadata: Metadata = {
-  title: 'Graphic Design Scholarship 2026 | Demo Class Registration at Rs 99',
+  title: 'Graphic Design Scholarship 2026',
   description:
     'Register for the TSDC Graphic Design Scholarship 2026, book your demo class slot, and unlock up to 100% scholarship opportunities by paying just Rs 99.',
   alternates: {
-    canonical: '/graphic-design-scholarship',
+    canonical: '/graphic-design-scholarship/',
   },
 }
 

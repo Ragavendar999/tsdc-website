@@ -7,11 +7,11 @@ import { getStoredMasterclasses } from '@/lib/masterclasses-store'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'TSDC Masterclasses | Live Creative Workshops and Bootcamps',
+  title: 'TSDC Masterclasses',
   description:
     'Explore TSDC masterclasses and bootcamps in graphic design, AI-powered creativity, branding, and practical portfolio-building with live guidance.',
   alternates: {
-    canonical: '/masterclasses',
+    canonical: '/masterclasses/',
   },
 }
 

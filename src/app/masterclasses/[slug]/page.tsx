@@ -27,15 +27,15 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${masterclass.title} | TSDC Masterclasses`,
+    title: masterclass.title,
     description: masterclass.description,
     alternates: {
-      canonical: `/masterclasses/${masterclass.slug}`,
+      canonical: `/masterclasses/${masterclass.slug}/`,
     },
     openGraph: {
-      title: `${masterclass.title} | TSDC`,
+      title: masterclass.title,
       description: masterclass.description,
-      url: `https://traijoedu.in/masterclasses/${masterclass.slug}`,
+      url: `https://traijoedu.in/masterclasses/${masterclass.slug}/`,
       images: [{ url: '/og-banner.png', width: 1200, height: 630, alt: masterclass.title }],
     },
   }
