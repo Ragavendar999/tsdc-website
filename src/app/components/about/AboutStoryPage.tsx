@@ -16,6 +16,7 @@ import {
   Sparkles,
   Target,
   Users,
+  WandSparkles,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -49,6 +50,13 @@ const courses = [
     copy: 'Premiere Pro, reels, ads, motion cuts, YouTube and brand content.',
     icon: PlaySquare,
     color: '#4b4bb9',
+  },
+  {
+    title: 'Motion Graphics',
+    href: '/courses/motion-graphics',
+    copy: 'After Effects, kinetic typography, explainers, title animation, and ad motion systems.',
+    icon: WandSparkles,
+    color: '#db4b87',
   },
 ]
 

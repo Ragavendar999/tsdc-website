@@ -47,6 +47,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
+      url: withSiteUrl('/courses/motion-graphics'),
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       url: withSiteUrl('/about'),
       lastModified,
       changeFrequency: 'monthly',

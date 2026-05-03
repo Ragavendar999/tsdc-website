@@ -23,10 +23,10 @@ import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from 
 
 const impactStatIcons = [<Users key="users" size={16} />, <Briefcase key="briefcase" size={16} />, <Award key="award" size={16} />, <Star key="star" size={16} />]
 const statAccents = [
-  { bg: '#fff4e5', border: 'rgba(255,151,54,0.3)',  icon: '#ff9736' },
-  { bg: '#eef3ff', border: 'rgba(50,68,181,0.25)',  icon: '#3244b5' },
+  { bg: '#fff4e5', border: 'rgba(255,151,54,0.3)', icon: '#ff9736' },
+  { bg: '#eef3ff', border: 'rgba(50,68,181,0.25)', icon: '#3244b5' },
   { bg: '#fdf4ff', border: 'rgba(219,75,135,0.25)', icon: '#db4b87' },
-  { bg: '#fffbeb', border: 'rgba(255,203,83,0.45)',  icon: '#92400e' },
+  { bg: '#fffbeb', border: 'rgba(255,203,83,0.45)', icon: '#92400e' },
 ]
 const heroTrackIcons = [
   <Paintbrush key="paintbrush" size={23} />,
@@ -143,7 +143,6 @@ export default function HeroSection() {
             </motion.button>
           </div>
 
-          {/* Mobile-only scholarship callout */}
           <Link
             href="/graphic-design-scholarship"
             className="flex items-center gap-3 rounded-[1.2rem] border-[2px] border-[#3244b5]/20 bg-[#eef3ff] px-4 py-3 text-sm text-[#0f1634] transition hover:border-[#3244b5]/40 md:hidden"
@@ -153,7 +152,7 @@ export default function HeroSection() {
             </span>
             <span>
               <span className="block text-xs font-black text-[#3244b5]">Graphic Design Scholarship</span>
-              <span className="text-xs text-[#475569]">Apply for ₹99 · Limited seats this batch</span>
+              <span className="text-xs text-[#475569]">Apply for Rs 99 - Limited seats this batch</span>
             </span>
             <ArrowRight size={14} className="ml-auto shrink-0 text-[#3244b5]" />
           </Link>
@@ -260,14 +259,12 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* ── Scholarship strip banner ── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
         className="relative z-10 mx-4 mb-8 overflow-hidden rounded-[1.75rem] border-[3px] border-[#10163a] bg-[#10163a] shadow-[6px_6px_0_#10163a] sm:mx-6"
       >
-        {/* animated shimmer */}
         <motion.div
           animate={{ x: ['-100%', '200%'] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 2 }}
@@ -279,9 +276,9 @@ export default function HeroSection() {
               <Award size={20} />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ff9736]">Scholarship 2026 · Limited Seats</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#ff9736]">Scholarship 2026 - Limited Seats</p>
               <p className="mt-0.5 text-base font-black leading-snug text-white">
-                Win up to <span className="text-[#ffcb53]">100% fee waiver</span> on Graphic Design — Register for just ₹99
+                Win up to <span className="text-[#ffcb53]">100% fee waiver</span> on Graphic Design - Register for just Rs 99
               </p>
             </div>
           </div>

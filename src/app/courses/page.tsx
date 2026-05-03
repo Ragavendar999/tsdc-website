@@ -5,7 +5,7 @@ import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
 export const metadata: Metadata = {
   title: 'Creative Courses in Chennai',
   description:
-    'Explore all creative courses at TSDC Chennai: Graphic Design, UI/UX Design, Digital Marketing, Video Editing and Motion Graphics with real projects, portfolio support and career guidance.',
+    'Explore all creative courses at TSDC Chennai: Graphic Design, UI/UX Design, Digital Marketing, Video Editing, and Motion Graphics with real projects, portfolio support, and career guidance.',
   keywords: [
     'Creative Education Institute in Chennai',
     'Best Creative Education Institute in Chennai',
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     'Best Video Editing Institute in Chennai',
     'Motion Graphics Course Chennai',
     'Best Motion Graphics Course in Chennai',
+    'Motion Design Course Chennai',
     'All Design Courses Chennai',
     'Creative Education Chennai',
     'TSDC Courses',
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Creative Courses in Chennai',
-    description: 'Explore Graphic Design, UI/UX, Digital Marketing, Video Editing and Motion Graphics courses in Chennai.',
+    description: 'Explore Graphic Design, UI/UX, Digital Marketing, Video Editing, and Motion Graphics courses in Chennai.',
     images: ['/og-banner.png'],
   },
 }
@@ -63,6 +64,7 @@ export default function Page() {
         { title: 'UI/UX Design Course', path: '/courses/uiux-design' },
         { title: 'Digital Marketing Course', path: '/courses/digital-marketing' },
         { title: 'Video Editing Course', path: '/courses/video-editing' },
+        { title: 'Motion Graphics Course', path: '/courses/motion-graphics' },
       ],
     }),
   ]

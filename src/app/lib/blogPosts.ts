@@ -441,6 +441,522 @@ export const defaultBlogPosts: BlogPost[] = [
     ctaLabel: 'Explore All Courses',
     ctaHref: '/courses',
   }),
+  createPost({
+    id: 'graphic-design-course-chennai-fees-duration-portfolio-guide',
+    slug: 'graphic-design-course-chennai-fees-duration-portfolio-guide',
+    status: 'published',
+    featured: false,
+    title: 'Graphic Design Course in Chennai: Fees, Duration, Tools, and Portfolio Expectations',
+    subtitle: 'A practical buying guide for students comparing graphic design programs in Chennai.',
+    excerpt:
+      'Students usually compare design courses based on fees alone, but the better filter is what kind of portfolio, software confidence, and project quality you will actually leave with.',
+    category: 'Graphic Design Courses',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '9 min read',
+    coverImage: '/graphicdesign.png',
+    coverImageAlt: 'Graphic design course guide for students in Chennai',
+    tags: ['graphic design course chennai', 'graphic design fees chennai', 'design course duration', 'portfolio training'],
+    seoTitle: 'Graphic Design Course in Chennai: Fees, Duration, and Portfolio Guide | TSDC',
+    seoDescription:
+      'Compare graphic design course fees, duration, tools, and portfolio expectations in Chennai so you can choose a program that actually improves your job readiness.',
+    intro: [
+      'Students searching for a graphic design course in Chennai often compare three things first: fees, duration, and software. Those matter, but they do not tell the full story.',
+      'A stronger question is what kind of work you will leave with. If the course ends with a certificate but no portfolio, it is harder to convert that learning into interviews or freelance work.',
+      'This guide breaks down how students can judge a graphic design program more clearly before they enroll.',
+    ],
+    sections: [
+      {
+        id: 'beyond-fees',
+        eyebrow: 'Start here',
+        heading: 'Fees matter, but portfolio quality matters more',
+        paragraphs: [
+          'Low-cost programs can look attractive at first, but if they only teach software buttons without live critique or project structure, students often finish with weak output. That creates a second problem: they still need extra time to become job-ready.',
+          'A better comparison includes feedback quality, project depth, tools covered, and whether the course helps you present work professionally.',
+        ],
+        bullets: [
+          'Compare project count, not just classroom hours',
+          'Check whether branding, layout, and presentation are taught',
+          'Ask what portfolio pieces students usually finish by the end',
+        ],
+      },
+      {
+        id: 'tools-and-duration',
+        eyebrow: 'What to compare',
+        heading: 'Duration and software should match the outcome you want',
+        paragraphs: [
+          'If you want agency-ready or freelance-ready work, the course should cover more than Photoshop. Stronger programs usually include Illustrator, layout thinking, branding systems, and portfolio presentation.',
+          'A short course can still work if it is highly practical, but students should be careful about unrealistic promises that compress too much into too little time.',
+        ],
+        image: '/graphic.png',
+        imageAlt: 'Practical design learning and Adobe workflow',
+      },
+      {
+        id: 'portfolio-filter',
+        eyebrow: 'Best filter',
+        heading: 'Choose the course that gives you proof, not just exposure',
+        paragraphs: [
+          'The students who grow fastest are the ones who finish with visible proof: identity systems, social media campaigns, packaging, ad creatives, and presentation-ready mockups.',
+          'That is what makes interviews easier. It also makes freelance pitching easier because you are not trying to explain your potential only in words.',
+        ],
+      },
+    ],
+    ctaTitle: 'Want a graphic design course built around portfolio proof?',
+    ctaText:
+      'TSDC teaches graphic design through branding, layout systems, real projects, and portfolio reviews designed for practical job readiness in Chennai.',
+    ctaLabel: 'Explore Graphic Design Course',
+    ctaHref: '/courses/graphic-design',
+  }),
+  createPost({
+    id: 'top-graphic-design-institutes-chennai-india-guide-2026',
+    slug: 'top-graphic-design-institutes-chennai-india-how-to-choose',
+    status: 'published',
+    featured: false,
+    title: 'Top Graphic Design Institutes in Chennai and India: How to Choose the Right One',
+    subtitle: 'A practical guide to evaluating graphic design programs on what actually matters — portfolio output, mentors, tools, and outcomes.',
+    excerpt:
+      'Choosing a graphic design institute is less about brand name and more about what kind of portfolio, feedback, and real-world exposure you leave with.',
+    category: 'Graphic Design Courses',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '9 min read',
+    coverImage: '/graphicdesign.png',
+    coverImageAlt: 'Top graphic design institutes in Chennai — how to choose the right program',
+    tags: ['top graphic design institutes chennai', 'best graphic design institute india', 'graphic design course near me', 'affordable graphic design course'],
+    seoTitle: 'Top Graphic Design Institutes in Chennai and India: How to Choose | TSDC',
+    seoDescription:
+      'Compare graphic design institutes in Chennai and India using a practical checklist covering mentors, portfolio outcomes, tools, fees, and real project exposure.',
+    intro: [
+      'Students searching for the top graphic design institutes in Chennai or India quickly find a long list of options. The harder part is figuring out which one will actually make you more hireable or freelance-ready.',
+      'Brand names and certificates matter less than most students think. What matters most is the quality of projects you finish, the feedback you receive, and whether the training prepares you for real design work.',
+      'Here is the filter we recommend before you commit to any graphic design program in Chennai or anywhere in India.',
+    ],
+    sections: [
+      {
+        id: 'portfolio-output',
+        eyebrow: 'Filter 1',
+        heading: 'Ask what finished work you will leave with',
+        paragraphs: [
+          'The single most important question to ask any institute is: what will my portfolio look like at the end? If the answer involves only software certificates or attendance records, that is a warning sign.',
+          'Strong graphic design programs produce tangible output — brand identities, packaging mockups, social media campaigns, and print-ready projects. These are what employers and clients actually evaluate. A program that does not prioritize portfolio building is preparing you to talk about design, not do it.',
+        ],
+        bullets: [
+          'Ask how many projects are completed during the course',
+          'Check whether students get mentor critique on each project',
+          'Look for programs where real briefs replace textbook exercises',
+          'Confirm whether your work will be ready to show in interviews and freelance pitches',
+        ],
+        image: '/graphicdesign.png',
+        imageAlt: 'Student graphic design portfolio and project work',
+      },
+      {
+        id: 'mentors-and-tools',
+        eyebrow: 'Filter 2',
+        heading: 'Check who is teaching and which tools are covered',
+        paragraphs: [
+          'Graphic design skills are tool-dependent in the early stages. A program that only covers one software — say Photoshop but not Illustrator — limits how versatile you can be as a beginner. Most agency and studio roles expect comfort across Photoshop, Illustrator, and InDesign at minimum.',
+          'Equally important is the mentor. A trainer who still works in the industry will give you feedback that matches current employer expectations, not outdated workflows from five years ago.',
+        ],
+        bullets: [
+          'Look for programs covering Photoshop, Illustrator, and InDesign together',
+          'Ask whether Canva Pro and Figma are part of the curriculum',
+          'Check whether trainers have active industry or freelance experience',
+        ],
+        image: '/graphic.png',
+        imageAlt: 'Adobe tools taught in professional graphic design courses',
+      },
+      {
+        id: 'fee-vs-outcome',
+        eyebrow: 'Filter 3',
+        heading: 'Affordable does not mean cheap on outcomes',
+        paragraphs: [
+          'Many students in Chennai search for affordable graphic design courses near them. Price is a real consideration, especially for students who are self-funding their education. But the most expensive course is not always the best, and the cheapest one is rarely the safest bet.',
+          'The better comparison is outcome per rupee. A Rs 18,000 program that ends with 8 portfolio projects and mentor reviews is a stronger investment than a Rs 8,000 program that ends with a certificate and no work to show.',
+        ],
+        bullets: [
+          'Compare project count and review quality alongside price',
+          'Ask whether EMI options are available to reduce upfront cost',
+          'Look for institutes near OMR, Perumbakkam, or your area to reduce travel cost',
+        ],
+      },
+      {
+        id: 'tsdc-position',
+        eyebrow: 'TSDC in Chennai',
+        heading: 'TSDC is built around portfolio outcomes, not just classroom hours',
+        paragraphs: [
+          'TSDC is a practical creative education institute located near OMR, Perumbakkam in Chennai. The Graphic Design Mastery Program runs for 12 weeks and covers Adobe Photoshop, Illustrator, InDesign, Canva Pro, and Figma through real project briefs.',
+          'Students complete 8+ portfolio projects including brand identities, packaging mockups, social media campaigns, and print-ready work — reviewed by working designers before the course ends.',
+        ],
+      },
+    ],
+    ctaTitle: 'Looking for the best graphic design institute near you in Chennai?',
+    ctaText:
+      'TSDC offers a portfolio-first graphic design program near OMR in Chennai — practical, mentor-reviewed, and built around the 8+ projects you need to start your design career.',
+    ctaLabel: 'Explore Graphic Design Course',
+    ctaHref: '/courses/graphic-design',
+  }),
+  createPost({
+    id: 'types-of-graphic-design-complete-beginner-guide-2026',
+    slug: 'types-of-graphic-design-complete-guide-for-beginners',
+    status: 'published',
+    featured: false,
+    title: 'Types of Graphic Design: A Complete Guide for Beginners',
+    subtitle: 'What the 7 main types of graphic design actually look like in the real world — and which one fits your strengths.',
+    excerpt:
+      'Graphic design is not one skill — it is a family of related disciplines. Understanding which type you are drawn to helps you choose the right course, build the right portfolio, and pursue the right career path.',
+    category: 'Graphic Design Careers',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '10 min read',
+    coverImage: '/graphicdesign.png',
+    coverImageAlt: 'Types of graphic design explained for beginners',
+    tags: ['types of graphic design', 'what is graphic design', 'graphic design career', 'logo design', 'brand identity design', 'visual design'],
+    seoTitle: 'Types of Graphic Design: A Complete Guide for Beginners | TSDC Blog',
+    seoDescription:
+      'Discover the 7 main types of graphic design — brand identity, print, packaging, digital, advertising, motion, and UI/UX — and learn which career path fits your strengths.',
+    intro: [
+      'When students say they want to learn graphic design, they often have one particular type in mind — usually logos, social media creatives, or posters. But graphic design as a field is much broader than that.',
+      'Understanding the main types of graphic design helps students choose the right specialisation, build a more targeted portfolio, and pursue jobs or freelance work that actually matches their strengths.',
+      'Here is a clear breakdown of the 7 main types of graphic design and what real work in each area looks like.',
+    ],
+    sections: [
+      {
+        id: 'brand-identity',
+        eyebrow: 'Type 1',
+        heading: 'Brand Identity Design',
+        paragraphs: [
+          'Brand identity design covers logos, color palettes, typography systems, brand guidelines, and the visual language a business uses across every touchpoint. This is one of the most in-demand areas for both freelancers and agency designers.',
+          'A brand identity designer is responsible for making a business look consistent and recognisable — from its social media profile to its packaging to its business card.',
+        ],
+        bullets: [
+          'Logo design and construction',
+          'Color palette and typography selection',
+          'Brand guidelines and style documents',
+          'Visual identity applied across channels',
+        ],
+        image: '/graphic.png',
+        imageAlt: 'Brand identity design portfolio work',
+      },
+      {
+        id: 'print-design',
+        eyebrow: 'Type 2',
+        heading: 'Print Design',
+        paragraphs: [
+          'Print design includes brochures, flyers, posters, magazines, business cards, and any physical media that requires print-ready artwork. It demands strong layout thinking, understanding of print specifications like bleeds and CMYK colour, and typography control.',
+          'Print designers typically use Adobe InDesign and Illustrator for most production work.',
+        ],
+      },
+      {
+        id: 'packaging-design',
+        eyebrow: 'Type 3',
+        heading: 'Packaging Design',
+        paragraphs: [
+          'Packaging design is one of the most commercially valuable graphic design specialisations. It covers product labels, box dielines, bags, bottles, and retail packaging. Strong packaging design combines visual appeal with structural awareness — the design must work both flat and folded into a 3D shape.',
+          'This area is especially strong for designers who enjoy working with FMCG brands, food and beverage, beauty, and retail products.',
+        ],
+        image: '/graphicdesign.png',
+        imageAlt: 'Packaging design portfolio for commercial products',
+      },
+      {
+        id: 'digital-social-design',
+        eyebrow: 'Type 4',
+        heading: 'Digital and Social Media Design',
+        paragraphs: [
+          'Digital and social media design covers Instagram creatives, Facebook ads, YouTube thumbnails, website banners, email templates, and any visual made for screens rather than print. It is the highest-volume work area for entry-level designers today.',
+          'Social media design is a strong entry point for beginners because the output is visible, clients are everywhere, and the feedback loop is fast.',
+        ],
+      },
+      {
+        id: 'advertising-design',
+        eyebrow: 'Type 5',
+        heading: 'Advertising and Campaign Design',
+        paragraphs: [
+          'Advertising design combines strategy with visuals — creating campaigns for print ads, outdoor hoardings, digital banners, and brand launches. It is common in agencies where designers work alongside copywriters and creative directors.',
+          'Campaign designers need to understand how a single idea adapts across multiple formats and sizes while keeping the message clear.',
+        ],
+      },
+      {
+        id: 'motion-graphics',
+        eyebrow: 'Type 6',
+        heading: 'Motion Graphics Design',
+        paragraphs: [
+          'Motion graphics design brings visuals to life through animation. It covers logo animations, title sequences, explainer videos, social ad motion, and branded video content. Most motion designers use Adobe After Effects alongside their base graphic design skills.',
+          'This is one of the fastest-growing specialisations as brands now need animated content for reels, ads, and launch campaigns constantly.',
+        ],
+      },
+      {
+        id: 'ui-ux-design',
+        eyebrow: 'Type 7',
+        heading: 'UI/UX Design',
+        paragraphs: [
+          'UI/UX design sits at the intersection of graphic design and product thinking. UI (User Interface) designers create the visual layout of apps and websites. UX (User Experience) designers research, map user journeys, and design interaction flows that solve real problems.',
+          'UI/UX is its own distinct career path, but graphic design fundamentals — typography, color, layout, hierarchy — are deeply relevant and transferable into this field.',
+        ],
+      },
+    ],
+    ctaTitle: 'Want to build skills across the most in-demand types of graphic design?',
+    ctaText:
+      'The TSDC Graphic Design Mastery Program covers brand identity, print, packaging, and social media design — the four types that create the most real career opportunities for beginners.',
+    ctaLabel: 'Explore Graphic Design Course',
+    ctaHref: '/courses/graphic-design',
+  }),
+  createPost({
+    id: 'graphic-design-salary-india-logo-designer-earnings-2026',
+    slug: 'graphic-design-salary-india-logo-designer-earnings-2026',
+    status: 'published',
+    featured: false,
+    title: 'Graphic Design Salary in India 2026: What Do Designers Actually Earn?',
+    subtitle: 'A realistic look at designer salaries, logo design income, freelance rates, and how portfolio quality affects what you can charge.',
+    excerpt:
+      'Graphic design salaries in India vary widely based on specialisation, portfolio quality, and location. Here is an honest breakdown of what beginners, mid-level designers, and freelancers actually earn.',
+    category: 'Graphic Design Careers',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '8 min read',
+    coverImage: '/graphic.png',
+    coverImageAlt: 'Graphic design salary in India — what designers actually earn in 2026',
+    tags: ['graphic design salary india', 'logo designer salary', 'graphic designer income', 'design career earnings', 'freelance design rates india'],
+    seoTitle: 'Graphic Design Salary in India 2026: What Do Designers Earn? | TSDC Blog',
+    seoDescription:
+      'Learn what graphic designers earn in India in 2026 — entry-level salaries, logo designer fees, freelance rates, and how portfolio quality determines your income.',
+    intro: [
+      'One of the most common questions students ask before enrolling in a graphic design course is: what will I actually earn? It is a fair question, and the answer is more nuanced than a single number.',
+      'Graphic design income in India depends on several variables: whether you work in-house or freelance, your specialisation, the quality of your portfolio, and the city you work in.',
+      'Here is an honest, grounded breakdown of what graphic designers earn at different stages of their career in 2026.',
+    ],
+    sections: [
+      {
+        id: 'entry-level-salary',
+        eyebrow: 'Starting out',
+        heading: 'Entry-level graphic designers in India earn Rs 15,000 to Rs 30,000 per month',
+        paragraphs: [
+          'Most freshers with a practical certificate course and a strong portfolio can expect starting salaries between Rs 15,000 and Rs 25,000 in cities like Chennai, Coimbatore, and Madurai. In metros like Bengaluru and Mumbai, starting salaries can reach Rs 25,000 to Rs 35,000.',
+          'What separates designers at the higher end of this range from those at the lower end is almost always portfolio quality. Freshers with brand identity projects, packaging mockups, and campaign creatives can negotiate better than those with only certificates.',
+        ],
+        bullets: [
+          'Chennai entry-level: Rs 15,000 – Rs 28,000 per month',
+          'Bengaluru and Mumbai entry-level: Rs 22,000 – Rs 35,000 per month',
+          'Agencies typically start lower; in-house brand roles sometimes start higher',
+          'Strong portfolio can move starting salary up by Rs 5,000 – Rs 8,000',
+        ],
+        image: '/graphicdesign.png',
+        imageAlt: 'Entry-level graphic designer salary India',
+      },
+      {
+        id: 'mid-level-salary',
+        eyebrow: 'After 2–3 years',
+        heading: 'Mid-level designers earn Rs 35,000 to Rs 70,000 per month',
+        paragraphs: [
+          'Designers with two to three years of strong project experience — especially in brand identity, digital campaigns, or packaging — typically earn Rs 35,000 to Rs 60,000 per month in Chennai and Rs 45,000 to Rs 70,000 in metro cities.',
+          'Specialisation is the main salary driver at this level. Designers who focus on brand identity, motion graphics, or UI design tend to earn more than generalists because their skill set is harder to replace.',
+        ],
+      },
+      {
+        id: 'logo-design-freelance',
+        eyebrow: 'Freelance income',
+        heading: 'Logo and brand designers can earn Rs 10,000 to Rs 1,50,000 per project',
+        paragraphs: [
+          'Logo and brand identity design is one of the highest-value freelance services in the creative industry. Entry-level freelancers may charge Rs 3,000 to Rs 10,000 for a logo. Mid-level brand designers with strong portfolios regularly charge Rs 25,000 to Rs 75,000 for complete brand identity packages.',
+          'Senior brand designers and studio owners with premium positioning charge Rs 1,00,000 to Rs 2,50,000 or more per brand project — a rate that is based entirely on portfolio credibility, not years of age.',
+        ],
+        bullets: [
+          'Entry-level logo: Rs 3,000 – Rs 10,000',
+          'Mid-level brand identity package: Rs 25,000 – Rs 75,000',
+          'Premium studio brand identity: Rs 1,00,000+',
+          'Social media design retainers: Rs 8,000 – Rs 25,000 per month per client',
+        ],
+        image: '/graphic.png',
+        imageAlt: 'Freelance logo designer earnings and brand design rates in India',
+      },
+      {
+        id: 'what-determines-income',
+        eyebrow: 'The key factor',
+        heading: 'Portfolio quality is the biggest determinant of what you earn',
+        paragraphs: [
+          'Across every level — fresher, mid-level, and senior — the designers who earn more are the ones with a stronger portfolio. A certificate from a well-known institute does not move salaries as much as three polished brand identity projects or a proven packaging design that a real client used.',
+          'This is why the TSDC program is built around producing 8+ real portfolio projects. The goal is not to finish the course — it is to finish with proof of skill that earns you more from your very first interview or client pitch.',
+        ],
+      },
+      {
+        id: 'is-design-well-paid',
+        eyebrow: 'Is it worth it?',
+        heading: 'Graphic design is a well-paid and growing career in India',
+        paragraphs: [
+          'With the growth of e-commerce, social media marketing, D2C brands, and digital advertising in India, the demand for skilled graphic designers continues to expand. Both in-house roles and agency positions are growing, and freelance income potential is significant for designers who build strong brand expertise.',
+          'For students who invest in practical training and build a real portfolio, graphic design is one of the most accessible paths to a creative career that pays well and grows with experience.',
+        ],
+      },
+    ],
+    ctaTitle: 'Start building the portfolio that determines your salary',
+    ctaText:
+      'At TSDC, the Graphic Design Mastery Program gives you 8+ real portfolio projects — brand identities, packaging, and social creatives — that help you earn more from your very first role or client.',
+    ctaLabel: 'Explore Graphic Design Course',
+    ctaHref: '/courses/graphic-design',
+  }),
+  createPost({
+    id: 'can-ai-replace-graphic-designers-future-creativity-2026',
+    slug: 'can-ai-replace-graphic-designers-future-of-creativity',
+    status: 'published',
+    featured: false,
+    title: 'Can AI Replace Graphic Designers? The Future of Creativity in 2026',
+    subtitle: 'AI tools are transforming how designers work — but human creativity, cultural insight, and strategic thinking remain irreplaceable.',
+    excerpt:
+      'AI cannot replicate the human touch behind great design. What it can do is help designers work faster, explore more directions, and focus energy on the decisions that actually require creative judgment.',
+    category: 'AI and Graphic Design',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '8 min read',
+    coverImage: '/graphicdesign.png',
+    coverImageAlt: 'AI and graphic designer working together on creative projects',
+    tags: ['ai graphic design', 'future of design', 'adobe sensei', 'canva ai', 'graphic design career', 'TSDC Chennai'],
+    seoTitle: 'Can AI Replace Graphic Designers? The Future of Creativity | TSDC Blog',
+    seoDescription:
+      'Explore whether AI can replace graphic designers in 2026. Learn how tools like Adobe Firefly and Canva AI augment creative work without replacing human insight, strategy, and emotional depth.',
+    intro: [
+      'In a world increasingly driven by technology, the question of whether AI can replace graphic designers comes up constantly. The honest answer is more useful than a yes or no.',
+      'AI tools are genuinely changing how design work gets done. Tasks that used to take hours — resizing assets, generating layout variations, writing first-draft copy — now happen in minutes. That is a real shift.',
+      'But design is not just a production task. It is a communication problem. And solving communication problems requires understanding people, context, culture, and intent — none of which AI can do alone.',
+    ],
+    sections: [
+      {
+        id: 'rise-of-ai-in-design',
+        eyebrow: 'What is changing',
+        heading: 'AI is already inside the tools designers use every day',
+        paragraphs: [
+          'AI-powered features are now embedded across the tools designers rely on. Adobe Firefly generates image variations and background fills. Canva\'s Magic Resize and Magic Design automate repetitive production work. Figma\'s AI features speed up design system generation and content replacement.',
+          'These tools reduce friction on the mechanical side of design — the parts that were always more execution than thinking. That means designers who know how to use AI well can produce more output in less time, explore more directions before committing, and bring better-developed ideas to client review.',
+        ],
+        bullets: [
+          'Adobe Firefly and Photoshop Generative Fill for image production',
+          'Canva Magic Resize and Magic Write for fast layout and copy work',
+          'Figma AI for component suggestions and content replacement',
+          'Midjourney and Ideogram for concept mood boards and visual exploration',
+        ],
+        image: '/Digital_marketing.png',
+        imageAlt: 'AI-powered design tools inside creative software',
+      },
+      {
+        id: 'what-ai-cannot-do',
+        eyebrow: 'The real limit',
+        heading: 'AI cannot understand what the design actually needs to communicate',
+        paragraphs: [
+          'Graphic design is not just about creating aesthetically pleasing visuals. It is about solving a communication problem for a specific audience in a specific context. A brand identity for a children\'s education startup needs to feel different from one for a law firm — not because of style preferences, but because they need to create different emotional responses in different people.',
+          'AI can generate thousands of variations quickly, but it does not know which variation will land with a Chennai-based family buying their child\'s first school bag versus a Mumbai-based investor evaluating a fintech startup. That judgment requires human context, cultural fluency, and strategic thinking.',
+        ],
+        bullets: [
+          'Understanding cultural nuance and regional audience behavior',
+          'Reading a client brief for what is actually unsaid',
+          'Knowing when a design is wrong even if it looks good',
+          'Building long-term brand consistency across campaigns',
+        ],
+      },
+      {
+        id: 'collaboration-model',
+        eyebrow: 'The smarter frame',
+        heading: 'The most useful way to think about AI is as a co-pilot, not a replacement',
+        paragraphs: [
+          'Designers who use AI as a creative co-pilot produce stronger work faster. They use language models to unpack briefs, identify gaps in their brief understanding, and pressure-test concept directions. They use generative image tools to explore moodboard ideas in minutes instead of hours. They use AI copy tools to generate headline variations they can edit instead of starting from blank.',
+          'The result is that more cognitive energy stays on the decisions that require taste, experience, and design judgment. That is what makes final output genuinely better — not just faster.',
+        ],
+        image: '/UIUXDesign.png',
+        imageAlt: 'Designer using AI tools as creative support',
+      },
+      {
+        id: 'what-students-should-learn',
+        eyebrow: 'For students',
+        heading: 'Learning design fundamentals matters more in an AI world, not less',
+        paragraphs: [
+          'Some students assume that because AI can generate images, learning design fundamentals is less important. The opposite is true. AI makes it easier to produce average-looking output quickly. What separates strong designers now is the ability to recognise what makes something good — hierarchy, tension, rhythm, whitespace, brand voice — and direct AI output toward that standard.',
+          'A student who understands typography will know immediately when an AI-generated layout has weak hierarchy. A student who understands color theory will know when an AI palette is tonally inconsistent. Fundamentals are the editing filter that makes AI-assisted work actually strong.',
+        ],
+        bullets: [
+          'Typography and hierarchy remain the most transferable skills in any AI-assisted workflow',
+          'Brand thinking — tone, consistency, audience fit — cannot be delegated to a prompt',
+          'Portfolio quality still depends on decision-making, not generation speed',
+          'Designers who learn both fundamentals and AI tools will be more hireable, not less',
+        ],
+      },
+      {
+        id: 'career-outlook',
+        eyebrow: 'Career reality',
+        heading: 'The demand for design thinking is growing alongside AI adoption',
+        paragraphs: [
+          'Companies that adopt AI content tools still need humans to guide brand direction, approve outputs, ensure consistency, and make judgment calls on what actually works for their audience. The volume of design work is increasing, not shrinking, as AI makes content creation faster and more accessible.',
+          'What this means for students entering the field: the bar for technical execution is moving. Knowing how to use Photoshop is still important, but knowing how to think through a design problem and direct AI tools toward the right output is what makes a designer genuinely valuable to a team or client.',
+        ],
+      },
+    ],
+    ctaTitle: 'Learn graphic design with real AI workflow integration at TSDC',
+    ctaText:
+      'At TSDC, students learn design fundamentals, professional tools, and how to work with AI as a creative support system — so they are ready for how design actually works in 2026.',
+    ctaLabel: 'Explore Graphic Design Course',
+    ctaHref: '/courses/graphic-design',
+  }),
+  createPost({
+    id: 'motion-graphics-course-chennai-career-guide-2026',
+    slug: 'motion-graphics-course-chennai-career-guide-2026',
+    status: 'published',
+    featured: false,
+    title: 'Motion Graphics Course in Chennai: Who Should Learn It and Where It Leads',
+    subtitle: 'A practical guide for students curious about After Effects, animation, and commercial motion work.',
+    excerpt:
+      'Motion graphics sits at the intersection of design, storytelling, advertising, and video production, which makes it one of the most useful visual skills for modern brands.',
+    category: 'Motion Graphics Careers',
+    author: 'TSDC Creative Team',
+    publishedAt: '2026-05-03',
+    readTime: '8 min read',
+    coverImage: '/graphic.png',
+    coverImageAlt: 'Motion graphics learning path for students in Chennai',
+    tags: ['motion graphics course chennai', 'after effects course chennai', 'motion design career', 'animation training'],
+    seoTitle: 'Motion Graphics Course in Chennai: Career Guide for Students | TSDC',
+    seoDescription:
+      'Learn what a motion graphics course in Chennai should cover, who it suits best, and how it can lead to animation, ad creative, and branded content work.',
+    intro: [
+      'Motion graphics is becoming easier to notice because brands now depend on animated content everywhere: reels, product explainers, ads, launch visuals, and title systems.',
+      'For students, that creates a strong opportunity. Motion work combines design thinking with movement, which makes it useful for agencies, creator teams, video studios, and in-house marketing teams.',
+      'If you are comparing motion graphics courses in Chennai, here is what to look for first.',
+    ],
+    sections: [
+      {
+        id: 'who-it-fits',
+        eyebrow: 'Best fit',
+        heading: 'This path suits students who enjoy design plus movement',
+        paragraphs: [
+          'Motion graphics is a strong fit for learners who already like visual composition but want more energy, rhythm, and animation in their work. It rewards timing, pacing, and attention to presentation.',
+          'Students coming from graphic design, video editing, or social media content often adapt especially well because they already understand visuals and communication.',
+        ],
+      },
+      {
+        id: 'what-to-learn',
+        eyebrow: 'Core stack',
+        heading: 'A good course should teach systems, not just effects',
+        paragraphs: [
+          'Many beginners get stuck collecting transitions and flashy presets. Better training focuses on motion principles, typography, brand consistency, scene building, and how to animate with purpose.',
+          'That usually means learning After Effects alongside Illustrator or Photoshop workflows, then applying those tools to explainers, logo animation, title systems, and ad motion.',
+        ],
+        bullets: [
+          'Motion principles and timing',
+          'Animated typography and logo reveals',
+          'Explainer scenes and brand-led ad motion',
+          'Portfolio presentation for recruiters and clients',
+        ],
+      },
+      {
+        id: 'career-path',
+        eyebrow: 'Career direction',
+        heading: 'The work can lead into ads, creators, agencies, and content teams',
+        paragraphs: [
+          'Motion graphics can support freelance projects quickly, especially for short-form ads and social campaigns. It can also grow into studio or agency work where strong motion polish makes campaigns feel premium.',
+          'Students who combine motion with editing or design often become more versatile and easier to place because they can support multiple content formats.',
+        ],
+      },
+    ],
+    ctaTitle: 'Want to learn motion graphics with portfolio-ready projects?',
+    ctaText:
+      'TSDC teaches motion graphics through After Effects, animated typography, explainers, social ad visuals, and commercial-style motion projects in Chennai.',
+    ctaLabel: 'Explore Motion Graphics Course',
+    ctaHref: '/courses/motion-graphics',
+  }),
 ]
 
 const getBlogKey = (post: Pick<BlogPost, 'id' | 'slug'>) => `${post.id}::${post.slug}`

@@ -73,6 +73,7 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   const fitCards = course.fitCards ?? defaultFitCards
+  const topCareerRoles = course.careerRoles.split(',').map((role) => role.trim()).slice(0, 3)
 
   useEffect(() => {
     const onScroll = () => setShowStickyCta(window.scrollY > 580)
@@ -110,7 +111,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
         <div className="comic-burst pointer-events-none absolute -left-6 bottom-24 z-0 hidden h-24 w-24 bg-[#db4b87] opacity-75 lg:block" />
 
         <div className="relative z-10 mx-auto max-w-6xl">
-          {/* ── Breadcrumb ── */}
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold text-[#667085]">
               <li>
@@ -126,7 +126,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
           </nav>
 
           <div className="rounded-[2.5rem] border-[3px] border-[#10163a] bg-white px-5 py-6 shadow-[9px_9px_0_#10163a] md:px-10 md:py-10">
-            {/* ── Hero ── */}
             <motion.div
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
@@ -180,7 +179,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
                   </div>
                 </div>
 
-                {/* Hero image — no rotation, clean lift */}
                 <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 24 }} className="relative">
                   <div className="overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white p-3 shadow-[6px_6px_0_#10163a]">
                     <Image
@@ -191,7 +189,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
                       className="h-[280px] w-full rounded-[1.5rem] object-cover md:h-[360px]"
                       priority
                     />
-                    {/* Intake snapshot overlay */}
                     <div className="mt-3 rounded-[1.4rem] border-[3px] border-[#10163a] bg-white p-4 text-[#081225] shadow-[4px_4px_0_#10163a]">
                       <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: course.accent }}>
                         Upcoming intake
@@ -207,7 +204,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </div>
             </motion.div>
 
-            {/* ── Key info cards ── */}
             <div className="my-10 grid gap-5 md:grid-cols-3">
               <div className="rounded-[1.8rem] border-[3px] border-[#10163a] p-6 shadow-[6px_6px_0_#10163a]" style={{ backgroundColor: course.soft }}>
                 <CreditCard className="mb-2" style={{ color: course.deep }} />
@@ -233,7 +229,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </div>
             </div>
 
-            {/* ── Who is this for ── */}
             <div className="mb-12 grid gap-5 md:grid-cols-3">
               {fitCards.map((item, index) => (
                 <div
@@ -249,7 +244,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               ))}
             </div>
 
-            {/* ── Outcomes header ── */}
             <div className="py-6 text-center">
               <p className="mx-auto mb-3 inline-flex rounded-full border-[3px] border-[#10163a] px-4 py-2 text-sm font-black shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft, color: course.deep }}>
                 What students develop here
@@ -259,7 +253,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </h2>
             </div>
 
-            {/* ── Outcome cards ── */}
             <div className="grid gap-5 md:grid-cols-2">
               {course.outcomes.map((outcome, index) => (
                 <motion.div
@@ -280,7 +273,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               ))}
             </div>
 
-            {/* ── Real project CTA ── */}
             <div className="my-12 rounded-[2rem] border-[3px] border-[#10163a] bg-[#fff4e7] p-6 shadow-[7px_7px_0_#10163a] md:flex md:items-center md:justify-between md:gap-8">
               <div className="flex items-start gap-4">
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-[3px] border-[#10163a] text-white shadow-[3px_3px_0_#10163a]" style={{ backgroundColor: course.deep }}>
@@ -302,7 +294,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </button>
             </div>
 
-            {/* ── Modules ── */}
             <div className="py-4 text-center">
               <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">Structured syllabus breakdown</h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#475467]">
@@ -328,7 +319,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               ))}
             </div>
 
-            {/* ── Quick facts ── */}
             <div className="my-12 grid gap-5 rounded-[2rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[7px_7px_0_#10163a] md:grid-cols-3">
               <div className="rounded-[1.5rem] border-[3px] border-[#10163a] p-5 shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft }}>
                 <Clock className="mb-3" style={{ color: course.deep }} />
@@ -347,7 +337,45 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </div>
             </div>
 
-            {/* ── Testimonial + FAQ ── */}
+            <div className="mb-12 grid gap-5 md:grid-cols-[1.05fr_0.95fr]">
+              <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-6 shadow-[7px_7px_0_#10163a]">
+                <p className="text-sm font-black uppercase tracking-[0.18em]" style={{ color: course.deep }}>
+                  Why this works for Chennai students
+                </p>
+                <h2 className="mt-2 text-3xl font-black tracking-[-0.04em] text-[#10163a] md:text-4xl">
+                  Build local job-ready proof, not just course completion.
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-[#475467]">
+                  This {course.title.toLowerCase()} is designed for students in Chennai who need practical output they can show in interviews, freelance meetings, and internship conversations. Instead of only covering tools, the course is built around finished work, mentor corrections, and portfolio-ready presentation.
+                </p>
+                <p className="mt-4 text-sm leading-7 text-[#475467]">
+                  Students from Perumbakkam, Medavakkam, Sholinganallur, Velachery, and the OMR belt typically need training that fits real schedules and leads to visible proof of skill. That is why the program combines {course.mode.toLowerCase()}, structured feedback, and projects that match the expectations of creative and digital roles in Chennai.
+                </p>
+              </div>
+
+              <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#eef3ff] p-6 shadow-[7px_7px_0_#10163a]">
+                <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">
+                  What you should be ready for next
+                </p>
+                <div className="mt-5 space-y-3">
+                  {topCareerRoles.map((role) => (
+                    <div
+                      key={role}
+                      className="rounded-[1.1rem] border-[3px] border-[#10163a] bg-white px-4 py-3 shadow-[4px_4px_0_#10163a]"
+                    >
+                      <p className="text-sm font-black text-[#10163a]">{role}</p>
+                      <p className="mt-1 text-sm leading-6 text-[#475467]">
+                        Prepare portfolio samples, tool confidence, and interview-ready talking points for this track.
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-7 text-[#475467]">
+                  Alongside the tools, the course also helps you explain your process clearly, show finished work with confidence, and move faster into internships, first jobs, or freelance opportunities.
+                </p>
+              </div>
+            </div>
+
             <div className="grid gap-5 md:grid-cols-[1.05fr_0.95fr]">
               <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#171d4d] p-7 text-white shadow-[8px_8px_0_#10163a]">
                 <p className="text-sm font-black uppercase tracking-[0.18em] text-white/60">Student proof</p>
@@ -356,12 +384,11 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
                 <p className="mt-3 text-sm font-black text-white">{course.testimonial.author}, {course.testimonial.role}</p>
               </div>
 
-              {/* ── Animated FAQ ── */}
               <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white p-7 shadow-[8px_8px_0_#10163a]">
                 <p className="text-sm font-black uppercase tracking-[0.18em] text-[#3244b5]">Frequently asked questions</p>
                 <div className="mt-5 space-y-3">
                   {course.faqs.map((faq, index) => (
-                    <div key={faq.question} className="rounded-[1.2rem] border-[3px] border-[#10163a] bg-[#fffdf7] shadow-[4px_4px_0_#10163a] overflow-hidden">
+                    <div key={faq.question} className="overflow-hidden rounded-[1.2rem] border-[3px] border-[#10163a] bg-[#fffdf7] shadow-[4px_4px_0_#10163a]">
                       <button
                         type="button"
                         onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
@@ -396,7 +423,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
               </div>
             </div>
 
-            {/* ── Bottom CTA panel ── */}
             <div className="mt-12 rounded-[2rem] border-[3px] border-[#10163a] p-7 text-white shadow-[8px_8px_0_#10163a] md:grid md:grid-cols-[1fr_0.8fr] md:items-center md:gap-8" style={{ backgroundColor: course.deep }}>
               <div>
                 <p className="text-sm font-black uppercase tracking-[0.18em] text-white/68">Need clarity before you decide?</p>
@@ -433,7 +459,6 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
         </div>
       </section>
 
-      {/* ── Sticky bottom CTA bar ── */}
       <AnimatePresence>
         {showStickyCta && (
           <motion.div
@@ -446,7 +471,7 @@ export function CourseLandingTemplate({ course }: { course: CourseLandingData })
             <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-black text-[#10163a]">{course.title}</p>
-                <p className="text-xs font-semibold text-[#667085]">{course.fee} · {course.duration} · {course.mode}</p>
+                <p className="text-xs font-semibold text-[#667085]">{course.fee} - {course.duration} - {course.mode}</p>
               </div>
               <div className="flex gap-2">
                 <button

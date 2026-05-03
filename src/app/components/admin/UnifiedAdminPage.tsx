@@ -183,6 +183,7 @@ export default function UnifiedAdminPage({
     { label: 'UI/UX Design',     href: '/courses/uiux-design',      note: 'Course' },
     { label: 'Digital Marketing',href: '/courses/digital-marketing', note: 'Course' },
     { label: 'Video Editing',    href: '/courses/video-editing',    note: 'Course' },
+    { label: 'Motion Graphics',  href: '/courses/motion-graphics',  note: 'Course' },
   ]
 
   /* ════════════════════════════════════════════════════════════
@@ -507,8 +508,8 @@ export default function UnifiedAdminPage({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-black text-[#10163a]">Course Pages Editor</h2>
               <div className="flex gap-2">
-                {(['graphic-design', 'uiux-design', 'digital-marketing', 'video-editing'] as const).map((id) => {
-                  const labels: Record<string, string> = { 'graphic-design': 'Graphic Design', 'uiux-design': 'UI/UX', 'digital-marketing': 'Digital Mktg', 'video-editing': 'Video Editing' }
+                {(['graphic-design', 'uiux-design', 'digital-marketing', 'video-editing', 'motion-graphics'] as const).map((id) => {
+                  const labels: Record<string, string> = { 'graphic-design': 'Graphic Design', 'uiux-design': 'UI/UX', 'digital-marketing': 'Digital Mktg', 'video-editing': 'Video Editing', 'motion-graphics': 'Motion Graphics' }
                   return (
                     <button
                       key={id}
@@ -522,7 +523,7 @@ export default function UnifiedAdminPage({
               </div>
             </div>
 
-            {(['graphic-design', 'uiux-design', 'digital-marketing', 'video-editing'] as const).map((id) => {
+            {(['graphic-design', 'uiux-design', 'digital-marketing', 'video-editing', 'motion-graphics'] as const).map((id) => {
               if (id !== activeCourse) return null
               const c = courseContent[id]
               return (

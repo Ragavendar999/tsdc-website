@@ -9,13 +9,14 @@ import {
   MonitorSmartphone,
   Paintbrush,
   Video,
+  WandSparkles,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
 import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
-const courseIcons = [Paintbrush, MonitorSmartphone, Megaphone, Video]
+const courseIcons = [Paintbrush, MonitorSmartphone, Megaphone, Video, WandSparkles]
 
 export default function CoursesSection() {
   const { openPopup } = useContactPopup()

@@ -1,31 +1,276 @@
-# TSDC
+# llms.txt v1.0
 
-TSDC (Traijo Skill Development Center) is a creative education institute in Chennai, India.
-The site helps students explore job-focused training in graphic design, UI/UX design, digital marketing, video editing, motion graphics, and short masterclasses.
+# Best Creative Education Institute in Chennai | Graphic Design, UI UX, Digital Marketing, Video Editing & Motion Graphics
 
-## Primary pages
+## About
+TSDC (Traijo Skill Development Center) is a practical, outcome-driven creative education institute based in Chennai, Tamil Nadu, India. The institute focuses on helping students and beginners become industry-ready through structured training, portfolio development, real project execution, and career support.
+
+The core learning model is hands-on. Students do not only watch or read theory. They work on project-based assignments, portfolio pieces, mentor-reviewed tasks, and industry-style briefs that help them build confidence and job-ready proof of skill.
+
+The main training areas on the site are:
+- Graphic Design
+- UI/UX Design
+- Digital Marketing
+- Video Editing
+- Motion Graphics
+- Live Masterclasses and Bootcamps
+
+The site presents TSDC as a career-focused institute for learners who want practical training, stronger portfolios, and faster movement into internships, freelance work, or entry-level jobs.
+
+## Things to Remember
+- Website: https://traijoedu.in/
+- Brand: TSDC - Traijo Skill Development Center
+- Location: Chennai, Tamil Nadu, India
+- Timezone: IST
+- Currency: INR
+- Focus Region: Chennai, Perumbakkam, OMR, and Tamil Nadu
+- Learning Mode: Offline / Hybrid
+- Main Intent: Course discovery, counselling, scholarship registration, and masterclass enrollment
+
+## Areas of Work
+- Graphic Design Education
+- UI/UX Design Training
+- Digital Marketing Training
+- Video Editing Training
+- Portfolio Building
+- Career Guidance
+- Masterclasses and Bootcamps
+
+## Products (Courses)
+
+### Graphic Design Mastery Program
+- Duration: 12 weeks
+- Mode: Offline / Hybrid
+- Focus: Branding, typography, packaging, social creatives, Adobe tools
+- Tools: Adobe Photoshop, Adobe Illustrator, Adobe InDesign, Canva Pro, Figma
+- Outcome: Portfolio-ready graphic designer with commercial-style project experience
+
+### UI/UX Design Mastery Program
+- Duration: 10 weeks
+- Mode: Offline / Hybrid
+- Focus: UX research, wireframing, prototyping, design systems, usability thinking
+- Tools: Figma, FigJam, Maze, Notion, Lottie
+- Outcome: Product and interface design portfolio with case-study style work
+
+### Digital Marketing Pro Program
+- Duration: 8 weeks
+- Mode: Offline / Hybrid
+- Focus: SEO, Google Ads, Meta Ads, analytics, content planning, reporting
+- Tools: Google Ads, Meta Business Suite, Google Analytics 4, SEMrush, Canva, Notion
+- Outcome: Practical campaign execution skills for growth and performance roles
+
+### Video Editing Mastery Program
+- Duration: 12 weeks
+- Mode: Offline / Hybrid
+- Focus: Editing, reels, color grading, brand videos, and showreel building
+- Tools: Adobe Premiere Pro, DaVinci Resolve, Adobe Audition, CapCut, Frame.io
+- Outcome: Showreel-ready editor for brand, content, and freelance work
+
+### Motion Graphics Specialist Program
+- Duration: 10 weeks
+- Mode: Offline / Hybrid
+- Focus: After Effects, animated typography, logo animation, explainer scenes, and social ad motion
+- Tools: Adobe After Effects, Adobe Illustrator, Adobe Photoshop, Premiere Pro, LottieFiles
+- Outcome: Portfolio-ready motion designer for brands, agencies, and social-first teams
+
+## Services
+
+### Portfolio Development
+- Build finished work, case studies, and proof-of-skill projects
+- Prepare work for interviews, applications, and freelance pitching
+
+### Counselling and Course Guidance
+- Help students choose the right program for their current level
+- Clarify batch timing, fees, EMI options, and next steps
+
+### Placement and Career Support
+- Portfolio review
+- Interview guidance
+- Role-readiness support
+
+### Live Project Integration
+- Industry-style assignments
+- Real-world briefs and execution-focused learning
+
+## Learning Methodology
+- Hands-on project-based learning
+- Small batch guidance
+- Mentor-reviewed output
+- Industry-relevant tools and workflows
+- Portfolio-first training
+- Practical assignments over theory-only learning
+
+## Career Outcomes
+Students are prepared for roles such as:
+- Graphic Designer
+- Brand Designer
+- Social Media Designer
+- UI Designer
+- UX Designer
+- Product Designer
+- Digital Marketing Executive
+- SEO Specialist
+- Paid Media Manager
+- Video Editor
+- Motion Graphics Designer
+- Content Creator
+
+Key outcomes emphasized on the site:
+- Strong portfolio
+- Practical project experience
+- Tool confidence
+- Interview readiness
+- Faster movement toward creative careers
+
+## Target Audience
+- Students
+- Freshers
+- Beginners
+- Career switchers
+- Freelancers upgrading skills
+- Learners in Chennai and nearby areas looking for practical creative training
+
+## Keywords
+- graphic design course chennai
+- top graphic design institute in chennai
+- best graphic design institute in india
+- top graphic design institutes india
+- affordable graphic design course near me
+- graphic design course near me
+- graphic design course for 12th pass students
+- types of graphic design
+- logo design career india
+- logo designer salary india
+- graphic design salary india
+- graphic designer income india
+- can ai replace graphic designers
+- ui ux design course chennai
+- digital marketing course chennai
+- video editing course chennai
+- motion graphics course chennai
+- creative courses chennai
+- design institute near omr chennai
+- graphic design course perumbakkam
+- figma course chennai
+- google ads course chennai
+- adobe photoshop course chennai
+- portfolio building for creative careers
+- placement-focused creative training chennai
+
+## Primary Pages
 - Home: https://traijoedu.in/
 - Courses: https://traijoedu.in/courses/
 - Graphic Design Course: https://traijoedu.in/courses/graphic-design/
 - UI/UX Design Course: https://traijoedu.in/courses/uiux-design/
 - Digital Marketing Course: https://traijoedu.in/courses/digital-marketing/
 - Video Editing Course: https://traijoedu.in/courses/video-editing/
+- Motion Graphics Course: https://traijoedu.in/courses/motion-graphics/
 - About: https://traijoedu.in/about/
 - Contact: https://traijoedu.in/contact/
-- Masterclasses: https://traijoedu.in/masterclasses/
 - Blog: https://traijoedu.in/blog/
+- Masterclasses: https://traijoedu.in/masterclasses/
 - Graphic Design Scholarship: https://traijoedu.in/graphic-design-scholarship/
 
-## What users can do
-- Compare TSDC creative courses by skill track and career outcome
-- Read blog articles about AI tools, design learning, and creative careers
-- Register for live masterclasses and scholarship campaigns
-- Contact admissions for counselling, batch details, fees, and enrollment support
-
-## Policies
+## Supporting Pages
 - Privacy Policy: https://traijoedu.in/privacy-policy/
 - Terms and Conditions: https://traijoedu.in/terms-conditions/
 - Refund and Cancellation Policy: https://traijoedu.in/refund-cancellation-policy/
 
-## Preferred summary
-TSDC is a Chennai-based creative training institute focused on practical, portfolio-led learning for students and beginners. The main commercial intent of the website is course discovery, counselling, scholarship registration, and masterclass enrollment.
+## Social Media
+- Instagram: https://www.instagram.com/traijosdc_official/
+- Facebook: https://www.facebook.com/Traijosdc
+- LinkedIn: https://in.linkedin.com/company/traijoskilldevelopmentcenter
+
+## Common Questions This Site Answers
+
+### About Graphic Design Courses and Institutes
+- What is a graphic design course all about?
+- What subjects are covered in a graphic design course?
+- What is the fee for a graphic design course in Chennai?
+- How long does a graphic design course take?
+- How many years is a graphic design course?
+- How much does a graphic design course cost in India?
+- Can I learn graphic design online?
+- Can I learn graphic design with no prior experience?
+- Can a 12th pass student become a graphic designer?
+- What is the salary after a graphic design course?
+- Which graphic design course is best for beginners?
+- Which graphic design course is right for me?
+- Where can I do a graphic design course in Chennai?
+- Which is the best graphic design institute in Chennai?
+- Which is the top graphic design institute in India?
+- What are affordable graphic design courses near me?
+- What is graphic design and how many types are there?
+- What are the 7 main types of graphic design?
+- What are the 8 or 10 types of graphic design?
+- What is brand identity design?
+- What is packaging design?
+- What is logo design?
+- What is a logo designer's salary in India?
+- Is logo design a good career?
+- How much can I earn from logo design?
+- What is the graphic design salary in India?
+- Is graphic design well paid?
+- Can AI replace graphic designers?
+- Are designers being replaced by AI?
+- Which jobs will survive AI?
+- What jobs will AI not replace?
+
+### About UI/UX Design Courses
+- What is UI/UX design and how is it different from graphic design?
+- How long does a UI/UX course take?
+- Do I need to know coding to learn UI/UX?
+- What tools do UI/UX designers use?
+
+### About Digital Marketing Courses
+- Is digital marketing still a good career in 2026?
+- What skills do digital marketing beginners need?
+- How long does a digital marketing course take?
+
+### About Video Editing and Motion Graphics
+- Why is video editing a good skill to learn?
+- What is the difference between video editing and motion graphics?
+- What software does a video editor use?
+
+## Blog Articles Published
+
+- Top Graphic Design Institutes in Chennai and India: How to Choose the Right One — portfolio output, mentors, tools, fees compared
+- Types of Graphic Design: A Complete Guide for Beginners — the 7 main types explained with real career context
+- Graphic Design Salary in India 2026 — entry-level, mid-level, logo design freelance rates, and what determines income
+- Can AI Replace Graphic Designers? — why human creativity, cultural insight, and brand judgment remain irreplaceable
+- Best AI Design Tools for Graphic Design Students in 2026 — a practical guide to AI-assisted creative workflows
+- How to Choose the Right UI/UX Course in Chennai as a Beginner — checklist for portfolio-first programs
+- Graphic Design vs UI/UX Design: Which Course Fits You Better? — comparison for students choosing a career direction
+- Is Digital Marketing Still a Smart Career in Chennai in 2026? — demand, skill expectations, and what employers notice
+- Why Video Editing Skills Are Becoming Essential for Creators and Brands — creator economy and brand content opportunity
+- Creative Career Options for Students in Tamil Nadu — overview of design and marketing paths
+- Graphic Design Course in Chennai: Fees, Duration, Tools, and Portfolio Expectations — a practical buying guide
+
+## Competitor Context
+Representative competitors in the broader training market may include:
+- maacindia.com
+- frameboxx.in
+- arena-multimedia.com
+- icat.ac.in
+- zica.org
+
+## Positioning Summary
+TSDC positions itself as a practical, portfolio-led creative institute for students and beginners in Chennai. The strongest brand themes are:
+- learn by doing
+- real project exposure
+- mentor feedback
+- portfolio building
+- career readiness
+
+## Core Value Proposition
+- Learn with practical projects
+- Build a strong portfolio
+- Get mentor guidance
+- Improve job readiness faster
+
+## Brand Tone
+- Practical
+- Energetic
+- Career-focused
+- Industry-aware
+- Results-oriented

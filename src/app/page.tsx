@@ -39,6 +39,7 @@ export default function HomePage() {
         { title: 'UI/UX Design Course', path: '/courses/uiux-design' },
         { title: 'Digital Marketing Course', path: '/courses/digital-marketing' },
         { title: 'Video Editing Course', path: '/courses/video-editing' },
+        { title: 'Motion Graphics Course', path: '/courses/motion-graphics' },
       ],
     }),
   ]

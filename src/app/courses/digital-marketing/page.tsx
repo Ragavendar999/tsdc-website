@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import DigitalMarketingContent from './DigitalMarketingContent'
-import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
+import { defaultCourseContent } from '@/app/lib/courseContent'
+import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Course in Chennai',
@@ -47,6 +48,7 @@ export const metadata: Metadata = {
 }
 
 export default function DigitalMarketingCoursePage() {
+  const course = defaultCourseContent['digital-marketing']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -59,6 +61,12 @@ export default function DigitalMarketingCoursePage() {
         "Enroll in TSDC's Digital Marketing Course in Chennai. Learn SEO, Google Ads, Meta Ads, social media marketing, analytics, content strategy and live campaign execution.",
       path: '/courses/digital-marketing',
       image: '/Digital_marketing.png',
+    }),
+    faqSchema(course.faqs),
+    reviewSchema({
+      itemName: 'Digital Marketing Course in Chennai',
+      itemPath: '/courses/digital-marketing',
+      review: course.testimonial,
     }),
   ]
 

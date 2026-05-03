@@ -41,6 +41,7 @@ export type AllCourseContent = {
   'uiux-design': CourseData
   'digital-marketing': CourseData
   'video-editing': CourseData
+  'motion-graphics': CourseData
 }
 
 export const defaultCourseContent: AllCourseContent = {
@@ -87,12 +88,28 @@ export const defaultCourseContent: AllCourseContent = {
       role: 'Brand Designer, Chennai',
     },
     faqs: [
-      { question: 'Is this course beginner-friendly?', answer: 'Yes. The program starts with design fundamentals before moving into Adobe tools, branding systems, and portfolio projects.' },
+      { question: 'What is a graphic design course all about?', answer: 'A graphic design course teaches you how to visually communicate ideas through typography, color, layout, branding, and digital tools like Photoshop and Illustrator. At TSDC, the program covers design fundamentals, Adobe tools, brand identity, packaging, social media creatives, and a portfolio of 8+ real projects.' },
+      { question: 'What subjects are covered in a graphic design course?', answer: 'Core subjects include visual hierarchy, color theory, typography, logo design, branding systems, print and packaging design, social media creatives, and portfolio development. At TSDC, students also learn Adobe Photoshop, Illustrator, InDesign, Canva Pro, and Figma.' },
+      { question: 'What is the graphic design course fee?', answer: 'The TSDC Graphic Design Mastery Program is Rs 18,000 with a 3-month EMI option at Rs 6,000 per month, so you can start without paying the full amount upfront. The fee covers all course materials, software guidance, project reviews, and certification.' },
+      { question: 'How long is the graphic design course?', answer: 'The TSDC Graphic Design program runs for 12 weeks. This covers design fundamentals, Adobe tools, branding, packaging, social creatives, and a complete portfolio review — structured so students are job-ready by the end.' },
+      { question: 'Can I learn graphic design online?', answer: 'Yes. TSDC offers both offline classroom sessions and a hybrid mode, so students who cannot attend in person can still follow the full curriculum, get project feedback, and build their portfolio.' },
+      { question: 'Can I learn graphic design with no prior experience?', answer: 'Absolutely. The course starts from the very beginning — design fundamentals, visual thinking, and software basics — before building into advanced branding and portfolio projects. No prior design or computer experience is required.' },
+      { question: 'What is the salary after a graphic design course?', answer: 'Entry-level graphic designers in Chennai typically earn between Rs 15,000 and Rs 30,000 per month depending on the role and portfolio quality. Freelancers can earn more depending on client volume. Roles like Brand Designer and Creative Executive can grow further with experience.' },
+      { question: 'Which graphic design course is best for beginners?', answer: 'The best graphic design course for a beginner is one that teaches fundamentals first, covers professional tools like Photoshop and Illustrator, includes live project work, and ends with a portfolio you can show employers. TSDC is designed specifically around that outcome.' },
+      { question: 'Which graphic design course is right for me?', answer: 'If you enjoy visual communication, branding, color, and creating for print, social, or digital campaigns, graphic design is likely the right path. If you prefer product thinking, apps, and user interfaces, UI/UX may suit you better. TSDC can help you compare both before you enroll.' },
+      { question: 'Where can I do a graphic design course in Chennai?', answer: 'TSDC is a creative education institute located near OMR, Perumbakkam in Chennai. It offers the Graphic Design Mastery Program in offline and hybrid modes with limited batch sizes for focused learning.' },
+      { question: 'Is this course beginner-friendly?', answer: 'Yes. The program starts with design fundamentals before moving into Adobe tools, branding systems, and portfolio projects. No prior experience is needed.' },
+      { question: 'Will I work on real projects?', answer: 'Yes. You will build brand identities, packaging, social creatives, and presentation-ready portfolio pieces based on commercial-style briefs reviewed by working designers.' },
       { question: 'Do I get a certificate and portfolio support?', answer: 'Yes. Students receive a course completion certificate and portfolio review support tied to the projects built in class.' },
-      { question: 'Can I pay in installments?', answer: 'Yes. The fee can be split into a 3-month EMI plan so you can start without paying the full amount upfront.' },
-      { question: 'Will I work on real projects?', answer: 'Yes. You will build brand identities, packaging, social creatives, and presentation-ready portfolio pieces based on commercial-style briefs.' },
-      { question: 'Is this online or offline?', answer: 'The course is available in offline and hybrid modes for students in Chennai and nearby areas.' },
-      { question: 'What jobs can I apply for after this course?', answer: 'Students typically prepare for Graphic Designer, Brand Designer, Social Media Designer, and print or creative executive roles.' },
+      { question: 'Can I pay in installments?', answer: 'Yes. The fee can be split into a 3-month EMI plan of Rs 6,000 per month so you can start without paying the full amount upfront.' },
+      { question: 'What jobs can I apply for after this course?', answer: 'Students typically prepare for Graphic Designer, Brand Designer, Social Media Designer, Print Designer, and Creative Executive roles at agencies, brands, and studios.' },
+      { question: 'Can a 12th pass student become a graphic designer?', answer: 'Yes. Graphic design does not require a degree. Many working designers entered the field after 12th with a practical certificate course. What matters most is your portfolio, software skills, and understanding of design fundamentals — all of which you build during the TSDC program.' },
+      { question: 'Is graphic design a well-paid career?', answer: 'Graphic design is a well-paid and growing career, especially in digital-first businesses. In India, starting salaries range from Rs 15,000 to Rs 30,000 per month. Experienced brand designers, senior creatives, and freelancers often earn significantly more. Logo and brand designers also command strong project fees.' },
+      { question: 'What are the main types of graphic design?', answer: 'The main types include brand identity design, print design, packaging design, digital and social media design, advertising design, motion design, and UI/UX design. At TSDC, the course covers brand identity, print, packaging, and social media design as core areas, giving students a broad commercial foundation.' },
+      { question: 'Is logo design a good career?', answer: 'Yes. Logo and brand identity design is one of the highest-value services in the design industry. Strong logo designers often work freelance, charging per-project fees that grow with portfolio quality. The TSDC program includes logo construction, vector illustration, and full brand identity development.' },
+      { question: 'Which is the best graphic design institute in Chennai?', answer: 'The best graphic design institute in Chennai is one that focuses on practical portfolio building over theory, covers professional tools like Photoshop and Illustrator, provides mentor feedback on real projects, and prepares students for actual job roles. TSDC is a practical, outcome-focused creative institute near OMR, Perumbakkam built around exactly this model.' },
+      { question: 'Which is the best graphic design institute in India?', answer: 'The best graphic design institutes in India prioritize live projects, mentor critique, real-world briefs, and strong portfolio outcomes. TSDC, based in Chennai, is a career-focused creative institute built around portfolio-first training — preparing students for brand design, agency work, and freelance careers across India.' },
+      { question: 'Can AI replace graphic designers?', answer: 'No. AI tools like Adobe Firefly and Canva AI help designers work faster, but they cannot replace human creative judgment, cultural understanding, brand strategy, or the ability to solve complex communication problems. Designers who learn to use AI as a co-pilot are more valuable, not less. TSDC integrates AI-aware workflows into training.' },
     ],
     popupInterest: 'Graphic Design Course',
   },
@@ -206,7 +223,7 @@ export const defaultCourseContent: AllCourseContent = {
     title: 'Video Editing Mastery Program',
     eyebrow: 'Creative Video Course - Chennai',
     description:
-      'Learn Premiere Pro, After Effects, DaVinci Resolve, color grading, reels, shorts, brand videos, motion graphics, and showreel-building workflows.',
+      'Learn Premiere Pro, DaVinci Resolve, color grading, reels, shorts, brand videos, editing workflow, and showreel-building systems for creator and commercial work.',
     image: '/graphicdesign.png',
     imageAlt: 'Video Editing Course in Chennai - TSDC',
     accent: '#EA6865',
@@ -220,37 +237,89 @@ export const defaultCourseContent: AllCourseContent = {
     nextBatches: ['May 25, 2026', 'June 22, 2026'],
     syllabusUrl: '/syllabus/VE%20Syllabus.pdf',
     syllabusFileName: 'VE Syllabus.pdf',
-    heroPoints: ['Premiere Pro and After Effects', 'Reels and brand videos', 'Showreel portfolio'],
+    heroPoints: ['Premiere Pro and DaVinci Resolve', 'Reels and brand videos', 'Showreel portfolio'],
     outcomes: [
       { title: 'Professional video editing', text: 'Edit timelines, multi-cam footage, color grade, and export broadcast-ready video content.' },
-      { title: 'Motion graphics and titles', text: 'Create animated lower-thirds, transitions, and full motion graphics sequences in After Effects.' },
+      { title: 'Polished titles and finishing', text: 'Create lower-thirds, transitions, subtitles, and clean presentation elements that make edits feel commercial-ready.' },
       { title: 'Reels and short-form content', text: 'Edit vertical video, trending reels, shorts, and ads optimized for social performance.' },
       { title: 'Showreel that gets hired', text: 'Build a showreel of 5+ real projects across brand videos, reels, and motion work.' },
     ],
     modules: [
       { label: 'Block 01', title: 'Premiere Pro editing workflow', text: 'Timeline fundamentals, audio editing, color correction, titles, and export settings.' },
-      { label: 'Block 02', title: 'After Effects and motion graphics', text: 'Keyframe animation, expressions, title sequences, and motion design for brand use.' },
+      { label: 'Block 02', title: 'Advanced editing and ad polish', text: 'Cuts, rhythm, title timing, pacing, overlays, and edit structures used in commercial reels and campaigns.' },
       { label: 'Block 03', title: 'Color grading and DaVinci Resolve', text: 'Professional color grading workflow, LUT application, and finishing for delivery.' },
       { label: 'Block 04', title: 'Reels, ads, and showreel building', text: 'Short-form editing strategy, ad video formats, and assembling your final showreel.' },
     ],
-    tools: ['Adobe Premiere Pro', 'After Effects', 'DaVinci Resolve', 'Adobe Audition', 'Frame.io'],
+    tools: ['Adobe Premiere Pro', 'DaVinci Resolve', 'Adobe Audition', 'CapCut', 'Frame.io'],
     project:
-      'Edit a complete brand video campaign - intro film, 3 reels, and a motion graphics package assembled into a showreel reviewed by a working video professional.',
-    careerRoles: 'Video Editor, Motion Graphics Designer, Content Creator, Reel Editor, Brand Video Producer',
+      'Edit a complete brand video campaign - intro film, 3 reels, client revisions, and a final showreel package reviewed by a working video professional.',
+    careerRoles: 'Video Editor, Reel Editor, Content Creator, Brand Video Producer, Freelance Editor',
     testimonial: {
-      quote: 'After Effects felt impossible before. Now I have a showreel with actual brand projects that got me freelance clients.',
+      quote: 'I joined to learn editing properly and left with a showreel I could actually send to clients. The feedback made my work feel professional.',
       author: 'Arjun T.',
       role: 'Freelance Video Editor, Chennai',
     },
     faqs: [
-      { question: 'Do I need editing experience before joining?', answer: 'No. The course is beginner-friendly and starts with editing workflow fundamentals before motion graphics and finishing.' },
-      { question: 'What software is covered?', answer: 'Students learn Premiere Pro, After Effects, DaVinci Resolve, Adobe Audition, and collaborative review workflows.' },
+      { question: 'Do I need editing experience before joining?', answer: 'No. The course is beginner-friendly and starts with editing workflow fundamentals before moving into advanced pacing, color, and finishing.' },
+      { question: 'What software is covered?', answer: 'Students learn Premiere Pro, DaVinci Resolve, Adobe Audition, and collaborative review workflows used for creator and brand content.' },
       { question: 'Will I build a showreel?', answer: 'Yes. The goal is to leave with multiple brand, reel, and motion projects assembled into a showreel.' },
-      { question: 'Is this course only for YouTube editors?', answer: 'No. It supports reels, ads, commercial edits, brand videos, and motion design work as well.' },
+      { question: 'Is this course only for YouTube editors?', answer: 'No. It supports reels, ads, commercial edits, brand videos, and short-form content work across multiple platforms.' },
       { question: 'Can I choose EMI payment?', answer: 'Yes. The fee is split across a 3-month installment plan.' },
       { question: 'Is placement support included?', answer: 'Yes. Students get guidance on showreel presentation, freelance positioning, and interview readiness.' },
     ],
     popupInterest: 'Video Editing Course',
+  },
+  'motion-graphics': {
+    id: 'motion-graphics',
+    slug: 'motion-graphics',
+    title: 'Motion Graphics Specialist Program',
+    eyebrow: 'Motion Design Course - Chennai',
+    description:
+      'Learn After Effects, Illustrator workflows, title animation, explainer scenes, ad motion systems, reels, and storyboard-to-animation production for modern brand work.',
+    image: '/graphic.png',
+    imageAlt: 'Motion Graphics Course in Chennai - TSDC',
+    accent: '#DB4B87',
+    deep: '#171D4D',
+    soft: '#FFF1F7',
+    duration: '10 Weeks',
+    mode: 'Offline / Hybrid',
+    seats: 'Small batch',
+    fee: 'Rs 20,000',
+    emi: 'Rs 10,000 x 2 months',
+    nextBatches: ['May 28, 2026', 'June 25, 2026'],
+    syllabusUrl: '/syllabus/MG%20Syllabus.pdf',
+    syllabusFileName: 'MG Syllabus.pdf',
+    heroPoints: ['After Effects and motion systems', 'Explainer and ad scenes', 'Showcase-ready motion portfolio'],
+    outcomes: [
+      { title: 'Motion design fundamentals', text: 'Understand timing, easing, spacing, transitions, and visual rhythm so animations feel intentional instead of random.' },
+      { title: 'Explainers and social ads', text: 'Build animated scenes for product explainers, reels, launch promos, and campaign cutdowns used by real brands.' },
+      { title: 'Typography and logo animation', text: 'Create kinetic type, title sequences, logo reveals, lower-thirds, and motion packages that feel commercially usable.' },
+      { title: 'Portfolio-ready motion work', text: 'Leave with polished animation samples that show style, consistency, and presentation quality for recruiters and clients.' },
+    ],
+    modules: [
+      { label: 'Block 01', title: 'Motion principles and After Effects basics', text: 'Interface setup, keyframes, graphs, easing, timing, and animation logic for clean motion foundations.' },
+      { label: 'Block 02', title: 'Typography, titles, and logo animation', text: 'Animate text systems, title cards, logo reveals, transitions, and identity-led motion assets.' },
+      { label: 'Block 03', title: 'Illustrator to After Effects workflow', text: 'Import vectors, rig layered assets, create scene movement, and build explainer-style compositions.' },
+      { label: 'Block 04', title: 'Commercial motion portfolio project', text: 'Produce a complete motion campaign pack with reels, ad visuals, and a final showcase sequence.' },
+    ],
+    tools: ['Adobe After Effects', 'Adobe Illustrator', 'Adobe Photoshop', 'Premiere Pro', 'LottieFiles'],
+    project:
+      'Create a motion campaign pack for a brand brief - logo animation, social promo, animated typography sequence, and an explainer-style scene presented as a portfolio case.',
+    careerRoles: 'Motion Graphics Designer, Motion Designer, Video Creative, Social Media Animator, Ad Motion Editor',
+    testimonial: {
+      quote: 'This course helped me understand motion as a system, not just random effects. My portfolio finally looked focused enough to show studios.',
+      author: 'Nivetha R.',
+      role: 'Junior Motion Designer, Chennai',
+    },
+    faqs: [
+      { question: 'Is this different from the video editing course?', answer: 'Yes. The motion graphics course focuses more on animation systems, typography, explainer scenes, and After Effects workflows, while the video editing course focuses more on edit rhythm, reels, and showreel-based editing.' },
+      { question: 'Do I need to know After Effects already?', answer: 'No. The course starts from motion basics and gradually builds into commercial-style animation projects.' },
+      { question: 'Will I learn logo animation and animated text?', answer: 'Yes. Logo animation, title systems, kinetic typography, and social ad motion are core parts of the curriculum.' },
+      { question: 'Can beginners join this course?', answer: 'Yes. It is structured for learners who are new to motion design but ready to practice consistently.' },
+      { question: 'Will I build a portfolio by the end?', answer: 'Yes. Students leave with multiple motion samples designed to help with freelance pitching, internships, and junior motion roles.' },
+      { question: 'Does TSDC offer EMI or payment support?', answer: 'Yes. The fee can be split into two installments for students who prefer a lighter payment start.' },
+    ],
+    popupInterest: 'Motion Graphics Course',
   },
 }
 
@@ -265,6 +334,7 @@ export function loadCourseContent(): AllCourseContent {
       'uiux-design': { ...defaultCourseContent['uiux-design'], ...(parsed['uiux-design'] ?? {}) },
       'digital-marketing': { ...defaultCourseContent['digital-marketing'], ...(parsed['digital-marketing'] ?? {}) },
       'video-editing': { ...defaultCourseContent['video-editing'], ...(parsed['video-editing'] ?? {}) },
+      'motion-graphics': { ...defaultCourseContent['motion-graphics'], ...(parsed['motion-graphics'] ?? {}) },
     }
   } catch {
     return defaultCourseContent

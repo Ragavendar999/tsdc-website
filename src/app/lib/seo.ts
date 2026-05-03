@@ -166,3 +166,53 @@ export const articleSchema = ({
     '@id': `${siteUrl}/#organization`,
   },
 })
+
+export const faqSchema = (faqs: { question: string; answer: string }[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+})
+
+export const reviewSchema = ({
+  itemName,
+  itemPath,
+  review,
+}: {
+  itemName: string
+  itemPath: string
+  review: { quote: string; author: string; role: string }
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  reviewBody: review.quote,
+  author: {
+    '@type': 'Person',
+    name: review.author,
+  },
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: '5',
+    bestRating: '5',
+  },
+  itemReviewed: {
+    '@type': 'Course',
+    name: itemName,
+    url: absoluteUrl(itemPath),
+    provider: {
+      '@type': 'EducationalOrganization',
+      '@id': `${siteUrl}/#organization`,
+      name: 'TSDC - Traijo Skill Development Center',
+      url: siteUrl,
+    },
+  },
+  publisher: {
+    '@id': `${siteUrl}/#organization`,
+  },
+})

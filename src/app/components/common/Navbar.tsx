@@ -17,6 +17,7 @@ import {
   PhoneCall,
   Sparkles,
   Video,
+  WandSparkles,
   X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -48,6 +49,7 @@ const navItems: NavItem[] = [
       { name: 'UI/UX Design', href: '/courses/uiux-design', icon: MonitorSmartphone, accent: '#4562b0', tint: '#eef4ff', desc: 'Figma, product thinking, and case studies' },
       { name: 'Digital Marketing', href: '/courses/digital-marketing', icon: Megaphone, accent: '#ea6865', tint: '#fff1f0', desc: 'SEO, ads, analytics, and growth' },
       { name: 'Video Editing', href: '/courses/video-editing', icon: Video, accent: '#4a4a99', tint: '#f2f0ff', desc: 'Reels, ads, motion, and showreels', badge: 'NEW' },
+      { name: 'Motion Graphics', href: '/courses/motion-graphics', icon: WandSparkles, accent: '#db4b87', tint: '#fff1f7', desc: 'After Effects, animated type, and explainers' },
     ],
   },
   { name: 'Blog', href: '/blog' },

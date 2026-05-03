@@ -116,13 +116,24 @@ const organizationSchema = {
     {
       '@type': 'Course',
       name: 'Video Editing Mastery Program',
-      description: 'Best Video Editing and Motion Graphics Course in Chennai covering Premiere Pro, After Effects, reels, ads, YouTube content and portfolio-ready editing projects.',
+      description: 'Best Video Editing Course in Chennai covering Premiere Pro, DaVinci Resolve, reels, ads, YouTube content and portfolio-ready editing projects.',
       provider: {
         '@type': 'EducationalOrganization',
         '@id': 'https://traijoedu.in/#organization',
         name: 'TSDC - Traijo Skill Development Center',
       },
       url: 'https://traijoedu.in/courses/video-editing/',
+    },
+    {
+      '@type': 'Course',
+      name: 'Motion Graphics Specialist Program',
+      description: 'Best Motion Graphics Course in Chennai covering After Effects, animated typography, explainers, social ad motion, and portfolio-ready animation projects.',
+      provider: {
+        '@type': 'EducationalOrganization',
+        '@id': 'https://traijoedu.in/#organization',
+        name: 'TSDC - Traijo Skill Development Center',
+      },
+      url: 'https://traijoedu.in/courses/motion-graphics/',
     },
     {
       '@type': 'FAQPage',

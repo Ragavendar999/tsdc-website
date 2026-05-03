@@ -130,6 +130,7 @@ export default function Footer() {
                 { slug: 'uiux-design', label: 'UI/UX Design' },
                 { slug: 'digital-marketing', label: 'Digital Marketing' },
                 { slug: 'video-editing', label: 'Video Editing' },
+                { slug: 'motion-graphics', label: 'Motion Graphics' },
               ].map(({ slug, label }) => (
                 <li key={slug}>
                   <Link href={`/courses/${slug}`} className="font-medium transition-colors hover:text-[#3244b5]">

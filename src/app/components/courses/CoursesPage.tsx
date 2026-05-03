@@ -12,6 +12,7 @@ import {
   PlaySquare,
   Sparkles,
   Users,
+  WandSparkles,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -74,7 +75,7 @@ const courses = [
     title: 'Video Editing',
     eyebrow: 'Video Production',
     tagline: 'Edit reels, ads, and stories with professional polish.',
-    desc: 'Learn Premiere Pro, After Effects, DaVinci Resolve, pacing, motion graphics, color basics, captions, and showreel building for creator and brand work.',
+    desc: 'Learn Premiere Pro, DaVinci Resolve, pacing, commercial edits, color basics, captions, and showreel building for creator and brand work.',
     image: '/graphic.png',
     href: '/courses/video-editing',
     duration: '12 Weeks',
@@ -84,16 +85,33 @@ const courses = [
     deep: '#171d4d',
     soft: '#efedff',
     icon: PlaySquare,
-    tools: ['Premiere Pro', 'After Effects', 'DaVinci'],
+    tools: ['Premiere Pro', 'DaVinci', 'Showreels'],
     badge: 'NEW',
-    fit: 'Best if you enjoy reels, edits, motion, storytelling, and creator-brand video work.',
+    fit: 'Best if you enjoy reels, edits, storytelling, creator-brand videos, and client-ready finishing.',
+  },
+  {
+    title: 'Motion Graphics',
+    eyebrow: 'Motion Design',
+    tagline: 'Animate ideas into ads, explainers, and branded motion systems.',
+    desc: 'Learn After Effects, animated typography, logo animation, explainer scenes, and social ad motion for agencies, brands, and creator-led teams.',
+    image: '/graphic.png',
+    href: '/courses/motion-graphics',
+    duration: '10 Weeks',
+    projects: '4 motion campaign pieces',
+    outcome: 'Portfolio-ready motion designer',
+    accent: '#db4b87',
+    deep: '#171d4d',
+    soft: '#fff1f7',
+    icon: WandSparkles,
+    tools: ['After Effects', 'Illustrator', 'Typography'],
+    fit: 'Best if you enjoy animation, title design, visual rhythm, explainers, and ad-led motion storytelling.',
   },
 ]
 
 const proofPoints = [
   {
     title: 'Portfolio ready in weeks',
-    text: 'Every course runs on real project work — not just theory. You leave with actual output you can show in interviews and to clients.',
+    text: 'Every course runs on real project work, not just theory. You leave with actual output you can show in interviews and to clients.',
     icon: Sparkles,
     accent: '#ff9736',
   },
@@ -149,7 +167,7 @@ export default function CoursesPage() {
                 <span className="block text-[#3244b5]">matches how you want to grow.</span>
               </h1>
               <p className="mt-5 max-w-3xl text-base font-semibold leading-8 text-[#445066] md:text-lg">
-                Explore job-focused Graphic Design, UI/UX Design, Digital Marketing, and Video Editing courses in Chennai, built with projects, mentor feedback, portfolio support, and practical career guidance.
+                Explore job-focused Graphic Design, UI/UX Design, Digital Marketing, Video Editing, and Motion Graphics courses in Chennai, built with projects, mentor feedback, portfolio support, and practical career guidance.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -253,7 +271,7 @@ export default function CoursesPage() {
             </button>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {courses.map((course) => {
               const Icon = course.icon
               return (
@@ -278,7 +296,7 @@ export default function CoursesPage() {
             Career Pathways
           </div>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black leading-tight md:text-5xl">
-            Four programs with clear
+            Five programs with clear
             <span className="block text-[#db4b87]">outcomes, projects, and next steps.</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base font-semibold leading-7 text-[#445066]">
@@ -286,7 +304,7 @@ export default function CoursesPage() {
           </p>
         </div>
 
-        <div className="grid gap-6 pb-12 md:grid-cols-2">
+        <div className="grid gap-6 pb-12 md:grid-cols-2 xl:grid-cols-3">
           {courses.map((course, index) => {
             const Icon = course.icon
 

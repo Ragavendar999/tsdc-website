@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import UiUxDesignContent from './UiUxDesignContent'
-import { breadcrumbSchema, courseSchema, jsonLd } from '@/app/lib/seo'
+import { defaultCourseContent } from '@/app/lib/courseContent'
+import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
 
 export const metadata: Metadata = {
   title: 'UI/UX Design Course in Chennai',
@@ -45,6 +46,7 @@ export const metadata: Metadata = {
 }
 
 export default function UiUxDesignCoursePage() {
+  const course = defaultCourseContent['uiux-design']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -57,6 +59,12 @@ export default function UiUxDesignCoursePage() {
         "Enroll in TSDC's UI/UX Design Course in Chennai. Learn Figma, UX research, wireframing, prototyping, product design, design systems and portfolio case studies with real projects.",
       path: '/courses/uiux-design',
       image: '/UIUXDesign.png',
+    }),
+    faqSchema(course.faqs),
+    reviewSchema({
+      itemName: 'UI/UX Design Course in Chennai',
+      itemPath: '/courses/uiux-design',
+      review: course.testimonial,
     }),
   ]
 
