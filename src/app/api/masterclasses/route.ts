@@ -33,19 +33,25 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: 'Invalid masterclass payload' }, { status: 400 })
   }
 
-  const saved = await saveStoredMasterclasses(masterclasses)
+  try {
+    const saved = await saveStoredMasterclasses(masterclasses)
 
-  // Bust relevant Next.js caches so admin changes show up immediately across
-  // listing, detail, register/success pages, and homepage entry points.
-  revalidatePath('/')
-  revalidatePath('/masterclasses')
-  revalidatePath('/sitemap.xml')
+    // Bust relevant Next.js caches so admin changes show up immediately across
+    // listing, detail, register/success pages, and homepage entry points.
+    revalidatePath('/')
+    revalidatePath('/masterclasses')
+    revalidatePath('/sitemap.xml')
 
-  saved.forEach((masterclass) => {
-    revalidatePath(`/masterclasses/${masterclass.slug}`)
-    revalidatePath(`/masterclasses/${masterclass.slug}/register`)
-    revalidatePath(`/masterclasses/${masterclass.slug}/success`)
-  })
+    saved.forEach((masterclass) => {
+      revalidatePath(`/masterclasses/${masterclass.slug}`)
+      revalidatePath(`/masterclasses/${masterclass.slug}/register`)
+      revalidatePath(`/masterclasses/${masterclass.slug}/success`)
+    })
 
-  return NextResponse.json({ masterclasses: saved })
+    return NextResponse.json({ masterclasses: saved })
+  } catch (error) {
+    console.error('[PUT /api/masterclasses] Firebase write failed:', error)
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ error: `Failed to save masterclasses to database: ${message}` }, { status: 500 })
+  }
 }

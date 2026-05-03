@@ -403,6 +403,46 @@ export default function UnifiedAdminPage({
               </div>
             </SectionCard>
 
+            {/* Scholarship Campaign */}
+            <SectionCard title="Scholarship campaign" accent="#fdf4ff">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Registration deadline (ISO date)">
+                  <input
+                    className={inputCls}
+                    value={siteContent.scholarship.deadline}
+                    onChange={(e) => updateSiteContent('scholarship', { deadline: e.target.value })}
+                    placeholder="e.g. 2026-05-09T23:59:00+05:30"
+                  />
+                </Field>
+                <Field label="Deadline label (shown in timer)">
+                  <input
+                    className={inputCls}
+                    value={siteContent.scholarship.deadlineLabel}
+                    onChange={(e) => updateSiteContent('scholarship', { deadlineLabel: e.target.value })}
+                    placeholder="e.g. May 9th, 2026"
+                  />
+                </Field>
+                <Field label="Registration fee (₹)">
+                  <input
+                    type="number"
+                    min={0}
+                    className={inputCls}
+                    value={siteContent.scholarship.registrationFee}
+                    onChange={(e) => updateSiteContent('scholarship', { registrationFee: Number(e.target.value) })}
+                  />
+                </Field>
+                <Field label="Demo slots (one per line)">
+                  <textarea
+                    rows={5}
+                    className={textareaCls}
+                    value={siteContent.scholarship.demoSlots.join('\n')}
+                    onChange={(e) => updateSiteContent('scholarship', { demoSlots: e.target.value.split('\n').filter(Boolean) })}
+                    placeholder={'May 10, 2026 - 11:00 AM\nMay 11, 2026 - 4:00 PM'}
+                  />
+                </Field>
+              </div>
+            </SectionCard>
+
             {/* Batch Schedule */}
             <SectionCard title="Batch Schedule section" accent="#fff1dd">
               <div className="grid gap-4 sm:grid-cols-2">

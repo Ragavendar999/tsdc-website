@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-const DEADLINE = new Date('2026-05-09T23:59:00+05:30')
+import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
 type TimeLeft = {
   days: number
@@ -12,8 +11,8 @@ type TimeLeft = {
   expired: boolean
 }
 
-function calc(): TimeLeft {
-  const diff = DEADLINE.getTime() - Date.now()
+function calc(deadline: string): TimeLeft {
+  const diff = new Date(deadline).getTime() - Date.now()
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true }
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -25,13 +24,26 @@ function calc(): TimeLeft {
 }
 
 export default function CountdownTimer() {
+  const [deadline, setDeadline] = useState(defaultSiteContent.scholarship.deadline)
+  const [deadlineLabel, setDeadlineLabel] = useState(defaultSiteContent.scholarship.deadlineLabel)
   const [time, setTime] = useState<TimeLeft | null>(null)
 
   useEffect(() => {
-    setTime(calc())
-    const id = setInterval(() => setTime(calc()), 1000)
-    return () => clearInterval(id)
+    const sync = () => {
+      const sc = loadSiteContent()
+      setDeadline(sc.scholarship.deadline)
+      setDeadlineLabel(sc.scholarship.deadlineLabel)
+    }
+    sync()
+    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
+    return () => window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
   }, [])
+
+  useEffect(() => {
+    setTime(calc(deadline))
+    const id = setInterval(() => setTime(calc(deadline)), 1000)
+    return () => clearInterval(id)
+  }, [deadline])
 
   if (!time) return null
 
@@ -56,7 +68,7 @@ export default function CountdownTimer() {
       {/* urgency bar */}
       <div className={`px-4 py-2 text-center ${isUrgent ? 'bg-[#b42318]' : 'bg-[#ff9736]'}`}>
         <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white">
-          {isUrgent ? '🚨 Final hours — ' : '⏳ '}Registration closes May 9th, 2026
+          {isUrgent ? '🚨 Final hours — ' : '⏳ '}Registration closes {deadlineLabel}
         </p>
       </div>
 

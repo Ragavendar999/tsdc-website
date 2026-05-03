@@ -27,12 +27,14 @@ export const getStoredMasterclasses = async () => {
 
 export const saveStoredMasterclasses = async (masterclasses: Masterclass[]) => {
   const db = getFirebaseAdminDb()
+  // Strip undefined values — Firestore rejects documents containing undefined fields
+  const sanitized = JSON.parse(JSON.stringify(masterclasses)) as Masterclass[]
   await db
     .collection(COLLECTION_NAME)
     .doc(DOCUMENT_ID)
     .set(
       {
-        items: masterclasses,
+        items: sanitized,
         updatedAt: new Date().toISOString(),
       },
       { merge: true }

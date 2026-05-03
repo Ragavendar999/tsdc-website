@@ -134,6 +134,12 @@ export type SiteContent = {
     popupCounselling: { title: string; subtitle: string; interest: string; source: string; ctaLabel: string }
     mapEmbedUrl: string
   }
+  scholarship: {
+    deadline: string
+    deadlineLabel: string
+    demoSlots: string[]
+    registrationFee: number
+  }
 }
 
 export const SITE_CONTENT_STORAGE_KEY = 'tsdc-site-content-v1'
@@ -483,6 +489,17 @@ export const defaultSiteContent: SiteContent = {
     },
     mapEmbedUrl: 'https://www.google.com/maps?q=12.8817134,80.2026107&z=17&output=embed',
   },
+  scholarship: {
+    deadline: '2026-05-09T23:59:00+05:30',
+    deadlineLabel: 'May 9th, 2026',
+    demoSlots: [
+      'May 10, 2026 - 11:00 AM',
+      'May 11, 2026 - 4:00 PM',
+      'May 12, 2026 - 11:00 AM',
+      'May 13, 2026 - 4:00 PM',
+    ],
+    registrationFee: 99,
+  },
 }
 
 const mergeHomepageSections = (sections?: SiteSectionConfig[]) => {
@@ -506,6 +523,7 @@ export const mergeSiteContent = (parsed?: Partial<SiteContent>): SiteContent => 
   batchSchedule: { ...defaultSiteContent.batchSchedule, ...parsed?.batchSchedule },
   footer: { ...defaultSiteContent.footer, ...parsed?.footer },
   contact: { ...defaultSiteContent.contact, ...parsed?.contact },
+  scholarship: { ...defaultSiteContent.scholarship, ...parsed?.scholarship },
 })
 
 export const loadSiteContent = () => {

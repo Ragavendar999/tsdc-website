@@ -12,8 +12,9 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CountdownTimer from '@/app/components/common/CountdownTimer'
+import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
 declare global {
   interface Window {
@@ -49,14 +50,6 @@ type ScholarshipFormState = {
 
 const campaignTitle = 'Graphic Design Scholarship and Demo Class 2026'
 const campaignSlug = 'graphic-design-scholarship-2026'
-const registrationFee = 99
-
-const demoSlots = [
-  'May 10, 2026 - 11:00 AM',
-  'May 11, 2026 - 4:00 PM',
-  'May 12, 2026 - 11:00 AM',
-  'May 13, 2026 - 4:00 PM',
-]
 
 const processSteps = [
   {
@@ -106,7 +99,7 @@ const initialFormState: ScholarshipFormState = {
   city: '',
   schoolOrCollege: '',
   classLevel: '',
-  preferredSlot: demoSlots[0],
+  preferredSlot: defaultSiteContent.scholarship.demoSlots[0],
   goals: '',
 }
 
@@ -119,6 +112,20 @@ export default function GraphicDesignScholarshipPage() {
   const [statusMessage, setStatusMessage] = useState('')
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
   const formRef = useRef<HTMLDivElement | null>(null)
+  const [demoSlots, setDemoSlots] = useState(defaultSiteContent.scholarship.demoSlots)
+  const [registrationFee, setRegistrationFee] = useState(defaultSiteContent.scholarship.registrationFee)
+
+  useEffect(() => {
+    const sync = () => {
+      const sc = loadSiteContent()
+      setDemoSlots(sc.scholarship.demoSlots)
+      setRegistrationFee(sc.scholarship.registrationFee)
+      setFormState((prev) => ({ ...prev, preferredSlot: sc.scholarship.demoSlots[0] }))
+    }
+    sync()
+    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
+    return () => window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
+  }, [])
 
   const updateForm = <K extends keyof ScholarshipFormState>(key: K, value: ScholarshipFormState[K]) => {
     setFormState((current) => ({ ...current, [key]: value }))
@@ -271,7 +278,7 @@ export default function GraphicDesignScholarshipPage() {
       <div className="rounded-[2rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]">
         <div className="rounded-t-[1.7rem] bg-[#10163a] px-6 py-5 text-center">
           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/50">One-time registration fee</p>
-          <p className="mt-1 text-6xl font-black tracking-[-0.08em] text-[#ff9736]">Rs 99/-</p>
+          <p className="mt-1 text-6xl font-black tracking-[-0.08em] text-[#ff9736]">Rs {registrationFee}/-</p>
           <p className="mt-1.5 text-xs font-semibold text-white/65">Demo class + scholarship evaluation included</p>
         </div>
 
@@ -345,7 +352,7 @@ export default function GraphicDesignScholarshipPage() {
             disabled={loading}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-base font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60"
           >
-            {loading ? 'Preparing payment...' : 'Pay Rs 99/- · Reserve My Slot'}
+            {loading ? 'Preparing payment...' : `Pay Rs ${registrationFee}/- · Reserve My Slot`}
             {!loading ? <ArrowRight size={18} /> : null}
           </button>
 
@@ -562,7 +569,7 @@ export default function GraphicDesignScholarshipPage() {
           onClick={scrollToForm}
           className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-5 py-4 text-sm font-black text-white shadow-[4px_4px_0_#10163a]"
         >
-          Reserve Your Slot — Rs 99/-
+          Reserve Your Slot — Rs {registrationFee}/-
           <ArrowRight size={16} />
         </button>
       </div>
