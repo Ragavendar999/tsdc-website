@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     description:
       "Learn Figma, UX research, product design and prototyping with real projects at TSDC's UI/UX Design course in Chennai.",
     url: 'https://traijoedu.in/courses/uiux-design/',
-    images: [{ url: '/UIUXDesign.png', width: 1200, height: 630, alt: 'Best UI UX Design Course Chennai - TSDC' }],
+    images: [{ url: '/Blue%20Background.png', width: 1200, height: 630, alt: 'Best UI UX Design Course Chennai - TSDC' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'UI/UX Design Course in Chennai',
     description: 'Master Figma, UX research, prototyping and product design with real projects at TSDC Chennai.',
-    images: ['/UIUXDesign.png'],
+    images: ['/Blue%20Background.png'],
   },
 }
 
@@ -58,7 +58,7 @@ export default function UiUxDesignCoursePage() {
       description:
         "Enroll in TSDC's UI/UX Design Course in Chennai. Learn Figma, UX research, wireframing, prototyping, product design, design systems and portfolio case studies with real projects.",
       path: '/courses/uiux-design',
-      image: '/UIUXDesign.png',
+      image: '/Blue%20Background.png',
     }),
     faqSchema(course.faqs),
     reviewSchema({

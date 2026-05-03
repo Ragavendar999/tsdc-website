@@ -120,7 +120,7 @@ export const defaultCourseContent: AllCourseContent = {
     eyebrow: 'Product Design Course - Chennai',
     description:
       'Learn human-first interface design, UX research, wireframes, Figma prototyping, design systems, usability thinking, and portfolio case studies.',
-    image: '/UIUXDesign.png',
+    image: '/Blue Background.png',
     imageAlt: 'UI/UX Design Course in Chennai - TSDC',
     accent: '#4562B0',
     deep: '#4B3A97',

@@ -42,7 +42,7 @@ const courses = [
     eyebrow: 'Product Design',
     tagline: 'Design apps and websites people can actually use.',
     desc: 'Learn Figma, user journeys, wireframes, responsive UI, prototyping, design systems, and case-study writing for job-ready product portfolios.',
-    image: '/UIUXDesign.png',
+    image: '/Blue Background.png',
     href: '/courses/uiux-design',
     duration: '10 Weeks',
     projects: '4 product case studies',
