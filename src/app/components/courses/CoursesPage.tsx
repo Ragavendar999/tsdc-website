@@ -315,81 +315,97 @@ export default function CoursesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: index * 0.08 }}
-                className="group overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]"
+                className="group flex flex-col overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-white shadow-[8px_8px_0_#10163a]"
               >
-                <div className="relative overflow-hidden p-4">
+                {/* Compact image header with overlaid title */}
+                <div className="relative h-40 shrink-0 overflow-hidden" style={{ backgroundColor: course.deep }}>
                   <Image
                     src={course.image}
                     alt={`${course.title} course at TSDC Chennai`}
-                    width={760}
-                    height={420}
-                    className="h-64 w-full rounded-[1.9rem] border-[3px] border-[#10163a] object-cover transition duration-700 group-hover:scale-[1.03]"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="object-cover opacity-25 transition duration-700 group-hover:scale-[1.06]"
                   />
-                  <div className="absolute left-8 top-8 rounded-full border-[3px] border-[#10163a] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-[4px_4px_0_#10163a]" style={{ color: course.accent }}>
-                    {course.eyebrow}
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: `linear-gradient(150deg, ${course.deep}f5 0%, ${course.deep}a0 55%, ${course.accent}55 100%)` }}
+                  />
+                  {/* Eyebrow + badge */}
+                  <div className="absolute left-5 top-5 flex items-center gap-2">
+                    <span className="rounded-full border-[1.5px] border-white/30 bg-white/15 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                      {course.eyebrow}
+                    </span>
+                    {course.badge && (
+                      <span className="rounded-full border-[2px] border-[#10163a] bg-[#fa8a43] px-2.5 py-0.5 text-[10px] font-black text-white shadow-[2px_2px_0_#10163a]">
+                        {course.badge}
+                      </span>
+                    )}
                   </div>
-                  {course.badge ? (
-                    <div className="absolute right-8 top-8 rounded-full border-[3px] border-[#10163a] bg-[#fa8a43] px-3 py-1.5 text-xs font-black text-white shadow-[4px_4px_0_#10163a]">
-                      {course.badge}
+                  {/* Icon + title anchored to bottom */}
+                  <div className="absolute bottom-5 left-5 right-5 flex items-end gap-3">
+                    <div
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.85rem] border-[1.5px] border-white/25 text-white shadow-[2px_2px_6px_rgba(0,0,0,0.25)]"
+                      style={{ backgroundColor: `${course.accent}cc` }}
+                    >
+                      <Icon size={18} />
                     </div>
-                  ) : null}
+                    <div className="min-w-0">
+                      <h2 className="text-[1.45rem] font-black leading-tight tracking-[-0.04em] text-white">{course.title}</h2>
+                      <p className="mt-0.5 line-clamp-1 text-[11px] font-semibold text-white/75">{course.tagline}</p>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="p-6 md:p-7">
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[1.2rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
-                      style={{ backgroundColor: course.accent }}
-                    >
-                      <Icon size={24} />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-black tracking-[-0.04em] text-[#10163a]">{course.title}</h2>
-                      <p className="mt-2 text-base font-black" style={{ color: course.accent }}>
-                        {course.tagline}
-                      </p>
-                    </div>
-                  </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="text-[12.5px] font-semibold leading-[1.65] text-[#445066]">{course.desc}</p>
 
-                  <p className="mt-5 text-sm font-semibold leading-7 text-[#445066]">{course.desc}</p>
-
-                  <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {/* Stats — single unified strip */}
+                  <div
+                    className="mt-4 grid grid-cols-3 overflow-hidden rounded-[1.1rem] border-[3px] border-[#10163a] shadow-[4px_4px_0_#10163a]"
+                    style={{ backgroundColor: course.soft }}
+                  >
                     {[
-                      [Clock, course.duration],
-                      [BookOpenCheck, course.projects],
-                      [BriefcaseBusiness, course.outcome],
-                    ].map(([MetaIcon, label]) => {
-                      const TypedIcon = MetaIcon as typeof Clock
-                      return (
-                        <div key={label as string} className="rounded-[1.4rem] border-[3px] border-[#10163a] p-4 shadow-[4px_4px_0_#10163a]" style={{ backgroundColor: course.soft }}>
-                          <TypedIcon size={17} style={{ color: course.deep }} />
-                          <p className="mt-2 text-xs font-black leading-5 text-[#1b2940]">{label as string}</p>
-                        </div>
-                      )
-                    })}
+                      { Icon: Clock, label: course.duration },
+                      { Icon: BookOpenCheck, label: course.projects },
+                      { Icon: BriefcaseBusiness, label: course.outcome },
+                    ].map(({ Icon: StatIcon, label }, i) => (
+                      <div
+                        key={label}
+                        className={`flex flex-col items-center gap-1 px-2 py-3 text-center ${i < 2 ? 'border-r-[2px] border-[#10163a]/15' : ''}`}
+                      >
+                        <StatIcon size={13} style={{ color: course.deep }} className="shrink-0" />
+                        <p className="text-[10px] font-black leading-[1.35] text-[#1b2940]">{label}</p>
+                      </div>
+                    ))}
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  {/* Tool chips */}
+                  <div className="mt-3 flex flex-wrap gap-1.5">
                     {course.tools.map((tool) => (
-                      <span key={tool} className="rounded-full border-[3px] border-[#10163a] bg-[#f8fbff] px-3 py-1.5 text-xs font-black text-[#344054] shadow-[3px_3px_0_#10163a]">
+                      <span
+                        key={tool}
+                        className="rounded-full border-[2px] border-[#10163a] bg-[#f8fbff] px-2.5 py-[3px] text-[10px] font-black text-[#344054] shadow-[2px_2px_0_#10163a]"
+                      >
                         {tool}
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-6 rounded-[1.4rem] border-[3px] border-[#10163a] bg-[#fffdf7] p-4 shadow-[4px_4px_0_#10163a]">
-                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#667085]">Choose this if...</p>
-                    <p className="mt-2 text-sm font-semibold leading-7 text-[#445066]">{course.fit}</p>
+                  {/* Choose this if */}
+                  <div className="mt-3 rounded-[1rem] border-[1.5px] border-[#10163a]/20 bg-[#fffdf7] px-3.5 py-2.5">
+                    <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[#a0aab8]">Choose this if…</p>
+                    <p className="mt-1 text-[11px] font-semibold leading-[1.5] text-[#445066]">{course.fit}</p>
                   </div>
 
-                  <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                  {/* CTAs */}
+                  <div className="mt-4 flex gap-2">
                     <Link
                       href={course.href}
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[0.9rem] border-[3px] border-[#10163a] py-3 text-[12.5px] font-black text-white shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
                       style={{ backgroundColor: course.deep }}
                     >
                       View Full Details
-                      <ArrowRight size={16} />
+                      <ArrowRight size={13} />
                     </Link>
                     <button
                       type="button"
@@ -402,8 +418,8 @@ export default function CoursesPage() {
                           ctaLabel: 'Get Guidance',
                         })
                       }
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-[1rem] border-[3px] px-6 py-3.5 text-sm font-black shadow-[5px_5px_0_#10163a]"
-                      style={{ borderColor: '#10163a', color: course.accent, backgroundColor: '#fffdf7' }}
+                      className="inline-flex items-center justify-center rounded-[0.9rem] border-[3px] border-[#10163a] px-4 py-3 text-[12.5px] font-black shadow-[4px_4px_0_#10163a] transition hover:-translate-y-0.5"
+                      style={{ color: course.accent, backgroundColor: course.soft }}
                     >
                       Ask Counsellor
                     </button>
