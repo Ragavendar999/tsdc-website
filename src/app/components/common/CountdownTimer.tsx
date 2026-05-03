@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const DEADLINE = new Date('2026-05-02T00:00:00+05:30')
+const DEADLINE = new Date('2026-05-09T23:59:00+05:30')
 
 type TimeLeft = {
   days: number
@@ -56,7 +56,7 @@ export default function CountdownTimer() {
       {/* urgency bar */}
       <div className={`px-4 py-2 text-center ${isUrgent ? 'bg-[#b42318]' : 'bg-[#ff9736]'}`}>
         <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white">
-          {isUrgent ? '🚨 Final hours — ' : '⏳ '}Registration closes May 2nd, 2026
+          {isUrgent ? '🚨 Final hours — ' : '⏳ '}Registration closes May 9th, 2026
         </p>
       </div>
 
