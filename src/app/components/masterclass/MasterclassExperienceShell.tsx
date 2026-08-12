@@ -7,8 +7,8 @@ import type { ReactNode } from 'react'
 import { Masterclass, getMasterclassBackgroundClass } from '@/app/lib/masterclasses'
 
 const contactDetails = [
-  { label: 'Call', value: '+91 73581 16929', href: 'tel:+917358116929', icon: Phone },
-  { label: 'WhatsApp', value: 'Ask anything', href: 'https://wa.me/917358116929', icon: MessageCircle },
+  { label: 'Call', value: '+91 95666 56909', href: 'tel:+919566656909', icon: Phone },
+  { label: 'WhatsApp', value: 'Ask anything', href: 'https://wa.me/919566656909', icon: MessageCircle },
   { label: 'Email', value: 'support@traijoedu.in', href: 'mailto:support@traijoedu.in', icon: Mail },
 ]
 

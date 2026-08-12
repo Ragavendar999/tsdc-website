@@ -18,8 +18,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { status, student, masterclass } = body as {
+    const { status, student, masterclass, paymentVerified } = body as {
       status: 'paid' | 'abandoned'
+      paymentVerified?: boolean
       student: {
         name: string
         email: string
@@ -54,16 +55,23 @@ export async function POST(req: Request) {
     })
 
     const isPaid = status === 'paid'
+    const isUnverified = isPaid && paymentVerified === false
 
-    const accentColor = isPaid ? '#16a34a' : '#d97706'
-    const badgeBg = isPaid ? '#dcfce7' : '#fef3c7'
-    const badgeBorder = isPaid ? '#bbf7d0' : '#fde68a'
-    const badgeText = isPaid ? '#15803d' : '#92400e'
-    const statusLabel = isPaid ? '✅ PAYMENT COMPLETED' : '⚠️ REACHED PAYMENT — DID NOT PAY'
-    const subjectEmoji = isPaid ? '✅' : '⚠️'
-    const subjectLabel = isPaid
-      ? `Masterclass Payment Confirmed — ${student.name}`
-      : `Incomplete Payment — ${student.name} reached checkout but didn't pay`
+    const accentColor = isUnverified ? '#b42318' : isPaid ? '#16a34a' : '#d97706'
+    const badgeBg = isUnverified ? '#fff1f2' : isPaid ? '#dcfce7' : '#fef3c7'
+    const badgeBorder = isUnverified ? '#fecdca' : isPaid ? '#bbf7d0' : '#fde68a'
+    const badgeText = isUnverified ? '#b42318' : isPaid ? '#15803d' : '#92400e'
+    const statusLabel = isUnverified
+      ? '🚫 PAYMENT COULD NOT BE VERIFIED'
+      : isPaid
+        ? '✅ PAYMENT COMPLETED'
+        : '⚠️ REACHED PAYMENT — DID NOT PAY'
+    const subjectEmoji = isUnverified ? '🚫' : isPaid ? '✅' : '⚠️'
+    const subjectLabel = isUnverified
+      ? `Payment signature FAILED verification — ${student.name} — check before confirming seat`
+      : isPaid
+        ? `Masterclass Payment Confirmed — ${student.name}`
+        : `Incomplete Payment — ${student.name} reached checkout but didn't pay`
 
     const priceFormatted = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(masterclass.price)
 

@@ -228,7 +228,7 @@ export default function MasterclassLandingPage({ slug }: { slug: string }) {
                   </Link>
                 </div>
                 <a
-                  href="tel:+917358116929"
+                  href="tel:+919566656909"
                   className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[2px] border-white/20 bg-white/8 px-7 py-4 text-sm font-black text-white backdrop-blur-sm transition hover:bg-white/16"
                 >
                   <Phone size={15} />

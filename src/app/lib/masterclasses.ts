@@ -1,4 +1,4 @@
-export type MasterclassModule = {
+﻿export type MasterclassModule = {
   title: string
   duration: string
 }
@@ -19,6 +19,11 @@ export type Masterclass = {
   replacementMasterclassId?: string
   autoActivatedAt?: string
   activatedFromMasterclassId?: string
+  /** When true, the auto-turnoff cron reschedules this masterclass to its next recurring
+   *  slot instead of unpublishing it. See getNextRecurringSessionDate. */
+  recurring?: boolean
+  autoRescheduledAt?: string
+  autoRescheduledFrom?: string
   title: string
   backgroundStyle?: 'midnight' | 'blueprint' | 'ember' | 'violet'
   backgroundImage?: string
@@ -56,7 +61,7 @@ export const defaultMasterclasses: Masterclass[] = [
     status: 'live',
     eventDate: '2026-05-01',
     turnOffAt: '2026-05-01T09:30:00.000Z',
-    replacementMasterclassId: 'summer-bootcamp-ai-powered-graphic-design-program',
+    recurring: true,
     title: 'Logo Design Masterclass',
     backgroundStyle: 'midnight',
     backgroundImage: '',
@@ -72,7 +77,7 @@ export const defaultMasterclasses: Masterclass[] = [
     originalPrice: 4999,
     discountLabel: '60% OFF',
     seatsTotal: 50,
-    seatsTaken: 34,
+    seatsTaken: 0,
     modules: [
       { title: 'Logo design fundamentals: what makes a logo work', duration: '30 min' },
       { title: 'Brand identity thinking before opening Illustrator', duration: '30 min' },
@@ -102,7 +107,7 @@ export const defaultMasterclasses: Masterclass[] = [
       'Anyone who opened Illustrator and had no idea where to start',
     ],
     faqs: ['Do I need Illustrator?', 'Is this recorded?', 'Beginner-friendly?', 'Will I get a certificate?'],
-    whatsappLink: 'https://wa.me/917358116929',
+    whatsappLink: 'https://wa.me/919566656909',
   },
   {
     id: 'summer-bootcamp-ai-powered-graphic-design-program',
@@ -110,6 +115,7 @@ export const defaultMasterclasses: Masterclass[] = [
     status: 'live',
     eventDate: '2026-04-20',
     turnOffAt: '2026-04-20T09:30:00.000Z',
+    recurring: true,
     title: 'Summer Bootcamp for AI Powered Graphic Design Program',
     backgroundStyle: 'ember',
     backgroundImage: '',
@@ -124,8 +130,8 @@ export const defaultMasterclasses: Masterclass[] = [
     price: 6999,
     originalPrice: 9999,
     discountLabel: 'Summer Offer',
-    seatsTotal: 40,
-    seatsTaken: 18,
+    seatsTotal: 50,
+    seatsTaken: 0,
     modules: [
       { title: 'Graphic design basics: layout, hierarchy, color, and composition', duration: 'Module 1' },
       { title: 'Adobe Photoshop and Illustrator foundations for beginners', duration: 'Module 2' },
@@ -160,9 +166,82 @@ export const defaultMasterclasses: Masterclass[] = [
       'Will AI tools be taught practically?',
       'Do I get a certificate and portfolio guidance?',
     ],
-    whatsappLink: 'https://wa.me/917358116929',
+    whatsappLink: 'https://wa.me/919566656909',
   },
 ]
+
+/** IDs of the two masterclasses that alternate between the 1st-weekend and
+ *  mid-month-weekend Sunday slots. Odd calendar months: LOGO gets the 1st
+ *  weekend, BOOTCAMP gets the mid-month weekend. Even months: swapped.
+ *  This is derived purely from calendar month parity (no stored cursor),
+ *  so re-running it is always consistent and can't drift out of sync. */
+const RECURRING_MASTERCLASS_IDS = {
+  LOGO: 'logo-design-masterclass',
+  BOOTCAMP: 'summer-bootcamp-ai-powered-graphic-design-program',
+} as const
+
+const getFirstSundayUTC = (year: number, monthIndex0: number) => {
+  const firstOfMonth = new Date(Date.UTC(year, monthIndex0, 1))
+  const offset = (7 - firstOfMonth.getUTCDay()) % 7
+  return new Date(Date.UTC(year, monthIndex0, 1 + offset))
+}
+
+const getMidSundayUTC = (year: number, monthIndex0: number) => {
+  // The unique Sunday in days 12-18 is always "the weekend nearest the 15th".
+  for (let day = 12; day <= 18; day++) {
+    const candidate = new Date(Date.UTC(year, monthIndex0, day))
+    if (candidate.getUTCDay() === 0) return candidate
+  }
+  throw new Error(`No Sunday found in mid-month window for ${year}-${monthIndex0 + 1}`)
+}
+
+const getRecurringSlotForMonth = (masterclassId: string, monthIndex0: number): 'first' | 'mid' => {
+  const isOddMonth = (monthIndex0 + 1) % 2 === 1
+  if (masterclassId === RECURRING_MASTERCLASS_IDS.BOOTCAMP) return isOddMonth ? 'mid' : 'first'
+  return isOddMonth ? 'first' : 'mid'
+}
+
+/** Next Sunday (strictly after `after`) that this masterclass's alternating
+ *  monthly slot lands on. Used both for the one-time data fix and for the
+ *  auto-turnoff cron's rollover-to-next-session logic. */
+export const getNextRecurringSessionDate = (masterclassId: string, after: Date = new Date()) => {
+  let year = after.getUTCFullYear()
+  let monthIndex0 = after.getUTCMonth()
+
+  for (let i = 0; i < 24; i++) {
+    const slot = getRecurringSlotForMonth(masterclassId, monthIndex0)
+    const candidate = slot === 'first' ? getFirstSundayUTC(year, monthIndex0) : getMidSundayUTC(year, monthIndex0)
+
+    if (candidate.getTime() > after.getTime()) return candidate
+
+    monthIndex0 += 1
+    if (monthIndex0 > 11) {
+      monthIndex0 = 0
+      year += 1
+    }
+  }
+
+  throw new Error(`Could not compute next recurring session date for ${masterclassId}`)
+}
+
+const IST_OFFSET_MINUTES = 330
+
+/** 10:00 PM IST the day before the session date — matches isMasterclassPastTurnOffAt. */
+export const computeTurnOffAt = (sessionDateUTC: Date) => {
+  const cutoffUtcMs =
+    Date.UTC(
+      sessionDateUTC.getUTCFullYear(),
+      sessionDateUTC.getUTCMonth(),
+      sessionDateUTC.getUTCDate() - 1,
+      22,
+      0,
+      0
+    ) - IST_OFFSET_MINUTES * 60000
+  return new Date(cutoffUtcMs).toISOString()
+}
+
+export const formatMasterclassDisplayDate = (sessionDateUTC: Date) =>
+  sessionDateUTC.toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric', timeZone: 'UTC' })
 
 export const formatPrice = (price: number) => `Rs ${price.toLocaleString('en-IN')}/-`
 

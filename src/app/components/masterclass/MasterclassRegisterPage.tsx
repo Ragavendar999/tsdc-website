@@ -25,6 +25,12 @@ declare global {
   }
 }
 
+type RazorpayPaymentResponse = {
+  razorpay_order_id: string
+  razorpay_payment_id: string
+  razorpay_signature: string
+}
+
 type RazorpayCheckoutOptions = {
   key: string
   amount: number
@@ -41,7 +47,7 @@ type RazorpayCheckoutOptions = {
   theme: {
     color: string
   }
-  handler: () => void
+  handler: (response: RazorpayPaymentResponse) => void
   modal: {
     ondismiss: () => void
   }
@@ -144,7 +150,7 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
       orderId: order.orderId,
     }
 
-    const notifyAdmin = (status: 'paid' | 'abandoned') => {
+    const notifyAdmin = (status: 'paid' | 'abandoned', paymentVerified?: boolean) => {
       if (!studentRef.current) return
       const triggers = loadSiteSettings().email.triggers
       if (status === 'paid' && !triggers.masterclassPaid) return
@@ -154,6 +160,7 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           status,
+          paymentVerified,
           student: studentRef.current,
           masterclass: {
             title: masterclass.title,
@@ -166,6 +173,29 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
           },
         }),
       }).catch((err) => console.error('[notify]', err))
+    }
+
+    // Verifies the Razorpay signature server-side and atomically increments the
+    // masterclass's seat count — the checkout `handler` callback alone is not
+    // proof of payment, it just means the modal closed after a claimed success.
+    const verifyPayment = async (response: RazorpayPaymentResponse) => {
+      try {
+        const verifyResponse = await fetch('/api/razorpay/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: response.razorpay_order_id,
+            paymentId: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+            masterclassId: masterclass.id,
+          }),
+        })
+        const result = await verifyResponse.json()
+        return Boolean(result.verified)
+      } catch (err) {
+        console.error('[verifyPayment]', err)
+        return false
+      }
     }
 
     const razorpay = new Razorpay({
@@ -188,10 +218,14 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
       theme: {
         color: '#3244b5',
       },
-      handler: () => {
-        // Payment successful — notify admin, then redirect to success page
-        notifyAdmin('paid')
-        window.location.href = `/masterclasses/${masterclass.slug}/success`
+      handler: (response) => {
+        // Payment claimed successful by the checkout modal — verify the signature
+        // server-side (and bump the seat count) before notifying admin, but still
+        // redirect either way so a notify/verify hiccup doesn't strand the student.
+        verifyPayment(response).then((verified) => {
+          notifyAdmin('paid', verified)
+          window.location.href = `/masterclasses/${masterclass.slug}/success`
+        })
       },
       modal: {
         ondismiss: () => {
