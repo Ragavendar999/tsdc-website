@@ -70,7 +70,7 @@ export const defaultCoursesListing: CoursesListingContent = {
         href: '/courses/graphic-design',
         image: '/Graphic%20Design.png',
         accent: '#5637ef',
-        duration: '12 Weeks',
+        duration: '3 Months',
         classes: '3 Classes / Week',
         projects: '6+ Projects',
         tools: 'Photoshop · Illustrator · InDesign',
