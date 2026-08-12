@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import BlogPage from '@/app/components/blog/BlogPage'
-import { defaultBlogPosts } from '@/app/lib/blogPosts'
 import { breadcrumbSchema, itemListSchema, jsonLd } from '@/app/lib/seo'
+import { blogPostsStore } from '@/lib/stores/blog-posts-store'
 
 export const metadata: Metadata = {
   title: 'TSDC Blog',
@@ -19,7 +19,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const posts = await blogPostsStore.get()
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -27,7 +30,7 @@ export default function Page() {
     ]),
     itemListSchema({
       name: 'TSDC Blog Posts',
-      items: defaultBlogPosts
+      items: posts
         .filter((post) => post.status === 'published')
         .map((post) => ({ title: post.title, path: `/blog/${post.slug}` })),
     }),
@@ -42,7 +45,7 @@ export default function Page() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <BlogPage />
+      <BlogPage posts={posts} />
     </>
   )
 }

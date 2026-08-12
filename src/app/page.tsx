@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import HomepageContent from './components/homepage/HomepageContent'
-import { itemListSchema, jsonLd, organizationSchema } from './lib/seo'
+import { itemListSchema, jsonLd, organizationSchema, websiteSchema } from './lib/seo'
+import { homepageStore } from '@/lib/stores/homepage-store'
 
 export const metadata: Metadata = {
   title: 'Creative Courses in Chennai',
@@ -29,9 +30,13 @@ export const metadata: Metadata = {
   ],
 }
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic'
+
+export default async function HomePage() {
+  const content = await homepageStore.get()
   const schemas = [
     organizationSchema,
+    websiteSchema,
     itemListSchema({
       name: 'TSDC Creative Courses',
       items: [
@@ -53,7 +58,7 @@ export default function HomePage() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <HomepageContent />
+      <HomepageContent content={content} />
     </>
   )
 }

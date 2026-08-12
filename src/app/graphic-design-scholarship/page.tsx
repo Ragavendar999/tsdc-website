@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import GraphicDesignScholarshipPage from '@/app/components/scholarship/GraphicDesignScholarshipPage'
 import { breadcrumbSchema, jsonLd, siteUrl } from '@/app/lib/seo'
+import { scholarshipPageStore } from '@/lib/stores/scholarship-page-store'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -71,7 +72,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const content = await scholarshipPageStore.get()
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -90,7 +94,7 @@ export default function Page() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <GraphicDesignScholarshipPage />
+      <GraphicDesignScholarshipPage content={content} />
     </>
   )
 }

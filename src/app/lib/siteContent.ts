@@ -1,4 +1,4 @@
-export type HeroTrack = {
+﻿export type HeroTrack = {
   title: string
   accent: string
   line: string
@@ -388,7 +388,7 @@ export const defaultSiteContent: SiteContent = {
       { name: 'LinkedIn', href: 'https://in.linkedin.com/company/traijoskilldevelopmentcenter' },
     ],
     contactEmail: 'support@traijoedu.in',
-    contactPhone: '+91-73581-16929',
+    contactPhone: '+91-95666-56909',
     contactHours: 'Mon-Sat, 9AM - 6PM',
     addressLines: [
       'Villa 20, Block 52,',
@@ -467,7 +467,7 @@ export const defaultSiteContent: SiteContent = {
       },
     ],
     mapTitle: 'Traijo Skill Development Center',
-    mapPhone: '+91 73581 16929',
+    mapPhone: '+91 95666 56909',
     mapButtonLabel: 'Admissions Support',
     launchCardEyebrow: 'Quick Enquiry',
     launchCardTitle: 'Have a question? Let us answer it now.',

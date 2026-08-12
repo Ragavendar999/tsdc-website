@@ -1,10 +1,10 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import GraphicDesignContent from './GraphicDesignContent'
-import { defaultCourseContent } from '@/app/lib/courseContent'
 import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
+import { courseContentStore } from '@/lib/stores/course-content-store'
 
 export const metadata: Metadata = {
-  title: 'Graphic Design Course in Chennai',
+  title: 'AI Powered Graphic Design Program in Chennai',
   description:
     "Enroll in TSDC's Graphic Design Course in Chennai. Learn Adobe Photoshop, Illustrator, InDesign, branding, logo design, packaging and portfolio projects at a job-focused creative education institute.",
   keywords: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     canonical: '/courses/graphic-design/',
   },
   openGraph: {
-    title: 'Graphic Design Course in Chennai',
+    title: 'AI Powered Graphic Design Program in Chennai',
     description:
       "Join TSDC's Graphic Design program in Chennai for Photoshop, Illustrator, branding, logo design, real projects and a job-ready portfolio.",
     url: 'https://traijoedu.in/courses/graphic-design/',
@@ -51,14 +51,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Graphic Design Course in Chennai',
+    title: 'AI Powered Graphic Design Program in Chennai',
     description: 'Master Photoshop, Illustrator, branding and logo design with real projects at TSDC Chennai.',
     images: ['/graphic.png'],
   },
 }
 
-export default function GraphicDesignCoursePage() {
-  const course = defaultCourseContent['graphic-design']
+export const dynamic = 'force-dynamic'
+
+export default async function GraphicDesignCoursePage() {
+  const allCourses = await courseContentStore.get()
+  const course = allCourses['graphic-design']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -89,7 +92,7 @@ export default function GraphicDesignCoursePage() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <GraphicDesignContent />
+      <GraphicDesignContent course={course} />
     </>
   )
 }

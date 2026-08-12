@@ -1,11 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { defaultMasterclasses, fetchMasterclasses, formatPrice, isMasterclassVisibleOnLiveSite, type Masterclass } from '@/app/lib/masterclasses'
 import { loadSiteSettings } from '@/app/lib/siteSettings'
-import MasterclassExperienceShell from './MasterclassExperienceShell'
 
 type CapturedStudent = {
   name: string
@@ -68,14 +66,12 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
 
   if (!masterclass || !isMasterclassVisibleOnLiveSite(masterclass)) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-20">
-        <div className="rounded-[2.4rem] border-[3px] border-[#10163a] bg-white p-8 text-center text-[#10163a] shadow-[9px_9px_0_#10163a]">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#3244b5]">Registration unavailable</p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em]">This masterclass is no longer available for registration.</h1>
-          <p className="mt-4 text-base font-semibold leading-8 text-[#4d556f]">
-            This page is hidden whenever the masterclass is unpublished from the admin panel or reaches its admin-configured turn-off date and time.
-          </p>
-        </div>
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6036e9]">Registration unavailable</p>
+        <h1 className="mt-4 text-3xl font-black tracking-[-0.03em] text-[#0b0e28]">This masterclass is no longer available for registration.</h1>
+        <p className="mt-3 text-sm font-medium text-[#58637b]">
+          This page is hidden whenever the masterclass is unpublished from the admin panel or reaches its admin-configured turn-off date and time.
+        </p>
       </div>
     )
   }
@@ -240,95 +236,78 @@ export default function MasterclassRegisterPage({ slug }: { slug: string }) {
   }
 
   return (
-    <MasterclassExperienceShell
-      masterclass={masterclass}
-      footerNote="Your seat details stay inside this focused masterclass registration flow. Complete the form and you will be routed to the community step after payment."
-    >
-      <div className="mx-auto w-full max-w-6xl rounded-[2.8rem] border-[3px] border-[#10163a] bg-white p-4 shadow-[10px_10px_0_#10163a] md:p-7">
-        <div className="mb-8 flex flex-col gap-4 border-b-[3px] border-[#10163a] pb-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-[#10163a] bg-[#3244b5] text-sm font-black text-white shadow-[4px_4px_0_#10163a]">1</span>
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.24em] text-[#fa8a43]">Information submission</p>
-              <h1 className="text-3xl font-black tracking-[-0.05em] text-[#10163a] md:text-4xl">Reserve your masterclass seat</h1>
-            </div>
-          </div>
-          <span className="w-max rounded-full border-[3px] border-[#10163a] bg-[#fff1dd] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#10163a] shadow-[4px_4px_0_#10163a]">
-            Step 1 of 3
-          </span>
+    <div className="bg-[#f7f8fc] px-4 py-12 sm:px-8">
+      <div className="mx-auto w-full max-w-5xl">
+        <div className="mb-8">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6036e9]">Step 1 of 3 · Information submission</p>
+          <h1 className="mt-2 text-2xl font-black tracking-[-0.02em] text-[#0b0e28] sm:text-3xl">Reserve your masterclass seat</h1>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1fr_0.45fr]">
-          <form onSubmit={handleSubmit} className="rounded-[2rem] border-[3px] border-[#10163a] bg-[#fff8ed] p-5 text-black shadow-[7px_7px_0_#10163a] md:p-7">
+          <form onSubmit={handleSubmit} className="rounded-2xl border border-[#e7e9f2] bg-white p-5 shadow-[0_1px_3px_rgba(10,10,30,0.06)] sm:p-7">
             <div className="mb-5 grid grid-cols-3 gap-2">
-              <span className="h-2 rounded-full bg-[#fa8a43]" />
-              <span className="h-2 rounded-full bg-[#3244b5]" />
-              <span className="h-2 rounded-full bg-[#db4b87]" />
+              <span className="h-1.5 rounded-full bg-[#6036e9]" />
+              <span className="h-1.5 rounded-full bg-[#eef0f7]" />
+              <span className="h-1.5 rounded-full bg-[#eef0f7]" />
             </div>
 
-            <p className="mb-4 text-sm font-black text-[#344054]">Your details - all fields required</p>
+            <p className="mb-4 text-sm font-black text-[#0b0e28]">Your details — all fields required</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <input required name="name" placeholder="Full name" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a]" />
-              <input required name="whatsapp" placeholder="WhatsApp number" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a]" />
-              <input required name="email" type="email" placeholder="Email address" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a] sm:col-span-2" />
-              <input required name="city" placeholder="City" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a]" />
-              <input required name="profession" placeholder="Profession / Role" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a]" />
-              <select required name="experience" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a] sm:col-span-2">
+              <input required name="name" placeholder="Full name" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9]" />
+              <input required name="whatsapp" placeholder="WhatsApp number" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9]" />
+              <input required name="email" type="email" placeholder="Email address" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9] sm:col-span-2" />
+              <input required name="city" placeholder="City" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9]" />
+              <input required name="profession" placeholder="Profession / Role" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9]" />
+              <select required name="experience" defaultValue="" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9] sm:col-span-2">
                 <option value="">Experience level</option>
                 <option>Beginner</option>
                 <option>Intermediate</option>
                 <option>Professional</option>
               </select>
-              <input required name="referral" placeholder="How did you hear about us?" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a] sm:col-span-2" />
-              <input name="promoCode" placeholder="Promo code (optional)" className="rounded-2xl border-[3px] border-[#10163a] bg-white px-4 py-3.5 font-semibold outline-none transition focus:border-[#4562b0] shadow-[4px_4px_0_#10163a] sm:col-span-2" />
+              <input required name="referral" placeholder="How did you hear about us?" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9] sm:col-span-2" />
+              <input name="promoCode" placeholder="Promo code (optional)" className="rounded-xl border border-[#dfe2ee] bg-white px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#6036e9] sm:col-span-2" />
             </div>
 
             <button
               disabled={paymentLoading}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#ff9736] px-6 py-4 text-sm font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-0.5 disabled:opacity-60"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6036e9] px-6 py-3.5 text-sm font-black text-white transition hover:bg-[#5228c9] disabled:opacity-60"
             >
               {paymentLoading ? 'Opening Razorpay...' : 'Continue to Payment'}
               <ArrowRight size={16} />
             </button>
 
             {paymentError && (
-              <p className="mt-4 rounded-2xl border-[3px] border-[#b42318] bg-[#fff1f2] px-4 py-3 text-sm font-bold leading-6 text-[#b42318] shadow-[4px_4px_0_#b42318]">
-                {paymentError}
-              </p>
+              <p className="mt-4 rounded-xl border border-[#f3c6c6] bg-[#fff1f2] px-4 py-3 text-sm font-bold leading-6 text-[#b42318]">{paymentError}</p>
             )}
           </form>
 
-          <motion.aside
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="h-fit rounded-[2rem] border-[3px] border-[#10163a] bg-[#3244b5] p-5 text-white shadow-[7px_7px_0_#10163a] lg:sticky lg:top-28"
-          >
-            <p className="flex items-center gap-2 text-sm font-black text-[#ffcb53]">
+          <aside className="h-fit rounded-2xl bg-[#0b0e28] p-5 text-white">
+            <p className="flex items-center gap-2 text-sm font-black text-[#ffc43d]">
               <Sparkles size={15} />
               Order summary
             </p>
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em]">{masterclass.title}</h2>
-            <div className="mt-4 space-y-3 rounded-[1.5rem] border-[3px] border-[#10163a] bg-white p-4 text-sm text-[#10163a] shadow-[4px_4px_0_#10163a]">
+            <h2 className="mt-2 text-xl font-black tracking-[-0.02em]">{masterclass.title}</h2>
+            <div className="mt-4 space-y-3 rounded-xl bg-white p-4 text-sm text-[#0b0e28]">
               <div className="flex justify-between">
-                <span className="text-[#667085]">Original price</span>
+                <span className="text-[#58637b]">Original price</span>
                 <strong>{formatPrice(masterclass.originalPrice)}</strong>
               </div>
-              <div className="flex justify-between text-[#16a34a]">
+              <div className="flex justify-between text-[#1baf7a]">
                 <span>Early bird discount</span>
                 <strong>-{formatPrice(discount)}</strong>
               </div>
-              <div className="flex justify-between text-[#fa8a43]">
+              <div className="flex justify-between border-t border-[#eef0f7] pt-3 text-[#6036e9]">
                 <span>Total</span>
                 <strong>{formatPrice(masterclass.price)}</strong>
               </div>
             </div>
-            <p className="mt-4 flex items-center gap-2 text-xs font-bold text-white/82">
-              <CheckCircle2 size={15} className="text-[#ffcb53]" />
+            <p className="mt-4 flex items-center gap-2 text-xs font-bold text-white/70">
+              <CheckCircle2 size={15} className="text-[#ffc43d]" />
               Secure payment via Razorpay
             </p>
-          </motion.aside>
+          </aside>
         </div>
       </div>
-    </MasterclassExperienceShell>
+    </div>
   )
 }

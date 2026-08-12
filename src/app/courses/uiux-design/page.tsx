@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import UiUxDesignContent from './UiUxDesignContent'
-import { defaultCourseContent } from '@/app/lib/courseContent'
 import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
+import { courseContentStore } from '@/lib/stores/course-content-store'
 
 export const metadata: Metadata = {
   title: 'UI/UX Design Course in Chennai',
@@ -45,8 +45,11 @@ export const metadata: Metadata = {
   },
 }
 
-export default function UiUxDesignCoursePage() {
-  const course = defaultCourseContent['uiux-design']
+export const dynamic = 'force-dynamic'
+
+export default async function UiUxDesignCoursePage() {
+  const allCourses = await courseContentStore.get()
+  const course = allCourses['uiux-design']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -77,7 +80,7 @@ export default function UiUxDesignCoursePage() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <UiUxDesignContent />
+      <UiUxDesignContent course={course} />
     </>
   )
 }

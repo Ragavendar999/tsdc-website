@@ -1,16 +1,14 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { CourseLandingTemplate } from '@/app/components/courses/CourseLandingTemplate'
-import { loadCourseContent, defaultCourseContent, COURSE_CONTENT_UPDATED_EVENT } from '@/app/lib/courseContent'
+import { defaultCourseContent, type CourseData } from '@/app/lib/courseContent'
 
-export default function GraphicDesignContent() {
-  const [course, setCourse] = useState(defaultCourseContent['graphic-design'])
-  useEffect(() => {
-    const sync = () => setCourse(loadCourseContent()['graphic-design'])
-    sync()
-    window.addEventListener(COURSE_CONTENT_UPDATED_EVENT, sync)
-    return () => window.removeEventListener(COURSE_CONTENT_UPDATED_EVENT, sync)
-  }, [])
-  return <CourseLandingTemplate course={course} />
+type GraphicDesignContentProps = {
+  course?: CourseData
+}
+
+export default function GraphicDesignContent({ course = defaultCourseContent['graphic-design'] }: GraphicDesignContentProps) {
+  return (
+    <CourseLandingTemplate
+      course={{ ...course, title: 'AI Powered Graphic Design Program', image: '/Graphic%20Design.png', imageAlt: 'AI Powered Graphic Design Program at TSDC Chennai' }}
+    />
+  )
 }

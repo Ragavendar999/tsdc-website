@@ -1,4 +1,4 @@
-export const COURSE_CONTENT_KEY = 'tsdc-course-content-v1'
+﻿export const COURSE_CONTENT_KEY = 'tsdc-course-content-v1'
 export const COURSE_CONTENT_UPDATED_EVENT = 'tsdc-course-content-updated'
 
 export type CourseOutcome = { title: string; text: string }
@@ -48,11 +48,11 @@ export const defaultCourseContent: AllCourseContent = {
   'graphic-design': {
     id: 'graphic-design',
     slug: 'graphic-design',
-    title: 'Graphic Design Mastery Program',
+    title: 'AI Powered Graphic Design Program',
     eyebrow: 'Creative Education Institute - Chennai',
     description:
       'Become a commercial graphic designer with branding, typography, Adobe tools, packaging, social media creatives, and a job-ready portfolio built through practical projects.',
-    image: '/Gd1.jpeg',
+    image: '/Graphic%20Design.png',
     imageAlt: 'Graphic Design Course in Chennai - TSDC',
     accent: '#F4793E',
     deep: '#4B3A97',
@@ -91,9 +91,9 @@ export const defaultCourseContent: AllCourseContent = {
       { question: 'What is a graphic design course all about?', answer: 'A graphic design course teaches you how to visually communicate ideas through typography, color, layout, branding, and digital tools like Photoshop and Illustrator. At TSDC, the program covers design fundamentals, Adobe tools, brand identity, packaging, social media creatives, and a portfolio of 8+ real projects.' },
       { question: 'What subjects are covered in a graphic design course?', answer: 'Core subjects include visual hierarchy, color theory, typography, logo design, branding systems, print and packaging design, social media creatives, and portfolio development. At TSDC, students also learn Adobe Photoshop, Illustrator, InDesign, Canva Pro, and Figma.' },
       { question: 'What is the graphic design course fee?', answer: 'The TSDC Graphic Design Mastery Program is Rs 18,000 with a 3-month EMI option at Rs 6,000 per month, so you can start without paying the full amount upfront. The fee covers all course materials, software guidance, project reviews, and certification.' },
-      { question: 'How long is the graphic design course?', answer: 'The TSDC Graphic Design program runs for 12 weeks. This covers design fundamentals, Adobe tools, branding, packaging, social creatives, and a complete portfolio review — structured so students are job-ready by the end.' },
+      { question: 'How long is the graphic design course?', answer: 'The TSDC Graphic Design program runs for 12 weeks. This covers design fundamentals, Adobe tools, branding, packaging, social creatives, and a complete portfolio review â€” structured so students are job-ready by the end.' },
       { question: 'Can I learn graphic design online?', answer: 'Yes. TSDC offers both offline classroom sessions and a hybrid mode, so students who cannot attend in person can still follow the full curriculum, get project feedback, and build their portfolio.' },
-      { question: 'Can I learn graphic design with no prior experience?', answer: 'Absolutely. The course starts from the very beginning — design fundamentals, visual thinking, and software basics — before building into advanced branding and portfolio projects. No prior design or computer experience is required.' },
+      { question: 'Can I learn graphic design with no prior experience?', answer: 'Absolutely. The course starts from the very beginning â€” design fundamentals, visual thinking, and software basics â€” before building into advanced branding and portfolio projects. No prior design or computer experience is required.' },
       { question: 'What is the salary after a graphic design course?', answer: 'Entry-level graphic designers in Chennai typically earn between Rs 15,000 and Rs 30,000 per month depending on the role and portfolio quality. Freelancers can earn more depending on client volume. Roles like Brand Designer and Creative Executive can grow further with experience.' },
       { question: 'Which graphic design course is best for beginners?', answer: 'The best graphic design course for a beginner is one that teaches fundamentals first, covers professional tools like Photoshop and Illustrator, includes live project work, and ends with a portfolio you can show employers. TSDC is designed specifically around that outcome.' },
       { question: 'Which graphic design course is right for me?', answer: 'If you enjoy visual communication, branding, color, and creating for print, social, or digital campaigns, graphic design is likely the right path. If you prefer product thinking, apps, and user interfaces, UI/UX may suit you better. TSDC can help you compare both before you enroll.' },
@@ -103,12 +103,12 @@ export const defaultCourseContent: AllCourseContent = {
       { question: 'Do I get a certificate and portfolio support?', answer: 'Yes. Students receive a course completion certificate and portfolio review support tied to the projects built in class.' },
       { question: 'Can I pay in installments?', answer: 'Yes. The fee can be split into a 3-month EMI plan of Rs 6,000 per month so you can start without paying the full amount upfront.' },
       { question: 'What jobs can I apply for after this course?', answer: 'Students typically prepare for Graphic Designer, Brand Designer, Social Media Designer, Print Designer, and Creative Executive roles at agencies, brands, and studios.' },
-      { question: 'Can a 12th pass student become a graphic designer?', answer: 'Yes. Graphic design does not require a degree. Many working designers entered the field after 12th with a practical certificate course. What matters most is your portfolio, software skills, and understanding of design fundamentals — all of which you build during the TSDC program.' },
+      { question: 'Can a 12th pass student become a graphic designer?', answer: 'Yes. Graphic design does not require a degree. Many working designers entered the field after 12th with a practical certificate course. What matters most is your portfolio, software skills, and understanding of design fundamentals â€” all of which you build during the TSDC program.' },
       { question: 'Is graphic design a well-paid career?', answer: 'Graphic design is a well-paid and growing career, especially in digital-first businesses. In India, starting salaries range from Rs 15,000 to Rs 30,000 per month. Experienced brand designers, senior creatives, and freelancers often earn significantly more. Logo and brand designers also command strong project fees.' },
       { question: 'What are the main types of graphic design?', answer: 'The main types include brand identity design, print design, packaging design, digital and social media design, advertising design, motion design, and UI/UX design. At TSDC, the course covers brand identity, print, packaging, and social media design as core areas, giving students a broad commercial foundation.' },
       { question: 'Is logo design a good career?', answer: 'Yes. Logo and brand identity design is one of the highest-value services in the design industry. Strong logo designers often work freelance, charging per-project fees that grow with portfolio quality. The TSDC program includes logo construction, vector illustration, and full brand identity development.' },
       { question: 'Which is the best graphic design institute in Chennai?', answer: 'The best graphic design institute in Chennai is one that focuses on practical portfolio building over theory, covers professional tools like Photoshop and Illustrator, provides mentor feedback on real projects, and prepares students for actual job roles. TSDC is a practical, outcome-focused creative institute near OMR, Perumbakkam built around exactly this model.' },
-      { question: 'Which is the best graphic design institute in India?', answer: 'The best graphic design institutes in India prioritize live projects, mentor critique, real-world briefs, and strong portfolio outcomes. TSDC, based in Chennai, is a career-focused creative institute built around portfolio-first training — preparing students for brand design, agency work, and freelance careers across India.' },
+      { question: 'Which is the best graphic design institute in India?', answer: 'The best graphic design institutes in India prioritize live projects, mentor critique, real-world briefs, and strong portfolio outcomes. TSDC, based in Chennai, is a career-focused creative institute built around portfolio-first training â€” preparing students for brand design, agency work, and freelance careers across India.' },
       { question: 'Can AI replace graphic designers?', answer: 'No. AI tools like Adobe Firefly and Canva AI help designers work faster, but they cannot replace human creative judgment, cultural understanding, brand strategy, or the ability to solve complex communication problems. Designers who learn to use AI as a co-pilot are more valuable, not less. TSDC integrates AI-aware workflows into training.' },
     ],
     popupInterest: 'Graphic Design Course',
@@ -120,7 +120,7 @@ export const defaultCourseContent: AllCourseContent = {
     eyebrow: 'Product Design Course - Chennai',
     description:
       'Learn human-first interface design, UX research, wireframes, Figma prototyping, design systems, usability thinking, and portfolio case studies.',
-    image: '/Blue Background.png',
+    image: '/UIUX%20Design.png',
     imageAlt: 'UI/UX Design Course in Chennai - TSDC',
     accent: '#4562B0',
     deep: '#4B3A97',
@@ -276,8 +276,8 @@ export const defaultCourseContent: AllCourseContent = {
     eyebrow: 'Motion Design Course - Chennai',
     description:
       'Learn After Effects, Illustrator workflows, title animation, explainer scenes, ad motion systems, reels, and storyboard-to-animation production for modern brand work.',
-    image: '/graphic.png',
-    imageAlt: 'Motion Graphics Course in Chennai - TSDC',
+    image: '/Motion%20Graphics.png',
+    imageAlt: 'Motion Graphics Course at TSDC Chennai',
     accent: '#DB4B87',
     deep: '#171D4D',
     soft: '#FFF1F7',

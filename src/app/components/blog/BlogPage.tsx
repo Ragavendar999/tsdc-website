@@ -1,155 +1,17 @@
-'use client'
+﻿'use client'
 
-import { motion } from 'framer-motion'
-import { ArrowRight, CalendarDays, Clock3, Sparkles, Tag } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
-import { defaultBlogPosts, loadBlogPosts, type BlogPost } from '@/app/lib/blogPosts'
+import { ArrowRight, CalendarDays, Clock3, Search, Send, Tag } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { defaultBlogPosts, type BlogPost } from '@/app/lib/blogPosts'
 
-function BlogCover({ image, alt }: { image: string; alt: string }) {
-  return (
-    <div
-      aria-label={alt}
-      role="img"
-      className="h-56 rounded-[1.8rem] border-[3px] border-[#10163a] bg-[#eef3ff] shadow-[5px_5px_0_#10163a]"
-      style={{
-        backgroundImage: image ? `linear-gradient(180deg,rgba(16,22,58,0.05),rgba(16,22,58,0.15)), url(${image})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    />
-  )
-}
-
-export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>(defaultBlogPosts)
-
-  useEffect(() => {
-    setPosts(loadBlogPosts())
-  }, [])
-
-  const publishedPosts = useMemo(
-    () => posts.filter((post) => post.status === 'published'),
-    [posts]
-  )
-
-  const [featuredPost, ...otherPosts] = publishedPosts
-
-  if (!publishedPosts.length) {
-    return null
-  }
-
-  return (
-    <section className="site-section-bg section-alt-clean relative overflow-hidden px-4 py-12 text-[#081225] md:px-8 md:py-16">
-      <div className="comic-dots pointer-events-none absolute inset-0 opacity-40" />
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mb-10 text-center">
-          <span className="retro-pill mb-4 px-4 py-2 text-sm font-black text-[#10163a]">
-            <Sparkles size={14} className="text-[#fa8a43]" />
-            TSDC Blog
-          </span>
-          <h1 className="text-4xl font-black tracking-[-0.05em] text-[#081225] md:text-6xl">
-            Creative career insights that
-            <span className="block text-[#3244b5]">help students move faster.</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-3xl text-base font-semibold leading-7 text-[#475467] md:text-lg">
-            Explore practical articles on AI tools, design workflows, career direction, and skill-building written for students,
-            beginners, and ambitious creators in Chennai.
-          </p>
-        </div>
-
-        {featuredPost ? (
-          <motion.article
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-10 overflow-hidden rounded-[2.5rem] border-[3px] border-[#10163a] bg-white p-6 shadow-[8px_8px_0_#10163a] md:p-8"
-          >
-            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-              <div>
-                <div className="mb-4 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border-[3px] border-[#10163a] bg-[#3244b5] px-3 py-1 text-xs font-black text-white shadow-[3px_3px_0_#10163a]">
-                    Featured
-                  </span>
-                  <span className="rounded-full bg-[#fff4e0] px-3 py-1 text-xs font-black text-[#fa8a43]" style={{ border: '1.5px solid rgba(250,138,67,0.3)' }}>
-                    {featuredPost.category}
-                  </span>
-                </div>
-
-                <h2 className="text-3xl font-black leading-[0.95] tracking-[-0.05em] text-[#10163a] md:text-5xl">
-                  {featuredPost.title}
-                </h2>
-                <p className="mt-4 text-base font-semibold leading-7 text-[#475467]">
-                  {featuredPost.excerpt}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-3 text-sm font-bold text-[#667085]">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef3ff] px-3 py-1.5" style={{ border: '1.5px solid rgba(50,68,181,0.18)' }}>
-                    <CalendarDays size={14} className="text-[#3244b5]" />
-                    {featuredPost.publishedAt}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fff4e0] px-3 py-1.5" style={{ border: '1.5px solid rgba(250,138,67,0.18)' }}>
-                    <Clock3 size={14} className="text-[#fa8a43]" />
-                    {featuredPost.readTime}
-                  </span>
-                </div>
-
-                <Link
-                  href={`/blog/${featuredPost.slug}`}
-                  className="mt-6 inline-flex items-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#10163a] px-6 py-3 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"
-                >
-                  Read article
-                  <ArrowRight size={15} />
-                </Link>
-              </div>
-
-              <BlogCover image={featuredPost.coverImage} alt={featuredPost.coverImageAlt} />
-            </div>
-          </motion.article>
-        ) : null}
-
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {otherPosts.map((post, index) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="overflow-hidden rounded-[2rem] border-[3px] border-[#10163a] bg-white p-5 shadow-[6px_6px_0_#10163a]"
-            >
-              <BlogCover image={post.coverImage} alt={post.coverImageAlt} />
-              <div className="mt-5">
-                <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-[#eef3ff] px-3 py-1 text-[11px] font-black text-[#3244b5]" style={{ border: '1.5px solid rgba(50,68,181,0.18)' }}>
-                    {post.category}
-                  </span>
-                  <span className="text-xs font-bold text-[#667085]">{post.readTime}</span>
-                </div>
-                <h2 className="text-2xl font-black leading-tight text-[#10163a]">{post.title}</h2>
-                <p className="mt-3 text-sm font-semibold leading-7 text-[#475467]">{post.excerpt}</p>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-[#fff8ed] px-3 py-1 text-[11px] font-black text-[#975a16]" style={{ border: '1.5px solid rgba(250,138,67,0.18)' }}>
-                      <Tag size={11} />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#3244b5]"
-                >
-                  Continue reading
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
+const tabs=['All Articles','Career','Design','Marketing','Learning','Industry Trends']
+const topics=['Graphic Design','UI/UX Design','Digital Marketing','Career Tips','Student Life']
+const categoryNames=['Career','Graphic Design','UI/UX Design','Digital Marketing','Video Editing','Learning','Industry Trends']
+const categoryFor=(post:BlogPost)=>post.category.toLowerCase().includes('ui')?'UI/UX Design':post.category.toLowerCase().includes('market')?'Digital Marketing':post.category.toLowerCase().includes('graphic')||post.category.toLowerCase().includes('design')?'Graphic Design':post.category
+export default function BlogPage({posts=defaultBlogPosts}:{posts?:BlogPost[]}){const [query,setQuery]=useState('');const [tab,setTab]=useState('All Articles');const [email,setEmail]=useState('');const [notice,setNotice]=useState('');const published=useMemo(()=>posts.filter(p=>p.status==='published'),[posts]);const visible=useMemo(()=>published.filter(p=>{const hay=`${p.title} ${p.excerpt} ${p.category} ${p.tags.join(' ')}`.toLowerCase();const matchesQuery=hay.includes(query.toLowerCase());const category=categoryFor(p);const matchesTab=tab==='All Articles'||(tab==='Career'&&category.toLowerCase().includes('career'))||(tab==='Design'&&category.includes('Design'))||(tab==='Marketing'&&category.includes('Marketing'))||(tab==='Learning'&&category.includes('Learning'))||(tab==='Industry Trends'&&category.includes('Industry'));return matchesQuery&&matchesTab}),[published,query,tab]);return <div className="blog-ref">
+<section className="blog-ref__hero"><div className="blog-ref__hero-bg"><Image src="/Mindspace.png" alt="TSDC blog and insights" fill priority className="object-cover"/></div><div className="blog-ref__overlay"/><div className="blog-ref__wrap blog-ref__hero-content"><p>Resources & insights</p><h1>Ideas. Insights.<br/>Inspiration for <b>Your Career.</b></h1><span>Explore expert articles, learning guides, industry trends, and career tips to help you grow and stay ahead.</span><label><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search articles, topics, or keywords..."/><button aria-label="Search"><Search size={16}/></button></label><div className="blog-ref__topics"><strong>Popular Topics:</strong>{topics.map(t=><button key={t} onClick={()=>setQuery(t)}>{t}</button>)}</div></div></section>
+<section className="blog-ref__wrap blog-ref__main"><div className="blog-ref__filters">{tabs.map(t=><button key={t} className={t===tab?'active':''} onClick={()=>setTab(t)}>{t}</button>)}<select aria-label="Sort posts"><option>Latest First</option><option>Oldest First</option></select></div><div className="blog-ref__layout"><div><div className="blog-ref__grid">{visible.slice(0,6).map(post=><article key={post.id} className="blog-ref__card"><Link href={`/blog/${post.slug}`} className="blog-ref__image"><Image src={post.coverImage} alt={post.coverImageAlt} fill className="object-cover"/><small>{categoryFor(post)}</small></Link><div><time><CalendarDays size={12}/>{post.publishedAt}</time><h2>{post.title}</h2><p>{post.excerpt}</p><footer><span>{post.author}</span><b><Clock3 size={12}/>{post.readTime}</b></footer></div></article>)}</div>{!visible.length&&<p className="blog-ref__empty">No articles match your search. Try another topic.</p>}<button className="blog-ref__load">Load More Articles <ArrowRight size={14}/></button></div><aside className="blog-ref__side"><section><h2>Categories</h2>{categoryNames.map((category,i)=><button key={category} onClick={()=>setQuery(category)}><Tag size={14}/>{category}<b>{12+i}</b></button>)}</section><section><h2>Recent Posts</h2>{published.slice(0,4).map(post=><Link key={post.id} href={`/blog/${post.slug}`}><span><Image src={post.coverImage} alt="" fill className="object-cover"/></span><div><strong>{post.title}</strong><small>{post.publishedAt}</small></div></Link>)}</section><section className="blog-ref__subscribe"><h2>Stay Updated</h2><p>Subscribe for new articles, learning tips, and career insights.</p><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Enter your email address"/><button onClick={()=>{setNotice(email?'You are subscribed. Thank you!':'Please enter your email address.');if(email)setEmail('')}}>Subscribe Now <Send size={14}/></button>{notice&&<small>{notice}</small>}</section></aside></div></section>
+<section className="blog-ref__wrap blog-ref__contribute"><Image src="/our-story.png" alt="TSDC contributor" fill className="object-cover"/><div><h2>Have an Idea to Share?</h2><p>We welcome guest contributions from industry experts and passionate learners.</p><a href="mailto:support@traijoedu.in">Write for TSDC <ArrowRight size={15}/></a></div><ul><li>Share Your Knowledge</li><li>Inspire Our Community</li><li>Build Your Personal Brand</li></ul></section>
+</div>}

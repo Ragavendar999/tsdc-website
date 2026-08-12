@@ -1,4 +1,4 @@
-import type { MetadataRoute } from 'next'
+﻿import type { MetadataRoute } from 'next'
 import { defaultBlogPosts } from './lib/blogPosts'
 import { normalizePath, siteUrl } from './lib/seo'
 import { isMasterclassVisibleOnLiveSite } from './lib/masterclasses'
@@ -17,6 +17,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
+      url: withSiteUrl('/admissions'),
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: withSiteUrl('/career-counselling'),
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: withSiteUrl('/faq'),
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },    {
       url: withSiteUrl('/courses'),
       lastModified,
       changeFrequency: 'weekly',

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import DigitalMarketingContent from './DigitalMarketingContent'
-import { defaultCourseContent } from '@/app/lib/courseContent'
 import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
+import { courseContentStore } from '@/lib/stores/course-content-store'
 
 export const metadata: Metadata = {
   title: 'Digital Marketing Course in Chennai',
@@ -47,8 +47,11 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DigitalMarketingCoursePage() {
-  const course = defaultCourseContent['digital-marketing']
+export const dynamic = 'force-dynamic'
+
+export default async function DigitalMarketingCoursePage() {
+  const allCourses = await courseContentStore.get()
+  const course = allCourses['digital-marketing']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -79,7 +82,7 @@ export default function DigitalMarketingCoursePage() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <DigitalMarketingContent />
+      <DigitalMarketingContent course={course} />
     </>
   )
 }

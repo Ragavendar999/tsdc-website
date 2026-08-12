@@ -2,9 +2,8 @@
 
 import { CalendarDays, Clock3, Tag } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
 import { useContactPopup } from '@/app/components/common/ContactPopupProvider'
-import { defaultBlogPosts, loadBlogPosts, type BlogPost } from '@/app/lib/blogPosts'
+import type { BlogPost } from '@/app/lib/blogPosts'
 
 function BlogHeroImage({ image, alt }: { image: string; alt: string }) {
   return (
@@ -21,18 +20,8 @@ function BlogHeroImage({ image, alt }: { image: string; alt: string }) {
   )
 }
 
-export default function BlogArticlePage({ slug }: { slug: string }) {
-  const [posts, setPosts] = useState<BlogPost[]>(defaultBlogPosts)
+export default function BlogArticlePage({ post }: { post: BlogPost | null }) {
   const { openPopup } = useContactPopup()
-
-  useEffect(() => {
-    setPosts(loadBlogPosts())
-  }, [])
-
-  const post = useMemo(
-    () => posts.find((item) => item.slug === slug),
-    [posts, slug]
-  )
 
   if (!post) {
     return (
@@ -41,7 +30,7 @@ export default function BlogArticlePage({ slug }: { slug: string }) {
           <p className="text-sm font-black uppercase tracking-[0.24em] text-[#667085]">Blog</p>
           <h1 className="mt-4 text-3xl font-black text-[#10163a]">This article is unavailable.</h1>
           <p className="mt-3 text-base font-semibold leading-7 text-[#475467]">
-            The post may have been moved, unpublished, or removed from this browser's saved content.
+            The post may have been moved, unpublished, or removed.
           </p>
           <Link
             href="/blog"

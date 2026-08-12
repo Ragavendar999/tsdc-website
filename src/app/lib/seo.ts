@@ -1,4 +1,4 @@
-type BreadcrumbItem = {
+﻿type BreadcrumbItem = {
   name: string
   path: string
 }
@@ -34,7 +34,7 @@ export const organizationSchema = {
   url: siteUrl,
   logo: `${siteUrl}/logo.png`,
   image: `${siteUrl}/og-banner.png`,
-  telephone: '+91-73581-16929',
+  telephone: '+91-95666-56909',
   email: 'support@traijoedu.in',
   address: {
     '@type': 'PostalAddress',
@@ -216,3 +216,13 @@ export const reviewSchema = ({
     '@id': `${siteUrl}/#organization`,
   },
 })
+
+export const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: siteUrl,
+  name: 'TSDC - Traijo Skill Development Center',
+  inLanguage: 'en-IN',
+  publisher: { '@id': `${siteUrl}/#organization` },
+}

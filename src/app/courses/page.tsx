@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import CoursesPage from '../components/courses/CoursesPage'
 import { breadcrumbSchema, itemListSchema, jsonLd } from '../lib/seo'
+import { coursesListingStore } from '@/lib/stores/courses-listing-store'
 
 export const metadata: Metadata = {
   title: 'Creative Courses in Chennai',
@@ -51,7 +52,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const content = await coursesListingStore.get()
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -78,7 +82,7 @@ export default function Page() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <CoursesPage />
+      <CoursesPage content={content} />
     </>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
 
 type TimeLeft = {
   days: number
@@ -23,21 +22,13 @@ function calc(deadline: string): TimeLeft {
   }
 }
 
-export default function CountdownTimer() {
-  const [deadline, setDeadline] = useState(defaultSiteContent.scholarship.deadline)
-  const [deadlineLabel, setDeadlineLabel] = useState(defaultSiteContent.scholarship.deadlineLabel)
-  const [time, setTime] = useState<TimeLeft | null>(null)
+type CountdownTimerProps = {
+  deadline: string
+  deadlineLabel: string
+}
 
-  useEffect(() => {
-    const sync = () => {
-      const sc = loadSiteContent()
-      setDeadline(sc.scholarship.deadline)
-      setDeadlineLabel(sc.scholarship.deadlineLabel)
-    }
-    sync()
-    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
-    return () => window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, sync)
-  }, [])
+export default function CountdownTimer({ deadline, deadlineLabel }: CountdownTimerProps) {
+  const [time, setTime] = useState<TimeLeft | null>(null)
 
   useEffect(() => {
     setTime(calc(deadline))

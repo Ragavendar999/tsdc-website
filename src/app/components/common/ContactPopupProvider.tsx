@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import {
@@ -26,6 +26,7 @@ import type { FormEvent, ReactNode } from 'react'
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void
+    fbq?: (...args: unknown[]) => void
   }
 }
 
@@ -66,8 +67,8 @@ const programOptions = [
 ]
 
 const defaultOptions: Required<ContactPopupOptions> = {
-  title: "Let's Build Your Creative Career",
-  subtitle: 'Share your details and our team will contact you shortly with the right guidance.',
+  title: 'Talk to TSDC Admissions',
+  subtitle: 'Share your details and our admissions team will contact you with the relevant course information.',
   interest: '',
   source: 'website-popup',
   ctaLabel: 'Send Enquiry',
@@ -112,10 +113,7 @@ const getProgramFromInterest = (interest?: string) => {
   return programOptions.find((program) => normalizedInterest.includes(program.toLowerCase())) || ''
 }
 
-const needsScheduledCallback = (options: ContactPopupOptions) => {
-  const combined = `${options.title ?? ''} ${options.subtitle ?? ''} ${options.interest ?? ''} ${options.source ?? ''}`.toLowerCase()
-  return ['counselling', 'session', 'appointment', 'callback', 'call'].some((keyword) => combined.includes(keyword))
-}
+const needsScheduledCallback = (_options?: ContactPopupOptions) => false
 
 const today = new Date().toISOString().split('T')[0]
 
@@ -140,7 +138,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
   const [touchedFields, setTouchedFields] = useState<Set<keyof EnquiryFormState>>(new Set())
 
   const requiresScheduling = useMemo(() => needsScheduledCallback(options), [options])
-  // Total steps: 2 for scheduling (details → slot), 1 for general enquiry
+  // Total steps: 2 for scheduling (details â†’ slot), 1 for general enquiry
   const totalSteps = requiresScheduling ? 2 : 1
 
   const resetState = useCallback((interest = '', keepSubmitted = false) => {
@@ -251,7 +249,9 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
       const response = await fetch('/api/contact', { method: 'POST', body: formData })
       if (!response.ok) throw new Error('Unable to submit your enquiry right now.')
 
+      window.gtag?.('event', 'generate_lead', { source: options.source, program: selectedProgram || options.interest })
       window.gtag?.('event', 'conversion', { send_to: 'AW-11403134953/GA8iCOS_g5gcEOmPuL0q' })
+      window.fbq?.('track', 'Lead', { content_name: selectedProgram || options.interest || 'General Enquiry', content_category: options.source })
       setSubmitted(true)
 
       if (options.syllabusDownloadUrl) {
@@ -296,7 +296,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
               exit={{ opacity: 0, y: 40, scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 260, damping: 26 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[920px] overflow-hidden rounded-t-[2rem] rounded-b-none border-[3px] border-[#10163a] bg-white shadow-[0_-8px_40px_rgba(0,0,0,0.25)] sm:rounded-[2rem] sm:shadow-[10px_10px_0_#10163a]"
+              className="tsdc-admissions-modal relative w-full max-w-[920px] overflow-hidden rounded-t-[2rem] rounded-b-none border-[3px] border-[#10163a] bg-white shadow-[0_-8px_40px_rgba(0,0,0,0.25)] sm:rounded-[2rem] sm:shadow-[10px_10px_0_#10163a]"
             >
               {/* Mobile drag handle */}
               <div className="flex justify-center pb-1 pt-3 sm:hidden">
@@ -304,8 +304,8 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
               </div>
 
               <div className="grid sm:grid-cols-[0.85fr_1.15fr]">
-                {/* LEFT SIDEBAR — desktop only */}
-                <div className="relative hidden overflow-hidden bg-[#10163a] p-7 text-white sm:block">
+                {/* LEFT SIDEBAR â€” desktop only */}
+                <div className="tsdc-admissions-panel relative hidden overflow-hidden bg-[#10163a] p-7 text-white sm:block">
                   <div className="pointer-events-none absolute -left-6 top-8 h-28 w-28 rounded-full bg-[#3244b5]/50 blur-2xl" />
                   <div className="pointer-events-none absolute -right-4 bottom-16 h-24 w-24 rounded-full bg-[#db4b87]/40 blur-2xl" />
                   <div className="pointer-events-none absolute right-8 top-[-1rem] h-16 w-16 rounded-full bg-[#ff9736]/30 blur-xl" />
@@ -326,8 +326,8 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     <div className="mt-6 space-y-2.5">
                       {[
                         { icon: GraduationCap, text: 'Personalised course guidance' },
-                        { icon: PhoneCall, text: requiresScheduling ? 'Choose a callback slot that suits you' : 'Get a response from admissions quickly' },
-                        { icon: IndianRupee, text: 'EMI, batch timing, and fee-plan clarity' },
+                        { icon: PhoneCall, text: 'Clear course, batch and fee guidance' },
+                        { icon: GraduationCap, text: 'Practical learning and portfolio details' },
                       ].map((item) => {
                         const Icon = item.icon
                         return (
@@ -344,20 +344,14 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       })}
                     </div>
 
-                    {/* Early-action incentive — always visible in sidebar */}
-                    <div className="mt-5 rounded-xl border border-[#ff9736]/30 bg-[#ff9736]/10 px-4 py-3">
-                      <p className="text-xs font-black text-[#ff9736]">Early decision benefit</p>
-                      <p className="mt-1 text-sm text-white/80">Students who submit this week may receive a <strong>₹2,000 discount</strong> on course fees.</p>
-                    </div>
-
-                    <div className="mt-auto pt-8 text-xs text-white/40">
-                      Trusted by students across Chennai who want portfolio-first training and clear career direction.
+                    <div className="mt-auto pt-8 text-xs text-white/55">
+                      Need an immediate answer? Call or WhatsApp +91 95666 56909.
                     </div>
                   </div>
                 </div>
 
-                {/* RIGHT — form */}
-                <div className="relative bg-white p-5 sm:p-7">
+                {/* RIGHT â€” form */}
+                <div className="tsdc-admissions-form relative bg-white p-5 sm:p-7">
                   <button
                     type="button"
                     onClick={closePopup}
@@ -396,8 +390,8 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     </h4>
                     <p className="mt-1 text-sm text-[#64748b]">
                       {currentStep === 1 && totalSteps === 1 && 'Our admissions team will reach out with course details and batch info.'}
-                      {currentStep === 1 && totalSteps === 2 && 'Step 1 of 2 — Contact details and program of interest.'}
-                      {currentStep === 2 && 'Step 2 of 2 — Pick a date and time for a free callback.'}
+                      {currentStep === 1 && totalSteps === 2 && 'Step 1 of 2 â€” Contact details and program of interest.'}
+                      {currentStep === 2 && 'Step 2 of 2 â€” Pick a date and time for a free callback.'}
                     </p>
                   </div>
 
@@ -419,7 +413,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                                   : 'bg-[#eef2f7] text-[#94a3b8]'
                             }`}
                           >
-                            {isDone ? '✓ ' : ''}{label}
+                            {isDone ? 'âœ“ ' : ''}{label}
                           </div>
                         )
                       })}
@@ -449,7 +443,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                   </AnimatePresence>
 
                   <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                    {/* STEP 1 — details + program (always) */}
+                    {/* STEP 1 â€” details + program (always) */}
                     {currentStep === 1 ? (
                       <div className="space-y-3.5">
                         <div>
@@ -533,7 +527,7 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                       </div>
                     ) : null}
 
-                    {/* STEP 2 — callback slot (scheduling mode only) */}
+                    {/* STEP 2 â€” callback slot (scheduling mode only) */}
                     {currentStep === 2 && requiresScheduling ? (
                       <div className="space-y-4">
                         <div className="grid gap-3 sm:grid-cols-2">
@@ -564,15 +558,15 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                                 className={`${selectClass} pl-9`}
                               >
                                 <option value="">Select a time slot</option>
-                                <option value="09:00–10:00">9am – 10am</option>
-                                <option value="10:00–11:00">10am – 11am</option>
-                                <option value="11:00–12:00">11am – 12pm</option>
-                                <option value="12:00–13:00">12pm – 1pm</option>
-                                <option value="14:00–15:00">2pm – 3pm</option>
-                                <option value="15:00–16:00">3pm – 4pm</option>
-                                <option value="16:00–17:00">4pm – 5pm</option>
-                                <option value="17:00–18:00">5pm – 6pm</option>
-                                <option value="18:00–19:00">6pm – 7pm</option>
+                                <option value="09:00â€“10:00">9am â€“ 10am</option>
+                                <option value="10:00â€“11:00">10am â€“ 11am</option>
+                                <option value="11:00â€“12:00">11am â€“ 12pm</option>
+                                <option value="12:00â€“13:00">12pm â€“ 1pm</option>
+                                <option value="14:00â€“15:00">2pm â€“ 3pm</option>
+                                <option value="15:00â€“16:00">3pm â€“ 4pm</option>
+                                <option value="16:00â€“17:00">4pm â€“ 5pm</option>
+                                <option value="17:00â€“18:00">5pm â€“ 6pm</option>
+                                <option value="18:00â€“19:00">6pm â€“ 7pm</option>
                               </select>
                             </div>
                           </div>
@@ -663,11 +657,11 @@ export function ContactPopupProvider({ children }: { children: ReactNode }) {
                     </div>
 
                     <div className="flex justify-center gap-4 text-xs font-semibold text-[#64748b]">
-                      <a href="tel:+917358116929" className="inline-flex items-center gap-1 transition hover:text-[#3244b5]">
+                      <a href="tel:+919566656909" className="inline-flex items-center gap-1 transition hover:text-[#3244b5]">
                         <PhoneCall size={13} />
                         Call us
                       </a>
-                      <a href="https://wa.me/917358116929" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 transition hover:text-[#3244b5]">
+                      <a href="https://wa.me/919566656909" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 transition hover:text-[#3244b5]">
                         <MessageCircle size={13} />
                         WhatsApp
                       </a>

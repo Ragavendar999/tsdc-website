@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import AboutStoryPage from '../components/about/AboutStoryPage'
+import { aboutPageStore } from '@/lib/stores/about-page-store'
 
 export const metadata: Metadata = {
   title: 'About TSDC Chennai',
@@ -66,7 +67,7 @@ const organizationSchema = {
       url: 'https://traijoedu.in',
       logo: 'https://traijoedu.in/logo.png',
       image: 'https://traijoedu.in/og-banner.png',
-      telephone: '+91-73581-16929',
+      telephone: '+91-95666-56909',
       email: 'support@traijoedu.in',
       address: {
         '@type': 'PostalAddress',
@@ -183,7 +184,10 @@ const organizationSchema = {
   ],
 }
 
-export default function AboutPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AboutPage() {
+  const content = await aboutPageStore.get()
   return (
     <>
       <script
@@ -192,7 +196,7 @@ export default function AboutPage() {
           __html: JSON.stringify(organizationSchema).replace(/</g, '\\u003c'),
         }}
       />
-      <AboutStoryPage />
+      <AboutStoryPage content={content} />
     </>
   )
 }

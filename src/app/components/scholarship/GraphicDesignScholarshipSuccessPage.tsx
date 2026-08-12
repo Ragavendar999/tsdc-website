@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock3, MessageCircle, Trophy } from 'lucide-react'
+﻿import { CheckCircle2, Clock3, MessageCircle, Trophy } from 'lucide-react'
 import Link from 'next/link'
 
 export default function GraphicDesignScholarshipSuccessPage({
@@ -53,7 +53,7 @@ export default function GraphicDesignScholarshipSuccessPage({
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
-              href="https://wa.me/917358116929"
+              href="https://wa.me/919566656909"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-[#25d366] px-6 py-3.5 text-sm font-black text-white shadow-[5px_5px_0_#10163a]"

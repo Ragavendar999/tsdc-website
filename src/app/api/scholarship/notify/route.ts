@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+﻿import { randomUUID } from 'crypto'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { getFirebaseAdminDb } from '@/lib/firebase/admin'
@@ -69,7 +69,7 @@ const buildStudentHtml = (payload: ScholarshipLeadPayload, submittedAt: string) 
       <li>WhatsApp support follow-up</li>
       <li>result and admission guidance</li>
     </ul>
-    <p>If you need urgent help, WhatsApp us at <strong>+91 73581 16929</strong>.</p>
+    <p>If you need urgent help, WhatsApp us at <strong>+91 95666 56909</strong>.</p>
     <p>Regards,<br /><strong>TSDC Admissions Team</strong></p>
   </div>
 `

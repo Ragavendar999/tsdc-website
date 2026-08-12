@@ -3,6 +3,11 @@
   duration: string
 }
 
+export type MasterclassOutcome = {
+  title: string
+  description: string
+}
+
 export type MasterclassValue = {
   label: string
   value: string
@@ -27,6 +32,11 @@ export type Masterclass = {
   title: string
   backgroundStyle?: 'midnight' | 'blueprint' | 'ember' | 'violet'
   backgroundImage?: string
+  /** Card photo on the listing page — falls back to backgroundImage when unset. */
+  cardImage?: string
+  /** Optional trailer/preview video — the "Watch Trailer" button only renders when this is set. */
+  trailerVideoUrl?: string
+  level?: 'Beginner' | 'Intermediate' | 'Advanced'
   badge: string
   category: string
   hook: string
@@ -39,6 +49,9 @@ export type Masterclass = {
   discountLabel: string
   seatsTotal: number
   seatsTaken: number
+  /** Short "what you'll learn" highlights, distinct from the detailed modules/curriculum below.
+   *  Falls back to module titles on the detail page when unset. */
+  outcomes?: MasterclassOutcome[]
   modules: MasterclassModule[]
   includes: MasterclassValue[]
   instructor: {
@@ -51,26 +64,87 @@ export type Masterclass = {
   whatsappLink: string
 }
 
+export type MasterclassTestimonial = {
+  name: string
+  role: string
+  quote: string
+}
+
+export type MasterclassStat = {
+  value: string
+  label: string
+}
+
+export type MasterclassWhyAttend = {
+  title: string
+  description: string
+}
+
+export type MasterclassPageContent = {
+  heroStats: MasterclassStat[]
+  whyAttend: MasterclassWhyAttend[]
+  testimonials: MasterclassTestimonial[]
+}
+
+export const defaultMasterclassPageContent: MasterclassPageContent = {
+  heroStats: [
+    { value: '', label: 'Masterclasses Conducted' },
+    { value: '', label: 'Industry Experts' },
+    { value: '', label: 'Students Enrolled' },
+    { value: '', label: 'Hours of Learning' },
+  ],
+  whyAttend: [
+    {
+      title: 'Learn from Industry Experts',
+      description: 'Gain insights from professionals with real-world experience.',
+    },
+    {
+      title: 'Live Interactive Sessions',
+      description: 'Ask questions, participate, and get personalized guidance.',
+    },
+    {
+      title: 'Practical & Actionable',
+      description: 'Apply what you learn with hands-on examples and case studies.',
+    },
+    {
+      title: 'Certificate of Participation',
+      description: 'Receive a certificate to showcase your learning.',
+    },
+  ],
+  testimonials: [],
+}
+
 export const MASTERCLASS_STORAGE_KEY = 'tsdc-masterclasses-v1'
 export const MASTERCLASS_DELETED_KEY = 'tsdc-masterclasses-deleted-v1'
+
+// The hardcoded fallback below is only ever shown for the first paint (before the
+// client fetches real Firestore data) or if that fetch fails — it must never itself
+// go stale, so its date is computed relative to "now" instead of hardcoded, the same
+// class of bug that made the real masterclasses disappear earlier.
+const FALLBACK_EVENT_DATE = new Date(Date.now() + 21 * 24 * 60 * 60 * 1000)
+const FALLBACK_EVENT_DATE_ISO = FALLBACK_EVENT_DATE.toISOString().slice(0, 10)
+const FALLBACK_EVENT_DATE_LABEL = FALLBACK_EVENT_DATE.toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })
+const FALLBACK_TURN_OFF_AT = new Date(Date.now() + 22 * 24 * 60 * 60 * 1000).toISOString()
 
 export const defaultMasterclasses: Masterclass[] = [
   {
     id: 'logo-design-masterclass',
     slug: 'logo-masterclass',
     status: 'live',
-    eventDate: '2026-05-01',
-    turnOffAt: '2026-05-01T09:30:00.000Z',
+    eventDate: FALLBACK_EVENT_DATE_ISO,
+    turnOffAt: FALLBACK_TURN_OFF_AT,
     recurring: true,
     title: 'Logo Design Masterclass',
     backgroundStyle: 'midnight',
     backgroundImage: '',
+    cardImage: '',
+    level: 'Beginner',
     badge: 'Live Online Masterclass',
     category: 'Logo Design',
     hook: 'Build logos that actually get remembered',
     description:
       'A 1-day intensive masterclass on logo design: theory, process, tools, and real practice for students, freelancers, and business owners.',
-    date: 'May 01, 2026',
+    date: FALLBACK_EVENT_DATE_LABEL,
     time: '10:00 AM - 2:00 PM',
     mode: 'Online Zoom / Meet',
     price: 1999,
@@ -78,6 +152,14 @@ export const defaultMasterclasses: Masterclass[] = [
     discountLabel: '60% OFF',
     seatsTotal: 50,
     seatsTaken: 0,
+    outcomes: [
+      { title: 'Design Thinking', description: 'Understand user and brand needs before opening design tools.' },
+      { title: 'Brand Identity', description: 'Learn how a logo fits into a larger brand identity system.' },
+      { title: 'Sketch to Vector', description: 'Take a concept from rough sketch to a clean vector logo.' },
+      { title: 'Typography', description: 'Apply typography rules that most beginner designers break.' },
+      { title: 'Color Systems', description: 'Build color psychology and logo color systems that work.' },
+      { title: 'Live Critique', description: 'Get direct feedback on your own logo work in the session.' },
+    ],
     modules: [
       { title: 'Logo design fundamentals: what makes a logo work', duration: '30 min' },
       { title: 'Brand identity thinking before opening Illustrator', duration: '30 min' },
@@ -113,18 +195,20 @@ export const defaultMasterclasses: Masterclass[] = [
     id: 'summer-bootcamp-ai-powered-graphic-design-program',
     slug: 'summer-bootcamp-ai-graphic-design',
     status: 'live',
-    eventDate: '2026-04-20',
-    turnOffAt: '2026-04-20T09:30:00.000Z',
+    eventDate: FALLBACK_EVENT_DATE_ISO,
+    turnOffAt: FALLBACK_TURN_OFF_AT,
     recurring: true,
     title: 'Summer Bootcamp for AI Powered Graphic Design Program',
     backgroundStyle: 'ember',
     backgroundImage: '',
+    cardImage: '',
+    level: 'Beginner',
     badge: 'Summer Bootcamp 2026',
     category: 'AI Powered Graphic Design',
     hook: 'Turn your summer into creativity with AI-powered graphic design.',
     description:
       'A summer bootcamp designed for students and beginners who want to learn graphic design with modern AI tools, practical projects, and portfolio-ready output through online or offline learning.',
-    date: 'April 20, 2026',
+    date: FALLBACK_EVENT_DATE_LABEL,
     time: 'Flexible batch timings',
     mode: 'Online & Offline Available',
     price: 6999,
@@ -132,6 +216,14 @@ export const defaultMasterclasses: Masterclass[] = [
     discountLabel: 'Summer Offer',
     seatsTotal: 50,
     seatsTaken: 0,
+    outcomes: [
+      { title: 'Design Basics', description: 'Layout, hierarchy, color, and composition fundamentals.' },
+      { title: 'Adobe Tools', description: 'Photoshop and Illustrator foundations for beginners.' },
+      { title: 'AI Workflows', description: 'Use AI tools to speed up concepts, moodboards, and ideation.' },
+      { title: 'Marketing Creatives', description: 'Build social posts, posters, and marketing creatives from scratch.' },
+      { title: 'Branding Basics', description: 'Logos, typography, and visual identity thinking.' },
+      { title: 'Portfolio Building', description: 'Build a portfolio with real project feedback and a final showcase.' },
+    ],
     modules: [
       { title: 'Graphic design basics: layout, hierarchy, color, and composition', duration: 'Module 1' },
       { title: 'Adobe Photoshop and Illustrator foundations for beginners', duration: 'Module 2' },
@@ -391,6 +483,37 @@ export const saveMasterclassesToApi = async (masterclasses: Masterclass[]) => {
   const items = Array.isArray(payload.masterclasses) ? mergeMasterclasses(payload.masterclasses) : mergeMasterclasses(masterclasses)
   persistMasterclasses(items)
   return items
+}
+
+export const fetchMasterclassPageContent = async (): Promise<MasterclassPageContent> => {
+  if (typeof window === 'undefined') return defaultMasterclassPageContent
+
+  try {
+    const response = await fetch('/api/masterclasses/page-content', { cache: 'no-store' })
+    if (!response.ok) throw new Error(`Failed to fetch masterclasses page content: ${response.status}`)
+
+    const payload = (await response.json()) as { content?: MasterclassPageContent }
+    return payload.content || defaultMasterclassPageContent
+  } catch (error) {
+    console.error('[fetchMasterclassPageContent] falling back to default:', error)
+    return defaultMasterclassPageContent
+  }
+}
+
+export const saveMasterclassPageContentToApi = async (content: MasterclassPageContent) => {
+  const response = await fetch('/api/masterclasses/page-content', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content }),
+  })
+
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => ({}))) as { error?: string }
+    throw new Error(payload.error || `Failed to save masterclasses page content: ${response.status}`)
+  }
+
+  const payload = (await response.json()) as { content?: MasterclassPageContent }
+  return payload.content || content
 }
 
 export const masterclassBackgrounds = {

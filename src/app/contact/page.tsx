@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import React from 'react'
 import ContactSection from '../components/contact/ContactSection'
+import { contactPageStore } from '@/lib/stores/contact-page-store'
+import { siteSettingsStore } from '@/lib/stores/site-settings-store'
 
 export const metadata: Metadata = {
   title: 'Contact TSDC Chennai',
@@ -41,11 +43,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ContactPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function ContactPage() {
+  const [content, settings] = await Promise.all([contactPageStore.get(), siteSettingsStore.get()])
   return (
     <div className="bg-transparent text-gray-900 transition-colors duration-300">
       <main className="pt-0">
-        <ContactSection />
+        <ContactSection content={content} settings={settings} />
       </main>
     </div>
   )

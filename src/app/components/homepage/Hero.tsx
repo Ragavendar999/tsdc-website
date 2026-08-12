@@ -7,6 +7,7 @@ import {
   Award,
   Briefcase,
   CheckCircle2,
+  Download,
   Megaphone,
   MonitorSmartphone,
   Paintbrush,
@@ -130,16 +131,17 @@ export default function HeroSection() {
               type="button"
               onClick={() =>
                 openPopup({
-                  title: content.secondaryCta,
-                  subtitle: 'Share your details and our admissions team will guide you to the right creative course, batch, and next step.',
-                  interest: 'Creative Courses Counselling',
-                  source: 'hero-free-counselling',
-                  ctaLabel: content.secondaryCta,
+                  title: 'Download TSDC Course Brochure',
+                  subtitle: 'Share your details and we will send you the complete course brochure with fees, batch timings, and career outcomes.',
+                  interest: 'Course Brochure',
+                  source: 'hero-brochure-download',
+                  ctaLabel: 'Send Me the Brochure',
                 })
               }
               className="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border-[3px] border-[#10163a] bg-white px-5 py-3.5 text-center text-sm font-black text-[#10163a] shadow-[6px_6px_0_#10163a] transition-all hover:-translate-y-1 sm:w-auto sm:px-7 md:text-base"
             >
-              {content.secondaryCta}
+              <Download size={16} />
+              Download Brochure
             </motion.button>
           </div>
 

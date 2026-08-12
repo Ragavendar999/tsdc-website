@@ -1,8 +1,8 @@
-/* ─────────────────────────────────────────────────────────────
+﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Site-wide admin settings
    Stored in localStorage so admin can configure without code changes.
    Client components read these; API routes accept overrides in body.
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export const SITE_SETTINGS_KEY = 'tsdc-site-settings-v1'
 export const SITE_SETTINGS_UPDATED_EVENT = 'tsdc-site-settings-updated'
@@ -17,7 +17,7 @@ export type MailTriggers = {
 
 export type SiteSettings = {
   payment: {
-    mode: 'test' | 'live'         // display only — real keys live in .env.local
+    mode: 'test' | 'live'         // display only â€” real keys live in .env.local
     keyIdDisplay: string          // read-only, injected at runtime from env
     currency: string
     brandName: string
@@ -32,7 +32,12 @@ export type SiteSettings = {
     siteName: string
     adminPhone: string
     whatsappNumber: string
+    whatsappMessage: string
+    contactEmail: string
+    address: string
     instagramHandle: string
+    facebookUrl: string
+    linkedinUrl: string
   }
 }
 
@@ -56,10 +61,15 @@ export const defaultSiteSettings: SiteSettings = {
     },
   },
   general: {
-    siteName: 'TSDC – Traijo Skill Development Center',
-    adminPhone: '+91 73581 16929',
-    whatsappNumber: '917358116929',
-    instagramHandle: 'tsdcedu',
+    siteName: 'TSDC â€“ Traijo Skill Development Center',
+    adminPhone: '+91 95666 56909',
+    whatsappNumber: '919566656909',
+    whatsappMessage: "Hi TSDC, I'd like to know more about your courses.",
+    contactEmail: 'support@traijoedu.in',
+    address: 'Villa 20, Block 52, Bollineni Hillside Rd, Nookampalayam, Perumbakkam, Chennai 600131',
+    instagramHandle: 'traijosdc_official',
+    facebookUrl: 'https://www.facebook.com/Traijosdc',
+    linkedinUrl: 'https://in.linkedin.com/company/traijoskilldevelopmentcenter',
   },
 }
 

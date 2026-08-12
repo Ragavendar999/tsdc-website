@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
@@ -12,8 +12,9 @@ const SplashScreen = dynamic(() => import('./SplashScreen'), { ssr: false })
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const isMasterclassRoute = pathname.startsWith('/masterclasses/')
   const isScholarshipRoute = pathname.startsWith('/graphic-design-scholarship')
+  const isAdminRoute = pathname.startsWith('/admin')
+  const hideChrome = isScholarshipRoute || isAdminRoute
   const [showSplash, setShowSplash] = useState(false)
   const isHomepage = pathname === '/'
   const shouldEnableSplash = process.env.NODE_ENV === 'production' && isHomepage
@@ -41,17 +42,17 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   return (
     <>
       {shouldEnableSplash && showSplash ? <SplashScreen /> : null}
-      {!isMasterclassRoute && !isScholarshipRoute && (
+      {!hideChrome && (
         <>
           <ScrollProgress />
           <Navbar />
         </>
       )}
-      <main id="main-content" className={isMasterclassRoute || isScholarshipRoute ? '' : 'pt-[5.5rem]'}>
+      <main id="main-content">
         {children}
       </main>
-      {!isMasterclassRoute && !isScholarshipRoute && <WhatsAppFAB />}
-      {!isMasterclassRoute && !isScholarshipRoute && <Footer />}
+      {!hideChrome && <WhatsAppFAB />}
+      {!hideChrome && <Footer />}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import VideoEditingContent from './VideoEditingContent'
-import { defaultCourseContent } from '@/app/lib/courseContent'
 import { breadcrumbSchema, courseSchema, faqSchema, jsonLd, reviewSchema } from '@/app/lib/seo'
+import { courseContentStore } from '@/lib/stores/course-content-store'
 
 export const metadata: Metadata = {
   title: 'Video Editing Course in Chennai',
@@ -46,8 +46,11 @@ export const metadata: Metadata = {
   },
 }
 
-export default function VideoEditingCoursePage() {
-  const course = defaultCourseContent['video-editing']
+export const dynamic = 'force-dynamic'
+
+export default async function VideoEditingCoursePage() {
+  const allCourses = await courseContentStore.get()
+  const course = allCourses['video-editing']
   const schemas = [
     breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -78,7 +81,7 @@ export default function VideoEditingCoursePage() {
           dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
       ))}
-      <VideoEditingContent />
+      <VideoEditingContent course={course} />
     </>
   )
 }

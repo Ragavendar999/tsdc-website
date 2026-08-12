@@ -1,22 +1,35 @@
 'use client'
 
-import { MessageCircle } from 'lucide-react'
-
-const WHATSAPP_LINK = 'https://wa.me/917358116929?text=Hi%20TSDC%2C%20I%20want%20help%20choosing%20the%20right%20course.'
+import { ArrowUpRight, MessageCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { defaultSiteSettings, type SiteSettings } from '@/app/lib/siteSettings'
 
 export default function WhatsAppFAB() {
+  const [settings, setSettings] = useState<SiteSettings>(defaultSiteSettings)
+
+  useEffect(() => {
+    fetch('/api/content/siteSettings')
+      .then((res) => res.json())
+      .then((payload: { value?: SiteSettings }) => {
+        if (payload.value) setSettings(payload.value)
+      })
+      .catch(() => {})
+  }, [])
+
+  const { general } = settings
+  const whatsappHref = `https://wa.me/${general.whatsappNumber}?text=${encodeURIComponent(general.whatsappMessage)}`
+
   return (
-    <a
-      href={WHATSAPP_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chat with TSDC on WhatsApp"
-      className="fixed bottom-5 right-5 z-[1300] inline-flex items-center gap-3 rounded-full border-[3px] border-[#10163a] bg-[#25D366] px-4 py-3 text-sm font-black text-white shadow-[5px_5px_0_#10163a] transition hover:-translate-y-1"
-    >
-      <span className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-[#10163a] bg-white text-[#25D366]">
-        <MessageCircle size={20} />
+    <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat with TSDC admissions on WhatsApp" className="tsdc-whatsapp-fab">
+      <span className="tsdc-whatsapp-fab__pulse" aria-hidden="true" />
+      <span className="tsdc-whatsapp-fab__icon">
+        <MessageCircle size={21} />
       </span>
-      <span className="hidden sm:inline">WhatsApp Admissions</span>
+      <span className="tsdc-whatsapp-fab__copy">
+        <small>Questions? We&apos;re here</small>
+        <strong>WhatsApp Admissions</strong>
+      </span>
+      <ArrowUpRight className="tsdc-whatsapp-fab__arrow" size={17} aria-hidden="true" />
     </a>
   )
 }

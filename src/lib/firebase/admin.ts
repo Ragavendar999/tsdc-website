@@ -1,6 +1,7 @@
 import { App, cert, getApp, getApps, initializeApp } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
+import { getStorage } from 'firebase-admin/storage'
 
 let firebaseAdminApp: App | null = null
 
@@ -25,6 +26,7 @@ const getFirebaseAdminApp = () => {
       clientEmail,
       privateKey,
     }),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
   })
 
   return firebaseAdminApp
@@ -32,3 +34,4 @@ const getFirebaseAdminApp = () => {
 
 export const getFirebaseAdminAuth = () => getAuth(getFirebaseAdminApp())
 export const getFirebaseAdminDb = () => getFirestore(getFirebaseAdminApp())
+export const getFirebaseAdminStorage = () => getStorage(getFirebaseAdminApp()).bucket()

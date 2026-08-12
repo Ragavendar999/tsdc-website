@@ -1,145 +1,122 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Briefcase, GraduationCap, Sparkles, Users } from 'lucide-react'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import type { CSSProperties, ReactNode } from 'react'
-import { defaultSiteContent, loadSiteContent, SITE_CONTENT_UPDATED_EVENT } from '@/app/lib/siteContent'
+import { BadgeIndianRupee, Briefcase, GraduationCap, Monitor, Sparkles, Users } from 'lucide-react'
+import type { CSSProperties } from 'react'
 
-const featureIcons: ReactNode[] = [
-  <GraduationCap key="grad" className="h-6 w-6" />,
-  <Briefcase key="briefcase" className="h-6 w-6" />,
-  <Users key="users" className="h-6 w-6" />,
-  <Sparkles key="sparkles" className="h-6 w-6" />,
+const features = [
+  {
+    icon: Monitor,
+    title: 'Practical Learning',
+    description: 'Hands-on training with real-world projects that build your portfolio from day one.',
+    accent: '#3244b5',
+    tint: '#eef3ff',
+  },
+  {
+    icon: Sparkles,
+    title: 'Portfolio Focused',
+    description: 'Build a portfolio that gets you noticed by recruiters and clients.',
+    accent: '#fa8a43',
+    tint: '#fff4eb',
+  },
+  {
+    icon: Briefcase,
+    title: 'Internship Opportunity',
+    description: 'Gain real experience before you graduate through live client internships.',
+    accent: '#db4b87',
+    tint: '#fff1f7',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Placement Assistance',
+    description: 'Resume prep, mock interviews, and job placement support from day one.',
+    accent: '#2da56a',
+    tint: '#f0fdf4',
+  },
+  {
+    icon: Users,
+    title: 'Industry Mentors',
+    description: 'Learn from working professionals with real industry experience.',
+    accent: '#4a4a99',
+    tint: '#f2f0ff',
+  },
+  {
+    icon: BadgeIndianRupee,
+    title: 'Affordable Fees',
+    description: 'Quality education within your budget, with easy EMI options available.',
+    accent: '#c45e1a',
+    tint: '#fff8f0',
+  },
 ]
 
 export default function WhyTSDC() {
-  const [content, setContent] = useState(defaultSiteContent.whyTsdc)
-
-  useEffect(() => {
-    const syncContent = () => setContent(loadSiteContent().whyTsdc)
-
-    syncContent()
-    window.addEventListener('storage', syncContent)
-    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
-
-    return () => {
-      window.removeEventListener('storage', syncContent)
-      window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, syncContent)
-    }
-  }, [])
-
   return (
-    <section className="site-section-bg section-alt-warm section-divider relative overflow-hidden px-4 py-14 sm:px-6 md:py-16">
+    <section className="site-section-bg section-alt-warm section-divider relative overflow-hidden px-4 py-16 sm:px-6 md:py-20">
       <div className="pointer-events-none absolute inset-0">
-        <div className="animate-float-soft absolute -left-6 top-20 h-20 w-20 rounded-full bg-[#ffcb53] opacity-50" />
+        <div className="animate-float-soft absolute -left-8 top-16 h-20 w-20 rounded-full bg-[#ffcb53] opacity-40" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mb-10 grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className="retro-pill mb-4 px-4 py-2 text-xs font-black text-[#10163a] md:text-sm">
-              <span className="h-2 w-2 rounded-full bg-[#fa8a43] animate-pulse-soft" />
-              {content.badge}
-            </span>
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center"
+        >
+          <span className="retro-pill mb-4 inline-flex px-4 py-2 text-xs font-black text-[#10163a]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#fa8a43] animate-pulse-soft" />
+            Why Choose TSDC?
+          </span>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#081225] sm:text-4xl md:text-[2.8rem]">
+            Everything You Need to
+            <span className="mt-1 block text-[#3244b5]">Build a Creative Career</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#475467]">
+            TSDC combines practical skills, real projects, and career support — all under one roof.
+          </p>
+        </motion.div>
 
-            <h2 className="headline-balance max-w-4xl text-3xl font-black leading-[0.98] tracking-[-0.05em] text-[#081225] sm:text-4xl lg:text-5xl">
-              {content.title}
-              <span className="block text-[#3244b5]">{content.highlight}</span>
-            </h2>
-
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[#344054]">
-              {content.description}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 26 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="rounded-[1.9rem] border-[3px] border-[#10163a] bg-[#3244b5] p-5 text-white shadow-[5px_5px_0_#10163a] md:p-6"
-          >
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#ffcb53]">{content.outcomesTitle}</p>
-            <div className="mt-4 space-y-3">
-              {content.outcomes.map((item, index) => (
-                <div
-                  key={item}
-                  className="rounded-xl px-4 py-3 text-sm leading-6"
-                  style={{ backgroundColor: ['#fff4e0', '#ffffff', '#fff0f6'][index % 3], color: '#10163a', border: '1.5px solid rgba(255,255,255,0.35)' }}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {content.features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ delay: index * 0.08, duration: 0.6 }}
-              style={{ '--accent': feature.accent } as CSSProperties}
-            >
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => {
+            const Icon = feature.icon
+            return (
               <motion.div
-                whileHover={{ y: -8 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                className="group relative h-full overflow-hidden rounded-[1.7rem] p-5 shadow-sm"
-                style={{ border: `2px solid ${feature.accent}25`, backgroundColor: feature.tint }}
+                key={feature.title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ delay: index * 0.07, duration: 0.6 }}
+                style={{ '--accent': feature.accent } as CSSProperties}
               >
-                <div
-                  className="absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-25"
-                  style={{ backgroundColor: feature.accent }}
-                />
-
-                <div className="relative mb-4 flex items-center justify-between">
-                  <motion.div
-                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.08 }}
-                    transition={{ duration: 0.45 }}
-                    className="flex h-12 w-12 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
-                    style={{ backgroundColor: feature.accent }}
-                  >
-                    <span>{featureIcons[index % featureIcons.length]}</span>
-                  </motion.div>
-                  <span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-black text-[#667085]" style={{ border: '1.5px solid rgba(16,22,58,0.1)' }}>
-                    0{index + 1}
-                  </span>
-                </div>
-
-                <h4 className="relative mb-2 text-lg font-black text-[#081225]">{feature.title}</h4>
-                <p className="relative text-sm leading-6 text-[#475467]">{feature.description}</p>
-
-                <div
-                  className="relative mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-bold"
-                  style={{ backgroundColor: `${feature.accent}18`, color: feature.accent, border: `1.5px solid ${feature.accent}35` }}
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                  className="relative h-full overflow-hidden rounded-[1.75rem] p-5 shadow-sm"
+                  style={{
+                    border: `2px solid ${feature.accent}30`,
+                    backgroundColor: feature.tint,
+                  }}
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  {feature.support}
-                </div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
+                  <div
+                    className="absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-20"
+                    style={{ backgroundColor: feature.accent }}
+                  />
 
-        <div className="mt-8 flex justify-center">
-          <Link
-            href="/courses"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-[1rem] border-[3px] border-[#10163a] bg-[#3244b5] px-8 py-4 font-black text-white shadow-[6px_6px_0_#10163a] transition-all hover:-translate-y-1"
-          >
-            <span className="absolute inset-y-0 -left-14 w-12 rotate-12 bg-white/30 blur-sm transition-transform duration-700 group-hover:translate-x-72" />
-            <span className="relative">{content.ctaLabel}</span>
-            <ArrowRight size={16} className="relative transition-transform group-hover:translate-x-1" />
-          </Link>
+                  <div className="relative mb-4 flex items-center gap-3">
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-[1rem] border-[3px] border-[#10163a] text-white shadow-[4px_4px_0_#10163a]"
+                      style={{ backgroundColor: feature.accent }}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h4 className="text-base font-black text-[#081225]">{feature.title}</h4>
+                  </div>
+
+                  <p className="relative text-sm leading-6 text-[#475467]">{feature.description}</p>
+                </motion.div>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>
