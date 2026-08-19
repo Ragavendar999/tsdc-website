@@ -194,7 +194,7 @@ export const defaultMasterclasses: Masterclass[] = [
   {
     id: 'summer-bootcamp-ai-powered-graphic-design-program',
     slug: 'summer-bootcamp-ai-graphic-design',
-    status: 'live',
+    status: 'draft',
     eventDate: FALLBACK_EVENT_DATE_ISO,
     turnOffAt: FALLBACK_TURN_OFF_AT,
     recurring: true,
@@ -260,16 +260,80 @@ export const defaultMasterclasses: Masterclass[] = [
     ],
     whatsappLink: 'https://wa.me/919566656909',
   },
+  {
+    id: 'meta-ads-masterclass',
+    slug: 'meta-ads-masterclass',
+    status: 'live',
+    eventDate: FALLBACK_EVENT_DATE_ISO,
+    turnOffAt: FALLBACK_TURN_OFF_AT,
+    recurring: true,
+    title: 'Master in Meta Ads',
+    backgroundStyle: 'violet',
+    backgroundImage: '',
+    cardImage: '',
+    level: 'Beginner',
+    badge: 'Live Online Masterclass',
+    category: 'Meta Ads',
+    hook: 'Run Facebook & Instagram ad campaigns that actually convert',
+    description:
+      'A 1-day intensive masterclass on Meta Ads: campaign structure, targeting, creative strategy, and budget optimization for students, freelancers, and business owners.',
+    date: FALLBACK_EVENT_DATE_LABEL,
+    time: '10:00 AM - 2:00 PM',
+    mode: 'Online Zoom / Meet',
+    price: 499,
+    originalPrice: 999,
+    discountLabel: '50% OFF',
+    seatsTotal: 50,
+    seatsTaken: 0,
+    outcomes: [
+      { title: 'Ads Manager Setup', description: 'Set up Meta Business Suite and Ads Manager the right way.' },
+      { title: 'Audience Targeting', description: 'Build custom and lookalike audiences that actually convert.' },
+      { title: 'Campaign Structure', description: 'Structure campaigns, ad sets, and ads for consistent results.' },
+      { title: 'Ad Creative Strategy', description: 'Design scroll-stopping creatives and copy that drive clicks.' },
+      { title: 'Budget & Bidding', description: 'Set budgets and bidding strategies without wasting ad spend.' },
+      { title: 'Performance Tracking', description: 'Read Ads Manager metrics and optimize underperforming ads.' },
+    ],
+    modules: [
+      { title: 'Meta Ads fundamentals: Business Suite and Ads Manager setup', duration: '30 min' },
+      { title: 'Audience targeting: custom, lookalike, and interest-based', duration: '30 min' },
+      { title: 'Campaign structure: objectives, ad sets, and ads', duration: '45 min' },
+      { title: 'Ad creative strategy: copy and visuals that convert', duration: '30 min' },
+      { title: 'Budgeting and bidding without wasting ad spend', duration: '30 min' },
+      { title: 'Reading metrics, optimization, and live Q&A session', duration: '45 min' },
+    ],
+    includes: [
+      { label: 'Live session', value: '4 hrs' },
+      { label: 'Recording', value: '7 days' },
+      { label: 'Certificate', value: 'Included' },
+      { label: 'Ad templates', value: 'Resource' },
+      { label: 'Swipe file', value: 'Ad examples' },
+      { label: 'Q&A live', value: 'Direct' },
+    ],
+    instructor: {
+      name: 'Ragavendar',
+      role: 'Performance Marketing Lead',
+      credibility:
+        'Learn Meta Ads from someone who has planned and run real ad budgets, not just theory, so you leave with a system you can apply immediately.',
+    },
+    audience: [
+      'Students who want to add performance marketing to their skillset',
+      'Freelancers who want to offer Meta Ads management as a service',
+      'Business owners who want to run their own ad campaigns confidently',
+      'Anyone who has boosted a post before but never run a real campaign',
+    ],
+    faqs: ['Do I need a Meta Business account?', 'Is this recorded?', 'Beginner-friendly?', 'Will I get a certificate?'],
+    whatsappLink: 'https://wa.me/919566656909',
+  },
 ]
 
-/** IDs of the two masterclasses that alternate between the 1st-weekend and
- *  mid-month-weekend Sunday slots. Odd calendar months: LOGO gets the 1st
- *  weekend, BOOTCAMP gets the mid-month weekend. Even months: swapped.
- *  This is derived purely from calendar month parity (no stored cursor),
- *  so re-running it is always consistent and can't drift out of sync. */
+/** IDs of the masterclasses that recur on a fixed weekend every calendar
+ *  month. LOGO always lands on the month's 1st weekend, META_ADS on the 2nd
+ *  weekend, and BOOTCAMP on the 3rd weekend — fixed, non-alternating slots
+ *  so none of them can ever land on the same Sunday. */
 const RECURRING_MASTERCLASS_IDS = {
   LOGO: 'logo-design-masterclass',
   BOOTCAMP: 'summer-bootcamp-ai-powered-graphic-design-program',
+  META_ADS: 'meta-ads-masterclass',
 } as const
 
 const getFirstSundayUTC = (year: number, monthIndex0: number) => {
@@ -278,31 +342,28 @@ const getFirstSundayUTC = (year: number, monthIndex0: number) => {
   return new Date(Date.UTC(year, monthIndex0, 1 + offset))
 }
 
-const getMidSundayUTC = (year: number, monthIndex0: number) => {
-  // The unique Sunday in days 12-18 is always "the weekend nearest the 15th".
-  for (let day = 12; day <= 18; day++) {
-    const candidate = new Date(Date.UTC(year, monthIndex0, day))
-    if (candidate.getUTCDay() === 0) return candidate
-  }
-  throw new Error(`No Sunday found in mid-month window for ${year}-${monthIndex0 + 1}`)
+/** The Nth Sunday of the month, counting forward in 7-day steps from the first Sunday. */
+const getNthSundayUTC = (year: number, monthIndex0: number, n: number) => {
+  const firstSunday = getFirstSundayUTC(year, monthIndex0)
+  return new Date(firstSunday.getTime() + (n - 1) * 7 * 24 * 60 * 60 * 1000)
 }
 
-const getRecurringSlotForMonth = (masterclassId: string, monthIndex0: number): 'first' | 'mid' => {
-  const isOddMonth = (monthIndex0 + 1) % 2 === 1
-  if (masterclassId === RECURRING_MASTERCLASS_IDS.BOOTCAMP) return isOddMonth ? 'mid' : 'first'
-  return isOddMonth ? 'first' : 'mid'
+const getRecurringSlotForMasterclass = (masterclassId: string): 1 | 2 | 3 => {
+  if (masterclassId === RECURRING_MASTERCLASS_IDS.LOGO) return 1
+  if (masterclassId === RECURRING_MASTERCLASS_IDS.META_ADS) return 2
+  return 3
 }
 
-/** Next Sunday (strictly after `after`) that this masterclass's alternating
+/** Next Sunday (strictly after `after`) that this masterclass's fixed
  *  monthly slot lands on. Used both for the one-time data fix and for the
  *  auto-turnoff cron's rollover-to-next-session logic. */
 export const getNextRecurringSessionDate = (masterclassId: string, after: Date = new Date()) => {
   let year = after.getUTCFullYear()
   let monthIndex0 = after.getUTCMonth()
+  const slot = getRecurringSlotForMasterclass(masterclassId)
 
   for (let i = 0; i < 24; i++) {
-    const slot = getRecurringSlotForMonth(masterclassId, monthIndex0)
-    const candidate = slot === 'first' ? getFirstSundayUTC(year, monthIndex0) : getMidSundayUTC(year, monthIndex0)
+    const candidate = getNthSundayUTC(year, monthIndex0, slot)
 
     if (candidate.getTime() > after.getTime()) return candidate
 
