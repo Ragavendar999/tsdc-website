@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
@@ -14,7 +14,9 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isScholarshipRoute = pathname.startsWith('/graphic-design-scholarship')
   const isAdminRoute = pathname.startsWith('/admin')
-  const hideChrome = isScholarshipRoute || isAdminRoute
+  const campaignPath = pathname.replace(/\/$/, '')
+  const isCampaignRoute = campaignPath === '/ai-digital-marketing' || campaignPath === '/ai-digital-marketing-masterclass'
+  const hideChrome = isScholarshipRoute || isAdminRoute || isCampaignRoute
   const [showSplash, setShowSplash] = useState(false)
   const isHomepage = pathname === '/'
   const shouldEnableSplash = process.env.NODE_ENV === 'production' && isHomepage
